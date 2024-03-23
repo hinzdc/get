@@ -3,7 +3,7 @@
 
 
 
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/hinzdc.github.io/main/get/officescrubber.bat'
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/main/get/officescrubber.bat'
 
 $FilePath = "$env:TEMP\OfficeScruber.bat"
 
