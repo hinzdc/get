@@ -1,0 +1,2 @@
+:: Your PC cant't be reset because it's running Windows To Go. (0 disable - 1 enable)
+reg.exe add "HKLM\SYSTEM\CurrentControlSet\Control" /v "PortableOperatingSystem" /t REG_DWORD /d "0" /f
