@@ -13,6 +13,6 @@ try {
 }
 
 if (Test-Path $FilePath) {
-    Start-Process $FilePath -NoWait
+    Start-Process $FilePath
 }
 exit
