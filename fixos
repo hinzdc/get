@@ -14,7 +14,15 @@ if ((Test-Admin) -eq $false)  {
     exit
 }
 
-clear
+Clear-Host
+Write-Host "                                               " -BackgroundColor DarkRed
+Write-Host "                    INDOJAVA                   " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "           ISTANA BEC LANTAI 1 BLOK D07        " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                               " -BackgroundColor DarkRed
+Write-Host "                                               " -BackgroundColor White
+Write-Host " SCAN DISK + FIX SYSTEM FILE + RESTORE HEALTH  " -BackgroundColor White -ForegroundColor Black
+Write-Host "                   HINZDC.XYZ                  " -BackgroundColor White -ForegroundColor Black
+Write-Host "                                               " -BackgroundColor White
 Write-Host ""
 Write-Host "------------------------------------------------------------------------------------"
 Write-Host " RUN CHKDSK TO CHECK ERROR DISK" -ForegroundColor Green
