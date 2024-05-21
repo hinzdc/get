@@ -1,3 +1,4 @@
+Clear-Host
 # Tentukan URL GitHub untuk file setup.exe dan configure.xml
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/setup.exe"
 $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.xml"
@@ -5,56 +6,77 @@ $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.
 # Tentukan lokasi di mana file akan diunduh
 $downloadPath = "C:\Temp"
 
+# Buat folder temp jika belum ada
+if (-not (Test-Path -Path $downloadPath)) {
+    try {
+        New-Item -Path $downloadPath -ItemType Directory -Force | Out-Null
+        Write-Host "Folder $downloadPath berhasil dibuat."
+    } catch {
+        Write-Host "Gagal membuat folder $downloadPath. Error: $_"
+        exit 1
+    }
+}
+
 # Fungsi untuk mengunduh file
 function Download-File {
     param (
         [string]$url,
-        [string]$outputPath
+        [string]$destination
     )
+    
     try {
-        Invoke-WebRequest -Uri $url -OutFile $outputPath -ErrorAction Stop
-        Write-Host "Berhasil mengunduh $outputPath"
+        Invoke-WebRequest -Uri $url -OutFile $destination -ErrorAction Stop
+        Write-Host " + Mengunduh file yang diperlukan.."
     } catch {
-        Write-Error "Gagal mengunduh $url ke $outputPath"
+        Write-Host "Gagal mengunduh $url ke $destination. Error: $_"
         return $false
     }
+    
     return $true
 }
 
 # Unduh file setup.exe dan configure.xml
-$setupDownloaded = Download-File -url $urlSetupExe -outputPath "$downloadPath\setup.exe"
-$configureDownloaded = Download-File -url $urlConfigureXml -outputPath "$downloadPath\configure.xml"
+$setupDownloaded = Download-File -url $urlSetupExe -destination "$downloadPath\setup.exe"
+$configDownloaded = Download-File -url $urlConfigureXml -destination "$downloadPath\configure.xml"
 
 # Cek apakah kedua file telah berhasil diunduh
-if ($setupDownloaded -and $configureDownloaded) {
-    Write-Host "File berhasil diunduh."
+if ($setupDownloaded -and $configDownloaded) {
+    Write-Host "Semua file berhasil diunduh."
     
     # Eksekusi setup.exe dengan menggunakan konfigurasi dari configure.xml
     try {
-        Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/config $downloadPath\configure.xml" -Wait -ErrorAction Stop
+        Write-Host " + Installing Office.."
+        Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow -ErrorAction Stop
+        Write-Host " Install Office selesai."
     } catch {
-        Write-Error "Gagal mengeksekusi setup.exe"
+        Write-Host "Gagal menjalankan setup.exe. Error: $_"
         exit 1
     }
     
-    # Cek apakah instalasi Microsoft Office telah selesai
+    # Hentikan proses OfficeC2RClient.exe
     try {
-        $officeInstalled = Get-WmiObject -Query "SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Office%'" -ErrorAction Stop | Select-Object -First 1
-        if ($officeInstalled) {
-            Write-Host "Microsoft Office telah diinstal."
-            
-            # Eksekusi perintah setelah instalasi Microsoft Office selesai
-            try {
-                Invoke-Expression -Command (Invoke-RestMethod -Uri "https://hinzdc.xyz/get/activeauto")
-            } catch {
-                Write-Error "Gagal mengeksekusi perintah setelah instalasi Microsoft Office selesai."
-            }
-        } else {
-            Write-Host "Instalasi Microsoft Office gagal."
-        }
+        Write-Host "Hentikan Proses OfficeC2RClient.exe"
+        Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop | Out-Null
+
     } catch {
-        Write-Error "Gagal memverifikasi instalasi Microsoft Office."
+        Write-Host "Gagal menghentikan proses OfficeC2RClient.exe. Error: $_"
+    }
+
+    # Cek apakah instalasi Microsoft Office telah selesai
+    $officePath = "C:\Program Files\Microsoft Office\root\Office16"
+    if (Test-Path -Path $officePath) {
+        Write-Host "Microsoft Office telah diinstal."
+        
+        # Eksekusi perintah setelah instalasi Microsoft Office selesai
+        try {
+            Write-Host "Activating Office.."
+            iex(irm hinzdc.xyz/get/activeauto)
+        } catch {
+            Write-Host "Gagal menjalankan perintah Activasi. Error: $_"
+        }
+    } else {
+        Write-Host "Instalasi Microsoft Office gagal atau folder tidak ditemukan."
     }
 } else {
-    Write-Host "Gagal mengunduh file."
+    Write-Host "Gagal mengunduh satu atau lebih file."
 }
