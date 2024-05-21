@@ -1,0 +1,59 @@
+# Tentukan URL GitHub untuk file setup.exe dan configure.xml
+$urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/setup.exe"
+$urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.xml"
+
+# Tentukan lokasi di mana file akan diunduh
+$downloadPath = "C:\Temp"
+$setupExePath = Join-Path -Path $downloadPath -ChildPath "setup.exe"
+$configureXmlPath = Join-Path -Path $downloadPath -ChildPath "configure.xml"
+
+# Fungsi untuk mengunduh file dengan penanganan kesalahan
+function Download-File {
+    param (
+        [string]$url,
+        [string]$outputPath
+    )
+    try {
+        Invoke-WebRequest -Uri $url -OutFile $outputPath -ErrorAction Stop
+        Write-Host "Berhasil mengunduh $outputPath dari $url"
+        return $true
+    } catch {
+        Write-Error "Gagal mengunduh $outputPath dari $url: $_"
+        return $false
+    }
+}
+
+# Unduh file setup.exe dan configure.xml
+$setupExeDownloaded = Download-File -url $urlSetupExe -outputPath $setupExePath
+$configureXmlDownloaded = Download-File -url $urlConfigureXml -outputPath $configureXmlPath
+
+# Cek apakah kedua file telah berhasil diunduh
+if ($setupExeDownloaded -and $configureXmlDownloaded) {
+    Write-Host "Kedua file berhasil diunduh."
+    
+    # Eksekusi setup.exe dengan menggunakan konfigurasi dari configure.xml
+    try {
+        Start-Process -FilePath $setupExePath -ArgumentList "/config $configureXmlPath" -Wait -ErrorAction Stop
+        Write-Host "Setup.exe berhasil dijalankan."
+        
+        # Cek apakah instalasi Microsoft Office telah selesai
+        $officeInstalled = Get-WmiObject -Query "SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Office%'" | Select-Object -First 1
+        if ($officeInstalled) {
+            Write-Host "Microsoft Office telah diinstal."
+            
+            # Eksekusi perintah setelah instalasi Microsoft Office selesai
+            try {
+                iex (irm "https://hinzdc.xyz/get/activeauto")
+                Write-Host "Perintah post-installation berhasil dijalankan."
+            } catch {
+                Write-Error "Gagal menjalankan perintah post-installation: $_"
+            }
+        } else {
+            Write-Host "Instalasi Microsoft Office gagal."
+        }
+    } catch {
+        Write-Error "Gagal menjalankan setup.exe: $_"
+    }
+} else {
+    Write-Host "Gagal mengunduh file."
+}
