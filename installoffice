@@ -1,3 +1,4 @@
+Clear-Host
 # Tentukan URL GitHub untuk file setup.exe dan configure.xml
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/setup.exe"
 $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.xml"
