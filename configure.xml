@@ -1,6 +1,6 @@
 <Configuration>
 <Add OfficeClientEdition="64" Channel="Current" Version="16.0.16327.20248">
-    <Product ID="Proplus2019Retail">
+    <Product ID="Proplus2021Retail">
       <Language ID="en-US" />
       <ExcludeApp ID="Groove" />
       <ExcludeApp ID="Lync" />
