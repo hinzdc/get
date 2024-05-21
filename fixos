@@ -25,16 +25,16 @@ Write-Host "                   HINZDC.XYZ                  " -BackgroundColor Wh
 Write-Host "                                               " -BackgroundColor White
 Write-Host ""
 Write-Host "------------------------------------------------------------------------------------"
-Write-Host " RUN CHKDSK TO CHECK ERROR DISK" -ForegroundColor Green
-Write-Host " SCAN DISK.." -ForegroundColor Green
+Write-Host " + RUN CHKDSK TO CHECK ERROR DISK" -ForegroundColor Green
+Write-Host " + SCAN DISK.." -ForegroundColor Green
 Start-Sleep 2
 Write-Host "------------------------------------------------------------------------------------"
 Invoke-Expression "chkdsk /scan c:"
 Write-Host "------------------------------------------------------------------------------------"
 
 # Run sfc /scannow to scan and repair system files
-Write-Host " RUN SFC TO SCAN AND REPAIR SYSTEM FILES." -ForegroundColor Green
-Write-Host " SCAN CORRRUPTED FILES SYSTEM..." -ForegroundColor Green
+Write-Host " + RUN SFC TO SCAN AND REPAIR SYSTEM FILES." -ForegroundColor Green
+Write-Host " + SCAN CORRRUPTED FILES SYSTEM..." -ForegroundColor Green
 Start-Sleep 2
 Write-Host "------------------------------------------------------------------------------------"
 Write-Host " System File Checker will repair missing or corrupted system files." -ForegroundColor Yellow
@@ -48,8 +48,8 @@ Invoke-Expression "sfc /scannow"
 Write-Host "------------------------------------------------------------------------------------"
 
 # Run DISM to restore the Windows image
-Write-Host " RUNNING DISM TO RESTORE THE WINDOWS IMAGE." -ForegroundColor Green
-Write-Host " RESTORE HEALTHY.." -ForegroundColor Green
+Write-Host " + RUNNING DISM TO RESTORE THE WINDOWS IMAGE." -ForegroundColor Green
+Write-Host " + RESTORE HEALTHY.." -ForegroundColor Green
 Write-Host "------------------------------------------------------------------------------------"
 Write-Host "  Dism uses Windows Update to provide the files required to fix corruption." -ForegroundColor Yellow
 Write-Host "  This will take 5-15 minutes or more.." -ForegroundColor Yellow
