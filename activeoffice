@@ -9,4 +9,4 @@ Write-Host "                                         " -BackgroundColor White
 Write-Host "  ACTIVATION WINDOWS + OFFICE PERMANENT  " -BackgroundColor White -ForegroundColor Black
 Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
 Write-Host "                                         " -BackgroundColor White
-& ([ScriptBlock]::Create((irm https://massgrave.dev/get))) /Ohook
+& ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
