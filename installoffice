@@ -4,10 +4,8 @@ $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.
 
 # Tentukan lokasi di mana file akan diunduh
 $downloadPath = "C:\Temp"
-$setupExePath = Join-Path -Path $downloadPath -ChildPath "setup.exe"
-$configureXmlPath = Join-Path -Path $downloadPath -ChildPath "configure.xml"
 
-# Fungsi untuk mengunduh file dengan penanganan kesalahan
+# Fungsi untuk mengunduh file
 function Download-File {
     param (
         [string]$url,
@@ -15,44 +13,47 @@ function Download-File {
     )
     try {
         Invoke-WebRequest -Uri $url -OutFile $outputPath -ErrorAction Stop
-        Write-Host "Berhasil mengunduh $outputPath dari $url"
-        return $true
+        Write-Host "Berhasil mengunduh $outputPath"
     } catch {
-        Write-Error "Gagal mengunduh $outputPath dari $url: $_"
+        Write-Error "Gagal mengunduh $url ke $outputPath"
         return $false
     }
+    return $true
 }
 
 # Unduh file setup.exe dan configure.xml
-$setupExeDownloaded = Download-File -url $urlSetupExe -outputPath $setupExePath
-$configureXmlDownloaded = Download-File -url $urlConfigureXml -outputPath $configureXmlPath
+$setupDownloaded = Download-File -url $urlSetupExe -outputPath "$downloadPath\setup.exe"
+$configureDownloaded = Download-File -url $urlConfigureXml -outputPath "$downloadPath\configure.xml"
 
 # Cek apakah kedua file telah berhasil diunduh
-if ($setupExeDownloaded -and $configureXmlDownloaded) {
-    Write-Host "Kedua file berhasil diunduh."
+if ($setupDownloaded -and $configureDownloaded) {
+    Write-Host "File berhasil diunduh."
     
     # Eksekusi setup.exe dengan menggunakan konfigurasi dari configure.xml
     try {
-        Start-Process -FilePath $setupExePath -ArgumentList "/config $configureXmlPath" -Wait -ErrorAction Stop
-        Write-Host "Setup.exe berhasil dijalankan."
-        
-        # Cek apakah instalasi Microsoft Office telah selesai
-        $officeInstalled = Get-WmiObject -Query "SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Office%'" | Select-Object -First 1
+        Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/config $downloadPath\configure.xml" -Wait -ErrorAction Stop
+    } catch {
+        Write-Error "Gagal mengeksekusi setup.exe"
+        exit 1
+    }
+    
+    # Cek apakah instalasi Microsoft Office telah selesai
+    try {
+        $officeInstalled = Get-WmiObject -Query "SELECT * FROM Win32_Product WHERE Name LIKE '%Microsoft Office%'" -ErrorAction Stop | Select-Object -First 1
         if ($officeInstalled) {
             Write-Host "Microsoft Office telah diinstal."
             
             # Eksekusi perintah setelah instalasi Microsoft Office selesai
             try {
-                iex (irm "https://hinzdc.xyz/get/activeauto")
-                Write-Host "Perintah post-installation berhasil dijalankan."
+                Invoke-Expression -Command (Invoke-RestMethod -Uri "https://hinzdc.xyz/get/activeauto")
             } catch {
-                Write-Error "Gagal menjalankan perintah post-installation: $_"
+                Write-Error "Gagal mengeksekusi perintah setelah instalasi Microsoft Office selesai."
             }
         } else {
             Write-Host "Instalasi Microsoft Office gagal."
         }
     } catch {
-        Write-Error "Gagal menjalankan setup.exe: $_"
+        Write-Error "Gagal memverifikasi instalasi Microsoft Office."
     }
 } else {
     Write-Host "Gagal mengunduh file."
