@@ -72,6 +72,29 @@ if ($setupDownloaded -and $configDownloaded) {
     if (Test-Path -Path $officePath) {
         Write-Host " + Microsoft Office telah diinstal." -ForegroundColor Green
         Start-Sleep -Seconds 5
+        Write-Host " + Create Shortcut.."
+        # Define the paths to the Office applications
+        $officeApps = @("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE", 
+                        "C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE", 
+                        "C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE")
+        
+        # Define the display names for the shortcuts
+        $officeAppsDisplayNames = @("Word", "Excel", "PowerPoint")
+        
+        # Get the Desktop folder path
+        $desktopPath = [System.Environment]::GetFolderPath("Desktop")
+        
+        # Create shortcuts on the Desktop
+        for ($i = 0; $i -lt $officeApps.Length; $i++) {
+            $shortcutPath = Join-Path -Path $desktopPath -ChildPath ("{0}.lnk" -f $officeAppsDisplayNames[$i])
+            $shell = New-Object -ComObject WScript.Shell
+            $shortcut = $shell.CreateShortcut($shortcutPath)
+            $shortcut.TargetPath = $officeApps[$i]
+            $shortcut.WorkingDirectory = Split-Path $officeApps[$i]
+            $shortcut.Description = $officeAppsDisplayNames[$i]
+            $shortcut.WindowStyle = 1
+            $shortcut.Save()
+        }
         # Eksekusi perintah setelah instalasi Microsoft Office selesai
         try {
             Write-Host " + Activating Office..." -ForegroundColor Green
