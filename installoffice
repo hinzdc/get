@@ -1,3 +1,8 @@
+Write-Host "                                             " -BackgroundColor Red
+Write-Host "   MICROSOFT OFFICE 2021 PROFESSIONAL PLUS   " -BackgroundColor White -ForegroundColor Red
+Write-Host "             INSTALLER + ACTIVATOR           " -BackgroundColor White -ForegroundColor Red
+Write-Host "                                             " -BackgroundColor Red
+
 # Tentukan URL GitHub untuk file setup.exe dan configure.xml
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/setup.exe"
 $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/configure.xml"
@@ -98,7 +103,7 @@ if ($setupDownloaded -and $configDownloaded) {
         # Eksekusi perintah setelah instalasi Microsoft Office selesai
         try {
             Write-Host " + Activating Office..." -ForegroundColor Green
-            iex (irm https://hinzdc.xyz/get/activeauto)
+            & ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
             Write-Host "------------------------------------------------------------"
             Write-Host " INSTALL DAN AKTIVASI OFFICE SUDAH SELESAI." -BackgroundColor Green -ForegroundColor White
         } catch {
