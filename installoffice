@@ -1,6 +1,6 @@
 Write-Host "                                             " -BackgroundColor Red
-Write-Host "   MICROSOFT OFFICE 2021 PROFESSIONAL PLUS   " -BackgroundColor White -ForegroundColor Red
-Write-Host "             INSTALLER + ACTIVATOR           " -BackgroundColor White -ForegroundColor Red
+Write-Host "   MICROSOFT OFFICE 2021 PROFESSIONAL PLUS   " -BackgroundColor Red -ForegroundColor Black
+Write-Host "             INSTALLER + ACTIVATOR           " -BackgroundColor Red -ForegroundColor Black
 Write-Host "                                             " -BackgroundColor Red
 
 # Tentukan URL GitHub untuk file setup.exe dan configure.xml
