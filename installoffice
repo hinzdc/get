@@ -1,3 +1,55 @@
+# Set background color to Black
+[Console]::BackgroundColor = "Black"
+
+# Clear the console to see the background color change
+Clear-Host
+
+$Host.UI.RawUI.WindowTitle = '// OFFICE INSTALLER - HINZDC X SARGA - INDOJAVA ONLINE'
+
+$code = @'
+using System;
+using System.Runtime.InteropServices;
+
+namespace CloseButtonToggle {
+
+ internal static class WinAPI {
+   [DllImport("kernel32.dll")]
+   internal static extern IntPtr GetConsoleWindow();
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DeleteMenu(IntPtr hMenu,
+                          uint uPosition, uint uFlags);
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DrawMenuBar(IntPtr hWnd);
+
+   [DllImport("user32.dll")]
+   internal static extern IntPtr GetSystemMenu(IntPtr hWnd,
+              [MarshalAs(UnmanagedType.Bool)]bool bRevert);
+
+   const uint SC_CLOSE     = 0xf060;
+   const uint MF_BYCOMMAND = 0;
+
+   internal static void ChangeCurrentState(bool state) {
+     IntPtr hMenu = GetSystemMenu(GetConsoleWindow(), state);
+     DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+     DrawMenuBar(GetConsoleWindow());
+   }
+ }
+
+ public static class Status {
+   public static void Disable() {
+     WinAPI.ChangeCurrentState(false); //its 'true' if need to enable
+   }
+ }
+}
+'@
+
+Add-Type $code
+[CloseButtonToggle.Status]::Disable()
+
 # Ensure PowerShell is run as Administrator
 
 # Check if the Delivery Optimization service (DoSvc) is already running
@@ -44,7 +96,7 @@ New-Item -Path $settingsPath -Force | Out-Null
 Set-ItemProperty -Path $settingsPath -Name "value" -Value 1
 
 Write-Output "Delivery Optimization settings have been successfully activated and configured."
-clear
+Clear-Host
 Write-Host "                                                           " -BackgroundColor DarkRed
 Write-Host "          MICROSOFT OFFICE INSTALLER + ACTIVATOR           " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
@@ -122,7 +174,7 @@ if (-not (Test-Path -Path $downloadPath)) {
 }
 
 # Fungsi untuk mengunduh file
-function Download-File {
+function DownloadFile {
     param (
         [string]$url,
         [string]$destination
@@ -142,8 +194,8 @@ function Download-File {
 }
 
 # Unduh file setup.exe dan configure.xml
-$setupDownloaded = Download-File -url $urlSetupExe -destination "$downloadPath\setup.exe"
-$configDownloaded = Download-File -url $urlConfigureXml -destination "$downloadPath\configure.xml"
+$setupDownloaded = DownloadFile -url $urlSetupExe -destination "$downloadPath\setup.exe"
+$configDownloaded = DownloadFile -url $urlConfigureXml -destination "$downloadPath\configure.xml"
 
 # Cek apakah kedua file telah berhasil diunduh
 if ($setupDownloaded -and $configDownloaded) {
@@ -218,11 +270,11 @@ if ($setupDownloaded -and $configDownloaded) {
             Write-Host ""
             $enddate = Get-Date
             Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
-                        # Membuat objek shell
+            # Membuat objek shell
             $shell = New-Object -ComObject WScript.Shell
             
             # Menampilkan pesan popup
-            $intButton = $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// --INDOJAVA ONLINE")
+            $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
         } catch {
             Write-Host " - Gagal menjalankan perintah aktivasi. Error: $_" -ForegroundColor Red
         }
