@@ -1,17 +1,3 @@
-# Check for Administrative privileges
-If (-NOT ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator"))
-{
-    # If not, elevate the script to run as administrator
-    Write-Host "Requesting Administrative Privileges..."
-    Write-Host "Press YES in UAC Prompt to Continue"
-
-    # Create a new PowerShell process with elevated permissions
-    Start-Process powershell -ArgumentList "& '$PSCommandPath'" -Verb RunAs
-
-    # Exit the current, unelevated script
-    exit
-}
-
 # Set background color to Black
 [Console]::BackgroundColor = "Black"
 
