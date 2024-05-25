@@ -2,6 +2,7 @@ clear
 Write-Host "                                             " -BackgroundColor Red
 Write-Host "               MICROSOFT OFFICE              " -BackgroundColor Red -ForegroundColor White
 Write-Host "             INSTALLER + ACTIVATOR           " -BackgroundColor Red -ForegroundColor White
+Write-Host "   INDOJAVA ONLINE - BEC LANTAI 1 BLOCK D07  " -BackgroundColor Red -ForegroundColor White
 Write-Host "                                             " -BackgroundColor Red
 
 # Menu pilihan versi Office
@@ -150,6 +151,12 @@ if ($setupDownloaded -and $configDownloaded) {
             Write-Host ""
             $enddate = Get-Date
             Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
+            # Membuat objek shell
+            $shell = New-Object -ComObject WScript.Shell
+            
+            # Menampilkan pesan popup
+            $intButton = $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// --INDOJAVA ONLINE")
+
         } catch {
             Write-Host " - Gagal menjalankan perintah aktivasi. Error: $_" -ForegroundColor Red
         }
