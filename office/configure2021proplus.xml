@@ -1,0 +1,27 @@
+<Configuration>
+<Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE" >
+    <Product ID="Proplus2021Retail">
+      <Language ID="en-US" />
+      <ExcludeApp ID="Groove" />
+      <ExcludeApp ID="Lync" />
+      <ExcludeApp ID="OneNote" />
+      <ExcludeApp ID="OneDrive" />
+      <ExcludeApp ID="Teams" />
+    </Product>
+    <Product ID="ProofingTools">
+      <Language ID="en-us" />
+      <Language ID="id-id" />
+    </Product>
+</Add>
+  <Property Name="SharedComputerLicensing" Value="0" />
+  <Property Name="FORCEAPPSHUTDOWN" Value="TRUE" />
+  <Property Name="DeviceBasedLicensing" Value="0" />
+  <Property Name="SCLCacheOverride" Value="0" />
+  <Property Name="AUTOACTIVATE" Value="1" />
+  <Updates Enabled="TRUE" />
+  <RemoveMSI All="TRUE" />
+  <Display Level="Full" AcceptEULA="TRUE" />
+<AppSettings>
+    <User Key="Software\Microsoft\Office\16.0\Common" Name="UI Theme" Value="0" />
+</AppSettings>
+</Configuration>
