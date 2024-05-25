@@ -62,7 +62,7 @@ if ($setupDownloaded -and $configDownloaded) {
     try {
         Write-Host " + Hentikan Proses OfficeC2RClient.exe"
         $stopProcessJob = Start-Job -ScriptBlock {
-            Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop
+            Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop | Out-Null
         }
         Wait-Job -Job $stopProcessJob
         Receive-Job -Job $stopProcessJob | Out-Null
