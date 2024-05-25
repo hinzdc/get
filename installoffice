@@ -1,21 +1,83 @@
+# Ensure PowerShell is run as Administrator
+
+# Check if the Delivery Optimization service (DoSvc) is already running
+$service = Get-Service -Name "DoSvc" -ErrorAction SilentlyContinue
+
+if ($service -and $service.Status -eq 'Running') {
+    Write-Output "Delivery Optimization service is already running. Skipping service activation..."
+} else {
+    Write-Output "Activating Delivery Optimization service..."
+    Start-Service -Name "DoSvc"
+    Set-Service -Name "DoSvc" -StartupType Automatic
+}
+
+# Define registry and policy paths
+$registryPathConfig = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+$gpeditPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
+$settingsPath = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\DeliveryOptimization\AllowPeerSelection"
+
+# Configure registry settings for Delivery Optimization
+Write-Output "Configuring registry settings for Delivery Optimization..."
+New-Item -Path $registryPathConfig -Force | Out-Null
+
+Set-ItemProperty -Path $registryPathConfig -Name "DODownloadMode" -Value 1
+Set-ItemProperty -Path $registryPathConfig -Name "DOGroupIdSource" -Value 2
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageMaxDownloadBandwidth" -Value 100
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageMaxUploadBandwidth" -Value 100
+Set-ItemProperty -Path $registryPathConfig -Name "DOMinimumBackgroundQos" -Value 0
+Set-ItemProperty -Path $registryPathConfig -Name "DOMaxUploadSessionsPerDevice" -Value 10
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageForegroundQos" -Value 100
+
+# Configure group policies for Delivery Optimization
+Write-Output "Configuring group policies for Delivery Optimization..."
+New-Item -Path $gpeditPath -Force | Out-Null
+
+Set-ItemProperty -Path $gpeditPath -Name "DODownloadMode" -Value 1
+Set-ItemProperty -Path $gpeditPath -Name "DOAllowVPNPeerings" -Value 1
+Set-ItemProperty -Path $gpeditPath -Name "DOMaxCacheSize" -Value 50
+Set-ItemProperty -Path $gpeditPath -Name "DOMaxCacheAge" -Value 30
+Set-ItemProperty -Path $gpeditPath -Name "DODelayBackgroundDownloadFromHttp" -Value 1
+
+# Enable download permissions from other PCs
+Write-Output "Enabling download permissions from other PCs..."
+New-Item -Path $settingsPath -Force | Out-Null
+Set-ItemProperty -Path $settingsPath -Name "value" -Value 1
+
+Write-Output "Delivery Optimization settings have been successfully activated and configured."
 clear
-Write-Host "                                             " -BackgroundColor Red
-Write-Host "               MICROSOFT OFFICE              " -BackgroundColor Red -ForegroundColor White
-Write-Host "             INSTALLER + ACTIVATOR           " -BackgroundColor Red -ForegroundColor White
-Write-Host "   INDOJAVA ONLINE - BEC LANTAI 1 BLOCK D07  " -BackgroundColor Red -ForegroundColor White
-Write-Host "                                             " -BackgroundColor Red
+Write-Host "                                                           " -BackgroundColor DarkRed
+Write-Host "          MICROSOFT OFFICE INSTALLER + ACTIVATOR           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "     INDOJAVA ONLINE - ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor Black
+Write-Host "                                                           " -BackgroundColor DarkRed
 
 # Menu pilihan versi Office
-Write-Host "---------------------------------------------"
+Write-Host "-----------------------------------------------------------"
 Write-Host "Pilih versi Microsoft Office untuk diinstal:"
-Write-Host "---------------------------------------------"
-Write-Host "[1] Microsoft Office 2016 Professional Plus" -ForegroundColor Cyan
-Write-Host "[2] Microsoft Office 2019 Professional Plus" -ForegroundColor Cyan
-Write-Host "[3] Microsoft Office 2021 Professional Plus" -ForegroundColor Cyan
-Write-Host "[4] Microsoft Office 2016 Home and Student" -ForegroundColor Cyan
-Write-Host "[5] Microsoft Office 2019 Home and Student" -ForegroundColor Cyan
-Write-Host "[6] Microsoft Office 2021 Home and Student" -ForegroundColor Cyan
-Write-Host "---------------------------------------------"
+Write-Host "-----------------------------------------------------------"
+Write-Host [1] -NoNewline
+Write-Host " Microsoft Office 2016 Professional Plus" -ForegroundColor Cyan
+Write-Host [2] -NoNewline
+Write-Host " Microsoft Office 2019 Professional Plus" -ForegroundColor Cyan
+Write-Host [3] -NoNewline
+Write-Host " Microsoft Office 2021 Professional Plus" -ForegroundColor Cyan
+Write-Host [4] -NoNewline
+Write-Host " Microsoft Office 2016 Home and Student" -ForegroundColor Blue
+Write-Host [5] -NoNewline
+Write-Host " Microsoft Office 2019 Home and Student" -ForegroundColor Blue
+Write-Host [6] -NoNewline
+Write-Host " Microsoft Office 2021 Home and Student" -ForegroundColor Blue
+Write-Host [7] -NoNewline
+Write-Host " Microsoft Office 2019 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host [8] -NoNewline
+Write-Host " Microsoft Office 2021 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host [9] -NoNewline
+Write-Host " Microsoft Visio Pro + Project Pro 2019" -ForegroundColor Magenta
+Write-Host [0] -NoNewline
+Write-Host " Microsoft Visio Pro + Project Pro 2021" -ForegroundColor Magenta
+Write-Host [A] -NoNewline
+Write-Host " Microsoft Office 365 Professional Plus" -ForegroundColor Green
+Write-Host "-----------------------------------------------------------"
 
 $versionChoice = Read-Host "Masukkan nomor pilihan Anda (1-6). Lalu ENTER"
 
@@ -27,6 +89,11 @@ switch ($versionChoice) {
     4 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
     5 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
     6 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
+    7 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
+    8 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
+    9 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
+    0 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
+    A { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
     default { 
         Write-Host "Pilihan tidak valid. Menghentikan skrip." -ForegroundColor Red
         exit 1 
@@ -151,12 +218,11 @@ if ($setupDownloaded -and $configDownloaded) {
             Write-Host ""
             $enddate = Get-Date
             Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
-            # Membuat objek shell
+                        # Membuat objek shell
             $shell = New-Object -ComObject WScript.Shell
             
             # Menampilkan pesan popup
             $intButton = $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// --INDOJAVA ONLINE")
-
         } catch {
             Write-Host " - Gagal menjalankan perintah aktivasi. Error: $_" -ForegroundColor Red
         }
@@ -166,3 +232,4 @@ if ($setupDownloaded -and $configDownloaded) {
 } else {
     Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
 }
+
