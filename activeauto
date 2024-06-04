@@ -1,4 +1,31 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+# URL dari halaman yang akan diambil
+$url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
+
+# Mengambil konten halaman web
+$response = Invoke-WebRequest -Uri $url
+
+# Memeriksa apakah respons berhasil
+if ($response.StatusCode -eq 200) {
+    # Mengambil konten HTML dari respons
+    $htmlContent = $response.Content
+
+    # Parsing konten SVG untuk mendapatkan nilai "Visitors"
+    if ($htmlContent -match '<text[^>]*>\s*(\d+)\s*<\/text>') {
+        $visitorCount = $matches[1]
+
+        # Mencetak nilai ke terminal
+        $visitor = @"
+        Write-Host " Executed " -BackgroundColor Blue -ForegroundColor White -NoNewline
+        Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White
+"@
+    } else {
+        Write-Output ""
+    }
+} else {
+    Write-Output "$($response.StatusCode)"
+}
+
 Clear-Host
 Write-Host "                                         " -BackgroundColor DarkRed
 Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
@@ -10,6 +37,7 @@ Write-Host "                HINZDC.XYZ               " -BackgroundColor White -F
 Write-Host "                                         " -BackgroundColor White
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook
 Write-Host ""
+Write-Host "$visitor"
 Write-Host ""
 Write-Host "Activasi Windows Dan Office Sudah Selesai." -ForegroundColor Green
 Write-Host ""
