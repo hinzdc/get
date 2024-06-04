@@ -24,7 +24,6 @@ if ($response.StatusCode -eq 200) {
     Write-Output "$($response.StatusCode)"
 }
 
-Clear-Host
 Write-Host "                                         " -BackgroundColor DarkRed
 Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
