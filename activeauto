@@ -15,8 +15,8 @@ if ($response.StatusCode -eq 200) {
         $visitorCount = $matches[1]
 
         # Mencetak nilai ke terminal
-        $label = Write-Host " Executed "
-        $number = Write-Host " $visitorCount "
+        $label = Write-Host " Executed " -BackgroundColor Blue -ForegroundColor White -NoNewline
+        $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White
     } else {
         Write-Output ""
     }
@@ -34,8 +34,7 @@ Write-Host "  ACTIVATION WINDOWS + OFFICE PERMANENT  " -BackgroundColor White -F
 Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
 Write-Host "                                         " -BackgroundColor White
 Write-Host ""
-Write-Host "$label" -BackgroundColor Blue -ForegroundColor White -NoNewline
-Write-Host "$number" -BackgroundColor Red -ForegroundColor White
+Write-Host "$label $number" 
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook
 Write-Host ""
 Write-Host "Activasi Windows Dan Office Sudah Selesai." -ForegroundColor Green
