@@ -1,4 +1,14 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+Clear-Host
+Write-Host "                                         " -BackgroundColor DarkRed
+Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                         " -BackgroundColor DarkRed
+Write-Host "                                         " -BackgroundColor White
+Write-Host "  ACTIVATION WINDOWS + OFFICE PERMANENT  " -BackgroundColor White -ForegroundColor Black
+Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
+Write-Host "                                         " -BackgroundColor White
+Write-Host ""
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
@@ -24,16 +34,6 @@ if ($response.StatusCode -eq 200) {
     Write-Output "$($response.StatusCode)"
 }
 
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                                         " -BackgroundColor White
-Write-Host "  ACTIVATION WINDOWS + OFFICE PERMANENT  " -BackgroundColor White -ForegroundColor Black
-Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
-Write-Host "                                         " -BackgroundColor White
-Write-Host ""
-Write-Host "$label $number" 
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook
 Write-Host ""
 Write-Host "Activasi Windows Dan Office Sudah Selesai." -ForegroundColor Green
