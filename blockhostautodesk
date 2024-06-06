@@ -1,23 +1,26 @@
-Clear-Host
+﻿Clear-Host
 # Ensure the script runs with elevated privileges
 If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "You need to run this script as an Administrator!"
     Pause
     Exit
 }
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                                         " -BackgroundColor White
-Write-Host "       BLOCK HOST AUTODESK AUTOCAD       " -BackgroundColor White -ForegroundColor Black
-Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
-Write-Host "                                         " -BackgroundColor White
 Write-Host
-
+Write-Host "                                         ╔═════════════════════════════╗"
+Write-Host "╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣ ISTANA BEC LANTAI 1 BLOK D7 ║"
+Write-Host "║                                        ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╣"
+Write-Host "║   ██                                ██                               ║"
+Write-Host "║   ░░ ██████▒▒ ██████▄▀ ███████      ░░ ████████ ██     ██ ████████   ║"
+Write-Host "║   ██       ██ ██   ▀██ ██   ██      ██ ██    ██ ██     ██ ██    ██   ║"
+Write-Host "║   ██ ██    ██ ██   ▄██ ██   ██ ██   ██ ████████ ▀██   ██▀ ████████   ║"
+Write-Host "║   ██ ██    ██ ██████▀▄ ▒▒█████ ███████ ██    ██    ▀█▀    ██    ██   ║"
+Write-Host "║                                                                      ║"
+Write-Host "╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝"
+Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   "
+Write-Host
 Write-Host
 Write-Host "+ MENAMBAHKAN BLOCK HOST UNTUK AUTODESK AUTOCAD..."
-Start-Sleep -seconds 5
+Start-Sleep -seconds 10
 # Daftar link Autodesk yang ingin dimasukkan ke file hosts
 $links = @(
     "autodesk.fi", "autodesk.de", "autodesk.es", "autodesk.ca", "autodesk.dk", "autodesk.pl",
