@@ -17,7 +17,7 @@ Write-Host
 Start-Sleep -seconds 5
 
 Write-Host
-Write-Host "Menambahkan block host untuk Autodesk..."
+Write-Host " + MENAMBAHKAN BLOCK HOST UNTUK AUTODESK AUTOCAD..."
 
 # Daftar link Autodesk yang ingin dimasukkan ke file hosts
 $links = @(
@@ -65,7 +65,10 @@ $hostsContent = Get-Content -Path $hostsFile
 foreach ($link in $links) {
     $entry = "127.0.0.1 $link"
     if ($hostsContent -notcontains $entry) {
+        Write-Host " + Menambahkan: $entry"
         $hostsContent += $entry
+    } else {
+        Write-Host "Sudah ada: $entry"
     }
 }
 
@@ -73,7 +76,7 @@ foreach ($link in $links) {
 try {
     Set-Content -Path $hostsFile -Value $hostsContent -Force
     Write-Host
-    Write-Host "FlushDNS.."
+    Write-Host " + FlushDNS.."
     ipconfig /flushdns
 
     # Tampilkan pesan berhasil
