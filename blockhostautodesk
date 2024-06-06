@@ -1,4 +1,10 @@
 Clear-Host
+# Ensure the script runs with elevated privileges
+If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
+    Write-Warning "You need to run this script as an Administrator!"
+    Pause
+    Exit
+}
 Write-Host "                                         " -BackgroundColor DarkRed
 Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
@@ -13,7 +19,7 @@ Start-Sleep -3
 Write-Host
 Write-Host "Menambahkan block host untuk Autodesk..."
 
-# Daftar link Autodes kyang ingin dimasukkan ke file hosts
+# Daftar link Autodesk yang ingin dimasukkan ke file hosts
 $links = @(
     "autodesk.fi", "autodesk.de", "autodesk.es", "autodesk.ca", "autodesk.dk", "autodesk.pl",
     "ns1.autodesk.com", "ns2.autodesk.com", "ns3.autodesk.com", "ns4.autodesk.com", "ns5.autodesk.com",
@@ -47,17 +53,27 @@ $links = @(
 # Path ke file hosts
 $hostsFile = "C:\Windows\System32\drivers\etc\hosts"
 
-# Loop melalui setiap link dan tambahkan ke file hosts
-foreach ($link in $links) {
-    Add-Content -Path $hostsFile -Value "127.0.0.1 $link"
+# Ensure the hosts file is not read-only
+if ((Get-Item -Path $hostsFile).IsReadOnly) {
+    (Get-Item -Path $hostsFile).IsReadOnly = $false
 }
 
-# Flush DNS
-Write-Host
-Write-Host "FlushDNS.."
-ipconfig /flushdns
+# Loop melalui setiap link dan tambahkan ke file hosts
+try {
+    foreach ($link in $links) {
+        Add-Content -Path $hostsFile -Value "127.0.0.1 $link"
+    }
 
-# Tampilkan pesan berhasil
-Write-Host
-Write-Host "Link telah ditambahkan ke file hosts dan cache.." -Foreground Green
+    # Flush DNS
+    Write-Host
+    Write-Host "FlushDNS.."
+    ipconfig /flushdns
+
+    # Tampilkan pesan berhasil
+    Write-Host
+    Write-Host "Link telah ditambahkan ke file hosts dan cache.."
+} catch {
+    Write-Error "Terjadi kesalahan: $_"
+}
+
 Pause
