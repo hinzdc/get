@@ -4,7 +4,27 @@ If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Pause
     Exit
 }
+# Save the current console encodings
+$originalOutputEncoding = [Console]::OutputEncoding
+$originalInputEncoding = [Console]::InputEncoding
+
+# Set console encoding to UTF-8 with BOM
+$OutputEncoding = [Console]::OutputEncoding = [Console]::InputEncoding = New-Object System.Text.UTF8Encoding($true)
+
 Clear
+Write-Host
+Write-Host "                                         ╔═════════════════════════════╗"
+Write-Host "╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣ ISTANA BEC LANTAI 1 BLOK D7 ║"
+Write-Host "║                                        ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╣"
+Write-Host "║   ██                                ██                               ║"
+Write-Host "║   ░░ ██████▒▒ ██████▄▀ ███████      ░░ ████████ ██     ██ ████████   ║"
+Write-Host "║   ██       ██ ██   ▀██ ██   ██      ██ ██    ██ ██     ██ ██    ██   ║"
+Write-Host "║   ██ ██    ██ ██   ▄██ ██   ██ ██   ██ ████████ ▀██   ██▀ ████████   ║"
+Write-Host "║   ██ ██    ██ ██████▀▄ ▒▒█████ ███████ ██    ██    ▀█▀    ██    ██   ║"
+Write-Host "║                                                                      ║"
+Write-Host "╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝"
+Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   "
+Write-Host
 Write-Host
 Write-Host "                                        ///////////////////////////////X" -BackgroundColor Blue -ForegroundColor White
 Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :" -BackgroundColor Blue -ForegroundColor White
@@ -89,5 +109,8 @@ try {
 } catch {
     Write-Error "Terjadi kesalahan: $_"
 }
+# Restore the original console encodings
+[Console]::OutputEncoding = $originalOutputEncoding
+[Console]::InputEncoding = $originalInputEncoding
 Write-Host
 Pause
