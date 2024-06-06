@@ -14,7 +14,7 @@ Write-Host "       BLOCK HOST AUTODESK AUTOCAD       " -BackgroundColor White -F
 Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
 Write-Host "                                         " -BackgroundColor White
 Write-Host
-Start-Sleep -3
+Start-Sleep -seconds 5
 
 Write-Host
 Write-Host "Menambahkan block host untuk Autodesk..."
