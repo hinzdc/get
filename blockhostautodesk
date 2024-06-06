@@ -1,4 +1,4 @@
-﻿# Ensure the script runs with elevated privileges
+# Ensure the script runs with elevated privileges
 If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "You need to run this script as an Administrator!"
     Pause
