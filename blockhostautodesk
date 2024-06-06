@@ -6,17 +6,17 @@ If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 Write-Host
-Write-Host "                                        ///////////////////////////////X" -BackgroundColor Blue
-Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :" -BackgroundColor Blue
-Write-Host ":                                        \''''''''''''''''''''''''''''':" -BackgroundColor Blue
-Write-Host ":   BB                                BB                               :" -BackgroundColor Blue
-Write-Host ":   -- BBBBBB++ BBBBBB.  BBBBBBB      -- BBBBBBBB BB     BB BBBBBBBB   :" -BackgroundColor Blue
-Write-Host ":   BB       BB BB    BB BB   BB      BB BB    BB BB     BB BB    BB   :" -BackgroundColor Blue
-Write-Host ":   BB BB    BB BB    BB BB   BB BB   BB BBBBBBBB  BB   BB  BBBBBBBB   :" -BackgroundColor Blue
-Write-Host ":   BB BB    BB BBBBBB'  BBBBBbb BBBBBBB BB    BB   d\V/b   BB    BB   :" -BackgroundColor Blue
-Write-Host ":                                                                      :" -BackgroundColor Blue
-Write-Host ":::::::::::::::::--------------------------------------:::::::::::::::::" -BackgroundColor Blue
-Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   " -BackgroundColor Red
+Write-Host "                                        ///////////////////////////////X" -BackgroundColor Blue -ForegroundColor White
+Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":                                        \''''''''''''''''''''''''''''':" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":   BB                                BB                               :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":   -- BBBBBB++ BBBBBB.  BBBBBBB      -- BBBBBBBB BB     BB BBBBBBBB   :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":   BB       BB BB    BB BB   BB      BB BB    BB BB     BB BB    BB   :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":   BB BB    BB BB    BB BB   BB BB   BB BBBBBBBB  BB   BB  BBBBBBBB   :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":   BB BB    BB BBBBBB'  BBBBBbb BBBBBBB BB    BB   d\V/b   BB    BB   :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":                                                                      :" -BackgroundColor Blue -ForegroundColor White
+Write-Host ":::::::::::::::::--------------------------------------:::::::::::::::::" -BackgroundColor Blue -ForegroundColor White
+Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   " -BackgroundColor Red -ForegroundColor White
 Write-Host
 Write-Host
 Write-Host "+ MENAMBAHKAN BLOCK HOST UNTUK AUTODESK AUTOCAD..."
