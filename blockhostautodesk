@@ -6,16 +6,16 @@ If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 Write-Host
-Write-Host "                                         ╔═════════════════════════════╗"
-Write-Host "╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣ ISTANA BEC LANTAI 1 BLOK D7 ║"
-Write-Host "║                                        ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╣"
-Write-Host "║   ██                                ██                               ║"
-Write-Host "║   ░░ ██████▒▒ ██████▄▀ ███████      ░░ ████████ ██     ██ ████████   ║"
-Write-Host "║   ██       ██ ██   ▀██ ██   ██      ██ ██    ██ ██     ██ ██    ██   ║"
-Write-Host "║   ██ ██    ██ ██   ▄██ ██   ██ ██   ██ ████████ ▀██   ██▀ ████████   ║"
-Write-Host "║   ██ ██    ██ ██████▀▄ ▒▒█████ ███████ ██    ██    ▀█▀    ██    ██   ║"
-Write-Host "║                                                                      ║"
-Write-Host "╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝"
+Write-Host "                                        ///////////////////////////////X"
+Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :"
+Write-Host ":                                         ''''''''''''''''''''''''''''':"
+Write-Host ":   BB                                BB                               :"
+Write-Host ":   -- BBBBBB++ BBBBBB.  BBBBBBB      -- BBBBBBBB BB     BB BBBBBBBB   :"
+Write-Host ":   BB       BB BB    BB BB   BB      BB BB    BB BB     BB BB    BB   :"
+Write-Host ":   BB BB    BB BB    BB BB   BB BB   BB BBBBBBBB  BB   BB  BBBBBBBB   :"
+Write-Host ":   BB BB    BB BBBBBB'  BBBBBbb BBBBBBB BB    BB   d\V/b   BB    BB   :"
+Write-Host ":                                                                      :"
+Write-Host ":::::::::::::::::--------------------------------------:::::::::::::::::"
 Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   "
 Write-Host
 Write-Host
