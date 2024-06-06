@@ -1,10 +1,10 @@
-﻿Clear-Host
 # Ensure the script runs with elevated privileges
 If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) {
     Write-Warning "You need to run this script as an Administrator!"
     Pause
     Exit
 }
+Clear
 Write-Host
 Write-Host "                                        ///////////////////////////////X" -BackgroundColor Blue -ForegroundColor White
 Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :" -BackgroundColor Blue -ForegroundColor White
@@ -49,7 +49,7 @@ $links = @(
     "uspetcrs12ib_vlan500_2.autodesk.com", "uspetne06ia_ib_untrust_dip7.autodesk.com", "usrelay.autodesk.com",
     "ussclout1.autodesk.com", "vzwlpsrel.autodesk.com", "vzwlpstst.autodesk.com", "web.autodesk.com", "webservices.autodesk.com",
     "wormhole.autodesk.com", "www3.autodesk.com", "www.autodesk.com", "genuine-software.autodesk.com", "genuine-software1.autodesk.com",
-    "genuine-software2.autodesk.com"
+    "genuine-software2.autodesk.com", "genuine-software3.autodesk.com"
 )
 
 # Path ke file hosts
@@ -84,6 +84,7 @@ try {
     # Tampilkan pesan berhasil
     Write-Host
     Write-Host "LINK TELAH DITAMBAHKAN KE FILE HOST DAN CACHE.." -Foreground Green
+    cscript /nologo -command "CreateObject('WScript.Shell').Popup('LINK TELAH DITAMBAHKAN KE FILE HOST DAN CACHE..', 0, 'Informasi', 64)"
 } catch {
     Write-Error "Terjadi kesalahan: $_"
 }
