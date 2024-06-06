@@ -1,3 +1,4 @@
+Clear-Host
 Write-Host "                                         " -BackgroundColor DarkRed
 Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
@@ -7,8 +8,7 @@ Write-Host "       BLOCK HOST AUTODESK AUTOCAD       " -BackgroundColor White -F
 Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
 Write-Host "                                         " -BackgroundColor White
 Write-Host
-# Enable script block logging for debugging purposes
-Set-PSDebug -Trace 1
+Start-Sleep -3
 
 Write-Host
 Write-Host "Menambahkan block host untuk Autodesk..."
