@@ -6,17 +6,17 @@ If (-not ([Security.Principal.WindowsPrincipal] [Security.Principal.WindowsIdent
     Exit
 }
 Write-Host
-Write-Host "                                        ///////////////////////////////X"
-Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :"
-Write-Host ":                                         ''''''''''''''''''''''''''''':"
-Write-Host ":   BB                                BB                               :"
-Write-Host ":   -- BBBBBB++ BBBBBB.  BBBBBBB      -- BBBBBBBB BB     BB BBBBBBBB   :"
-Write-Host ":   BB       BB BB    BB BB   BB      BB BB    BB BB     BB BB    BB   :"
-Write-Host ":   BB BB    BB BB    BB BB   BB BB   BB BBBBBBBB  BB   BB  BBBBBBBB   :"
-Write-Host ":   BB BB    BB BBBBBB'  BBBBBbb BBBBBBB BB    BB   d\V/b   BB    BB   :"
-Write-Host ":                                                                      :"
-Write-Host ":::::::::::::::::--------------------------------------:::::::::::::::::"
-Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   "
+Write-Host "                                        ///////////////////////////////X" -BackgroundColor Cyan
+Write-Host "/IIIIIIIIIIIIIIIIIIIIIIIIIIIIIII:::::::::: ISTANA BEC LANTAI 1 BLOK D7 :" -BackgroundColor Cyan
+Write-Host ":                                        \''''''''''''''''''''''''''''':" -BackgroundColor Cyan
+Write-Host ":   BB                                BB                               :" -BackgroundColor Cyan
+Write-Host ":   -- BBBBBB++ BBBBBB.  BBBBBBB      -- BBBBBBBB BB     BB BBBBBBBB   :" -BackgroundColor Cyan
+Write-Host ":   BB       BB BB    BB BB   BB      BB BB    BB BB     BB BB    BB   :" -BackgroundColor Cyan
+Write-Host ":   BB BB    BB BB    BB BB   BB BB   BB BBBBBBBB  BB   BB  BBBBBBBB   :" -BackgroundColor Cyan
+Write-Host ":   BB BB    BB BBBBBB'  BBBBBbb BBBBBBB BB    BB   d\V/b   BB    BB   :" -BackgroundColor Cyan
+Write-Host ":                                                                      :" -BackgroundColor Cyan
+Write-Host ":::::::::::::::::--------------------------------------:::::::::::::::::" -BackgroundColor Cyan
+Write-Host "                   -- BLOCK HOSTS AUTODESK AUTOCAD --                   " -BackgroundColor Red
 Write-Host
 Write-Host
 Write-Host "+ MENAMBAHKAN BLOCK HOST UNTUK AUTODESK AUTOCAD..."
@@ -83,7 +83,7 @@ try {
 
     # Tampilkan pesan berhasil
     Write-Host
-    Write-Host "Link telah ditambahkan ke file hosts dan cache.." -Foreground Green
+    Write-Host "LINK TELAH DITAMBAHKAN KE FILE HOST DAN CACHE.." -Foreground Green
 } catch {
     Write-Error "Terjadi kesalahan: $_"
 }
