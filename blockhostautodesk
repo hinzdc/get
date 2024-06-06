@@ -58,13 +58,20 @@ if ((Get-Item -Path $hostsFile).IsReadOnly) {
     (Get-Item -Path $hostsFile).IsReadOnly = $false
 }
 
-# Loop melalui setiap link dan tambahkan ke file hosts
-try {
-    foreach ($link in $links) {
-        Add-Content -Path $hostsFile -Value "127.0.0.1 $link"
-    }
+# Read the current content of the hosts file
+$hostsContent = Get-Content -Path $hostsFile
 
-    # Flush DNS
+# Add new entries to the hosts content
+foreach ($link in $links) {
+    $entry = "127.0.0.1 $link"
+    if ($hostsContent -notcontains $entry) {
+        $hostsContent += $entry
+    }
+}
+
+# Write the modified content back to the hosts file
+try {
+    Set-Content -Path $hostsFile -Value $hostsContent -Force
     Write-Host
     Write-Host "FlushDNS.."
     ipconfig /flushdns
