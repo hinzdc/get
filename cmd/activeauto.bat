@@ -1,8 +1,9 @@
-
 <# ::
 @echo off
-mode con cols=90 lines=25
+title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
+mode con cols=90 lines=27
 color 0B
+
 :Begin UAC check and Auto-Elevate Permissions
 :-------------------------------------
 REM  --> Check for permissions
@@ -11,8 +12,13 @@ REM  --> Check for permissions
 REM --> If error flag set, we do not have admin.
 if '%errorlevel%' NEQ '0' (
 echo:
-echo   Requesting Administrative Privileges...
-echo   Press YES in UAC Prompt to Continue
+echo:
+echo                 Requesting Administrative Privileges...
+echo:
+echo                 ENABLING ADMINISTRATOR RIGHTS...
+echo                 Press YES in UAC Prompt to Continue
+echo.
+echo		 	     Please Wait...
 echo:
 
     goto UACPrompt
@@ -42,10 +48,11 @@ echo          º   ÛÛ ÛÛ    ÛÛ ÛÛ   ÜÛÛ ÛÛ   ÛÛ ÛÛ   ÛÛ ÛÛÛÛÛÛÛÛ ßÛÛ   ÛÛß ÛÛÛÛÛÛ
 echo          º   ÛÛ ÛÛ    ÛÛ ÛÛÛÛÛÛßÜ ±±ÛÛÛÛÛ ÛÛÛÛÛÛÛ ÛÛ    ÛÛ    ßÛß    ÛÛ    ÛÛ   º
 echo          º                                                                      º
 echo          ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ¼
-echo.                        -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
+rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
+powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
 echo.
-
 echo ------------------------------------------------------------------------------------------
+timeout /t 7 >NUL 2>&1
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
 goto :eof
 
@@ -116,14 +123,14 @@ Add-Type $code
 
 #-----------------------------------------------------------------------------------------
 
-$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT - HINZDC X SARGA - INDOJAVA ONLINE'
+$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA'
 $startdate = Get-Date
 Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
 # Mengambil konten halaman web
-$response = Invoke-WebRequest -Uri $url | Out-Null
+$response = Invoke-WebRequest -Uri $url
 
 # Memeriksa apakah respons berhasil
 if ($response.StatusCode -eq 200) {
@@ -139,7 +146,7 @@ if ($response.StatusCode -eq 200) {
         $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White -NoNewline
         $times = Write-Host " TIMES " -BackgroundColor White -ForegroundColor Black
     } else {
-        Write-Output ""
+        Write-Output " Please Connect to Internet.."
     }
 } else {
     Write-Output "$($response.StatusCode)"
@@ -148,16 +155,20 @@ $null = $label
 $null = $number
 $null = $times
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
-Write-Host ">> PROSES AKTIVASI SELESAI.." -ForegroundColor Green
+Write-Host "----------------------------"
 Write-Host
+Write-Host ">> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
+Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
+Write-Host
+Write-Host "----------------------------"
 $enddate = Get-Date
 Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
+Write-Host "------------------------------------------------------------------------------------------"
+Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
 $shell.Popup("ACTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
-
-Write-Host
-Read-Host -Prompt " Press ENTER to Exit"
+Read-Host
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c taskkill /F /IM rundll32.exe /T'
