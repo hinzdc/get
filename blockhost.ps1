@@ -1,0 +1,496 @@
+# Definisikan daftar aplikasi dan nama domain yang sesuai
+$entries = @{
+    "Adobe"       = @(
+        "192.150.14.69",
+        "192.150.18.101",
+        "192.150.18.108",
+        "192.150.22.40",
+        "192.150.8.100",
+        "192.150.8.118",
+        "199.7.52.190:80",
+        "199.7.52.190",
+        "199.7.54.72:80",
+        "199.7.54.72",
+        "209.34.83.67:43",
+        "209.34.83.67:443",
+        "209.34.83.67",
+        "209.34.83.73:43",
+        "209.34.83.73:443",
+        "209.34.83.73",
+        "209-34-83-73.ood.opsource.net",
+        "3dns.adobe.com",
+        "3dns-1.adobe.com",
+        "3dns-2.adobe.com",
+        "3dns-2.adobe.de",
+        "3dns-3.adobe.com",
+        "3dns-3.adobe.de",
+        "3dns-4.adobe.com",
+        "3dns-5.adobe.com",
+        "activate.adobe.de",
+        "activate.wip.adobe.com",
+        "activate.wip1.adobe.com",
+        "activate.wip2.adobe.com",
+        "activate.wip3.adobe.com",
+        "activate.wip3.adobe.de",
+        "activate.wip4.adobe.com",
+        "activate-sea.adobe.com",
+        "activate-sea.adobe.de",
+        "activate-sjc0.adobe.com",
+        "activate-sjc0.adobe.de",
+        "adobe.activate.com",
+        "adobe-dns.adobe.com",
+        "adobe-dns.adobe.de",
+        "adobe-dns-1.adobe.com",
+        "adobe-dns-2.adobe.com",
+        "adobe-dns-2.adobe.de",
+        "adobe-dns-3.adobe.com",
+        "adobe-dns-3.adobe.de",
+        "adobe-dns-4.adobe.com",
+        "adobe-dns-5.adobe.com",
+        "adobeereg.com",
+        "cmdls.adobe.com",
+        "ereg.adobe.com",
+        "ereg.adobe.de",
+        "ereg.wip.adobe.com",
+        "ereg.wip1.adobe.com",
+        "ereg.wip2.adobe.com",
+        "ereg.wip3.adobe.com",
+        "ereg.wip3.adobe.de",
+        "ereg.wip4.adobe.com",
+        "genuine.adobe.com",
+        "hh-software.com",
+        "hl2rcv.adobe.com",
+        "hl2rcv.adobe.de",
+        "hlrcv.stage.adobe.com",
+        "ims-na1-prprod.adobelogin.com",
+        "lm.licenses.adobe.com",
+        "lmlicenses.wip.adobe.com",
+        "lmlicenses.wip1.adobe.com",
+        "lmlicenses.wip2.adobe.com",
+        "lmlicenses.wip3.adobe.com",
+        "lmlicenses.wip4.adobe.com",
+        "na1r.services.adobe.com",
+        "na2m-pr.licenses.adobe.com",
+        "na2m-stg2.licenses.adobe.com",
+        "na4r.services.adobe.com",
+        "ocsp.spo1.verisign.com",
+        "ood.opsource.net",
+        "practivate.adobe.com",
+        "practivate.adobe.de",
+        "practivate.adobe.ipp",
+        "practivate.adobe.newoa",
+        "practivate.adobe.ntp",
+        "practivate.adobe",
+        "prod-rel-ffc-ccm.oobesaas.adobe.com",
+        "s-2.adobe.com",
+        "s-3.adobe.com",
+        "t3dns.adobe.com",
+        "tpractivate.adobe.newoa",
+        "tss-geotrust-crl.thawte.com",
+        "uds.licenses.adobe.com",
+        "wip.adobe.com",
+        "wip1.adobe.com",
+        "wip2.adobe.com",
+        "wip3.adobe.com",
+        "wip3.adobe.de",
+        "wip4.adobe.com",
+        "wwis-dubc1-vip100.adobe.com",
+        "wwis-dubc1-vip101.adobe.com",
+        "wwis-dubc1-vip102.adobe.com",
+        "wwis-dubc1-vip103.adobe.com",
+        "wwis-dubc1-vip104.adobe.com",
+        "wwis-dubc1-vip105.adobe.com",
+        "wwis-dubc1-vip106.adobe.com",
+        "wwis-dubc1-vip107.adobe.com",
+        "wwis-dubc1-vip108.adobe.com",
+        "wwis-dubc1-vip109.adobe.com",
+        "wwis-dubc1-vip110.adobe.com",
+        "wwis-dubc1-vip111.adobe.com",
+        "wwis-dubc1-vip112.adobe.com",
+        "wwis-dubc1-vip113.adobe.com",
+        "wwis-dubc1-vip114.adobe.com",
+        "wwis-dubc1-vip115.adobe.com",
+        "wwis-dubc1-vip116.adobe.com",
+        "wwis-dubc1-vip117.adobe.com",
+        "wwis-dubc1-vip118.adobe.com",
+        "wwis-dubc1-vip119.adobe.com",
+        "wwis-dubc1-vip120.adobe.com",
+        "wwis-dubc1-vip121.adobe.com",
+        "wwis-dubc1-vip122.adobe.com",
+        "wwis-dubc1-vip123.adobe.com",
+        "wwis-dubc1-vip124.adobe.com",
+        "wwis-dubc1-vip125.adobe.com",
+        "wwis-dubc1-vip30.adobe.com",
+        "wwis-dubc1-vip31.adobe.com",
+        "wwis-dubc1-vip32.adobe.com",
+        "wwis-dubc1-vip33.adobe.com",
+        "wwis-dubc1-vip34.adobe.com",
+        "wwis-dubc1-vip35.adobe.com",
+        "wwis-dubc1-vip36.adobe.com",
+        "wwis-dubc1-vip37.adobe.com",
+        "wwis-dubc1-vip38.adobe.com",
+        "wwis-dubc1-vip39.adobe.com",
+        "wwis-dubc1-vip40.adobe.com",
+        "wwis-dubc1-vip41.adobe.com",
+        "wwis-dubc1-vip42.adobe.com",
+        "wwis-dubc1-vip43.adobe.com",
+        "wwis-dubc1-vip44.adobe.com",
+        "wwis-dubc1-vip45.adobe.com",
+        "wwis-dubc1-vip46.adobe.com",
+        "wwis-dubc1-vip47.adobe.com",
+        "wwis-dubc1-vip48.adobe.com",
+        "wwis-dubc1-vip49.adobe.com",
+        "wwis-dubc1-vip50.adobe.com",
+        "wwis-dubc1-vip51.adobe.com",
+        "wwis-dubc1-vip52.adobe.com",
+        "wwis-dubc1-vip53.adobe.com",
+        "wwis-dubc1-vip54.adobe.com",
+        "wwis-dubc1-vip55.adobe.com",
+        "wwis-dubc1-vip56.adobe.com",
+        "wwis-dubc1-vip57.adobe.com",
+        "wwis-dubc1-vip58.adobe.com",
+        "wwis-dubc1-vip59.adobe.com",
+        "wwis-dubc1-vip60.adobe.com",
+        "wwis-dubc1-vip60.adobe.de",
+        "wwis-dubc1-vip61.adobe.com",
+        "wwis-dubc1-vip62.adobe.com",
+        "wwis-dubc1-vip63.adobe.com",
+        "wwis-dubc1-vip64.adobe.com",
+        "wwis-dubc1-vip65.adobe.com",
+        "wwis-dubc1-vip66.adobe.com",
+        "wwis-dubc1-vip67.adobe.com",
+        "wwis-dubc1-vip68.adobe.com",
+        "wwis-dubc1-vip69.adobe.com",
+        "wwis-dubc1-vip70.adobe.com",
+        "wwis-dubc1-vip71.adobe.com",
+        "wwis-dubc1-vip72.adobe.com",
+        "wwis-dubc1-vip73.adobe.com",
+        "wwis-dubc1-vip74.adobe.com",
+        "wwis-dubc1-vip75.adobe.com",
+        "wwis-dubc1-vip76.adobe.com",
+        "wwis-dubc1-vip77.adobe.com",
+        "wwis-dubc1-vip78.adobe.com",
+        "wwis-dubc1-vip79.adobe.com",
+        "wwis-dubc1-vip80.adobe.com",
+        "wwis-dubc1-vip81.adobe.com",
+        "wwis-dubc1-vip82.adobe.com",
+        "wwis-dubc1-vip83.adobe.com",
+        "wwis-dubc1-vip84.adobe.com",
+        "wwis-dubc1-vip85.adobe.com",
+        "wwis-dubc1-vip86.adobe.com",
+        "wwis-dubc1-vip87.adobe.com",
+        "wwis-dubc1-vip88.adobe.com",
+        "wwis-dubc1-vip89.adobe.com",
+        "wwis-dubc1-vip90.adobe.com",
+        "wwis-dubc1-vip91.adobe.com",
+        "wwis-dubc1-vip92.adobe.com",
+        "wwis-dubc1-vip93.adobe.com",
+        "wwis-dubc1-vip94.adobe.com",
+        "wwis-dubc1-vip95.adobe.com",
+        "wwis-dubc1-vip96.adobe.com",
+        "wwis-dubc1-vip97.adobe.com",
+        "wwis-dubc1-vip98.adobe.com",
+        "wwis-dubc1-vip99.adobe.com",
+        "wwis-dubc1-vip100.adobe.com",
+        "wwis-dubc1-vip102.adobe.com",
+        "wwis-dubc1-vip101.adobe.com",
+        "wwis-dubc1-vip103.adobe.com",
+        "wwis-dubc1-vip104.adobe.com",
+        "wwis-dubc1-vip105.adobe.com",
+        "wwis-dubc1-vip106.adobe.com",
+        "wwis-dubc1-vip107.adobe.com",
+        "wwis-dubc1-vip108.adobe.com",
+        "wwis-dubc1-vip109.adobe.com",
+        "wwis-dubc1-vip110.adobe.com",
+        "wwis-dubc1-vip111.adobe.com",
+        "wwis-dubc1-vip112.adobe.com",
+        "wwis-dubc1-vip113.adobe.com",
+        "wwis-dubc1-vip114.adobe.com",
+        "wwis-dubc1-vip115.adobe.com",
+        "wwis-dubc1-vip116.adobe.com",
+        "wwis-dubc1-vip117.adobe.com",
+        "wwis-dubc1-vip118.adobe.com",
+        "wwis-dubc1-vip119.adobe.com",
+        "wwis-dubc1-vip120.adobe.com",
+        "wwis-dubc1-vip121.adobe.com",
+        "wwis-dubc1-vip122.adobe.com",
+        "wwis-dubc1-vip123.adobe.com",
+        "wwis-dubc1-vip124.adobe.com",
+        "wwis-dubc1-vip125.adobe.com",
+        "www.adobeereg.com",
+        "www.hh-software.com",
+        "www.wip.adobe.com",
+        "www.wip1.adobe.com",
+        "www.wip2.adobe.com",
+        "www.wip3.adobe.com",
+        "www.wip4.adobe.com",
+        "prod.adobegenuine.com",
+        "assets.adobedtm.com",
+        "cc-api-data.adobe.io",
+        "ic.adobe.io",
+        "lcs-robs.adobe.io",
+        "cc-api-data.adobe.io",
+        "cc-api-data-stage.adobe.io",
+        "adobe.tt.omtrdc.net"
+)
+    "Autodesk" = @(
+        "autodesk.fi",
+        "autodesk.de",
+        "autodesk.es",
+        "autodesk.ca",
+        "autodesk.dk",
+        "autodesk.pl",
+        "ns1.autodesk.com",
+        "ns2.autodesk.com",
+        "ns3.autodesk.com",
+        "ns4.autodesk.com",
+        "ns5.autodesk.com",
+        "126114-app1.autodesk.com",
+        "94175-app1.autodesk.com",
+        "94184-app2.autodesk.com",
+        "96579-lbal1.autodesk.com",
+        "acamp.autodesk.com",
+        "adeskdi3.autodesk.com",
+        "adeskgate.autodesk.com",
+        "adesknews2.autodesk.com",
+        "adeskout.autodesk.com",
+        "adsknateur.autodesk.com",
+        "amernetlog.autodesk.com",
+        "app5.autodesk.com",
+        "aprimo-relay1.autodesk.com",
+        "aprimo-relay2.autodesk.com",
+        "aprimo-relay3.autodesk.com",
+        "aprimo-relay4.autodesk.com",
+        "autosketch.autodesk.com",
+        "blues.autodesk.com",
+        "cbuanprd.autodesk.com",
+        "cbuanprhcllb.autodesk.com",
+        "cbuanqa2lb.autodesk.com",
+        "ci3dwsdev-svc.autodesk.com",
+        "ci3dwsprd-svc.autodesk.com",
+        "ci3dwsstg-svc.autodesk.com",
+        "community.autodesk.com",
+        "cut.autodesk.com",
+        "cvsprd01.autodesk.com",
+        "discussion.autodesk.com",
+        "eur.autodesk.com",
+        "extcidev.autodesk.com",
+        "extciqa.autodesk.com",
+        "extupg.autodesk.com",
+        "ftp-users.autodesk.com",
+        "ftp2b.autodesk.com",
+        "gisdmzpdc.autodesk.com",
+        "hqaribasrf04.autodesk.com",
+        "hqmgwww01.autodesk.com",
+        "hqmgwww04.autodesk.com",
+        "hqmobileweb01.autodesk.com",
+        "hqprxsrftrn.autodesk.com",
+        "hqpsweb01.autodesk.com",
+        "hubdev-svc.autodesk.com",
+        "hubprd-svc.autodesk.com",
+        "hubstg-svc.autodesk.com",
+        "itappprd01-svc.autodesk.com",
+        "itappprd02-svc.autodesk.com",
+        "its.autodesk.com",
+        "jdevextv-new.autodesk.com",
+        "jp.autodesk.com",
+        "jstgextv-new.autodesk.com",
+        "jstgintv-new.autodesk.com",
+        "lbsvzw.autodesk.com",
+        "lbsvzw1.autodesk.com",
+        "lbsvzw2.autodesk.com",
+        "library.autodesk.com",
+        "liveupdate.autodesk.com",
+        "locationservices.autodesk.com",
+        "lsctsol04.autodesk.com",
+        "mail-relay.autodesk.com",
+        "mneprdext-svc.autodesk.com",
+        "mut.autodesk.com",
+        "nbugma-dmz.autodesk.com",
+        "nut.autodesk.com",
+        "otw-new.autodesk.com",
+        "otwdownloads.autodesk.com",
+        "partnercenter.autodesk.com",
+        "partnerproducts.autodesk.com",
+        "paste.autodesk.com",
+        "pedidrq.autodesk.com",
+        "pediqrx.autodesk.com",
+        "petars1.autodesk.com",
+        "petcp11ia-2nat.autodesk.com",
+        "petcr12ihsrp2.autodesk.com",
+        "phxgciv.autodesk.com",
+        "phxgciv_dr.autodesk.com",
+        "planix3d.autodesk.com",
+        "pointa.autodesk.com",
+        "register.autodesk.com",
+        "registerallied-pr.autodesk.com",
+        "registeronce.autodesk.com",
+        "salestraining.autodesk.com",
+        "searchnews.autodesk.com",
+        "shop.autodesk.com",
+        "spamster-bulk.autodesk.com",
+        "sswwwp.autodesk.com",
+        "trialdownload.autodesk.com",
+        "usa.autodesk.com",
+        "uspetcr12ie_198.autodesk.com",
+        "uspetcr12if.autodesk.com",
+        "uspetcr12if_198.autodesk.com",
+        "uspetcrs12ia_ib_vlan500_2_hsrp.autodesk.com",
+        "uspetcrs12ia_vlan500_2.autodesk.com",
+        "uspetcrs12ib_vlan500_2.autodesk.com",
+        "uspetne06ia_ib_untrust_dip7.autodesk.com",
+        "usrelay.autodesk.com",
+        "ussclout1.autodesk.com",
+        "vzwlpsrel.autodesk.com",
+        "vzwlpstst.autodesk.com",
+        "web.autodesk.com",
+        "webservices.autodesk.com",
+        "wormhole.autodesk.com",
+        "www3.autodesk.com",
+        "www.autodesk.com",
+        "genuine-software.autodesk.com",
+        "genuine-software1.autodesk.com",
+        "genuine-software2.autodesk.com",
+        "genuine-software3.autodesk.com"
+)
+    "Wondershare Filmora"     = @(
+        "cbs.wondershare.com",
+        "platform.wondershare.com",
+        "macplatform.wondershare.com",
+        "www.wondershare.net",
+        "support.wondershare.net"
+)
+    "Corel"      = @(
+        "apps.corel.com",
+        "mc.corel.com",
+        "iws.corel.com",
+        "deploy.akamaitechnologies.com",
+        "compute-1.amazonaws.com",
+        "origin-mc.corel.com",
+        "coreldraw.com",
+        "www.coreldraw.com",
+        "corel.com",
+        "www.corel.com",
+        "activation.corel.com",
+        "ipm.corel.com",
+        "product.corel.com"
+        "idp.corel.com",
+        "account.corel.com"
+
+)
+    "Acronis"      = @(
+        "liveupdate.acronis.com",
+        "activation.acronis.com",
+        "web-api-tih.acronis.com",
+        "download.acronis.com",
+        "orders.acronis.com",
+        "ns1.acronis.com",
+        "ns2.acronis.com",
+        "ns3.acronis.com",
+        "account.acronis.com",
+        "gateway.acronis.com",
+        "cloud-rs-ru2.acronis.com",
+        "cloud-fes-ru2.acronis.com",
+        "rpc.acronis.com"
+)
+    "Lumion"      = @(
+        "backup.lumion3d.net",
+        "license.lumiontech.net",
+        "lumion3d.net",
+        "lumiontech.net"
+)
+}
+
+# Alamat IP yang akan digunakan
+$ipAddress = "127.0.0.1"
+
+# Fungsi untuk menampilkan menu pilihan
+function Show-Menu {
+    [CmdletBinding()]
+    param (
+        [string]$Prompt = 'Pilih aplikasi untuk menambahkan IP ke file hosts:'
+    )
+
+    Write-Host "`n$Prompt`n" -ForegroundColor Yellow
+
+    $i = 1
+    $entries.Keys | ForEach-Object {
+        Write-Host "$i. $_"
+        $i++
+    }
+
+    $choice = Read-Host "`nMasukkan nomor pilihan Anda"
+
+    if ($choice -match '^\d+$' -and $choice -gt 0 -and $choice -le $entries.Count) {
+        $selectedApp = $entries.Keys[$choice - 1]
+        return $selectedApp
+    } else {
+        Write-Host "Pilihan tidak valid, silakan coba lagi." -ForegroundColor Red
+        Show-Menu
+    }
+}
+
+# Fungsi untuk menambahkan entri ke file hosts
+function Add-HostsEntry {
+    param (
+        [string]$ip,
+        [string[]]$domains
+    )
+
+    $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
+    $entriesAdded = $false
+
+    # Periksa atribut file hosts dan ubah menjadi writable jika perlu
+    $fileAttributes = (Get-Item $hostsPath).Attributes
+    if ($fileAttributes -band [System.IO.FileAttributes]::ReadOnly) {
+        Write-Host "File hosts bersifat read-only, mengubah sementara menjadi writable." -ForegroundColor Yellow
+        Set-ItemProperty -Path $hostsPath -Name Attributes -Value ($fileAttributes -bxor [System.IO.FileAttributes]::ReadOnly)
+        $wasReadOnly = $true
+    } else {
+        $wasReadOnly = $false
+    }
+
+    foreach ($domain in $domains) {
+        $entry = "$ip $domain"
+        $entryExists = Select-String -Path $hostsPath -Pattern [regex]::Escape($entry) -Quiet
+
+        if (-not $entryExists) {
+            try {
+                Add-Content -Path $hostsPath -Value $entry
+                Write-Host "`n$entry berhasil ditambahkan ke file hosts." -ForegroundColor Green
+                $entriesAdded = $true
+            } catch {
+                Write-Host "Terjadi kesalahan saat menambahkan entri ke file hosts: $_" -ForegroundColor Red
+            }
+        } else {
+            Write-Host "`nEntri $entry sudah ada di file hosts." -ForegroundColor Yellow
+        }
+    }
+
+    # Kembalikan atribut file hosts ke read-only jika perlu
+    if ($wasReadOnly) {
+        Write-Host "Mengembalikan file hosts ke status read-only." -ForegroundColor Yellow
+        Set-ItemProperty -Path $hostsPath -Name Attributes -Value ($fileAttributes -bor [System.IO.FileAttributes]::ReadOnly)
+    }
+
+    return $entriesAdded
+}
+
+# Fungsi untuk flush DNS
+function Flush-DnsCache {
+    try {
+        ipconfig /flushdns | Out-Null
+        Write-Host "`nDNS cache berhasil di-flush." -ForegroundColor Green
+    } catch {
+        Write-Host "Terjadi kesalahan saat melakukan flush DNS cache: $_" -ForegroundColor Red
+    }
+}
+
+# Main script
+$selectedApp = Show-Menu
+$domainsToAdd = $entries[$selectedApp]
+$entriesAdded = Add-HostsEntry -ip $ipAddress -domains $domainsToAdd
+
+if ($entriesAdded) {
+    Flush-DnsCache
+}
