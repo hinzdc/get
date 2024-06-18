@@ -1,0 +1,39 @@
+# Reset Network Script for Windows 11
+
+# Informasi kepada pengguna
+Write-Host "Resetting network settings, please wait..."
+
+# Reset Winsock
+Write-Host "Resetting Winsock..."
+netsh winsock reset
+
+# Reset TCP/IP stack
+Write-Host "Resetting TCP/IP stack..."
+netsh int ip reset
+
+# Flush DNS cache
+Write-Host "Flushing DNS cache..."
+ipconfig /flushdns
+
+# Renew DHCP lease
+Write-Host "Releasing and renewing DHCP lease..."
+ipconfig /release
+ipconfig /renew
+
+# Clear any proxy settings
+Write-Host "Clearing any proxy settings..."
+netsh winhttp reset proxy
+
+# Restart network services
+Write-Host "Restarting network services..."
+Restart-Service -Name "Dhcp" -Force
+Restart-Service -Name "Dnscache" -Force
+Restart-Service -Name "netprofm" -Force
+Restart-Service -Name "nlasvc" -Force
+
+# Informasi kepada pengguna
+Write-Host +"Network reset complete. Please restart your computer for all changes to take effect." -fore green
+
+# Optional: Restart the computer automatically
+# Write-Host "Restarting the computer..."
+# Restart-Computer -Force
