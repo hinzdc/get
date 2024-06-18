@@ -1,3 +1,4 @@
+Clear-Host
 # Definisikan daftar aplikasi dan nama domain yang sesuai
 $entries = @{
     "Adobe"       = @(
@@ -426,7 +427,7 @@ function Show-Menu {
         return $selectedApp
     } else {
         Write-Host "Pilihan tidak valid, silakan coba lagi." -ForegroundColor Red
-        Show-Menu
+        return $null
     }
 }
 
@@ -488,9 +489,13 @@ function Flush-DnsCache {
 
 # Main script
 $selectedApp = Show-Menu
-$domainsToAdd = $entries[$selectedApp]
-$entriesAdded = Add-HostsEntry -ip $ipAddress -domains $domainsToAdd
+if ($null -ne $selectedApp) {
+    $domainsToAdd = $entries[$selectedApp]
+    $entriesAdded = Add-HostsEntry -ip $ipAddress -domains $domainsToAdd
 
-if ($entriesAdded) {
-    Flush-DnsCache
+    if ($entriesAdded) {
+        Flush-DnsCache
+    }
+} else {
+    Write-Host "Tidak ada aplikasi yang dipilih, skrip dihentikan." -ForegroundColor Red
 }
