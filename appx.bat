@@ -242,6 +242,7 @@ $button.Add_Click({
             $appId = $checkbox.Tag
 
             try {
+                &([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
                 Write-Host "Installing $appId..."
                 Start-Process "winget" -ArgumentList "install -e --accept-source-agreements --accept-package-agreements --id $appId" -NoNewWindow -Wait
                 Write-Host "Installed $appId successfully."-ForegroundColor Green
