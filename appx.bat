@@ -137,7 +137,6 @@ Add-Type $code
 [CloseButtonToggle.Status]::Disable()
 
 #-----------------------------------------------------------------------------------------
-&([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
 
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
@@ -220,21 +219,7 @@ $button.Font              = New-Object System.Drawing.Font('Consolas',9)
 $button.ForeColor         = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
 
 $button.Add_Click({
-    # Memeriksa apakah winget terinstal
-    $wingetInstalled = $null
-    try {
-        $wingetVersion = winget --version
-        if ($wingetVersion) {
-            $wingetInstalled = $true
-        }
-    } catch {
-        $wingetInstalled = $false
-    }
-
-    if (-not $wingetInstalled) {
-        Write-Host "Winget belum terinstal. Silakan instal Winget terlebih dahulu sebelum melanjutkan."
-        return
-    }
+    &([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
 
     # Winget sudah terinstal, lanjutkan dengan instalasi aplikasi
     $installedApps = @()
@@ -243,7 +228,6 @@ $button.Add_Click({
             $appId = $checkbox.Tag
 
             try {
-                &([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
                 Write-Host "Installing $appId..."
                 Start-Process "winget" -ArgumentList "install -e --accept-source-agreements --accept-package-agreements --id $appId" -NoNewWindow -Wait
                 Write-Host "Installed $appId successfully."-ForegroundColor Green
