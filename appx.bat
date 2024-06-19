@@ -137,7 +137,7 @@ Add-Type $code
 [CloseButtonToggle.Status]::Disable()
 
 #-----------------------------------------------------------------------------------------
-
+&([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
@@ -219,8 +219,6 @@ $button.Font              = New-Object System.Drawing.Font('Consolas',9)
 $button.ForeColor         = [System.Drawing.ColorTranslator]::FromHtml("#eeeeee")
 
 $button.Add_Click({
-    &([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
-
     # Winget sudah terinstal, lanjutkan dengan instalasi aplikasi
     $installedApps = @()
     foreach ($checkbox in $checkboxes) {
