@@ -32,12 +32,12 @@ echo:
 
 start move.exe
 cls
-@echo.
-@echo   ќќ                                    ќќ 
-@echo   ќ?ќќќќќќ ќќ ќќќќќ?ќ ќќќќќќќ   ќќќ?ќќќ ќќќќќќќ
-@echo   ќќ     ќќ          ќќ    ќќќќ   ќќ    ќќ ќќ
-@echo   ќќ     ќќ ќќ ќќ    ќќ ќќќќ      ќќ    ќќ ќќ
-@echo   ќќ     ќќ ќќ ќќ    ќќ ќќќќќќќ   ќќќќќќќќ ќќќќќќќ
+echo   ЫЫ                                    ЫЫ
+echo   ЫЫ±±ЫЫЫЫЫ ЫЫ ЫЫЫЫЫЫ±± ЫЫЫЫЫЫЫ   ЫЫЫЫ±±ЫЫ ±±ЫЫЫЫЫ
+echo   ЫЫ     ЫЫ          ЫЫ    ±±ЫЫ   ЫЫ    ЫЫ ЫЫ
+echo   ЫЫ     ЫЫ ЫЫ ЫЫ    ЫЫ ±±ЫЫ      ЫЫ    ЫЫ ЫЫ
+echo   ЫЫ     ЫЫ ЫЫ ЫЫ    ЫЫ ЫЫЫЫЫЫЫ   ЫЫЫЫЫЫЫЫ ±±ЫЫЫЫЫ
+echo.
 echo ----------------------------------------------------------------------------------------------------
 
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
@@ -137,7 +137,7 @@ Add-Type $code
 [CloseButtonToggle.Status]::Disable()
 
 #-----------------------------------------------------------------------------------------
-&([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
+
 Add-Type -AssemblyName System.Windows.Forms
 Add-Type -AssemblyName System.Drawing
 
