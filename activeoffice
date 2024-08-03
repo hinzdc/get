@@ -1,12 +1,18 @@
-[Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+# Enable TLSv1.2 for compatibility with older clients
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-Clear-Host
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "      ISTANA BEC LANTAI 1 BLOK D07       " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "                                         " -BackgroundColor DarkRed
-Write-Host "                                         " -BackgroundColor White
-Write-Host "  ACTIVATION WINDOWS + OFFICE PERMANENT  " -BackgroundColor White -ForegroundColor Black
-Write-Host "                HINZDC.XYZ               " -BackgroundColor White -ForegroundColor Black
-Write-Host "                                         " -BackgroundColor White
-& ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/active.bat'
+
+$FilePath = "$env:TEMP\active.bat"
+
+try {
+    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
+} catch {
+    Write-Error $_
+	Return
+}
+
+if (Test-Path $FilePath) {
+    Start-Process $FilePath -ArgumentList "/Ohook"
+    exit
+}
