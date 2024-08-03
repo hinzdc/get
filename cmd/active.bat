@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=27
+mode con cols=90 lines=29
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -48,9 +48,10 @@ echo          º   ÛÛ ÛÛ    ÛÛ ÛÛ   ÜÛÛ ÛÛ   ÛÛ ÛÛ   ÛÛ ÛÛÛÛÛÛÛÛ ßÛÛ   ÛÛß ÛÛÛÛÛÛ
 echo          º   ÛÛ ÛÛ    ÛÛ ÛÛÛÛÛÛßÜ ±±ÛÛÛÛÛ ÛÛÛÛÛÛÛ ÛÛ    ÛÛ    ßÛß    ÛÛ    ÛÛ   º
 echo          º                                                                      º
 echo          ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ¼
-rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
 powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
 echo.
+echo ------------------------------------------------------------------------------------------
+echo    SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING
 echo ------------------------------------------------------------------------------------------
 timeout /t 7 >NUL 2>&1
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
@@ -124,29 +125,11 @@ Add-Type $code
 #-----------------------------------------------------------------------------------------
 
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA'
+
 function main {
     param (
         [string[]]$Arguments
     )
-
-    # Define valid arguments
-    $validArgs = @("/HWID", "/Ohook")
-    $urlArgs = @()
-
-    foreach ($arg in $Arguments) {
-        if ($validArgs -contains $arg) {
-            $urlArgs += $arg
-        } else {
-            Write-Warning "Invalid argument: '$arg'. Valid arguments: $($validArgs -join ', ')"
-        }
-    }
-
-    if ($urlArgs.Count -eq 0) {
-        $url = "/HWID /Ohook"
-    }
-
-        # Combine arguments into a single string
-        #    $url = $urlArgs -join " "
 
     $startdate = Get-Date
     Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
@@ -178,16 +161,35 @@ function main {
 
     $null = $label, $number, $times
 
+    # Define valid arguments
+    $validArgs = @("/HWID", "/Ohook", "/KMS38")
+    $urlArgs = @()
+
+    foreach ($arg in $Arguments) {
+        if ($validArgs -contains $arg) {
+            $urlArgs += $arg
+        } else {
+            Write-Warning "Invalid argument: '$arg'. Valid arguments: $($validArgs -join ', ')"
+        }
+    }
+
+    if ($urlArgs.Count -eq 0) {
+        $urlarg = "/HWID /Ohook"
+    }
+
+        # Combine arguments into a single string
+        #    $urlarg = $urlArgs -join " "
+
     try {
         # Retrieve script content from URL
         $scriptContent = (Invoke-WebRequest https://get.activated.win -UseBasicParsing).Content
 
         # Execute script block with combined arguments
-        & ([ScriptBlock]::Create($scriptContent)) $url | Out-Null
+        & ([ScriptBlock]::Create($scriptContent)) $urlarg | Out-Null
         Write-Host "----------------------------"
         Write-Host
-        Write-Host ">> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
-        Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
+        Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
+        Write-Host "    // JANGAN LUPA BAHAGIA DAN BERSYUKUR.. //" -ForegroundColor Red
         Write-Host
         Write-Host "----------------------------"
         $enddate = Get-Date
@@ -196,11 +198,13 @@ function main {
         Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
         $shell = New-Object -ComObject WScript.Shell
         # Menampilkan pesan popup
-        $shell.Popup("ACTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+        # 0: Tombol OK saja 16: Ikon pesan kritis 48: Ikon peringatan (tanda seru) 64: Ikon informasi (tanda i) 32: Ikon pertanyaan
+        $shell.Popup(" AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE", 64) | Out-Null
     } catch {
+        $shell.Popup(" AKTIVASI WINDOWS DAN OFFICE GAGAL..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE", 16) | Out-Null
         Write-Error "An error occurred: $($_.Exception.Message)"
     } finally {
-        Read-Host "PRESS ENTER TO EXIT:"
+        Read-Host
     }
 }
 
