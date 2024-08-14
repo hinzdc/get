@@ -130,7 +130,7 @@ Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
 # Mengambil konten halaman web
-$response = Invoke-WebRequest -Uri $url
+$response = Invoke-WebRequest -Uri $url -UseBasicParsing
 
 # Memeriksa apakah respons berhasil
 if ($response.StatusCode -eq 200) {
@@ -172,3 +172,5 @@ Read-Host
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c taskkill /F /IM rundll32.exe /T'
+
+# encode Western(Windows 1252)
