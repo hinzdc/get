@@ -1,9 +1,9 @@
 # Enable TLSv1.2 for compatibility with older clients
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/active.bat'
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/activeauto.bat'
 
-$FilePath = "$env:TEMP\active.bat"
+$FilePath = "$env:TEMP\activeauto.bat"
 
 try {
     Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
@@ -13,6 +13,6 @@ try {
 }
 
 if (Test-Path $FilePath) {
-    Start-Process $FilePath -ArgumentList "/Ohook"
+    Start-Process $FilePath
     exit
 }

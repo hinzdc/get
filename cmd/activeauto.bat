@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=27
+mode con cols=90 lines=29
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -51,6 +51,8 @@ echo          ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÑÑÑÑÑÑÑÑÑÑ
 rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
 powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
 echo.
+echo ------------------------------------------------------------------------------------------
+echo    SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING
 echo ------------------------------------------------------------------------------------------
 timeout /t 7 >NUL 2>&1
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
@@ -123,7 +125,7 @@ Add-Type $code
 
 #-----------------------------------------------------------------------------------------
 
-$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA'
+$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
 $startdate = Get-Date
 Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
