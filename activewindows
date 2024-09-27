@@ -1,4 +1,5 @@
 [Net.ServicePointManager]::SecurityProtocol = [Net.ServicePointManager]::SecurityProtocol -bor [Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Clear-Host
 Write-Host "                                         " -BackgroundColor DarkRed
 Write-Host "                INDOJAVA                 " -BackgroundColor DarkRed -ForegroundColor White
