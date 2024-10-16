@@ -1,13 +1,13 @@
 <Configuration>
-  <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
- 
-    <!-- Install Microsoft Visio Professional 2021 Retail -->
-    <Product ID="VisioPro2021Retail">
+<Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
+    
+    <!-- Install Microsoft Visio Professional 2019 Retail -->
+    <Product ID="VisioPro2019Retail">
       <Language ID="en-us" />
     </Product>
     
-    <!-- Install Microsoft Project Professional 2021 Retail -->
-    <Product ID="ProjectPro2021Retail">
+    <!-- Install Microsoft Project Professional 2019 Retail -->
+    <Product ID="ProjectPro2019Retail">
       <Language ID="en-us" />
     </Product>
   
@@ -18,5 +18,5 @@
   <Updates Enabled="TRUE" />
   <RemoveMSI />
   <Display Level="Full" AcceptEULA="TRUE" />
-
+  
 </Configuration>
