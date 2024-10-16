@@ -144,9 +144,9 @@ if ($response.StatusCode -eq 200) {
         $visitorCount = $matches[1]
 
         # Mencetak nilai ke terminal
-        $label = Write-Host " Executed " -BackgroundColor Blue -ForegroundColor White -NoNewline
+        $label = Write-Host " DIAKSES " -BackgroundColor Blue -ForegroundColor White -NoNewline
         $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White -NoNewline
-        $times = Write-Host " TIMES " -BackgroundColor White -ForegroundColor Black
+        $times = Write-Host " KALI " -BackgroundColor White -ForegroundColor Black
     } else {
         Write-Output " Please Connect to Internet.."
     }
@@ -169,7 +169,7 @@ Write-Host "--------------------------------------------------------------------
 Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
-$shell.Popup("ACTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+$shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
