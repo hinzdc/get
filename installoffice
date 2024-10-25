@@ -102,7 +102,7 @@ Clear-Host
 Write-Host "                                                           " -BackgroundColor DarkRed
 Write-Host "          MICROSOFT OFFICE INSTALLER + ACTIVATOR           " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "     INDOJAVA ONLINE - ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor Black
+Write-Host "     INDOJAVA ONLINE - ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "                                                           " -BackgroundColor DarkRed
 
 # Menu pilihan versi Office
@@ -143,8 +143,8 @@ switch ($versionChoice) {
     4 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
     5 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
     6 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
-    7 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
-    8 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
+    7 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplusVisioProject.xml" }
+    8 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplusVisioProject.xml" }
     9 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
     0 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
     A { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
@@ -160,7 +160,7 @@ $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.e
 # Tentukan lokasi di mana file akan diunduh
 $downloadPath = "C:\OfficeInstall"
 
-$startdate = Get-Date
+$StartDTM = Get-Date
 Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 Write-Host ""
 
@@ -270,8 +270,15 @@ if ($setupDownloaded -and $configDownloaded) {
                 }
             }
             Write-Host ""
-            $enddate = Get-Date
-            Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
+            $EndDTM = (Get-Date)
+            Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
+            # Hitung total detik dan menit
+            $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
+            $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
+            $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
+            Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
+            Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
+
             # Membuat objek shell
             $shell = New-Object -ComObject WScript.Shell
             

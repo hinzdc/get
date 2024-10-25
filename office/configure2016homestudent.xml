@@ -1,0 +1,17 @@
+<Configuration>
+  <Add OfficeClientEdition="64" Channel="Current">
+    <Product ID="HomeStudent2016Retail">
+      <Language ID="en-us" />
+      <ExcludeApp ID="Access" />
+      <ExcludeApp ID="Publisher" />
+      <ExcludeApp ID="OneNote" />
+      <ExcludeApp ID="Outlook" />
+      <ExcludeApp ID="SkypeforBusiness" />
+    </Product>
+  </Add>
+  <Property Name="FORCEAPPSHUTDOWN" Value="TRUE" />
+  <Property Name="AUTOACTIVATE" Value="1" />
+  <Updates Enabled="TRUE" />
+  <RemoveMSI All="TRUE" />
+  <Display Level="Full" AcceptEULA="TRUE" />
+</Configuration>

@@ -126,7 +126,7 @@ Add-Type $code
 #-----------------------------------------------------------------------------------------
 
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
-$startdate = Get-Date
+$StartDTM = (Get-Date)
 Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
@@ -163,8 +163,14 @@ Write-Host ">> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor
 Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
 Write-Host
 Write-Host "----------------------------"
-$enddate = Get-Date
-Write-Host " END $enddate " -BackgroundColor White -ForegroundColor Black
+$EndDTM = (Get-Date)
+Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
+# Hitung total detik dan menit
+$TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
+$TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
+$RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
+Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
+Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
