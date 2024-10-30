@@ -155,37 +155,9 @@ switch ($versionChoice) {
     }
 }
 Clear-Host
-# Pengecekan opsi uninstall
+
 $StartDTM = Get-Date
 Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
-if ($versionChoice -eq "R") {
-    # Tentukan URL untuk file konfigurasi uninstall
-    $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configureremove.xml"
-    
-    # Unduh file setup.exe dan configure.xml untuk uninstall
-    $setupDownloaded = DownloadFile -url $urlSetupExe -destination "$downloadPath\\setup.exe"
-    $configDownloaded = DownloadFile -url $urlConfigureXml -destination "$downloadPath\\configureremove.xml"
-
-    # Cek apakah kedua file berhasil diunduh
-    if ($setupDownloaded -and $configDownloaded) {
-        Write-Host " + Semua file berhasil diunduh.."
-        
-        # Eksekusi setup.exe untuk uninstall
-        try {
-            Write-Host " + Menghapus instalasi Office..."
-            Start-Process -FilePath "$downloadPath\\setup.exe" -ArgumentList "/configure $downloadPath\\configureremove.xml" -Wait -NoNewWindow
-            Write-Host " + Penghapusan instalasi Office selesai." -ForegroundColor Green
-            
-            # Menampilkan pesan popup setelah uninstall selesai
-            $shell = New-Object -ComObject WScript.Shell
-            $shell.Popup("UNINSTALL OFFICE SELESAI.", 10, "INFORMASI", 0) | Out-Null
-        } catch {
-            Write-Host " - Gagal menjalankan setup.exe untuk uninstall. Error: $_" -ForegroundColor Red
-        }
-    } else {
-        Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
-    }
-}
 
 # Tentukan URL GitHub untuk file setup.exe
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.exe"
@@ -193,8 +165,6 @@ $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.e
 # Tentukan lokasi di mana file akan diunduh
 $downloadPath = "C:\OfficeInstall"
 
-$StartDTM = Get-Date
-Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
 Write-Host ""
 
 # Buat folder temp jika belum ada
@@ -231,6 +201,36 @@ function DownloadFile {
 # Unduh file setup.exe dan configure.xml
 $setupDownloaded = DownloadFile -url $urlSetupExe -destination "$downloadPath\setup.exe"
 $configDownloaded = DownloadFile -url $urlConfigureXml -destination "$downloadPath\configure.xml"
+
+# Pengecekan opsi uninstall
+if ($versionChoice -eq "R") {
+    # Tentukan URL untuk file konfigurasi uninstall
+    $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configureremove.xml"
+    
+    # Unduh file setup.exe dan configure.xml untuk uninstall
+    $setupDownloaded = DownloadFile -url $urlSetupExe -destination "$downloadPath\setup.exe"
+    $configDownloaded = DownloadFile -url $urlConfigureXml -destination "$downloadPath\configureremove.xml"
+
+    # Cek apakah kedua file berhasil diunduh
+    if ($setupDownloaded -and $configDownloaded) {
+        Write-Host " + Semua file berhasil diunduh.."
+        
+        # Eksekusi setup.exe untuk uninstall
+        try {
+            Write-Host " + Menghapus instalasi Office..."
+            Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configureremove.xml" -Wait -NoNewWindow
+            Write-Host " + Penghapusan instalasi Office selesai." -ForegroundColor Green
+            
+            # Menampilkan pesan popup setelah uninstall selesai
+            $shell = New-Object -ComObject WScript.Shell
+            $shell.Popup("UNINSTALL OFFICE SELESAI.", 10, "INFORMASI", 0) | Out-Null
+        } catch {
+            Write-Host " - Gagal menjalankan setup.exe untuk uninstall. Error: $_" -ForegroundColor Red
+        }
+    } else {
+        Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
+    }
+}
 
 # Cek apakah kedua file telah berhasil diunduh
 if ($setupDownloaded -and $configDownloaded) {
