@@ -154,7 +154,7 @@ switch ($versionChoice) {
         exit 1 
     }
 }
-
+Clear-Host
 # Pengecekan opsi uninstall
 if ($versionChoice -eq "R") {
     # Tentukan URL untuk file konfigurasi uninstall
