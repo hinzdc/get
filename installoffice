@@ -1,6 +1,6 @@
 # Path untuk file setup.exe dan konfigurasi
 $downloadPath = "$PSScriptRoot\Office"
-$urlSetupExe = "https://officecdn.microsoft.com/pr/..."
+$urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.exe"
 
 # Fungsi untuk mengunduh file dari URL
 function DownloadFile {
