@@ -156,6 +156,8 @@ switch ($versionChoice) {
 }
 Clear-Host
 # Pengecekan opsi uninstall
+$StartDTM = Get-Date
+Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
 if ($versionChoice -eq "R") {
     # Tentukan URL untuk file konfigurasi uninstall
     $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configureremove.xml"
@@ -192,7 +194,7 @@ $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.e
 $downloadPath = "C:\OfficeInstall"
 
 $StartDTM = Get-Date
-Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
+Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
 Write-Host ""
 
 # Buat folder temp jika belum ada
@@ -324,4 +326,3 @@ $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
-$EndDTM = (Get-Date)
