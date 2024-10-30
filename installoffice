@@ -148,17 +148,7 @@ function DownloadFile {
 function InstallOffice {
     # Tentukan URL configure.xml berdasarkan pilihan
     switch ($versionChoice) {
-        "1" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016proplus.xml" }
-        "2" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplus.xml" }
-        "3" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplus.xml" }
-        "4" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
-        "5" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
-        "6" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
-        "7" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplusVisioProject.xml" }
-        "8" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplusVisioProject.xml" }
-        "9" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
-        "0" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
-        "A" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
+
         default {
             Write-Host "Pilihan tidak valid untuk instalasi. Menghentikan Script." -ForegroundColor Red
             exit 1
@@ -179,9 +169,9 @@ function InstallOffice {
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow
             Write-Host " + Instalasi Office selesai." -ForegroundColor Green
 
-            # Cek apakah instalasi Microsoft Office telah selesai
-            $officePath = "C:\Program Files\Microsoft Office\root\Office16"
-            if (Test-Path -Path $officePath) {
+        # Cek apakah instalasi Microsoft Office telah selesai
+        $officePath = "C:\Program Files\Microsoft Office\root\Office16"
+        if (Test-Path -Path $officePath) {
             Write-Host " + Microsoft Office installed successfully.." -ForegroundColor Green
             Start-Sleep -Seconds 5
             Write-Host " + Create Shortcut..."
@@ -207,16 +197,11 @@ function InstallOffice {
                 $shortcut.WindowStyle = 1
                 $shortcut.Save()
             }
-            # Membuat objek shell
-            $shell = New-Object -ComObject WScript.Shell
-            
-            # Menampilkan pesan popup
-            $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
-
+        }
         } catch {
             Write-Host " - Gagal menjalankan setup.exe untuk instalasi. Error: $_" -ForegroundColor Red
         }
-    } else {
+     } else {
         Write-Host " - Gagal mengunduh beberapa file." -ForegroundColor Red
     }
 }
@@ -293,7 +278,7 @@ switch ($versionChoice) {
 }
 
 Write-Host "Script selesai." -ForegroundColor Green
-Remove-Item -Path "D:\Data\ContohFolder" -Recurse -Force
+Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
 $EndDTM = Get-Date
 Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
 # Hitung total detik dan menit
