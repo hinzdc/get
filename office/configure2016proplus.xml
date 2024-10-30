@@ -1,6 +1,12 @@
 <Configuration>
 <Add OfficeClientEdition="64" Channel="Current" MigrateArch="TRUE">
-    
+    <Product ID="Proplus2016Retail">
+      <Language ID="en-us" />
+      <ExcludeApp ID="Publisher" />
+      <ExcludeApp ID="OneNote" />
+      <ExcludeApp ID="Outlook" />
+      <ExcludeApp ID="SkypeforBusiness" />
+    </Product>
     <!-- Install Microsoft Visio Professional 2016 Retail -->
     <Product ID="VisioPro2016Retail">
       <Language ID="en-us" />

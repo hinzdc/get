@@ -1,6 +1,129 @@
+# Enable TLSv1.2 for compatibility with older clients
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+# Set background color to Black
+[Console]::BackgroundColor = "Black"
+
+# Clear the console to see the background color change
+Clear-Host
+
+$Host.UI.RawUI.WindowTitle = '// OFFICE INSTALLER - HINZDC X SARGA - INDOJAVA ONLINE'
+
+$code = @'
+using System;
+using System.Runtime.InteropServices;
+
+namespace CloseButtonToggle {
+
+ internal static class WinAPI {
+   [DllImport("kernel32.dll")]
+   internal static extern IntPtr GetConsoleWindow();
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DeleteMenu(IntPtr hMenu,
+                          uint uPosition, uint uFlags);
+
+   [DllImport("user32.dll")]
+   [return: MarshalAs(UnmanagedType.Bool)]
+   internal static extern bool DrawMenuBar(IntPtr hWnd);
+
+   [DllImport("user32.dll")]
+   internal static extern IntPtr GetSystemMenu(IntPtr hWnd,
+              [MarshalAs(UnmanagedType.Bool)]bool bRevert);
+
+   const uint SC_CLOSE     = 0xf060;
+   const uint MF_BYCOMMAND = 0;
+
+   internal static void ChangeCurrentState(bool state) {
+     IntPtr hMenu = GetSystemMenu(GetConsoleWindow(), state);
+     DeleteMenu(hMenu, SC_CLOSE, MF_BYCOMMAND);
+     DrawMenuBar(GetConsoleWindow());
+   }
+ }
+
+ public static class Status {
+   public static void Disable() {
+     WinAPI.ChangeCurrentState(false); //its 'true' if need to enable
+   }
+ }
+}
+'@
+
+Add-Type $code
+[CloseButtonToggle.Status]::Disable()
+
+# Check if the Delivery Optimization service (DoSvc) is already running
+$service = Get-Service -Name "DoSvc" -ErrorAction SilentlyContinue
+
+if ($service -and $service.Status -eq 'Running') {
+    Write-Output "Delivery Optimization service is already running. Skipping service activation..."
+} else {
+    Write-Output "Activating Delivery Optimization service..."
+    Start-Service -Name "DoSvc"
+    Set-Service -Name "DoSvc" -StartupType Automatic
+}
+
+# Define registry and policy paths
+$registryPathConfig = "HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DeliveryOptimization\Config"
+$gpeditPath = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\DeliveryOptimization"
+$settingsPath = "HKLM:\SOFTWARE\Microsoft\PolicyManager\default\DeliveryOptimization\AllowPeerSelection"
+
+# Configure registry settings for Delivery Optimization
+Write-Output "Configuring registry settings for Delivery Optimization..."
+New-Item -Path $registryPathConfig -Force | Out-Null
+
+Set-ItemProperty -Path $registryPathConfig -Name "DODownloadMode" -Value 1
+Set-ItemProperty -Path $registryPathConfig -Name "DOGroupIdSource" -Value 2
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageMaxDownloadBandwidth" -Value 100
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageMaxUploadBandwidth" -Value 100
+Set-ItemProperty -Path $registryPathConfig -Name "DOMinimumBackgroundQos" -Value 0
+Set-ItemProperty -Path $registryPathConfig -Name "DOMaxUploadSessionsPerDevice" -Value 10
+Set-ItemProperty -Path $registryPathConfig -Name "DOPercentageForegroundQos" -Value 100
+
+# Configure group policies for Delivery Optimization
+Write-Output "Configuring group policies for Delivery Optimization..."
+New-Item -Path $gpeditPath -Force | Out-Null
+
+Set-ItemProperty -Path $gpeditPath -Name "DODownloadMode" -Value 1
+Set-ItemProperty -Path $gpeditPath -Name "DOAllowVPNPeerings" -Value 1
+Set-ItemProperty -Path $gpeditPath -Name "DOMaxCacheSize" -Value 50
+Set-ItemProperty -Path $gpeditPath -Name "DOMaxCacheAge" -Value 30
+Set-ItemProperty -Path $gpeditPath -Name "DODelayBackgroundDownloadFromHttp" -Value 1
+
+# Enable download permissions from other PCs
+Write-Output "Enabling download permissions from other PCs..."
+New-Item -Path $settingsPath -Force | Out-Null
+Set-ItemProperty -Path $settingsPath -Name "value" -Value 1
+Clear-Host
+
 # Path untuk file setup.exe dan konfigurasi
 $downloadPath = "C:\OfficeInstall"
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.exe"
+
+# Buat folder OfficeInstall
+if (Test-Path -Path $downloadPath) {
+    try {
+        # Hapus folder beserta seluruh isinya
+        Remove-Item -Path $downloadPath -Recurse -Force
+        Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
+    } catch {
+        Write-Host " - Gagal menghapus folder $downloadPath. Error: $_" -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host " - Folder $downloadPath does not exist, nothing to delete." -ForegroundColor Yellow
+}
+
+# Buat folder baru setelah penghapusan (opsional)
+try {
+    New-Item -Path $downloadPath -ItemType Directory -Force | Out-Null
+    Write-Host " + Folder $downloadPath created successfully." -ForegroundColor Green
+} catch {
+    Write-Host " - Gagal membuat folder $downloadPath. Error: $_" -ForegroundColor Red
+    exit 1
+}
 
 # Fungsi untuk mengunduh file dari URL
 function DownloadFile {
@@ -8,11 +131,15 @@ function DownloadFile {
         [string]$url,
         [string]$destination
     )
+
+    $fileName = [System.IO.Path]::GetFileName($destination)
+
     try {
         (New-Object System.Net.WebClient).DownloadFile($url, $destination)
+        Write-Host " + File $fileName saved to $destination." -ForegroundColor Green
         return $true
     } catch {
-        Write-Host " - Gagal mengunduh $url ke $destination. Error: $_" -ForegroundColor Red
+        Write-Host " - Gagal mendownload file $fileName ke $destination. Error: $_" -ForegroundColor Red
         return $false
     }
 }
@@ -21,10 +148,17 @@ function DownloadFile {
 function InstallOffice {
     # Tentukan URL configure.xml berdasarkan pilihan
     switch ($versionChoice) {
-        "2016" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016.xml" }
-        "2019" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019.xml" }
-        "2021" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
-        "365"  { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365.xml" }
+        "1" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016proplus.xml" }
+        "2" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplus.xml" }
+        "3" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplus.xml" }
+        "4" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
+        "5" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
+        "6" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
+        "7" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplusVisioProject.xml" }
+        "8" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplusVisioProject.xml" }
+        "9" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
+        "0" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
+        "A" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
         default {
             Write-Host "Pilihan tidak valid untuk instalasi. Menghentikan Script." -ForegroundColor Red
             exit 1
@@ -41,13 +175,49 @@ function InstallOffice {
         
         # Eksekusi setup.exe untuk instalasi
         try {
+            Write-Host " + Menginstall Office..."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow
             Write-Host " + Instalasi Office selesai." -ForegroundColor Green
+
+            # Cek apakah instalasi Microsoft Office telah selesai
+            $officePath = "C:\Program Files\Microsoft Office\root\Office16"
+            if (Test-Path -Path $officePath) {
+            Write-Host " + Microsoft Office installed successfully.." -ForegroundColor Green
+            Start-Sleep -Seconds 5
+            Write-Host " + Create Shortcut..."
+            # Define the paths to the Office applications
+            $officeApps = @("C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE", 
+                            "C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE", 
+                            "C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE")
+            
+            # Define the display names for the shortcuts
+            $officeAppsDisplayNames = @("Word", "Excel", "PowerPoint")
+            
+            # Get the Desktop folder path
+            $desktopPath = [System.Environment]::GetFolderPath("Desktop")
+            
+            # Create shortcuts on the Desktop
+            for ($i = 0; $i -lt $officeApps.Length; $i++) {
+                $shortcutPath = Join-Path -Path $desktopPath -ChildPath ("{0}.lnk" -f $officeAppsDisplayNames[$i])
+                $shell = New-Object -ComObject WScript.Shell
+                $shortcut = $shell.CreateShortcut($shortcutPath)
+                $shortcut.TargetPath = $officeApps[$i]
+                $shortcut.WorkingDirectory = Split-Path $officeApps[$i]
+                $shortcut.Description = $officeAppsDisplayNames[$i]
+                $shortcut.WindowStyle = 1
+                $shortcut.Save()
+            }
+            # Membuat objek shell
+            $shell = New-Object -ComObject WScript.Shell
+            
+            # Menampilkan pesan popup
+            $shell.Popup("MICROSOFT OFFICE SUDAH TERINSTAL..`nOFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+
         } catch {
             Write-Host " - Gagal menjalankan setup.exe untuk instalasi. Error: $_" -ForegroundColor Red
         }
     } else {
-        Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
+        Write-Host " - Gagal mengunduh beberapa file." -ForegroundColor Red
     }
 }
 
@@ -73,13 +243,49 @@ function UninstallOffice {
             Write-Host " - Gagal menjalankan setup.exe untuk uninstall. Error: $_" -ForegroundColor Red
         }
     } else {
-        Write-Host " - Gagal mengunduh satu atau lebih file." -ForegroundColor Red
+        Write-Host " - Gagal mengunduh beberapa file." -ForegroundColor Red
     }
 }
 
-# Meminta pilihan versi dari pengguna
-$versionChoice = Read-Host "Masukkan versi Office yang diinginkan (2016/2019/2021/365) atau R untuk uninstall:"
+Write-Output "Delivery Optimization settings have been successfully activated and configured."
+Clear-Host
+Write-Host "                                                           " -BackgroundColor DarkRed
+Write-Host "          MICROSOFT OFFICE INSTALLER + ACTIVATOR           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "     INDOJAVA ONLINE - ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                                           " -BackgroundColor DarkRed
 
+# Meminta pilihan versi dari pengguna
+Write-Host "-----------------------------------------------------------"
+Write-Host "Pilih versi Microsoft Office untuk diinstal:"
+Write-Host "-----------------------------------------------------------"
+Write-Host [1] -NoNewline
+Write-Host " Microsoft Office 2016 Professional Plus  (dalam perbaikan)" -ForegroundColor Cyan
+Write-Host [2] -NoNewline
+Write-Host " Microsoft Office 2019 Professional Plus" -ForegroundColor Cyan
+Write-Host [3] -NoNewline
+Write-Host " Microsoft Office 2021 Professional Plus" -ForegroundColor Cyan
+Write-Host [4] -NoNewline
+Write-Host " Microsoft Office 2016 Home and Student  (dalam perbaikan)" -ForegroundColor Blue
+Write-Host [5] -NoNewline
+Write-Host " Microsoft Office 2019 Home and Student" -ForegroundColor Blue
+Write-Host [6] -NoNewline
+Write-Host " Microsoft Office 2021 Home and Student" -ForegroundColor Blue
+Write-Host [7] -NoNewline
+Write-Host " Microsoft Office 2019 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host [8] -NoNewline
+Write-Host " Microsoft Office 2021 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host [9] -NoNewline
+Write-Host " Microsoft Visio Pro + Project Pro 2019" -ForegroundColor Magenta
+Write-Host [0] -NoNewline
+Write-Host " Microsoft Visio Pro + Project Pro 2021" -ForegroundColor Magenta
+Write-Host [A] -NoNewline
+Write-Host " Microsoft Office 365 Professional Plus" -ForegroundColor Green
+Write-Host "-----------------------------------------------------------"
+
+$versionChoice = Read-Host "Masukkan versi Office yang diinginkan (0-9) atau R untuk uninstall"
+$StartDTM = Get-Date
+Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
 # Tentukan tindakan berdasarkan pilihan
 switch ($versionChoice) {
     "R" { UninstallOffice }
@@ -87,3 +293,12 @@ switch ($versionChoice) {
 }
 
 Write-Host "Script selesai." -ForegroundColor Green
+Remove-Item -Path "D:\Data\ContohFolder" -Recurse -Force
+$EndDTM = Get-Date
+Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
+# Hitung total detik dan menit
+$TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
+$TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
+$RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
+Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
+Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
