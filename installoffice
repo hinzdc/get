@@ -148,6 +148,7 @@ switch ($versionChoice) {
     9 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
     0 { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
     A { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
+    R { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configureremove.xml" }
     default { 
         Write-Host "Pilihan tidak valid. Menghentikan Script." -ForegroundColor Red
         exit 1 
