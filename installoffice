@@ -23,7 +23,7 @@ function InstallOffice {
     switch ($versionChoice) {
         "2016" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016.xml" }
         "2019" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019.xml" }
-        "2021" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021.xml" }
+        "2021" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
         "365"  { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365.xml" }
         default {
             Write-Host "Pilihan tidak valid untuk instalasi. Menghentikan Script." -ForegroundColor Red
