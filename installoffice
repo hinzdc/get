@@ -10,6 +10,10 @@ Clear-Host
 
 $Host.UI.RawUI.WindowTitle = '// OFFICE INSTALLER - HINZDC X SARGA - INDOJAVA ONLINE'
 
+# Impor modul GUI
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
+
 $code = @'
 using System;
 using System.Runtime.InteropServices;
