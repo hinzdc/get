@@ -96,6 +96,7 @@ Set-ItemProperty -Path $gpeditPath -Name "DODelayBackgroundDownloadFromHttp" -Va
 Write-Output "Enabling download permissions from other PCs..."
 New-Item -Path $settingsPath -Force | Out-Null
 Set-ItemProperty -Path $settingsPath -Name "value" -Value 1
+Write-Output "Delivery Optimization settings have been successfully activated and configured."
 Clear-Host
 
 # Path untuk file setup.exe dan konfigurasi
@@ -207,6 +208,20 @@ function InstallOffice {
                 $shortcut.WindowStyle = 1
                 $shortcut.Save()
             }
+
+            # Hentikan proses OfficeC2RClient.exe
+            try {
+                Write-Host " + Stoping OfficeC2RClient.exe Process.."
+                $stopProcessJob = Start-Job -ScriptBlock {
+                    Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop | Out-Null
+                }
+                Wait-Job -Job $stopProcessJob | Out-Null
+                Receive-Job -Job $stopProcessJob | Out-Null
+                Remove-Job -Job $stopProcessJob | Out-Null
+                Write-Host " + OfficeC2RClient.exe process is terminated..."
+            } catch {
+                Write-Host " - Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
+            }
         }
         } catch {
             Write-Host " - Gagal menjalankan setup.exe untuk instalasi. Error: $_" -ForegroundColor Red
@@ -230,10 +245,24 @@ function UninstallOffice {
             Write-Host " + Menghapus instalasi Office..."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configureremove.xml" -Wait -NoNewWindow
             Write-Host " + Penghapusan instalasi Office selesai." -ForegroundColor Green
-            
-            # Menampilkan pesan popup setelah uninstall selesai
-            $shell = New-Object -ComObject WScript.Shell
-            $shell.Popup("UNINSTALL OFFICE SELESAI.", 10, "INFORMASI", 0) | Out-Null
+            # Hentikan proses OfficeC2RClient.exe
+            try {
+                Write-Host " + Stoping OfficeC2RClient.exe Process.."
+                $stopProcessJob = Start-Job -ScriptBlock {
+                    Stop-Process -Name "OfficeC2RClient" -Force -ErrorAction Stop | Out-Null
+                }
+                Wait-Job -Job $stopProcessJob | Out-Null
+                Receive-Job -Job $stopProcessJob | Out-Null
+                Remove-Job -Job $stopProcessJob | Out-Null
+                Write-Host " + OfficeC2RClient.exe process is terminated..."
+
+                # Menampilkan pesan popup setelah uninstall selesai
+                $shell = New-Object -ComObject WScript.Shell
+                $shell.Popup("UNINSTALL OFFICE SELESAI.", 10, "INFORMASI", 0) | Out-Null
+            } catch {
+                Write-Host " - Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
+            }
+
         } catch {
             Write-Host " - Gagal menjalankan setup.exe untuk uninstall. Error: $_" -ForegroundColor Red
         }
@@ -304,13 +333,11 @@ function ShowActivationOption {
     $form.ShowDialog() | Out-Null
 }
 
-
-Write-Output "Delivery Optimization settings have been successfully activated and configured."
 Clear-Host
 Write-Host "                                                           " -BackgroundColor DarkRed
-Write-Host "          MICROSOFT OFFICE INSTALLER + ACTIVATOR           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "     MICROSOFT 365 AND OFFICE INSTALLER + ACTIVATOR        " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
-Write-Host "     INDOJAVA ONLINE - ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "    INDOJAVA ONLINE -- ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor White
 Write-Host "                                                           " -BackgroundColor DarkRed
 
 # Meminta pilihan versi dari pengguna
@@ -342,9 +369,17 @@ Write-Host " Microsoft Office 365 Professional Plus" -ForegroundColor Green
 Write-Host "-----------------------------------------------------------"
 
 $versionChoice = Read-Host "Masukkan versi Office yang diinginkan (0-9) atau R untuk uninstall"
+Clear-Host
+Write-Host "                                                           " -BackgroundColor DarkRed
+Write-Host "     MICROSOFT 365 AND OFFICE INSTALLER + ACTIVATOR        " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                                           " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "    INDOJAVA ONLINE -- ISTANA BEC LANTAI 1 BLOCK D07       " -BackgroundColor DarkRed -ForegroundColor White
+Write-Host "                                                           " -BackgroundColor DarkRed
+
 $StartDTM = Get-Date
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host ""
 # Tentukan tindakan berdasarkan pilihan
 if ($versionChoice -eq "R") {
     UninstallOffice
@@ -355,7 +390,6 @@ if ($versionChoice -eq "R") {
     }
 }
 
-Write-Host "Script selesai." -ForegroundColor Green
 Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
 $EndDTM = Get-Date
 Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
@@ -364,5 +398,6 @@ Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
 $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
+Write-Host ""
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
