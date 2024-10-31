@@ -242,6 +242,69 @@ function UninstallOffice {
     }
 }
 
+# Fungsi untuk mengaktifkan Office
+function ActivationOffice {
+        # Eksekusi perintah setelah instalasi Microsoft Office selesai
+        try {
+            Write-Host " + Activating Office..." -ForegroundColor Green
+            & ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
+            Write-Host "---------------------------------------------"
+            Write-Host " OFFICE ACTIVATION COMPLETE.. " -BackgroundColor Green -ForegroundColor White
+            if (Test-Path -Path $downloadPath) {
+                try {
+                    Remove-Item -Path $downloadPath -Recurse -Force | Out-Null
+                } catch {
+                    exit 1
+                }
+            }
+            Write-Host ""
+
+            # Membuat objek shell
+            $shell = New-Object -ComObject WScript.Shell
+            
+            # Menampilkan pesan popup
+            $shell.Popup("MICROSOFT OFFICE SUDAH TERAKTIVASI SECARA PERMANENT, TIDAK PERLU DI AKTIVASI LAGI...`n`nSELAMAT MENGGUNAKAN..", 20, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+        } catch {
+            Write-Host " - Gagal menjalankan perintah aktivasi. Error: $_" -ForegroundColor Red
+        }
+}
+
+# Fungsi untuk menampilkan GUI pilihan aktivasi
+function ShowActivationOption {
+    # Form GUI
+    $form = New-Object System.Windows.Forms.Form
+    $form.Text = "Pilihan Aktivasi Office"
+    $form.Size = New-Object System.Drawing.Size(300, 150)
+    $form.StartPosition = "CenterScreen"
+
+    # Tombol Aktivasi
+    $btnAktivasi = New-Object System.Windows.Forms.Button
+    $btnAktivasi.Text = "Aktivasi"
+    $btnAktivasi.Size = New-Object System.Drawing.Size(100, 30)
+    $btnAktivasi.Location = New-Object System.Drawing.Point(30, 50)
+    $btnAktivasi.Add_Click({
+        $form.Close()
+        ActivationOffice
+    })
+
+    # Tombol Tidak
+    $btnTidak = New-Object System.Windows.Forms.Button
+    $btnTidak.Text = "Tidak"
+    $btnTidak.Size = New-Object System.Drawing.Size(100, 30)
+    $btnTidak.Location = New-Object System.Drawing.Point(150, 50)
+    $btnTidak.Add_Click({
+        $form.Close()
+    })
+
+    # Tambahkan tombol ke form
+    $form.Controls.Add($btnAktivasi)
+    $form.Controls.Add($btnTidak)
+
+    # Tampilkan form
+    $form.ShowDialog() | Out-Null
+}
+
+
 Write-Output "Delivery Optimization settings have been successfully activated and configured."
 Clear-Host
 Write-Host "                                                           " -BackgroundColor DarkRed
@@ -280,17 +343,23 @@ Write-Host "-----------------------------------------------------------"
 
 $versionChoice = Read-Host "Masukkan versi Office yang diinginkan (0-9) atau R untuk uninstall"
 $StartDTM = Get-Date
-Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " START " -BackgroundColor Green -ForegroundColor White
+Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
 # Tentukan tindakan berdasarkan pilihan
-switch ($versionChoice) {
-    "R" { UninstallOffice }
-    default { InstallOffice }
+if ($versionChoice -eq "R") {
+    UninstallOffice
+} else {
+    $installSuccess = InstallOffice
+    if ($installSuccess) {
+        ShowActivationOption
+    }
 }
 
 Write-Host "Script selesai." -ForegroundColor Green
 Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
 $EndDTM = Get-Date
-Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " END " -BackgroundColor Red -ForegroundColor White
+Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
 # Hitung total detik dan menit
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
 $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
