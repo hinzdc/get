@@ -181,6 +181,7 @@ function InstallOffice {
         # Eksekusi setup.exe untuk instalasi
         try {
             Write-Host " + Menginstall Office..."
+            Write-Host " + Harap Tunggu. Proses memakan waktu 5 sampai 20 mneit tergantung koneksi internet."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow
             Write-Host " + Instalasi Office selesai." -ForegroundColor Green
 
@@ -223,8 +224,10 @@ function InstallOffice {
                 Receive-Job -Job $stopProcessJob | Out-Null
                 Remove-Job -Job $stopProcessJob | Out-Null
                 Write-Host " + OfficeC2RClient.exe process is terminated..."
+                return $true
             } catch {
                 Write-Host " - Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
+                return $false
             }
         }
         } catch {
@@ -247,6 +250,7 @@ function UninstallOffice {
         Write-Host " + Semua file berhasil diunduh.."
         try {
             Write-Host " + Menghapus instalasi Office..."
+            Write-Host " + Silakan Klik Uninstall..."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configureremove.xml" -Wait -NoNewWindow
             Write-Host " + Penghapusan instalasi Office selesai." -ForegroundColor Green
             # Hentikan proses OfficeC2RClient.exe
@@ -395,6 +399,7 @@ if ($versionChoice -eq "R") {
 }
 
 Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
+Write-Host ""
 $EndDTM = Get-Date
 Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
@@ -402,6 +407,5 @@ Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
 $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
-Write-Host ""
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
