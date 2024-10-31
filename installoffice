@@ -181,7 +181,7 @@ function InstallOffice {
         # Eksekusi setup.exe untuk instalasi
         try {
             Write-Host " + Menginstall Office..."
-            Write-Host " + Harap Tunggu. Proses memakan waktu 5 sampai 20 mneit tergantung koneksi internet."
+            Write-Host " + Harap Tunggu. Proses memakan waktu 5 sampai 20 menit tergantung koneksi internet."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow
             Write-Host " + Instalasi Office selesai." -ForegroundColor Green
 
@@ -285,7 +285,6 @@ function ActivationOffice {
         try {
             Write-Host " + Activating Office..." -ForegroundColor Green
             & ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
-            Write-Host "---------------------------------------------"
             Write-Host " OFFICE ACTIVATION COMPLETE.. " -BackgroundColor Green -ForegroundColor White
             if (Test-Path -Path $downloadPath) {
                 try {
@@ -387,6 +386,7 @@ Write-Host "                                                           " -Backgr
 $StartDTM = Get-Date
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host "-----------------------------------------------------------"
 Write-Host ""
 # Tentukan tindakan berdasarkan pilihan
 if ($versionChoice -eq "R") {
@@ -398,8 +398,8 @@ if ($versionChoice -eq "R") {
     }
 }
 
-Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
 Write-Host ""
+Write-Host "-----------------------------------------------------------"
 $EndDTM = Get-Date
 Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
@@ -409,3 +409,17 @@ $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
+
+# remove folder Office Install
+if (Test-Path -Path $downloadPath) {
+    try {
+        # Hapus folder beserta seluruh isinya
+        Remove-Item -Path $downloadPath -Recurse -Force
+        Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
+    } catch {
+        Write-Host " - Gagal menghapus folder $downloadPath. Error: $_" -ForegroundColor Red
+        exit 1
+    }
+} else {
+    Write-Host " - Folder $downloadPath does not exist, nothing to delete." -ForegroundColor Yellow
+}
