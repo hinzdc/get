@@ -10,9 +10,6 @@ Clear-Host
 
 $Host.UI.RawUI.WindowTitle = '// OFFICE INSTALLER - HINZDC X SARGA - INDOJAVA ONLINE'
 
-# Impor modul GUI
-Add-Type -AssemblyName System.Windows.Forms
-Add-Type -AssemblyName System.Drawing
 
 $code = @'
 using System;
@@ -102,6 +99,10 @@ New-Item -Path $settingsPath -Force | Out-Null
 Set-ItemProperty -Path $settingsPath -Name "value" -Value 1
 Write-Output "Delivery Optimization settings have been successfully activated and configured."
 Clear-Host
+
+# Impor modul GUI
+Add-Type -AssemblyName System.Windows.Forms
+Add-Type -AssemblyName System.Drawing
 
 # Path untuk file setup.exe dan konfigurasi
 $downloadPath = "C:\OfficeInstall"
@@ -406,13 +407,7 @@ if ($versionChoice -eq "R") {
 
 # remove folder Office Install
 # Hapus folder beserta seluruh isinya
-try {
-    RemovePath
-    Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
-} catch {
-    Write-Host " - Gagal membuat folder $downloadPath. Error: $_" -ForegroundColor Red
-    exit 1
-}
+RemovePath | Out-Null
 
 Write-Host ""
 Write-Host "-----------------------------------------------------------"
