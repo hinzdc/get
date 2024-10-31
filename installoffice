@@ -343,7 +343,7 @@ Write-Host "-----------------------------------------------------------"
 
 $versionChoice = Read-Host "Masukkan versi Office yang diinginkan (0-9) atau R untuk uninstall"
 $StartDTM = Get-Date
-Write-Host " START " -BackgroundColor Green -ForegroundColor White
+Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
 # Tentukan tindakan berdasarkan pilihan
 if ($versionChoice -eq "R") {
@@ -358,7 +358,7 @@ if ($versionChoice -eq "R") {
 Write-Host "Script selesai." -ForegroundColor Green
 Remove-Item -Path "C:\OfficeInstall" -Recurse -Force | Out-Null
 $EndDTM = Get-Date
-Write-Host " END " -BackgroundColor Red -ForegroundColor White
+Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
 # Hitung total detik dan menit
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
