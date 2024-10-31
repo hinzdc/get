@@ -107,19 +107,24 @@ Clear-Host
 $downloadPath = "C:\OfficeInstall"
 $urlSetupExe = "https://raw.githubusercontent.com/hinzdc/get/main/office/setup.exe"
 
-# Buat folder OfficeInstall
-if (Test-Path -Path $downloadPath) {
-    try {
-        # Hapus folder beserta seluruh isinya
-        Remove-Item -Path $downloadPath -Recurse -Force
-        Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
-    } catch {
-        Write-Host " - Gagal menghapus folder $downloadPath. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-} else {
+# remove folder OfficeInstall
+function RemovePath {
+    if (Test-Path -Path $downloadPath) {
+        try {
+            # Hapus folder beserta seluruh isinya
+            Remove-Item -Path $downloadPath -Recurse -Force
+            Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
+        } catch {
+            Write-Host " - Gagal menghapus folder $downloadPath. Error: $_" -ForegroundColor Red
+            exit 1
+        }
+    } else {
     Write-Host " - Folder $downloadPath does not exist, nothing to delete." -ForegroundColor Yellow
 }
+    
+}
+
+RemovePath
 
 # Buat folder baru setelah penghapusan (opsional)
 try {
@@ -309,8 +314,8 @@ function ActivationOffice {
 function ShowActivationOption {
     # Form GUI
     $form = New-Object System.Windows.Forms.Form
-    $form.Text = "Pilihan Aktivasi Office"
-    $form.Size = New-Object System.Drawing.Size(300, 150)
+    $form.Text = "Aktivasi Office Permanen"
+    $form.Size = New-Object System.Drawing.Size(350, 150)
     $form.StartPosition = "CenterScreen"
 
     # Tombol Aktivasi
@@ -349,7 +354,7 @@ Write-Host "                                                           " -Backgr
 
 # Meminta pilihan versi dari pengguna
 Write-Host "-----------------------------------------------------------"
-Write-Host "Pilih versi Microsoft Office untuk diinstal:"
+Write-Host "PILIH VERSI MICROSOFT 365 AND OFFICE UNTUK DIINSTAL:"
 Write-Host "-----------------------------------------------------------"
 Write-Host [1] -NoNewline
 Write-Host " Microsoft Office 2016 Professional Plus  (dalam perbaikan)" -ForegroundColor Cyan
@@ -375,7 +380,8 @@ Write-Host [A] -NoNewline
 Write-Host " Microsoft Office 365 Professional Plus" -ForegroundColor Green
 Write-Host "-----------------------------------------------------------"
 
-$versionChoice = Read-Host "Masukkan versi Office yang diinginkan (0-9) atau R untuk uninstall"
+$versionChoice = Read-Host "Masukkan pilihan yang diinginkan (0-9, A) atau R untuk uninstall"
+
 Clear-Host
 Write-Host "                                                           " -BackgroundColor DarkRed
 Write-Host "     MICROSOFT 365 AND OFFICE INSTALLER + ACTIVATOR        " -BackgroundColor DarkRed -ForegroundColor White
@@ -398,6 +404,16 @@ if ($versionChoice -eq "R") {
     }
 }
 
+# remove folder Office Install
+# Hapus folder beserta seluruh isinya
+try {
+    RemovePath
+    Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
+} catch {
+    Write-Host " - Gagal membuat folder $downloadPath. Error: $_" -ForegroundColor Red
+    exit 1
+}
+
 Write-Host ""
 Write-Host "-----------------------------------------------------------"
 $EndDTM = Get-Date
@@ -409,17 +425,3 @@ $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
-
-# remove folder Office Install
-if (Test-Path -Path $downloadPath) {
-    try {
-        # Hapus folder beserta seluruh isinya
-        Remove-Item -Path $downloadPath -Recurse -Force
-        Write-Host " + Folder $downloadPath removed successfully." -ForegroundColor Green
-    } catch {
-        Write-Host " - Gagal menghapus folder $downloadPath. Error: $_" -ForegroundColor Red
-        exit 1
-    }
-} else {
-    Write-Host " - Folder $downloadPath does not exist, nothing to delete." -ForegroundColor Yellow
-}
