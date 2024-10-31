@@ -230,6 +230,7 @@ function InstallOffice {
                 Receive-Job -Job $stopProcessJob | Out-Null
                 Remove-Job -Job $stopProcessJob | Out-Null
                 Write-Host " + OfficeC2RClient.exe process is terminated..."
+                Write-Host " + Silakan klik Aktifkan untuk aktivasi atau klik TIDAK untuk close..."
                 return $true
             } catch {
                 Write-Host " - Gagal menghentikan proses OfficeC2RClient.exe. Error: $_" -ForegroundColor Red
@@ -321,7 +322,7 @@ function ShowActivationOption {
 
         # Tombol Aktivasi
     $btnAktivasi = New-Object System.Windows.Forms.Button
-    $btnAktivasi.Text = "Aktivasi"
+    $btnAktivasi.Text = "AKTIVASI"
     $btnAktivasi.Size = New-Object System.Drawing.Size(100, 40)
     $btnAktivasi.Location = New-Object System.Drawing.Point(50, 50)
     $btnAktivasi.Add_Click({
@@ -331,7 +332,7 @@ function ShowActivationOption {
 
     # Tombol Tidak
     $btnTidak = New-Object System.Windows.Forms.Button
-    $btnTidak.Text = "Tidak"
+    $btnTidak.Text = "TIDAK"
     $btnTidak.Size = New-Object System.Drawing.Size(100, 40)
     $btnTidak.Location = New-Object System.Drawing.Point(180, 50)
     $btnTidak.Add_Click({
@@ -407,7 +408,7 @@ if ($versionChoice -eq "R") {
 
 # remove folder Office Install
 # Hapus folder beserta seluruh isinya
-RemovePath | Out-Null
+RemovePath
 
 Write-Host ""
 Write-Host "-----------------------------------------------------------"
