@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=35
+mode con cols=90 lines=32
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -159,9 +159,9 @@ $null = $times
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host "----------------------------"
 Write-Host
-Write-Host "+ GETING SCRIPT.."
-Write-Host "+ ACTIVATING.."
-Write-Host ">> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
+Write-Host " + GETING SCRIPT.."
+Write-Host " + ACTIVATING.."
+Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
 Write-Host
 Write-Host "----------------------------"
