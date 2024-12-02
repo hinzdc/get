@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=30
+mode con cols=90 lines=35
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -127,7 +127,7 @@ Add-Type $code
 
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
 $StartDTM = (Get-Date)
-Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
+Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
@@ -159,6 +159,8 @@ $null = $times
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host "----------------------------"
 Write-Host
+Write-Host "+ GETING SCRIPT.."
+Write-Host "+ ACTIVATING.."
 Write-Host ">> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
 Write-Host
