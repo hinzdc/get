@@ -162,14 +162,15 @@ function InstallOffice {
         "1" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016proplus.xml" }
         "2" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplus.xml" }
         "3" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplus.xml" }
-        "4" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
-        "5" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
-        "6" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
-        "7" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplusVisioProject.xml" }
-        "8" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplusVisioProject.xml" }
-        "9" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
-        "0" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
-        "A" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
+        "4" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2024proplus.xml" }
+        "5" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2016homestudent.xml" }
+        "6" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019homestudent.xml" }
+        "7" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021homestudent.xml" }
+        "8" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019proplusVisioProject.xml" }
+        "9" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021proplusVisioProject.xml" }
+        "0" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2019VisioProject.xml" }
+        "A" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure2021VisioProject.xml" }
+        "B" { $urlConfigureXml = "https://raw.githubusercontent.com/hinzdc/get/main/office/configure365ProPlus.xml" }
         default {
             Write-Host "Pilihan tidak valid untuk instalasi. Menghentikan Script." -ForegroundColor Red
             exit 1
@@ -365,20 +366,22 @@ Write-Host " Microsoft Office 2019 Professional Plus" -ForegroundColor Cyan
 Write-Host [3] -NoNewline
 Write-Host " Microsoft Office 2021 Professional Plus" -ForegroundColor Cyan
 Write-Host [4] -NoNewline
-Write-Host " Microsoft Office 2016 Home and Student  (dalam perbaikan)" -ForegroundColor Blue
+Write-Host " Microsoft Office 2024 Professional Plus" -ForegroundColor Cyan
 Write-Host [5] -NoNewline
-Write-Host " Microsoft Office 2019 Home and Student" -ForegroundColor Blue
+Write-Host " Microsoft Office 2016 Home and Student  (dalam perbaikan)" -ForegroundColor Blue
 Write-Host [6] -NoNewline
-Write-Host " Microsoft Office 2021 Home and Student" -ForegroundColor Blue
+Write-Host " Microsoft Office 2019 Home and Student" -ForegroundColor Blue
 Write-Host [7] -NoNewline
-Write-Host " Microsoft Office 2019 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host " Microsoft Office 2021 Home and Student" -ForegroundColor Blue
 Write-Host [8] -NoNewline
-Write-Host " Microsoft Office 2021 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
+Write-Host " Microsoft Office 2019 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
 Write-Host [9] -NoNewline
-Write-Host " Microsoft Visio Pro + Project Pro 2019" -ForegroundColor Magenta
+Write-Host " Microsoft Office 2021 ProPlus + Visio Pro + Project Pro" -ForegroundColor Yellow
 Write-Host [0] -NoNewline
-Write-Host " Microsoft Visio Pro + Project Pro 2021" -ForegroundColor Magenta
+Write-Host " Microsoft Visio Pro + Project Pro 2019" -ForegroundColor Magenta
 Write-Host [A] -NoNewline
+Write-Host " Microsoft Visio Pro + Project Pro 2021" -ForegroundColor Magenta
+Write-Host [B] -NoNewline
 Write-Host " Microsoft Office 365 Professional Plus" -ForegroundColor Green
 Write-Host "-----------------------------------------------------------"
 
