@@ -144,7 +144,7 @@ function DownloadFile {
     )
 
     $fileName = [System.IO.Path]::GetFileName($destination)
-
+    Write-Host " + Mendownload file yang diperlukan.." -ForegroundColor Green
     try {
         (New-Object System.Net.WebClient).DownloadFile($url, $destination)
         Write-Host " + File $fileName saved to $destination." -ForegroundColor Green
@@ -183,14 +183,13 @@ function InstallOffice {
 
     # Cek apakah kedua file berhasil diunduh
     if ($setupDownloaded -and $configDownloaded) {
-        Write-Host " + Semua file berhasil diunduh. Memulai instalasi..."
+        Write-Host " + Semua file berhasil diunduh..."
         
         # Eksekusi setup.exe untuk instalasi
         try {
             Write-Host " + Menginstall Office..."
             Write-Host " + Harap Tunggu. Proses memakan waktu 5 sampai 20 menit tergantung koneksi internet."
             Start-Process -FilePath "$downloadPath\setup.exe" -ArgumentList "/configure $downloadPath\configure.xml" -Wait -NoNewWindow
-            Write-Host " + Instalasi Office selesai." -ForegroundColor Green
 
         # Cek apakah instalasi Microsoft Office telah selesai
         $officePath = "C:\Program Files\Microsoft Office\root\Office16"

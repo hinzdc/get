@@ -22,6 +22,6 @@
   <RemoveMSI All="TRUE" />
   <Display Level="Full" AcceptEULA="TRUE" />
 <AppSettings>
-    <User Key="Software\Microsoft\Office\16.0\Common" Name="UI Theme" Value="0" />
+    <User Key="Software\Microsoft\Office\16.0\Common" Name="UI Theme" Value="7" />
 </AppSettings>
 </Configuration>

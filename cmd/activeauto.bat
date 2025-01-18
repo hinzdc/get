@@ -127,7 +127,8 @@ Add-Type $code
 
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
 $StartDTM = (Get-Date)
-Write-Host " START $StartDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
+Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
@@ -156,17 +157,19 @@ if ($response.StatusCode -eq 200) {
 $null = $label
 $null = $number
 $null = $times
-& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host "----------------------------"
 Write-Host
 Write-Host " + GETING SCRIPT.."
 Write-Host " + ACTIVATING.."
+& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
 Write-Host
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)
-Write-Host " END $EndDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
+Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
+
 # Hitung total detik dan menit
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
 $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
