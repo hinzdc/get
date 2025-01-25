@@ -1,4 +1,5 @@
 write-host "------------------------------------------------------------"
 sc.exe start "sppsvc" > $null 2>&1; Write-Host "Error code: $LASTEXITCODE"
 Write-Host
-write-host "If the output error is 577 or 225, then most likely chances are that the system is infected with File infector malware." fore Yellow
+Write-Host -ForegroundColor Yellow "If the output error is 577 or 225, then most likely chances are that the system is infected with File infector malware." 
+Write-Host
