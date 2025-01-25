@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=92 lines=32
+mode con cols=95 lines=32
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
