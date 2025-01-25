@@ -1,13 +1,15 @@
 
-$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/heads/main.zip"
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\DefenderRemoverNew\windows-defender-remover-release_def_12_8_2"
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\main.zip"
+$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/release_def_12_8_2.zip"
 $outputZip = "C:\Windows\Temp\main.zip"
-$outputFolder = "C:\Windows\Temp\DefenderRemover"
+$outputFolder = "C:\Windows\Temp\DefenderRemoverNew"
 
 Invoke-WebRequest -Uri $url -OutFile $outputZip
 
 Expand-Archive -Path $outputZip -DestinationPath $outputFolder
 
-$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-main\Script_Run.bat"
+$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-release_def_12_8_2\Script_Run.bat"
 
 if (Test-Path $batFile) {
     # Jalankan file Script_Run.bat

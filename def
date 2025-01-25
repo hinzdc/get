@@ -1,26 +1,19 @@
-# Enable TLSv1.2 for compatibility with older clients
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-mkdir $env:TEMP\hinzdc
-$folderPath = "$env:TEMP\hinzdc"
-Add-MpPreference -ExclusionPath $folderPath
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\DefenderRemover\windows-defender-remover-release_def_12_5_7"
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\main.zip"
+$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/release_def_12_5_7.zip"
+$outputZip = "C:\Windows\Temp\main.zip"
+$outputFolder = "C:\Windows\Temp\DefenderRemover"
 
-# Verifikasi pengecualian yang telah ditambahkan
-Get-MpPreference | Select-Object -ExpandProperty ExclusionPath
+Invoke-WebRequest -Uri $url -OutFile $outputZip
 
-$DownloadURL = 'https://github.com/ionuttbara/windows-defender-remover/releases/download/release_def_12_5_6_2/DefenderRemover.exe'
+Expand-Archive -Path $outputZip -DestinationPath $outputFolder
 
-$FilePath = "$env:TEMP\hinzdc\def.exe"
+$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-release_def_12_5_7\Script_Run.bat"
 
-try {
-    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
-} catch {
-    Write-Error $_
-	Return
-}
-
-if (Test-Path $FilePath) {
-    Start-Process $FilePath -Wait
-    $item = Get-Item -LiteralPath $FilePath
-    $item.Delete()
+if (Test-Path $batFile) {
+    # Jalankan file Script_Run.bat
+    Start-Process -FilePath $batFile
+} else {
+    Write-Host "File Script_Run.bat tidak ditemukan."
 }

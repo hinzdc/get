@@ -396,6 +396,34 @@ Write-Host "                                                           " -Backgr
 $StartDTM = Get-Date
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
+# URL dari halaman yang akan diambil
+$url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-installoffice"
+
+# Mengambil konten halaman web
+$response = Invoke-WebRequest -Uri $url -UseBasicParsing
+
+# Memeriksa apakah respons berhasil
+if ($response.StatusCode -eq 200) {
+    # Mengambil konten HTML dari respons
+    $htmlContent = $response.Content
+
+    # Parsing konten SVG untuk mendapatkan nilai "Visitors"
+    if ($htmlContent -match '<text[^>]*>\s*(\d+)\s*<\/text>') {
+        $visitorCount = $matches[1]
+
+        # Mencetak nilai ke terminal
+        $label = Write-Host " DIAKSES " -BackgroundColor Blue -ForegroundColor White -NoNewline
+        $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White -NoNewline
+        $times = Write-Host " KALI " -BackgroundColor White -ForegroundColor Black
+    } else {
+        Write-Host " Please Connect to Internet.." -BackgroundColor Red -ForegroundColor White
+    }
+} else {
+    Write-Output "$($response.StatusCode)"
+}
+$null = $label
+$null = $number
+$null = $times
 Write-Host "-----------------------------------------------------------"
 Write-Host ""
 # Tentukan tindakan berdasarkan pilihan
