@@ -396,9 +396,9 @@ function ntfy {
 
     # Tampilkan hasil pengiriman
     if ($response) {
-        Write-Output
+        Write-host
     } else {
-        Write-Output " failed sending log.." -ForegroundColor Red
+        Write-Host " failed sending log.." -ForegroundColor Red
     }
 }
 
