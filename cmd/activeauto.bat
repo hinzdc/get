@@ -37,7 +37,7 @@ echo:
     CD /D "%~dp0"
 
 cls
-echo.
+echo ^> iex(irm indojava.online/get/activeauto)
 echo                                                   иммммммммммммммммммммммммммммм╩
 echo          иоооооооооооооооооооооооооооооооооооооооо╧ ISTANA BEC LANTAI 1 BLOK D7 ╨
 echo          ╨                                        хяяяяяяяяяяяяяяяяяяяяяяяяяяяяя╧
@@ -50,7 +50,7 @@ echo          ╨                                                                 
 echo          хяяяяяяяяяяяяяяяяммммммммммммммммммммммммммммммммммммммяяяяяяяяяяяяяяяя╪
 rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
 powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
-echo command iex(irm indojava.online/get/activeauto)
+echo.
 echo ------------------------------------------------------------------------------------------
 echo    SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING
 echo ------------------------------------------------------------------------------------------
