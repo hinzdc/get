@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=100 lines=32
+mode con cols=91 lines=37
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -37,7 +37,7 @@ echo:
     CD /D "%~dp0"
 
 cls
-echo ^> iex(irm indojava.online/get/activeauto)
+echo.
 echo                                                   иммммммммммммммммммммммммммммм╩
 echo          иоооооооооооооооооооооооооооооооооооооооо╧ ISTANA BEC LANTAI 1 BLOK D7 ╨
 echo          ╨                                        хяяяяяяяяяяяяяяяяяяяяяяяяяяяяя╧
@@ -441,15 +441,16 @@ $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
 Write-Host "------------------------------------------------------------------------------------------"
-Write-Host " // $kataAcak //" -ForegroundColor White -BackgroundColor red
+Write-Host " $kataAcak " -ForegroundColor White -BackgroundColor red
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
 $shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+$shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. ??", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
-Start-Process cmd.exe -ArgumentList '/c taskkill /F /IM rundll32.exe /T'
+Start-Process cmd.exe -ArgumentList '/c timeout /t 2 & taskkill /F /IM rundll32.exe /T'
 
 # encode Western(Windows 1252)
