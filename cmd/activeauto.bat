@@ -245,7 +245,24 @@ function ntfy {
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | Select-Object -ExpandProperty DisplayVersion
     $processor = Get-CimInstance -ClassName Win32_Processor
-    $ram = (Get-CimInstance -ClassName Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
+    $ramInfo = Get-WmiObject Win32_PhysicalMemory
+    # Variabel untuk menghitung total ukuran RAM
+    $totalSizeInGB = 0
+    # Array untuk menyimpan informasi setiap modul RAM
+    $ramDetails = @()
+    # Loop melalui setiap modul RAM untuk mengambil Size, Manufacturer, dan Speed
+    foreach ($ram in $ramInfo) {
+        # Hitung ukuran RAM dalam GB untuk modul saat ini
+        $sizeInGB = [math]::Round($ram.Capacity / 1GB, 2)
+        # Tambahkan ukuran RAM ke total
+        $totalSizeInGB += $sizeInGB
+        # Tambahkan detail modul ke array
+        $ramDetails += "$($ram.Manufacturer) $sizeInGB GB ($($ram.Speed) MHz)"
+    }
+
+    # Gabungkan detail setiap modul dalam satu baris
+    $modulesOutput = $ramDetails -join " -- "
+
     $disks = Get-CimInstance -ClassName Win32_DiskDrive
     # Menyusun informasi disk
     $diskall = ""
@@ -345,29 +362,29 @@ function ntfy {
 
     # Gabungkan informasi perangkat dan Office ke dalam satu pesan
     $message = @"
-    ////////// Spesifikasi Perangkat //////////
+    /// SPESIFIKASI ///
     Merek: $manufacturer
     Model: $tipe ($systemmodel)
     Prosesor: $($processor.Name) ($($processor.NumberOfCores) Core) ($($processor.NumberOfLogicalProcessors) Logical)
-    RAM: $([math]::Round($ram, 2)) GB
+    RAM: $totalSizeInGB GB // $modulesOutput
     Disk Drive:
     $diskall
-    ////////// Sistem Operasi //////////
+    /// SISTEM ///
     Nama OS: $($os.Caption)
     Versi OS: $($os.Version)
     Windows Version: $winversion
     Arsitektur: $($os.OSArchitecture)
 
-    ////////// Network //////////
+    /// NETWORK ///
     Wi-Fi Terhubung: $wifiName
     $lanStatus
     $internetStatus
 
-    ////////// Windows License //////////
+    /// WINDOWS LICENSE ///
     $SlmgrDli
     $SlmgrXpr
 
-    ////////// Microsoft Office //////////
+    /// MICROSOFT OFFICE ///
 
 "@
 
@@ -409,7 +426,7 @@ Write-Host " + ACTIVATING.."
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host
-Write-Host " // $kataAcak //" -ForegroundColor Red
+Write-Host " // $kataAcak //" -ForegroundColor Black -BackgroundColor red
 Write-Host
 Write-Host " >> MENGIRIM INFORMASI KE ADMIN.." -ForegroundColor Yellow
 ntfy
