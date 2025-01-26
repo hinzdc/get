@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=91 lines=37
+mode con cols=90 lines=36
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -413,7 +413,7 @@ function ntfy {
 
     # Tampilkan hasil pengiriman
     if ($response) {
-        Write-host
+        Write-host -NoNewLine
     } else {
         Write-Host " failed sending log.." -ForegroundColor Red
     }
@@ -441,13 +441,13 @@ $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
 Write-Host "------------------------------------------------------------------------------------------"
-Write-Host " $kataAcak " -ForegroundColor White -BackgroundColor red
+Write-Host " $kataAcak " -ForegroundColor red
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
 $shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
-$shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. ??", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+$shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
