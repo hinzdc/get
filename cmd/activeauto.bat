@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=97 lines=32
+mode con cols=100 lines=32
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -426,7 +426,6 @@ Write-Host " + ACTIVATING.."
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host
-Write-Host " // $kataAcak //" -ForegroundColor White -BackgroundColor red
 Write-Host
 Write-Host " >> MENGIRIM INFORMASI KE ADMIN.." -ForegroundColor Yellow
 ntfy
@@ -441,6 +440,8 @@ $TotalMinutes = [math]::Floor($TotalSeconds / 60)  # Hitung menit tanpa desimal
 $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa desimal
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
+Write-Host "------------------------------------------------------------------------------------------"
+Write-Host " // $kataAcak //" -ForegroundColor White -BackgroundColor red
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host " PRESS ENTER TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
