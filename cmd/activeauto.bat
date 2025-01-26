@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=95 lines=32
+mode con cols=97 lines=32
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -50,7 +50,7 @@ echo          º                                                                 
 echo          ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ¼
 rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
 powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
-echo.
+echo command iex(irm indojava.online/get/activeauto)
 echo ------------------------------------------------------------------------------------------
 echo    SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING
 echo ------------------------------------------------------------------------------------------
@@ -426,13 +426,13 @@ Write-Host " + ACTIVATING.."
 & ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host
-Write-Host " // $kataAcak //" -ForegroundColor Black -BackgroundColor red
+Write-Host " // $kataAcak //" -ForegroundColor White -BackgroundColor red
 Write-Host
 Write-Host " >> MENGIRIM INFORMASI KE ADMIN.." -ForegroundColor Yellow
 ntfy
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)
-Write-Host " END " -BackgroundColor Red -ForegroundColor White -NoNewline
+Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
 
 # Hitung total detik dan menit
