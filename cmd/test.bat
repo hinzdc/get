@@ -161,7 +161,7 @@ if ($response.StatusCode -eq 200) {
 $null = $label
 $null = $number
 $null = $times
-#-----------------------------------------------------------------------------------------
+
 # Array berisi kata-kata mutiara
 $kataMutiara = @(
     "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
@@ -251,7 +251,7 @@ function Wrap-TextToFitWidth {
 }
 
 $text = $kataAcak
-#-----------------------------------------------------------------------------------------
+
 function ntfy {
     # URL untuk ntfy.sh
     $ntfyUrl = "https://ntfy.sh/eu9QDaPa1mExQPwp"
@@ -313,7 +313,7 @@ function ntfy {
         $lanStatus = "Tidak ada LAN yang terhubung."
         $internetStatus = "Internet melalui LAN tidak tersedia."
     }
-#-----------------------------------------------------------------------------------------
+
     # get activation status
     $SlmgrDli = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /dli 2>&1
     $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
@@ -434,8 +434,8 @@ function ntfy {
     if ($currentEntry.LicenseName) {
         $entries += $currentEntry
     }
-#-----------------------------------------------------------------------------------------
-    # Gabungkan informasi
+
+    # Gabungkan informasi perangkat dan Office ke dalam satu pesan
     $message = @"
     /// iex(irm indojava.online/get/activeauto) ///
     ---[ SPESIFIKASI ]--------------------------------------
@@ -480,7 +480,7 @@ function ntfy {
     
 "@
 }
-#-----------------------------------------------------------------------------------------
+    
     # Kirim pesan ke ntfy.sh
     $response = Invoke-RestMethod -Uri $ntfyUrl -Method POST -Body $message -Headers @{
         "Title" = "Aktivasi Windows dan Office"
@@ -495,7 +495,7 @@ function ntfy {
         Write-Host " failed sending log.." -ForegroundColor Red
     }
 }
-#-----------------------------------------------------------------------------------------
+
 Write-Host "----------------------------"
 Write-Host
 Write-Host " + GETING SCRIPT.."
@@ -528,7 +528,7 @@ $shell = New-Object -ComObject WScript.Shell
 $shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 $shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
-#-----------------------------------------------------------------------------------------
+
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c timeout /t 2 & taskkill /F /IM rundll32.exe /T'
 

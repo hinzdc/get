@@ -1,0 +1,52 @@
+# Memanggil Windows API untuk mengubah properti jendela konsol
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+
+public class ConsoleControl {
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetConsoleWindow();
+
+    [DllImport("user32.dll")]
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [DllImport("user32.dll")]
+    public static extern int GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+    [DllImport("user32.dll")]
+    public static extern bool RemoveMenu(int hMenu, int uPosition, int uFlags);
+}
+"@
+
+# Mendapatkan handle jendela konsol saat ini
+$consoleHandle = [ConsoleControl]::GetConsoleWindow()
+
+# Mengatur constant untuk mengubah properti jendela konsol
+$GWL_STYLE = -16
+$WS_MAXIMIZEBOX = 0x10000
+$WS_SIZEBOX = 0x40000
+
+# Mengambil style jendela saat ini
+$currentStyle = [ConsoleControl]::GetWindowLong($consoleHandle, $GWL_STYLE)
+
+# Menghapus kemampuan untuk diubah ukurannya, dimaksimalkan dan menutup jendela
+$newStyle = $currentStyle -band -bnot $WS_SIZEBOX -band -bnot $WS_MAXIMIZEBOX
+
+# Menerapkan style baru ke jendela
+[ConsoleControl]::SetWindowLong($consoleHandle, $GWL_STYLE, $newStyle)
+
+# Menyembunyikan jendela jika sudah dimodifikasi (untuk memastikan tidak ada kesalahan)
+[ConsoleControl]::ShowWindow($consoleHandle, 5)  # 5 = SW_SHOW
+
+# Menghapus menu sistem (termasuk tombol Close/X)
+$hMenu = [ConsoleControl]::GetSystemMenu($consoleHandle, $false)
+[ConsoleControl]::RemoveMenu($hMenu, 0xF060, 0x0)  # 0xF060 = SC_CLOSE (tombol Close)
+
+# Menampilkan pesan untuk memberi tahu pengguna bahwa jendela tidak dapat ditutup
+Write-Host "Jendela PowerShell ini tidak dapat diubah ukurannya, dimaksimalkan, atau ditutup. Tekan CTRL+C untuk menghentikan proses." -ForegroundColor Yellow
