@@ -262,7 +262,10 @@ function ntfy {
     $tipe = $computerSystem.Version
     $systemmodel = $computerSystem.Name
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
-    $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" | Select-Object -ExpandProperty DisplayVersion
+    $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
+    if (-not $winversion) {
+        $winversion = $null
+    }
     $processor = Get-CimInstance -ClassName Win32_Processor
     $ramInfo = Get-WmiObject Win32_PhysicalMemory
     # Variabel untuk menghitung total ukuran RAM
@@ -500,11 +503,11 @@ Write-Host "----------------------------"
 Write-Host
 Write-Host " + GETING SCRIPT.."
 Write-Host " + ACTIVATING.."
-& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID /Ohook | Out-Null
+& ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID /Ohook | Out-Null
 Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
 Write-Host
 Write-Host
-Write-Host " >> MENGIRIM INFORMASI KE ADMIN.." -ForegroundColor Yellow
+Write-Host " >> MENGIRIM INFORMASI KE SERVER.." -ForegroundColor Yellow
 ntfy
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)

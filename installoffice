@@ -291,7 +291,7 @@ function ActivationOffice {
         # Eksekusi perintah setelah instalasi Microsoft Office selesai
         try {
             Write-Host " + Activating Office..." -ForegroundColor Green
-            & ([ScriptBlock]::Create((irm https://get.activated.win))) /Ohook
+            & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /Ohook
             Write-Host " OFFICE ACTIVATION COMPLETE.. " -BackgroundColor Green -ForegroundColor White
             if (Test-Path -Path $downloadPath) {
                 try {

@@ -1,0 +1,92 @@
+﻿Clear-Host
+
+# Pastikan PowerShell menggunakan encoding UTF-8
+[Console]::OutputEncoding = [System.Text.Encoding]::utf8
+
+# ASCII Art dalam Unicode [char]
+$text = @"
+
+                                             ╔═════════════════════════════╗ 
+    ╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣ ISTANA BEC LANTAI 1 BLOK D7 ║
+    ║                                        ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╣
+    ║   ██                                ██                               ║
+    ║   ░░ ██████▒▒ ██████▄▀ ███████      ░░ ████████ ██     ██ ████████   ║
+    ║   ██       ██ ██   ▀██ ██   ██      ██ ██    ██ ██     ██ ██    ██   ║
+    ║   ██ ██    ██ ██   ▄██ ██   ██ ██   ██ ████████ ▀██   ██▀ ████████   ║
+    ║   ██ ██    ██ ██████▀▄ ▒▒█████ ███████ ██    ██    ▀█▀    ██    ██   ║
+    ║                                                                      ║
+    ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝
+                         --- VIRUS REMOVAL TOOLS ---
+"@
+
+Write-Host $text -ForegroundColor Cyan
+
+# Menentukan URL resmi antivirus portable
+$kvrtURL = "https://devbuilds.s.kaspersky-labs.com/devbuilds/KVRT/latest/full/KVRT.exe"
+$esetURL = "https://download.eset.com/com/eset/tools/online_scanner/latest/esetonlinescanner.exe"
+$drwebURL = "https://cdn-download.drweb.com/pub/drweb/cureit/1738397481.898/tg8y095d.exe"
+$microsoftURL = "https://go.microsoft.com/fwlink/?LinkId=212732"
+$nortonURL = "https://www.norton.com/npe_latest"
+$stingerURL = "https://downloadcenter.trellix.com/products/mcafee-avert/Stinger/stinger64.exe"
+
+# Lokasi penyimpanan sementara
+$downloadPath = "$env:TEMP\AntivirusScanner.exe"
+
+# Menampilkan menu pilihan
+Write-Host "--------------------------------------------------------------------------------"
+Write-Host "  Virus Removal Tools - Remove viruses, malware, and other threats from your PC"
+Write-Host "--------------------------------------------------------------------------------"
+Write-Host "Pilih Antivirus yang ingin dijalankan:"
+write-host
+Write-Host " 1. Kaspersky Virus Removal Tool (KVRT)"
+Write-Host " 2. ESET Online Scanner"
+Write-Host " 3. Dr.Web CureIt!"
+Write-Host " 4. Microsoft Safety Scanner"
+Write-Host " 5. Norton Power Eraser"
+Write-Host " 6. Trellix Stinger"
+Write-Host
+Write-Host "--------------------------------------------------------------------------------"
+$choice = Read-Host "Masukkan pilihan (1-6)"
+
+# Fungsi untuk menampilkan deskripsi, mengunduh, dan menjalankan antivirus
+function DownloadAndRun {
+    param ($url, $description)
+    Write-Host "--------------------------------------------------------------------------------`n$description`n--------------------------------------------------------------------------------"
+    Write-Host "`n + Mengunduh antivirus..."
+    Invoke-WebRequest -Uri $url -OutFile $downloadPath
+    Write-Host " + Menjalankan antivirus..."
+    Start-Process -FilePath $downloadPath -Wait
+    Write-Host " + Pemindaian selesai. Silakan periksa hasilnya.`n" -ForegroundColor Green
+    Remove-Item $downloadPath | Out-Null
+    Write-Host "--------------------------------------------------------------------------------"
+    Write-Host "Terima kasih telah menggunakan Virus Removal Tools. Semoga komputer Anda bersih dari virus!"
+    Write-Host "--------------------------------------------------------------------------------"
+    Read-Host "Tekan ENTER untuk keluar"
+    exit
+}
+
+# Menjalankan sesuai pilihan
+switch ($choice) {
+    "1" { 
+        DownloadAndRun -url $kvrtURL -description "KVRT is a stand-alone utility developed by Kaspersky Lab, one of the most trusted names in the cybersecurity game. Its mission? To detect and remove nasty viruses, Trojans, worms, spyware, adware, and rootkits from your infected PC with minimal fuss. Whether you're reeling from a malware attack or hunch something shady lurks, KVRT can sniff out the problem and help you kick it to the curb." 
+    }
+    "2" { 
+        DownloadAndRun -url $esetURL -description "ESET Online ScannerESET Online Scanner is a one-time use tool to remove malware from your device but it does not provide real-time continuous protection against future threats. ESET Internet Security is all-in-one security suite that provides real-time protection against malware, spyware, phishing attacks, and ransomware." 
+    }
+    "3" { 
+        DownloadAndRun -url $drwebURL -description "Dr.Web CureIt!Dr.Web CureIt! anti-virus utility`nAn indispensable emergency tool for scanning PCs and servers and ridding them of all sorts of malware that gets past your anti-virus." 
+    }
+    "4" { 
+        DownloadAndRun -url $microsoftURL -description "Microsoft Safety Scanner is a scan tool designed to find and remove malware from Windows computers. Simply download it and run a scan to find malware and try to reverse changes made by identified threats. Safety Scanner is exclusively SHA-2 signed." 
+    }
+    "5" { 
+        DownloadAndRun -url $nortonURL -description "Norton Power Eraser uses our most aggressive scanning technology to eliminate threats that traditional virus scanning doest always detect, so you can get your PC back. Because Norton Power Eraser is an aggressive virus removal tool, it may mark a legitimate program for removal. However, you can always undo the results of a scan. It can also help detect and remove Potentially Unwanted Programs." 
+    }
+    "6" { 
+        DownloadAndRun -url $stingerURL -description "Trellix Stinger utilizes next-generation scan technology, including rootkit scanning, and scan performance optimizations. It detects and removes threats identified under the `Threat List` option under Advanced menu options in the Stinger application. Stinger now detects and removes GameOver Zeus and CryptoLocker." 
+    }
+    default { 
+        Write-Host "Pilihan tidak valid. Silakan jalankan ulang skrip." 
+    }
+}
+
