@@ -1,5 +1,4 @@
-﻿Clear-Host
-
+clear
 # Pastikan PowerShell menggunakan encoding UTF-8
 # Pastikan encoding terminal PowerShell menggunakan UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
