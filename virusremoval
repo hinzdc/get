@@ -1,6 +1,7 @@
 ﻿Clear-Host
 
 # Pastikan PowerShell menggunakan encoding UTF-8
+# Pastikan encoding terminal PowerShell menggunakan UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 
 # ASCII Art dalam Unicode [char]
@@ -89,4 +90,3 @@ switch ($choice) {
         Write-Host "Pilihan tidak valid. Silakan jalankan ulang skrip." 
     }
 }
-
