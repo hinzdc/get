@@ -1,5 +1,18 @@
-write-host "------------------------------------------------------------"
-sc.exe start "sppsvc" > $null 2>&1; Write-Host "Error code: $LASTEXITCODE"
+Write-Host "------------------------------------------------------------"
+
+# Start the sppsvc service and capture the exit code
+Start-Service -Name "sppsvc" -ErrorAction SilentlyContinue
+$exitCode = $LASTEXITCODE
+
+# Display the exit code
+Write-Host "Error code: $exitCode"
 Write-Host
-Write-Host -ForegroundColor Yellow "If the output error is 577 or 225, then most likely chances are that the system is infected with File infector malware." 
-Write-Host
+
+# Check for specific error codes and provide additional information
+if ($exitCode -eq 577 -or $exitCode -eq 225) {
+    Write-Host -ForegroundColor Red "If the output error is 577 or 225, then most likely chances are that the system is infected with File infector malware."
+} else {
+    Write-Host -ForegroundColor Green "The service started successfully or encountered a different error."
+}
+
+Write-Host "------------------------------------------------------------"

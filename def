@@ -1,7 +1,9 @@
 
-Add-MpPreference -ExclusionPath "C:\Windows\Temp\DefenderRemover\windows-defender-remover-release_def_12_5_7"
+$version = "release_def_12_5_7"
+Add-MpPreference -ExclusionPath $outputZip
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\DefenderRemover\windows-defender-remover-$version"
 Add-MpPreference -ExclusionPath "C:\Windows\Temp\main.zip"
-$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/release_def_12_5_7.zip"
+$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/$version.zip"
 $outputZip = "C:\Windows\Temp\main.zip"
 $outputFolder = "C:\Windows\Temp\DefenderRemover"
 
@@ -9,7 +11,7 @@ Invoke-WebRequest -Uri $url -OutFile $outputZip
 
 Expand-Archive -Path $outputZip -DestinationPath $outputFolder
 
-$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-release_def_12_5_7\Script_Run.bat"
+$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-$version\Script_Run.bat"
 
 if (Test-Path $batFile) {
     # Jalankan file Script_Run.bat
