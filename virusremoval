@@ -1,3 +1,19 @@
+<#
+.SYNOPSIS
+    Virus Removal Tools - Remove viruses, malware, and other threats from your PC.
+
+.DESCRIPTION
+    This script provides a menu to choose from a selection of popular antivirus tools for removing viruses, malware, and other threats from your PC. The script downloads the selected antivirus tool and runs it to scan and remove any detected threats.
+
+.NOTES
+    File Name      : VirusRemovalTools.ps1
+    Author         : hinzdc x sarga
+    Prerequisite   : PowerShell v3.0
+
+.LINK
+    
+#>
+
 Clear-Host
 # Pastikan encoding terminal PowerShell menggunakan UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
@@ -89,3 +105,10 @@ switch ($choice) {
         Write-Host "Pilihan tidak valid. Silakan jalankan ulang skrip." 
     }
 }
+
+# msert.exe 201,434,752 bytes
+# KVRT.exe 112,851,304 bytes
+# esetonlinescanner.exe 8,415,088 bytes
+# tg8y095d.exe 297,017,416 bytes
+# npe.exe 16,995,528 bytes
+# stinger64.exe 49,166,568 bytes

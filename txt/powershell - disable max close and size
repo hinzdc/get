@@ -50,3 +50,51 @@ $hMenu = [ConsoleControl]::GetSystemMenu($consoleHandle, $false)
 
 # Menampilkan pesan untuk memberi tahu pengguna bahwa jendela tidak dapat ditutup
 Write-Host "Jendela PowerShell ini tidak dapat diubah ukurannya, dimaksimalkan, atau ditutup. Tekan CTRL+C untuk menghentikan proses." -ForegroundColor Yellow
+
+
+
+
+for ($i = 0; $i -lt 10; $i++) {
+    Write-Host -NoNewline "."; Start-Sleep -Milliseconds 300
+}
+Write-Host "`nDone!"
+
+for ($i = 10; $i -ge 0; $i--) {
+    Write-Host "`rHitung mundur: $i " -NoNewline
+    Start-Sleep 1
+}
+Write-Host "`nWaktu habis!"
+
+$colors = [System.Enum]::GetValues([System.ConsoleColor])
+for ($i = 0; $i -lt 10; $i++) {
+    $host.UI.RawUI.ForegroundColor = $colors | Get-Random
+    Write-Host "Warna berubah!"
+    Start-Sleep 1
+}
+
+$ip = Invoke-RestMethod -Uri "http://ip-api.com/json/"
+Write-Host "IP Address: $($ip.query)"
+Write-Host "Negara: $($ip.country), Kota: $($ip.city)"
+Write-Host "ISP: $($ip.isp)"
+Write-Host "Koordinat: $($ip.lat), $($ip.lon)"
+
+#----------------------------------------------
+$WinAPI = Add-Type -MemberDefinition @"
+[DllImport("user32.dll")]
+public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+[DllImport("kernel32.dll")]
+public static extern IntPtr GetConsoleWindow();
+"@ -Name "WinAPI" -Namespace "API" -PassThru
+
+$hwnd = $WinAPI::GetConsoleWindow()
+
+# Sembunyikan jendela
+$WinAPI::ShowWindow($hwnd, 0)
+Start-Sleep -Seconds 5  # Tunggu 5 detik
+for ($i = 0; $i -lt 60; $i++) {
+    Write-Host -NoNewline "▄"; Start-Sleep -Milliseconds 300
+}
+# Tampilkan kembali
+$WinAPI::ShowWindow($hwnd, 5)
+write-host "`nDone!"

