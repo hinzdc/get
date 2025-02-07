@@ -1,47 +1,3 @@
-<# ::
-@echo off
-title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=40
-color 0B
-
-:Begin UAC check and Auto-Elevate Permissions
-:-------------------------------------
-REM  --> Check for permissions
->nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
-
-REM --> If error flag set, we do not have admin.
-if '%errorlevel%' NEQ '0' (
-echo:
-echo:
-echo                 Requesting Administrative Privileges...
-echo:
-echo                 ENABLING ADMINISTRATOR RIGHTS...
-echo                 Press YES in UAC Prompt to Continue
-echo.
-echo		 	     Please Wait...
-echo:
-
-    goto UACPrompt
-) else ( goto gotAdmin )
-
-:UACPrompt
-    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
-    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
-
-    "%temp%\getadmin.vbs"
-    exit /B
-
-:gotAdmin
-    if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
-    pushd "%CD%"
-    CD /D "%~dp0"
-
-cls
-
-powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
-goto :eof
-
-#>
 
 #-----------------------------------------------------------------------------------------
 Add-Type @"
@@ -111,33 +67,8 @@ function UnQuickEdit
 }
 UnQuickEdit
 #-----------------------------------------------------------------------------------------
-[Console]::OutputEncoding = [System.Text.Encoding]::utf8
-Clear-Host
-# ASCII Art dalam Unicode [char]
-$text = @"
 
-                                                  $([char]0x2554)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2557)
-         $([char]0x2554)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2563) ISTANA BEC LANTAI 1 BLOK D7 $([char]0x2551)
-         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2563)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)                                $([char]0x2588)$([char]0x2588)                               $([char]0x2551)
-         $([char]0x2551)   $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2584)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)      $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)      $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2580)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2580)$([char]0x2584) $([char]0x2592)$([char]0x2592)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)    $([char]0x2580)$([char]0x2588)$([char]0x2580)    $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)                                                                      $([char]0x2551)
-         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
-"@
-
-Write-Host $text -ForegroundColor Cyan
-Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" -ForegroundColor Red
-Write-Host "------------------------------------------------------------------------------------------"
-Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
-Write-Host "------------------------------------------------------------------------------------------"
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Start-Sleep -s 3
-
-#-----------------------------------------------------------------------------------------
 $StartDTM = (Get-Date)
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
@@ -221,19 +152,6 @@ $kataMutiara = @(
     "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
     "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
     "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
-    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
-    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
-    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
-    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
-    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
-    "saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
-    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
-    "kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
-    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
-    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
-    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
-    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
-    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
 )
 
 # Mengambil satu kata mutiara secara acak
@@ -493,32 +411,33 @@ function ntfy {
 
     $message = @"
     /// iex(irm indojava.online/get/activeauto) ///
-    ---[ SPESIFIKASI ]-------------------
+    ---[ SPESIFIKASI ]--------------------------------------
     Merek: $($computerSystem.Manufacturer)
     Model: $($computerSystem.Type) ($($computerSystem.Model))
     Prosesor: $($processorInfo.Name) ($($processorInfo.Cores) Core) ($($processorInfo.LogicalProcessors) Logical)
     RAM: $($ramInfo.TotalSizeInGB) GB // $($ramInfo.Modules)
     Disk Drive:
     $diskInfo
-    ---[ SISTEM ]-------------------
+    ---[ SISTEM ]-------------------------------------------
     Nama OS: $($osInfo.OSName)
     Versi OS: $($osInfo.OSVersion)
     Windows Version: $($osInfo.WindowsVersion)
     Arsitektur: $($osInfo.Architecture)
 
-    ---[ NETWORK ]-------------------
+    ---[ NETWORK ]------------------------------------------
     Wi-Fi Terhubung: $($networkInfo.WifiName)
     $($networkInfo.LanStatus)
     $($networkInfo.InternetStatus)
 
+    ---[ ADDRESS ]------------------------------------------
     $($ipInfo.country),  $($ipInfo.city), $($ipInfo.regionName) ($($ipInfo.zip))
     $($ipInfo.lat)  $($ipInfo.lon) - $($ipInfo.isp)
 
-    ---[ WINDOWS LICENSE ]-------------------
+    ---[ WINDOWS LICENSE ]----------------------------------
     $($activationStatus.SlmgrDli)
     $($activationStatus.SlmgrXpr)
 
-    ---[ MICROSOFT OFFICE ]-------------------
+    ---[ MICROSOFT OFFICE ]---------------------------------
     $(CheckOhook)
 
 "@
@@ -554,40 +473,40 @@ function ntfy {
 #-----------------------------------------------------------------------------------------
 Write-Host "----------------------------"
 Write-Host
-Write-Host " + GETTING SCRIPT.." -ForegroundColor white
+Write-Host " + GETTING SCRIPT.."
 Start-Sleep -Seconds 2
-Write-Host " + ACTIVATING.." -ForegroundColor white
+Write-Host " + ACTIVATING.."
 
 try {
     # Menjalankan perintah aktivasi
     & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID /Ohook | Out-Null
     start-sleep -Seconds 3
     Write-Host " >> PROSES AKTIVASI SELESAI.. " -ForegroundColor Green
-    Start-Sleep -Seconds 2
+    Start-Sleep -Seconds 3
     write-host " >> CEK STATUS AKTIVASI" -ForegroundColor Yellow
-    start-sleep -Seconds 3
+    start-sleep -Seconds 2
     Write-Host "   ----------------------------"
     # Jalankan perintah slmgr.vbs untuk mendapatkan status aktivasi
     $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
 
-    Write-Host "   // Windows Activation Status //" -foregroundColor white
+    Write-Host " // Windows Activation Status //"
 
     # Ubah hasil output menjadi string
     $ActivationStatus = $SlmgrXpr -join " "
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($ActivationStatus -match "permanently activated") {
-        write-host "   The machine is permanently activated." -ForegroundColor Green
+        write-host " The machine is permanently activated." -ForegroundColor Green
     }
     elseif ($ActivationStatus -match "will expire on (\d{1,2}/\d{1,2}/\d{4})") {
         $ExpireDate = $matches[1]
-        Write-Host "    Windows activation will expire on: $ExpireDate" -ForegroundColor Yellow
+        Write-Host "Windows activation will expire on: $ExpireDate" -ForegroundColor Yellow
     }
     elseif ($ActivationStatus -match "notification mode") {
-        Write-Host "    Windows is in Notification Mode (Not activated)." -ForegroundColor Red
+        Write-Host "Windows is in Notification Mode (Not activated)." -ForegroundColor Red
     }
     else {
-        Write-Host "    Windows activation status: Unknown or not activated." -ForegroundColor Red
+        Write-Host "Office activation status: Unknown atau silakan cek manual." -ForegroundColor Red
     }
     
     start-sleep -Seconds 2
@@ -596,16 +515,16 @@ try {
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($hookActivationStatus -match "Ohook Office aktivasi tidak ditemukan") {
-        Write-Host "   // Office Activation Status //" -foregroundColor white
-        Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
+        Write-Host " // Office Activation Status //"
+        Write-Host " Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
-        Write-Host "   // Office Activation Status //" -ForegroundColor white
-        Write-Host "   Ohook for permanent Office activation is installed" -ForegroundColor Green
+        Write-Host " // Office Activation Status //"
+        Write-Host " Ohook for permanent Office activation is installed" -ForegroundColor Green
     }
     else {
-        Write-Host "  // Office Activation Status //" -ForegroundColor Red
-        Write-Host "  Office activation status: Unknown atau silakan cek manual." -ForegroundColor Red
+        Write-Host " // Office Activation Status //" -ForegroundColor Red
+        Write-Host "Windows activation status: Unknown or not activated." -ForegroundColor Red
     }
 
 }
@@ -645,6 +564,7 @@ Read-Host
 #-----------------------------------------------------------------------------------------
 Start-Process powershell -ArgumentList "-NoExit", "-Command & {
     mode con cols=70 lines=32
+    $Host.UI.RawUI.BackgroundColor = Black
     Clear-Host
     Write-Output @'
 
@@ -677,9 +597,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command & {
 write-host
 write-host
     Read-Host 'Tekan ENTER untuk keluar'
-    exit
 }"
-
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c timeout /t 2 & taskkill /F /IM rundll32.exe /T'
 

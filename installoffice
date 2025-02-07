@@ -447,7 +447,7 @@ $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([ch
 
 Write-Host $text -ForegroundColor Cyan
 Write-Host "          --- MICROSOFT 365 AND OFFICE INSTALLER + ACTIVATOR ---" -ForegroundColor Red
-
+write-host "-----------------------------------------------------------"
 $StartDTM = Get-Date
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
