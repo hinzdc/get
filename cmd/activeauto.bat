@@ -111,6 +111,9 @@ function UnQuickEdit
 }
 UnQuickEdit
 #-----------------------------------------------------------------------------------------
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 40)
+$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
+
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 Clear-Host
 # ASCII Art dalam Unicode [char]
@@ -133,7 +136,6 @@ Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --"
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
 Write-Host "------------------------------------------------------------------------------------------"
-$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Start-Sleep -s 3
 
