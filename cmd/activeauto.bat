@@ -113,7 +113,7 @@ UnQuickEdit
 #-----------------------------------------------------------------------------------------
 $Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 40)
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
-
+Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 Clear-Host
 # ASCII Art dalam Unicode [char]
@@ -142,7 +142,7 @@ Start-Sleep -s 3
 #-----------------------------------------------------------------------------------------
 $StartDTM = (Get-Date)
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
-Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
@@ -283,6 +283,9 @@ function Get-ComputerSystemInfo {
 }
 
 function Get-OSInfo {
+    $currentUser = [System.Security.Principal.WindowsIdentity]::GetCurrent().Name
+    $username = $currentUser.Split('\')[-1]
+    $user = Get-CimInstance -ClassName Win32_UserAccount -Filter "Name='$username'" | Select-Object -Property Name, FullName
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
     if (-not $winversion) {
@@ -293,6 +296,7 @@ function Get-OSInfo {
         OSVersion = $os.Version
         WindowsVersion = $winversion
         Architecture = $os.OSArchitecture
+        User = $user.Name
     }
 }
 
@@ -507,6 +511,7 @@ function ntfy {
     Versi OS: $($osInfo.OSVersion)
     Windows Version: $($osInfo.WindowsVersion)
     Arsitektur: $($osInfo.Architecture)
+    UserName: $($osInfo.User)
 
     ---[ NETWORK ]-------------------
     Wi-Fi Terhubung: $($networkInfo.WifiName)
@@ -579,7 +584,7 @@ try {
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($ActivationStatus -match "permanently activated") {
-        write-host "   The machine is permanently activated." -ForegroundColor Green
+        write-host "   Windows is permanently activated." -ForegroundColor Green
     }
     elseif ($ActivationStatus -match "will expire on (\d{1,2}/\d{1,2}/\d{4})") {
         $ExpireDate = $matches[1]
@@ -600,6 +605,7 @@ try {
     if ($hookActivationStatus -match "Ohook Office aktivasi tidak ditemukan") {
         Write-Host "   // Office Activation Status //" -foregroundColor white
         Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
+        Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
         Write-Host "   // Office Activation Status //" -ForegroundColor white
@@ -620,12 +626,12 @@ catch {
 }
 
 Write-Host
-Write-Host " >> MENGIRIM INFORMASI KE SERVER.." -ForegroundColor Yellow
-ntfy
+Write-Host " > > MENGIRIM INFORMASI KE SERVER.." -ForegroundColor blue
+#ntfy
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)
 Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
-Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black
+Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
 
 # Hitung total detik dan menit
 $TotalSeconds = ($EndDTM - $StartDTM).TotalSeconds
@@ -649,7 +655,6 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command & {
     mode con cols=70 lines=32
     Clear-Host
     Write-Output @'
-
  ....................................................................
  ....................................................................
  ....................................................................
@@ -683,6 +688,6 @@ write-host
 }"
 
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
-Start-Process cmd.exe -ArgumentList '/c timeout /t 2 & taskkill /F /IM rundll32.exe /T'
+Start-Process cmd.exe -ArgumentList '/c timeout /t 1 & taskkill /F /IM rundll32.exe /T'
 
 # encode Western(Windows 1252)

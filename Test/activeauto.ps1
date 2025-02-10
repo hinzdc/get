@@ -564,7 +564,6 @@ Read-Host
 #-----------------------------------------------------------------------------------------
 Start-Process powershell -ArgumentList "-NoExit", "-Command & {
     mode con cols=70 lines=32
-    $Host.UI.RawUI.BackgroundColor = Black
     Clear-Host
     Write-Output @'
 
