@@ -627,7 +627,7 @@ catch {
 
 Write-Host
 Write-Host " > > MENGIRIM INFORMASI KE SERVER.." -ForegroundColor blue
-#ntfy
+ntfy
 Write-Host "----------------------------"
 $EndDTM = (Get-Date)
 Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
