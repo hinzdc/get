@@ -25,6 +25,20 @@
 .EXAMPLE
     .\installoffice.ps1
 #>
+# Cek apakah script sudah berjalan sebagai Administrator
+$CurrentUser = [Security.Principal.WindowsIdentity]::GetCurrent()
+$AdminRole = [Security.Principal.WindowsPrincipal]::new($CurrentUser).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+
+# Jika belum sebagai Administrator, jalankan ulang dengan hak admin
+if (-not $AdminRole) {
+    Write-Host "Membuka ulang PowerShell sebagai Administrator..."
+    Start-Process powershell -ArgumentList "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs
+    exit  # Keluar dari instance yang berjalan dengan user biasa
+}
+
+# Jika sudah berjalan sebagai Admin, lanjutkan eksekusi script
+$Host.UI.RawUI.BackgroundColor = "Black"
+Clear-Host
 
 # Enable TLSv1.2 for compatibility with older clients
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
