@@ -43,7 +43,7 @@ foreach ($file in $filesToDelete) {
 
 # Download file dari URL menggunakan BITS Transfer
 $url1 = "https://github.com/hinzdc/hinzdc.github.io/raw/main/dl/TBWinPE.exe"
-$url2 = "https://download1648.mediafire.com/ky6y0x2eshrgaC29IsHWZ1hbXmJ-tmsImavSPVhnBTn0rDsD4wj62XRehfis5JIbs0IWE0oWJj3_5ZXCi5VXieCdcaXevKhCMcFge2LVlYgz-l0EKKUXSWqzhEKlTre5Jh5ASWs-D22i2V718bMFTEjC4pLl4yEoQT_nEwAVRaKWsyE/4gxpjexyswwmldy/boot.wim"
+$url2 = "https://download1526.mediafire.com/zq8zh4qiufeg1DVNgVtr9Cmosyv6W5IEGk3I_WuvxiVI-ZcsHEYSNQRzbC3Y2DHIDtTHM44aX-_JLXzgfiCIR8pFeEP8UYRuEXoaluThe6c9D_hs2PzKh3EBEXUDIUpBb2uqlNg_IKF3iCeucob1Z7h9CvqwrMN7KQfodNRGLKQ8JiI/4gxpjexyswwmldy/boot.wim"
 $output1 = "C:\temp\TBWinPE.exe"
 $output2 = "C:\temp\boot.wim"
 
