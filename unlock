@@ -1,50 +1,25 @@
 # Enable TLSv1.2 for compatibility with older clients
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 
-# Membuat folder C:\temp jika belum ada
-$folderPath = "C:\temp"
-if (!(Test-Path $folderPath)) {
-    New-Item -ItemType Directory -Path $folderPath | Out-Null
-    Write-Host "Folder berhasil dibuat."
+$path = "$env:SystemDrive\temp"
+
+if (-not (Test-Path -Path $path -PathType Container)) {
+    New-Item -Path $path -ItemType Directory
 } else {
     Write-Host "Folder sudah ada."
 }
+taskmgr
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/hinzdc.github.io/main/get/WindowsLoginUnlocker.bat'
 
-# Hapus file lama jika ada
-$filesToDelete = @("C:\temp\TBWinPE.exe", "C:\temp\boot.wim")
-foreach ($file in $filesToDelete) {
-    if (Test-Path $file) {
-        Remove-Item -Path $file -Force
-    }
+$FilePath = "$env:SystemDrive\temp\WindowsLoginUnlocker.bat"
+
+try {
+    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
+} catch {
+    Write-Error $_
+	Return
 }
 
-# Download file dari URL
-$url1 = "https://github.com/hinzdc/hinzdc.github.io/raw/main/dl/TBWinPE.exe"
-$url2 = "https://download1648.mediafire.com/46wqdovwb8sgJwj73j4TwCeX8ZPAjGqiTM7d6Ginm8e8kmdHtiZRIX3rfL3--0y1fdbYNClgBkitAJWVi9Tmv3bG7lh3-sjPoAeFmAq-nXsJ14BHVxwKhbLCl-jULq64bh3-lC_aeg5Bg8MDmCh69ckTgGAKifvpcRyXljP963vHhYs/4gxpjexyswwmldy/boot.wim"
-$output1 = "C:\temp\TBWinPE.exe"
-$output2 = "C:\temp\boot.wim"
-
-Write-Host "Downloading Files Required..."
-Invoke-WebRequest -Uri $url1 -OutFile $output1
-Invoke-WebRequest -Uri $url2 -OutFile $output2
-
-# Membuat folder backup BCD jika belum ada
-$bcdBackupPath = "C:\temp\bcd_backup"
-if (!(Test-Path $bcdBackupPath)) {
-    New-Item -ItemType Directory -Path $bcdBackupPath | Out-Null
-    Write-Host "Folder bcd_backup berhasil dibuat."
-} else {
-    Write-Host "Folder bcd_backup sudah ada."
+if (Test-Path $FilePath) {
+    Start-Process $FilePath -Wait
 }
-
-# Backup BCD
-$bcdFile = "$bcdBackupPath\BCD"
-if (Test-Path $bcdFile) {
-    Remove-Item -Path $bcdFile -Force
-}
-cmd.exe /c "bcdedit /export $bcdFile"
-
-# Menjalankan TBWinPE.exe dengan boot.wim
-Start-Process -FilePath "C:\temp\TBWinPE.exe" -ArgumentList "/bootwim C:\temp\boot.wim /quiet /force" -Wait
-
-Exit

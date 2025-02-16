@@ -28,7 +28,7 @@ IF EXIST "C:\temp\boot.wim" (
 )
 
 set url=https://github.com/hinzdc/hinzdc.github.io/raw/main/dl/TBWinPE.exe
-set url2=https://drive.usercontent.google.com/download?id=15XvDZSbyiyHHPdkLgF3PGzLZm0cTs-11^&export=download^&confirm=t
+set url2=https://download1648.mediafire.com/46wqdovwb8sgJwj73j4TwCeX8ZPAjGqiTM7d6Ginm8e8kmdHtiZRIX3rfL3--0y1fdbYNClgBkitAJWVi9Tmv3bG7lh3-sjPoAeFmAq-nXsJ14BHVxwKhbLCl-jULq64bh3-lC_aeg5Bg8MDmCh69ckTgGAKifvpcRyXljP963vHhYs/4gxpjexyswwmldy/boot.wim
 set output=C:\temp\TBWinPE.exe
 set output2=C:\temp\boot.wim
 timeout /T 3
