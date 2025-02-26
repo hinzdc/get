@@ -53,10 +53,80 @@ $antivirusList = @(
     @{ Name = "Adlice Protect RogueKiller"; URL = "https://download.adlice.com/api?action=download&app=roguekiller&type=x64"; Description = "The next-generation virus killer. Remove unknown malware, stay protected. Free virus cleaner for everyone."; Tip = "Ubah scan setting lalu aktifkan Full scan Performance." }
 )
 
-# Lokasi penyimpanan sementara
-$randomguid = (New-GUID).ToString().ToUpper()
-$downloadPath = "$env:TEMP\AntivirusScanner-$randomguid.exe"
 
+
+function BITS {
+    # Lokasi penyimpanan sementara
+$randomguid = (New-GUID).ToString().ToUpper()
+$downloadPath = "C:\temp\VRT.exe"
+    # Cek status layanan BITS
+    $bitsService = Get-Service -Name BITS -ErrorAction SilentlyContinue
+    $useBits = $true
+
+    if ($bitsService) {
+        if ($bitsService.Status -ne "Running") {
+            Write-Host "BITS service is not running. Attempting to start..." -ForegroundColor Yellow
+            try {
+                Start-Service -Name BITS -ErrorAction Stop
+                Start-Sleep -Seconds 5
+                # Tunggu maksimal 10 detik agar BITS benar-benar berjalan
+                $timeout = 10
+                while ($timeout -gt 0 -and (Get-Service -Name BITS).Status -ne "Running") {
+                    Start-Sleep -Seconds 5
+                    $timeout--
+                }
+
+                if ((Get-Service -Name BITS).Status -ne "Running") {
+                    throw "BITS service failed to start."
+                }
+            }
+            catch {
+                Write-Host "Failed to start BITS service. Falling back to Invoke-WebRequest." -ForegroundColor Red
+                $useBits = $false
+            }
+        }
+    } else {
+        Write-Host "BITS service is not available on this system. Using Invoke-WebRequest instead." -ForegroundColor Red
+        $useBits = $false
+    }
+
+    try {
+        if ($useBits) {
+            Write-Host "Starting download using BitsTransfer..." -ForegroundColor Cyan
+            Start-BitsTransfer -Source $url -Destination $downloadPath -Asynchronous | Out-Null
+
+            # Tunggu hingga job BITS selesai
+            do {
+                Start-Sleep -Seconds 1
+                $bitsJob = Get-BitsTransfer | Where-Object { $_.JobState -in @("Transferring", "Connecting", "Queued") } | Select-Object -First 1
+
+                if ($bitsJob -and $bitsJob.BytesTotal -gt 0) {
+                    $percentComplete = [math]::Round(($bitsJob.BytesTransferred / $bitsJob.BytesTotal) * 100, 2)
+                    Write-Progress -Activity "Downloading File (BITS)" -Status "$percentComplete% Complete" -PercentComplete $percentComplete
+                }
+            } while ($bitsJob -and $bitsJob.JobState -in @("Transferring", "Connecting", "Queued"))
+
+            # Pastikan job selesai dengan sukses
+            $bitsJob = Get-BitsTransfer | Where-Object { $_.JobState -eq "Transferred" } | Select-Object -First 1
+            if ($bitsJob) {
+                Complete-BitsTransfer -BitsJob $bitsJob | Out-Null
+                Write-Host "Download Complete!" -ForegroundColor Green
+            } else {
+                throw "BITS job did not complete successfully."
+            }
+        }
+        else {
+            # Gunakan Invoke-WebRequest tanpa progress bar
+            Write-Host "Starting download using Invoke-WebRequest..." -ForegroundColor Cyan
+            Invoke-WebRequest -Uri $url -OutFile $downloadPath
+            Write-Host "Download Complete!" -ForegroundColor Green
+        }
+    }
+    catch {
+        Write-Host "Error: $_" -ForegroundColor Red
+    }
+    
+}
 # Fungsi untuk mengunduh dan menjalankan antivirus
 function DownloadAndRun {
     param ($url, $description, $tip)
@@ -70,7 +140,7 @@ function DownloadAndRun {
     Write-Host "--------------------------------------------------------------------------------"
 
     Write-Host "`n + Mengunduh antivirus..."
-    Invoke-WebRequest -Uri $url -OutFile $downloadPath
+    BITS
     Write-Host " + Menjalankan antivirus..."
     Start-Process -FilePath $downloadPath -Wait
 
