@@ -1,5 +1,3 @@
-
-# get system info
 $os = Get-CimInstance -ClassName Win32_OperatingSystem
 $osVersion = "$($os.Caption) ($($os.OSArchitecture))"
 $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion

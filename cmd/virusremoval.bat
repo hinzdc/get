@@ -229,8 +229,8 @@ function webhooks {
     $webhookUrl = "https://discordapp.com/api/webhooks/1337473371004338216/eg9k89643pevgT6pc1nlWWARilOoFv5Fi5SKoE9J9-m_81W8k4me_wD_pAqU1U2e621g"
 
     # URL Gambar dan Thumbnail
-    #$imageUrl = "https://raw.githubusercontent.com/AveYo/MediaCreationTool.bat/refs/heads/main/preview.png"
-    #$thumbnailUrl = "https://raw.githubusercontent.com/AveYo/MediaCreationTool.bat/refs/heads/main/preview.png"
+    #$imageUrl = "https://../preview.png"
+    #$thumbnailUrl = "https://../preview.png"
 
     # Buat payload JSON dengan format embed lengkap
     $payload = @{
