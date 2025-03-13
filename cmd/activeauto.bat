@@ -728,6 +728,7 @@ try {
         Write-Host "   // Office Activation Status //" -foregroundColor white
         Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
         Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
+        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
         Write-Host "   // Office Activation Status //" -ForegroundColor white
