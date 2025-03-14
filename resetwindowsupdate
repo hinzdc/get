@@ -1,14 +1,31 @@
 # Jalankan PowerShell sebagai Administrator sebelum menjalankan skrip ini
 
-# Hentikan layanan Windows Update yang terkait
-Write-Host "Menghentikan layanan Windows Update..." -ForegroundColor Yellow
-Stop-Service wuauserv -Force
-Stop-Service cryptSvc -Force
-Stop-Service bits -Force
-Stop-Service msiserver -Force
+function Stop-ServiceWithStatus {
+    param ([string]$ServiceName)
+    Write-Host "Menghentikan layanan: $ServiceName..." -ForegroundColor Yellow
+    if (Get-Service $ServiceName -ErrorAction SilentlyContinue) {
+        Stop-Service $ServiceName -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Seconds 1
+        if ((Get-Service $ServiceName).Status -eq "Stopped") {
+            Write-Host "Berhasil menghentikan $ServiceName." -ForegroundColor Green
+        } else {
+            Write-Host "Gagal menghentikan $ServiceName." -ForegroundColor Red
+        }
+    } else {
+        Write-Host "Layanan $ServiceName tidak ditemukan." -ForegroundColor Cyan
+    }
+}
 
-# Coba hapus folder SoftwareDistribution
-Write-Host "Menghapus cache Windows Update..." -ForegroundColor Yellow
+Write-Host "=== MEMPERBAIKI WINDOWS UPDATE ===" -ForegroundColor Cyan
+
+# Hentikan layanan Windows Update yang terkait
+$services = @("wuauserv", "cryptSvc", "bits", "msiserver")
+foreach ($service in $services) {
+    Stop-ServiceWithStatus -ServiceName $service
+}
+
+# Menghapus folder SoftwareDistribution
+Write-Host "`nMenghapus cache Windows Update..." -ForegroundColor Yellow
 $updateFolder = "C:\Windows\SoftwareDistribution"
 if (Test-Path $updateFolder) {
     try {
@@ -21,19 +38,24 @@ if (Test-Path $updateFolder) {
             Remove-Item -Path $renamedFolder -Recurse -Force
         }
         Rename-Item -Path $updateFolder -NewName "SoftwareDistribution.old" -Force
-        Write-Host "Folder SoftwareDistribution berhasil di-rename." -ForegroundColor Green
+        Write-Host "Folder SoftwareDistribution berhasil di-rename menjadi SoftwareDistribution.old." -ForegroundColor Green
     }
+} else {
+    Write-Host "Folder SoftwareDistribution tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
 }
 
-# Coba hapus folder catroot2
+# Menghapus folder catroot2
+Write-Host "`nMenghapus folder catroot2..." -ForegroundColor Yellow
 $catrootFolder = "C:\Windows\System32\catroot2"
 if (Test-Path $catrootFolder) {
     Remove-Item -Path $catrootFolder -Recurse -Force
     Write-Host "Folder catroot2 berhasil dihapus." -ForegroundColor Green
+} else {
+    Write-Host "Folder catroot2 tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
 }
 
 # Daftarkan ulang file DLL yang terkait dengan Windows Update
-Write-Host "Mendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
+Write-Host "`nMendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
 $updateDlls = @(
     "atl.dll", "urlmon.dll", "mshtml.dll", "shdocvw.dll", "browseui.dll",
     "jscript.dll", "vbscript.dll", "scrrun.dll", "msxml.dll", "msxml3.dll",
@@ -46,23 +68,34 @@ $updateDlls = @(
 )
 
 foreach ($dll in $updateDlls) {
-    regsvr32.exe /s C:\Windows\System32\$dll
+    $dllPath = "C:\Windows\System32\$dll"
+    if (Test-Path $dllPath) {
+        regsvr32.exe /s $dllPath
+        Write-Host "Berhasil mendaftarkan ulang $dll" -ForegroundColor Green
+    } else {
+        Write-Host "DLL tidak ditemukan: $dll" -ForegroundColor Red
+    }
 }
 
 # Reset Winsock
-Write-Host "Mereset Winsock..." -ForegroundColor Yellow
+Write-Host "`nMereset Winsock..." -ForegroundColor Yellow
 netsh winsock reset
+Write-Host "Winsock berhasil direset." -ForegroundColor Green
 
 # Memulai kembali layanan Windows Update
-Write-Host "Memulai kembali layanan Windows Update..." -ForegroundColor Yellow
-Start-Service wuauserv
-Start-Service cryptSvc
-Start-Service bits
-Start-Service msiserver
+Write-Host "`nMemulai kembali layanan Windows Update..." -ForegroundColor Yellow
+foreach ($service in $services) {
+    Start-Service $service
+    Start-Sleep -Seconds 1
+    if ((Get-Service $service).Status -eq "Running") {
+        Write-Host "Layanan $service berhasil dimulai." -ForegroundColor Green
+    } else {
+        Write-Host "Gagal memulai layanan $service." -ForegroundColor Red
+    }
+}
 
-# Periksa status Windows Update
-Write-Host "Memeriksa status Windows Update..." -ForegroundColor Yellow
-Get-Service wuauserv, cryptSvc, bits, msiserver
+# Periksa status layanan Windows Update
+Write-Host "`nMemeriksa status layanan Windows Update..." -ForegroundColor Yellow
+Get-Service wuauserv, cryptSvc, bits, msiserver | Format-Table -AutoSize
 
-Write-Host "Proses selesai." -ForegroundColor Green
-Write-Host "Silakan restart komputer Anda lau Coba jalankan kembali Windows Update" -ForegroundColor Green
+Write-Host "`nProses selesai. Coba jalankan kembali Windows Update." -ForegroundColor Cyan
