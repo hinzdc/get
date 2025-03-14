@@ -88,9 +88,9 @@ foreach ($service in $services) {
     Start-Service $service
     Start-Sleep -Seconds 1
     if ((Get-Service $service).Status -eq "Running") {
-        Write-Host "Layanan $service berhasil dimulai." -ForegroundColor Green
+        Write-Host " + Layanan $service berhasil dimulai." -ForegroundColor Green
     } else {
-        Write-Host "Gagal memulai layanan $service." -ForegroundColor Red
+        Write-Host " X Gagal memulai layanan $service." -ForegroundColor Red
     }
 }
 
