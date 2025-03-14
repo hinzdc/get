@@ -1,0 +1,68 @@
+# Jalankan PowerShell sebagai Administrator sebelum menjalankan skrip ini
+
+# Hentikan layanan Windows Update yang terkait
+Write-Host "Menghentikan layanan Windows Update..." -ForegroundColor Yellow
+Stop-Service wuauserv -Force
+Stop-Service cryptSvc -Force
+Stop-Service bits -Force
+Stop-Service msiserver -Force
+
+# Coba hapus folder SoftwareDistribution
+Write-Host "Menghapus cache Windows Update..." -ForegroundColor Yellow
+$updateFolder = "C:\Windows\SoftwareDistribution"
+if (Test-Path $updateFolder) {
+    try {
+        Remove-Item -Path $updateFolder -Recurse -Force -ErrorAction Stop
+        Write-Host "Folder SoftwareDistribution berhasil dihapus." -ForegroundColor Green
+    } catch {
+        Write-Host "Gagal menghapus folder SoftwareDistribution. Mencoba rename..." -ForegroundColor Red
+        $renamedFolder = "C:\Windows\SoftwareDistribution.old"
+        if (Test-Path $renamedFolder) {
+            Remove-Item -Path $renamedFolder -Recurse -Force
+        }
+        Rename-Item -Path $updateFolder -NewName "SoftwareDistribution.old" -Force
+        Write-Host "Folder SoftwareDistribution berhasil di-rename." -ForegroundColor Green
+    }
+}
+
+# Coba hapus folder catroot2
+$catrootFolder = "C:\Windows\System32\catroot2"
+if (Test-Path $catrootFolder) {
+    Remove-Item -Path $catrootFolder -Recurse -Force
+    Write-Host "Folder catroot2 berhasil dihapus." -ForegroundColor Green
+}
+
+# Daftarkan ulang file DLL yang terkait dengan Windows Update
+Write-Host "Mendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
+$updateDlls = @(
+    "atl.dll", "urlmon.dll", "mshtml.dll", "shdocvw.dll", "browseui.dll",
+    "jscript.dll", "vbscript.dll", "scrrun.dll", "msxml.dll", "msxml3.dll",
+    "msxml6.dll", "actxprxy.dll", "softpub.dll", "wintrust.dll", "dssenh.dll",
+    "rsaenh.dll", "gpkcsp.dll", "sccbase.dll", "slbcsp.dll", "cryptdlg.dll",
+    "oleaut32.dll", "ole32.dll", "shell32.dll", "initpki.dll", "wuapi.dll",
+    "wuaueng.dll", "wuaueng1.dll", "wucltui.dll", "wups.dll", "wups2.dll",
+    "wuweb.dll", "qmgr.dll", "qmgrprxy.dll", "wucltux.dll", "muweb.dll",
+    "wuwebv.dll"
+)
+
+foreach ($dll in $updateDlls) {
+    regsvr32.exe /s C:\Windows\System32\$dll
+}
+
+# Reset Winsock
+Write-Host "Mereset Winsock..." -ForegroundColor Yellow
+netsh winsock reset
+
+# Memulai kembali layanan Windows Update
+Write-Host "Memulai kembali layanan Windows Update..." -ForegroundColor Yellow
+Start-Service wuauserv
+Start-Service cryptSvc
+Start-Service bits
+Start-Service msiserver
+
+# Periksa status Windows Update
+Write-Host "Memeriksa status Windows Update..." -ForegroundColor Yellow
+Get-Service wuauserv, cryptSvc, bits, msiserver
+
+Write-Host "Proses selesai." -ForegroundColor Green
+Write-Host "Silakan restart komputer Anda lau Coba jalankan kembali Windows Update" -ForegroundColor Green
