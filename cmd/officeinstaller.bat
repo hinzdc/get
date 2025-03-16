@@ -372,7 +372,7 @@ $xamlinput = @'
                 <Label x:Name="label2" Content=" + Default mode is Install. If you want to download only, select Download mode." Canvas.Top="367" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
                 <Label x:Name="label3" Content=" + The downloaded files would be saved on the current user's desktop." Canvas.Top="386" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
                 <Label x:Name="label4" Content=" + The script can download/ install both Retail and Volume versions." Canvas.Top="404" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
-                <Label x:Name="label5" Content=" + Moded by: SARGA X HINZDC AKA OLIH| Website: " Canvas.Top="423" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.Left="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0,0,0,2"/>
+                <Label x:Name="label5" Content=" + ReCreate by: SARGA X HINZDC AKA OLIH | Website: " Canvas.Top="423" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.Left="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0,0,0,2"/>
                 <Rectangle x:Name="RemoveAll" Stroke="#FFDC281F" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Height="141" Width="136" Canvas.Top="143" Canvas.Left="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 <RadioButton x:Name="radioButtonRemoveAllApp" Content="I Agree (Caution!)" FontFamily="Consolas" FontSize="10" VerticalContentAlignment="Center" IsChecked="False" Canvas.Left="19" Canvas.Top="155" HorizontalAlignment="Center" VerticalAlignment="Top"/>
                 <TextBlock x:Name="textBoxRemoveAll" TextWrapping="Wrap" Text="*This option removes all installed Office apps." FontSize="10" Canvas.Left="10" Canvas.Top="289" Foreground="#FFED551B" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Height="30" Width="134"/>
@@ -617,6 +617,33 @@ $storyboard.Begin()
     $PSIinstance = [powershell]::Create().AddScript($scriptBlock)
     $PSIinstance.Runspace = $runspace
     
+# Event handler untuk perubahan pilihan RadioButton
+$radioButtonDownload.Add_Checked({
+    UpdateButtonState
+})
+
+$radioButtonInstall.Add_Checked({
+    UpdateButtonState
+})
+
+# Fungsi untuk memperbarui teks tombol berdasarkan pilihan RadioButton
+function UpdateButtonState {
+    if ($radioButtonDownload.IsChecked) {
+        $buttonText = 'DOWNLOAD'
+    }
+    elseif ($radioButtonInstall.IsChecked) {
+        $buttonText = 'INSTALL'
+    }
+    else {
+        return  # Jika tidak ada radio button yang dipilih, keluar dari fungsi
+    }
+
+    # Gunakan Dispatcher untuk memperbarui UI di thread utama
+    $sync.Form.Dispatcher.Invoke([action] { 
+        $sync.buttonSubmit.Content = $buttonText 
+    })
+}
+
 # INSTALL/DOWNLOAD/ACTIVATE Microsoft Office with a runspace
 
     $buttonSubmit.Add_Click( {

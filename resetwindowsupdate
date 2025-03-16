@@ -44,6 +44,7 @@ if (Test-Path $updateFolder) {
     Write-Host "Folder SoftwareDistribution tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
 }
 
+
 # Menghapus folder catroot2
 Write-Host "`nMenghapus folder catroot2..." -ForegroundColor Yellow
 $catrootFolder = "C:\Windows\System32\catroot2"
@@ -53,7 +54,7 @@ if (Test-Path $catrootFolder) {
 } else {
     Write-Host "Folder catroot2 tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
 }
-
+Start-Sleep -Seconds 3
 # Daftarkan ulang file DLL yang terkait dengan Windows Update
 Write-Host "`nMendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
 $updateDlls = @(
@@ -98,4 +99,4 @@ foreach ($service in $services) {
 Write-Host "`nMemeriksa status layanan Windows Update..." -ForegroundColor Yellow
 Get-Service wuauserv, cryptSvc, bits, msiserver | Format-Table -AutoSize
 
-Write-Host "`nProses selesai. Coba jalankan kembali Windows Update." -ForegroundColor Cyan
+Write-Host "`nProses selesai. Silakan restart windows lalu jalankan kembali windows update." -ForegroundColor Cyan

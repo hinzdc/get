@@ -226,8 +226,10 @@ function webhooks {
     $InternetStatus = $internetStatus
 
     # URL Webhook Discord
-    $webhookUrl = "https://discordapp.com/api/webhooks/1337473371004338216/eg9k89643pevgT6pc1nlWWARilOoFv5Fi5SKoE9J9-m_81W8k4me_wD_pAqU1U2e621g"
-
+    $webhookid = "1337473388624609390"
+    $webhooktoken = "frh_h08OFoFeTSUUF-FqHg2ZoJVh6Xjj8YbVzgOyztWuPANtpogg0AUKPWtWC7tsswe8"
+    $webhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
+    
     # URL Gambar dan Thumbnail
     #$imageUrl = "https://../preview.png"
     #$thumbnailUrl = "https://../preview.png"
