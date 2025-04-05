@@ -1,0 +1,23 @@
+
+Clear-Host
+@(
+    "iex(irm indojava.online/get/activeauto)",
+    "iex(irm indojava.online/get/activeoffice)",
+    "iex(irm indojava.online/get/activeofficehook)",
+    "iex(irm indojava.online/get/activewindows)",
+    "iex(irm indojava.online/get/amdsupport)",
+    "iex(irm indojava.online/get/appx)",
+    "iex(irm indojava.online/get/blockhost)",
+    "iex(irm indojava.online/get/def)",
+    "iex(irm indojava.online/get/def2)",
+    "iex(irm indojava.online/get/fixos)",
+    "iex(irm indojava.online/get/infectorcheck)",
+    "iex(irm indojava.online/get/installoffice)",
+    "iex(irm indojava.online/get/officescrub)",
+    "iex(irm indojava.online/get/officescrubber)",
+    "iex(irm indojava.online/get/pausewu)",
+    "iex(irm indojava.online/get/resetnetwork)",
+    "iex(irm indojava.online/get/resetwindowsupdate)",
+    "iex(irm indojava.online/get/virusremoval)",
+    "iex(irm indojava.online/get/unlock)"
+) | ForEach-Object { Write-Host $_ }

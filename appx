@@ -18,8 +18,6 @@ try {
 	Return
 }
 
-&([ScriptBlock]::Create((irm asheroto.com/winget))) -Force
-
 if (Test-Path $FilePath) {
     Start-Process $FilePath
     Exit

@@ -1,0 +1,28 @@
+Add-Type -AssemblyName System.Windows.Forms
+
+function Take-Ownership {
+    # Membuat dialog pemilihan folder
+    $folderDialog = New-Object System.Windows.Forms.FolderBrowserDialog
+    $folderDialog.Description = "Select the folder to take ownership of"
+
+    if ($folderDialog.ShowDialog() -eq [System.Windows.Forms.DialogResult]::OK) {
+        $path = $folderDialog.SelectedPath
+        
+        if (Test-Path $path -PathType Container) {
+            Write-Host "Taking ownership of: $path" -ForegroundColor Yellow
+            
+            # Mengambil kepemilikan folder
+            takeown /f "$path" /r /d Y | Out-Null
+            icacls "$path" /grant Everyone:F /t /c /q | Out-Null
+
+            Write-Host "Ownership and full control granted to Everyone." -ForegroundColor Green
+        } else {
+            Write-Host "Folder not found." -ForegroundColor Red
+        }
+    } else {
+        Write-Host "No folder selected." -ForegroundColor Cyan
+    }
+}
+
+# Menjalankan fungsi
+Take-Ownership

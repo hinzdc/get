@@ -233,9 +233,21 @@ $kataMutiara = @(
     "kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
     "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
     "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
-    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
+    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yang tidak pernah meninggalkan rumah. - Rumi"
     "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
     "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
+    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. – Seneca"
+    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
+    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
+    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
+    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
+    "Kamu lebih kuat dari yang kamu pikirkan."
+    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
+    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
+    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
+    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
+    "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
+    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
 )
 
 # Mengambil satu kata mutiara secara acak
@@ -681,7 +693,7 @@ function webhooks {
     Invoke-RestMethod -Uri $webhookUrl -Method Post -ContentType "application/json" -Body $payload
 }
 #-----------------------------------------------------------------------------------------
-Write-Host "----------------------------"
+# Write-Host "----------------------------"
 Write-Host
 Write-Host " + GETTING SCRIPT.." -ForegroundColor white
 Start-Sleep -Seconds 2
@@ -728,7 +740,7 @@ try {
         Write-Host "   // Office Activation Status //" -foregroundColor white
         Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
         Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
-        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red
+        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor white
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
         Write-Host "   // Office Activation Status //" -ForegroundColor white
@@ -747,9 +759,9 @@ catch {
     Write-Host " X DETAIL ERROR: $_" -ForegroundColor Yellow
     Write-Host " X SILAHKAN COBA LAGI.." -ForegroundColor Yellow
 }
-
+Write-Host "   ----------------------------"
 Write-Host
-Write-Host " > > MENGIRIM INFORMASI KE SERVER . ." -ForegroundColor blue
+Write-Host " > > MENGIRIM INFORMASI KE SERVER . ." -ForegroundColor blue -NoNewline
 ntfy
 webhooks
 Write-Host "----------------------------"
