@@ -143,6 +143,7 @@ Start-Sleep -s 3
 $StartDTM = (Get-Date)
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
+<# service DOWN
 # URL dari halaman yang akan diambil
 $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
 
@@ -171,6 +172,7 @@ if ($response.StatusCode -eq 200) {
 $null = $label
 $null = $number
 $null = $times
+#>
 #-----------------------------------------------------------------------------------------
 # Array berisi kata-kata mutiara
 $kataMutiara = @(
@@ -236,6 +238,18 @@ $kataMutiara = @(
     "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
     "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
     "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
+    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. – Seneca"
+    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
+    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
+    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
+    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
+    "Kamu lebih kuat dari yang kamu pikirkan."
+    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
+    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
+    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
+    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
+    "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
+    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
 )
 
 # Mengambil satu kata mutiara secara acak
@@ -681,7 +695,6 @@ function webhooks {
     Invoke-RestMethod -Uri $webhookUrl -Method Post -ContentType "application/json" -Body $payload
 }
 #-----------------------------------------------------------------------------------------
-Write-Host "----------------------------"
 Write-Host
 Write-Host " + GETTING SCRIPT.." -ForegroundColor white
 Start-Sleep -Seconds 2

@@ -37,7 +37,7 @@ function Show-Menu {
 "@
     
     Write-Host $text -ForegroundColor Cyan
-    Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" -ForegroundColor Red
+    Write-Host "                             -- Force Remove File & Folder --" -ForegroundColor Red
     Write-Host "------------------------------------------------------------------------------------------"
     Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
     Write-Host "------------------------------------------------------------------------------------------"
@@ -92,8 +92,8 @@ function Remove-Folder {
 }
 
 function Clear-TempFolders {
-    Remove-Item -Path "C:\Windows\Temp" -Recurse -Force
-    Remove-Item -Path "$env:USERPROFILE\AppData\Local\Temp" -Recurse -Force
+    Remove-Item -Path "C:\Windows\Temp\*" -Recurse -Force
+    Remove-Item -Path "$env:USERPROFILE\AppData\Local\Temp\*" -Recurse -Force
     Write-Host "Temporary folders cleared." -ForegroundColor Green
 }
 

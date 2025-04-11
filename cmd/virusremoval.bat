@@ -241,7 +241,7 @@ function webhooks {
         embeds = @(@{
             title = ":fox: AuroraToolKIT - System Report"
             description = ":shield: **VIRUS REMOVAL TOOLS**"
-            color = 3447003
+            color = 15158332
             fields = @(
                 @{ name = ":computer: **System**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
                 @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
@@ -282,7 +282,7 @@ while ($true) {
         Write-Host " $($i+1). $($antivirusList[$i].Name)"
     }
     Write-Host "------------------------------------------------------------------------------------------"
-    $choice = Read-Host "Masukkan pilihan (1-$($antivirusList.Count)) atau tekan ENTER untuk keluar"
+    $choice = Read-Host "Masukkan pilihan (1-$($antivirusList.Count)) Lalu tekan ENTER"
 
     # Jika user tekan Enter, keluar dari skrip
     if ($choice -eq "") { exitScript }
