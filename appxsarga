@@ -1,6 +1,7 @@
 if (!([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole] "Administrator")) { Start-Process powershell.exe "-NoProfile -ExecutionPolicy Bypass -File `"$PSCommandPath`"" -Verb RunAs; exit }
 
 cls
+winget settings --enable InstallerHashOverride
 $appxApps = @(
   "mcmilk.7zip-zstd",
   "NSIS.NSIS",
@@ -9,8 +10,16 @@ $appxApps = @(
   "AngusJohnson.ResourceHacker",
   "AutoIt.AutoIt",
   "PuTTY.PuTTY",
-  "angryziber.AngryIPScanner",
+  "Famatech.AdvancedIPScanner",
   "RARLab.WinRAR",
+  "SoftDeluxe.FreeDownloadManager",
+  "RamenSoftware.Windhawk",
+  "Discord.Discord",
+  "Telegram.TelegramDesktop",
+  "WhatsApp.WhatsApp",
+  "Microsoft.PowerToys",
+  "Microsoft.VisualStudio.2022.Community",
+  "Notepad++.Notepad++",
   "GitHub.GitHubDesktop"
 
 )
@@ -19,9 +28,9 @@ foreach ($app in $appxApps) {
     Write-Host "Menginstall Aplikasi: $app"
     winget install -e --id $app -h --force --accept-package-agreements --accept-source-agreements --source winget
 }
-winget install --id=Microsoft.VisualStudioCode -e  --scope "machine"
+winget install --id=Microsoft.VisualStudioCode -e --scope "machine"
 # Menampilkan pesan setelah selesai
+winget upgrade --all
 Write-Host "---------------------------------------------"
 Write-Host -fore green "Proses Instal aplikasi selesai."
-& ([ScriptBlock]::Create((irm https://get.activated.win))) /HWID
 exit
