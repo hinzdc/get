@@ -62,6 +62,74 @@ goto :eof
     
 #>
 
+#-----------------------------------------------------------------------------------------
+Add-Type @"
+using System;
+using System.Runtime.InteropServices;
+
+public class ConsoleControl {
+    [DllImport("kernel32.dll")]
+    public static extern IntPtr GetConsoleWindow();
+
+    [DllImport("user32.dll")]
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    [DllImport("user32.dll")]
+    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+    [DllImport("user32.dll")]
+    public static extern int GetSystemMenu(IntPtr hWnd, bool bRevert);
+
+    [DllImport("user32.dll")]
+    public static extern bool RemoveMenu(int hMenu, int uPosition, int uFlags);
+}
+"@
+
+# Mendapatkan handle jendela konsol saat ini
+$consoleHandle = [ConsoleControl]::GetConsoleWindow()
+
+# Mengatur constant untuk mengubah properti jendela konsol
+$GWL_STYLE = -16
+$WS_MAXIMIZEBOX = 0x10000
+$WS_SIZEBOX = 0x40000
+
+# Mengambil style jendela saat ini
+$currentStyle = [ConsoleControl]::GetWindowLong($consoleHandle, $GWL_STYLE)
+
+# Menghapus kemampuan untuk diubah ukurannya, dimaksimalkan dan menutup jendela
+$newStyle = $currentStyle -band -bnot $WS_SIZEBOX -band -bnot $WS_MAXIMIZEBOX
+
+# Menerapkan style baru ke jendela
+[ConsoleControl]::SetWindowLong($consoleHandle, $GWL_STYLE, $newStyle) > $null
+
+# Menyembunyikan jendela jika sudah dimodifikasi (untuk memastikan tidak ada kesalahan)
+[ConsoleControl]::ShowWindow($consoleHandle, 5) > $null  # 5 = SW_SHOW
+
+# Menghapus menu sistem (termasuk tombol Close/X)
+$hMenu = [ConsoleControl]::GetSystemMenu($consoleHandle, $false)
+[ConsoleControl]::RemoveMenu($hMenu, 0xF060, 0x0) > $null  # 0xF060 = SC_CLOSE (tombol Close)
+
+function UnQuickEdit
+{
+	$t=[AppDomain]::CurrentDomain.DefineDynamicAssembly((Get-Random), 1).DefineDynamicModule((Get-Random), $False).DefineType((Get-Random))
+	$t.DefinePInvokeMethod('GetStdHandle', 'kernel32.dll', 22, 1, [IntPtr], @([Int32]), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('SetConsoleMode', 'kernel32.dll', 22, 1, [Boolean], @([IntPtr], [Int32]), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('GetConsoleWindow', 'kernel32.dll', 22, 1, [IntPtr], @(), 1, 3).SetImplementationFlags(128)
+	$t.DefinePInvokeMethod('SendMessageW', 'user32.dll', 22, 1, [IntPtr], @([IntPtr], [UInt32], [IntPtr], [IntPtr]), 1, 3).SetImplementationFlags(128)
+	$k=$t.CreateType()
+	if ($winbuild -GE 17763) {
+		if ($k::SendMessageW($k::GetConsoleWindow(), 127, 0, 0) -EQ [IntPtr]::Zero) {
+			return
+		}
+	}
+	$v=(0x0080, 0x00A0)[!($winbuild -GE 10586)]
+	$b=$k::SetConsoleMode($k::GetStdHandle(-10), $v)
+}
+UnQuickEdit
+
 Clear-Host
 # Pastikan encoding terminal PowerShell menggunakan UTF-8
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
