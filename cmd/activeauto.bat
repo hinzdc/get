@@ -238,7 +238,7 @@ $kataMutiara = @(
     "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
     "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
     "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
-    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. – Seneca"
+    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. Seneca"
     "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
     "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
     "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
@@ -696,6 +696,7 @@ function webhooks {
 }
 #-----------------------------------------------------------------------------------------
 Write-Host
+Write-Host
 Write-Host " + GETTING SCRIPT.." -ForegroundColor white
 Start-Sleep -Seconds 2
 Write-Host " + ACTIVATING.." -ForegroundColor white
@@ -741,7 +742,7 @@ try {
         Write-Host "   // Office Activation Status //" -foregroundColor white
         Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
         Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
-        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red
+        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor White
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
         Write-Host "   // Office Activation Status //" -ForegroundColor white
