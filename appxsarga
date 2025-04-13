@@ -29,8 +29,20 @@ foreach ($app in $appxApps) {
     winget install -e --id $app -h --force --accept-package-agreements --accept-source-agreements --source winget
 }
 winget install --id=Microsoft.VisualStudioCode -e --scope "machine"
+$appxms = @(
+  "9NT1R1C2HH7J",
+  "9NBLGGH4NNS1"
+)
+foreach ($appx in $appxms) {
+winget install -e --id $appx -h --force --accept-package-agreements --accept-source-agreements --source msstore
+}
 # Menampilkan pesan setelah selesai
-winget upgrade --all
+# winget upgrade --all
 Write-Host "---------------------------------------------"
 Write-Host -fore green "Proses Instal aplikasi selesai."
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" -Name "TaskbarAl" -Value 0
+
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -Value 0
+Set-ItemProperty -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "SystemUsesLightTheme" -Value 0
+Stop-Process -Name explorer -Force
 exit
