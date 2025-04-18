@@ -143,9 +143,10 @@ Start-Sleep -s 3
 $StartDTM = (Get-Date)
 Write-Host " START " -BackgroundColor Green -ForegroundColor White -NoNewline
 Write-Host " $StartDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
-<# service DOWN
+
 # URL dari halaman yang akan diambil
-$url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
+# $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
+$url = "https://visitor-badge.imlete.cn/?id=activeauto"
 
 # Mengambil konten halaman web
 $response = Invoke-WebRequest -Uri $url -UseBasicParsing
@@ -172,7 +173,7 @@ if ($response.StatusCode -eq 200) {
 $null = $label
 $null = $number
 $null = $times
-#>
+
 #-----------------------------------------------------------------------------------------
 # Array berisi kata-kata mutiara
 $kataMutiara = @(
@@ -742,7 +743,7 @@ try {
         Write-Host "   // Office Activation Status //" -foregroundColor white
         Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
         Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
-        Write-Host "   Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor White
+        Write-Host "Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor White
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
         Write-Host "   // Office Activation Status //" -ForegroundColor white
