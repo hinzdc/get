@@ -1,16 +1,21 @@
 # Jalankan sebagai Administrator
+Write-Host "=== MENONAKTIFKAN WINDOWS UPDATE ===" -ForegroundColor Cyan
 
-# Hentikan layanan terkait Windows Update
-Stop-Service -Name wuauserv -Force
-Stop-Service -Name bits -Force
-Stop-Service -Name dosvc -Force
+# 1. Hentikan layanan
+$services = @("wuauserv", "bits", "dosvc")
+foreach ($svc in $services) {
+    Write-Host "Menghentikan layanan: $svc..."
+    Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
+}
 
-# Set layanan menjadi Disabled
-Set-Service -Name wuauserv -StartupType Disabled
-Set-Service -Name bits -StartupType Disabled
-Set-Service -Name dosvc -StartupType Disabled
+# 2. Set layanan ke Disabled
+foreach ($svc in $services) {
+    Write-Host "Mengatur layanan $svc ke 'Disabled'..."
+    Set-Service -Name $svc -StartupType Disabled -ErrorAction SilentlyContinue
+}
 
-# Nonaktifkan tugas terjadwal Windows Update
+# 3. Nonaktifkan tugas terjadwal Windows Update
+Write-Host "Menonaktifkan tugas terjadwal Windows Update..."
 $tasks = @(
     "\Microsoft\Windows\WindowsUpdate\Scheduled Start",
     "\Microsoft\Windows\WindowsUpdate\sih",
@@ -19,12 +24,18 @@ $tasks = @(
 
 foreach ($task in $tasks) {
     try {
-        Disable-ScheduledTask -TaskPath $task.Substring(0, $task.LastIndexOf('\')+1) -TaskName ($task.Split('\')[-1]) -ErrorAction SilentlyContinue
-    } catch {}
+        $taskPath = $task.Substring(0, $task.LastIndexOf('\') + 1)
+        $taskName = $task.Split('\')[-1]
+        Disable-ScheduledTask -TaskPath $taskPath -TaskName $taskName -ErrorAction Stop
+        Write-Host "Tugas $task dinonaktifkan."
+    } catch {
+        Write-Host "Gagal menonaktifkan tugas $task (mungkin tidak ada)." -ForegroundColor Yellow
+    }
 }
 
-# Blokir domain Windows Update di file hosts
-$hostsPath = "$env:WINDIR\System32\drivers\etc\hosts"
+# 4. Tambahkan entri blokir ke file hosts
+Write-Host "Memblokir domain Windows Update di file hosts..."
+$hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
 $blockedHosts = @(
     "windowsupdate.microsoft.com",
     "update.microsoft.com",
@@ -36,16 +47,24 @@ $blockedHosts = @(
     "stats.update.microsoft.com"
 )
 
-$existingHosts = Get-Content $hostsPath -ErrorAction SilentlyContinue
-$blockEntries = $blockedHosts | ForEach-Object {
-    "127.0.0.1 `t$_"
+# Backup file hosts
+$backupPath = "$hostsPath.bak"
+if (-Not (Test-Path $backupPath)) {
+    Copy-Item -Path $hostsPath -Destination $backupPath -Force
+    Write-Host "Backup file hosts disimpan di $backupPath"
 }
 
-# Tambahkan entri jika belum ada
+# Tambahkan entri blok jika belum ada
+$existingHosts = Get-Content $hostsPath -ErrorAction SilentlyContinue
+$blockEntries = $blockedHosts | ForEach-Object { "127.0.0.1 `t$_" }
+
 foreach ($entry in $blockEntries) {
     if ($existingHosts -notcontains $entry) {
         Add-Content -Path $hostsPath -Value $entry
+        Write-Host "Ditambahkan: $entry"
+    } else {
+        Write-Host "Sudah ada: $entry"
     }
 }
 
-Write-host "Windows Update telah dinonaktifkan dan domain terkait telah diblokir di file hosts." -foreground green
+Write-Host "=== SELESAI ===" -ForegroundColor Green
