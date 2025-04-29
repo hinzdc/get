@@ -1,0 +1,26 @@
+# Jalankan dengan hak Administrator
+
+# Hentikan layanan Windows Update
+Stop-Service -Name wuauserv -Force
+Stop-Service -Name bits -Force
+Stop-Service -Name dosvc -Force
+
+# Set layanan menjadi Disabled
+Set-Service -Name wuauserv -StartupType Disabled
+Set-Service -Name bits -StartupType Disabled
+Set-Service -Name dosvc -StartupType Disabled
+
+# Nonaktifkan tugas terjadwal yang berhubungan dengan Windows Update
+$tasks = @(
+    "\Microsoft\Windows\WindowsUpdate\Scheduled Start",
+    "\Microsoft\Windows\WindowsUpdate\sih",
+    "\Microsoft\Windows\WindowsUpdate\sihboot"
+)
+
+foreach ($task in $tasks) {
+    try {
+        Disable-ScheduledTask -TaskPath $task.Substring(0, $task.LastIndexOf('\')+1) -TaskName ($task.Split('\')[-1]) -ErrorAction SilentlyContinue
+    } catch {}
+}
+
+Write-Output "Windows Update telah dinonaktifkan secara permanen."
