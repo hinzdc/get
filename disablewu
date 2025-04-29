@@ -23,4 +23,4 @@ foreach ($task in $tasks) {
     } catch {}
 }
 
-Write-Output "Windows Update telah dinonaktifkan secara permanen."
+Write-Host "Windows Update telah dinonaktifkan secara permanen." -foreground green
