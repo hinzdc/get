@@ -1,37 +1,59 @@
 # Jalankan sebagai Administrator
 Write-Host "=== MENGAKTIFKAN KEMBALI WINDOWS UPDATE ===" -ForegroundColor Cyan
 
-# 1. Ubah status layanan menjadi Manual dan jalankan
-$services = @("wuauserv", "bits", "dosvc")
+# 1. Enable dan jalankan layanan
+$services = @("wuauserv", "bits", "dosvc", "UsoSvc", "WaaSMedicSvc", "wuaueng")
 foreach ($svc in $services) {
-    Write-Host "Mengatur layanan $svc ke 'Manual'..."
-    Set-Service -Name $svc -StartupType Manual -ErrorAction SilentlyContinue
+    try {
+        Write-Host "Mengatur layanan $svc ke 'Manual'..."
+        Set-Service -Name $svc -StartupType Manual -ErrorAction SilentlyContinue
 
-    Write-Host "Menjalankan layanan $svc..."
-    Start-Service -Name $svc -ErrorAction SilentlyContinue
+        Write-Host "Menjalankan layanan $svc..."
+        Start-Service -Name $svc -ErrorAction SilentlyContinue
+    } catch {
+        Write-Host "Layanan $svc tidak ditemukan atau tidak dapat dimulai." -ForegroundColor Yellow
+    }
 }
 
-# 2. Aktifkan kembali tugas terjadwal Windows Update
-Write-Host "Mengaktifkan kembali tugas terjadwal Windows Update..."
+# 2. Aktifkan kembali semua tugas terjadwal
 $tasks = @(
     "\Microsoft\Windows\WindowsUpdate\Scheduled Start",
-    "\Microsoft\Windows\WindowsUpdate\sih",
-    "\Microsoft\Windows\WindowsUpdate\sihboot"
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Scan",
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Scan Static Task",
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Work",
+    "\Microsoft\Windows\UpdateOrchestrator\Report policies",
+    "\Microsoft\Windows\UpdateOrchestrator\UpdateModelTask",
+    "\Microsoft\Windows\UpdateOrchestrator\USO_UxBroker",
+    "\Microsoft\Windows\WaaSMedic\PerformRemediation"
 )
 
+Write-Host "Mengaktifkan kembali tugas terjadwal..."
 foreach ($task in $tasks) {
     try {
         $taskPath = $task.Substring(0, $task.LastIndexOf('\') + 1)
         $taskName = $task.Split('\')[-1]
         Enable-ScheduledTask -TaskPath $taskPath -TaskName $taskName -ErrorAction Stop
-        Write-Host "Tugas $task diaktifkan kembali."
+        Write-Host "Tugas $task diaktifkan."
     } catch {
-        Write-Host "Gagal mengaktifkan tugas $task (mungkin tidak ada)." -ForegroundColor Yellow
+        Write-Host "Tugas $task tidak ditemukan atau gagal diaktifkan." -ForegroundColor Yellow
     }
 }
 
-# 3. Hapus entri blokir dari file hosts
-Write-Host "Menghapus blokir domain Windows Update dari file hosts..."
+# 3. Pulihkan registry WaaSMedicSvc dan kebijakan update
+Write-Host "Mengembalikan registry WaaSMedicSvc dan pengaturan kebijakan update..."
+
+# WaaSMedicSvc: Start = 3 (Manual)
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\WaaSMedicSvc" -Name "Start" -Value 3
+
+# Hapus FailureActions (opsional, atau biarkan)
+Remove-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\WaaSMedicSvc" -Name "FailureActions" -ErrorAction SilentlyContinue
+
+# Hapus NoAutoUpdate
+Remove-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoUpdate" -ErrorAction SilentlyContinue
+
+# 4. Hapus entri blokir di file hosts
+Write-Host "Menghapus pemblokiran domain Windows Update dari file hosts..."
+
 $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
 $blockedHosts = @(
     "windowsupdate.microsoft.com",
@@ -44,15 +66,117 @@ $blockedHosts = @(
     "stats.update.microsoft.com"
 )
 
-$existingHosts = Get-Content $hostsPath -ErrorAction SilentlyContinue
-$filteredHosts = $existingHosts | Where-Object {
-    $line = $_.Trim()
-    -not ($blockedHosts | ForEach-Object { $line -match $_ })
+if (Test-Path $hostsPath) {
+    $content = Get-Content $hostsPath -ErrorAction SilentlyContinue
+    $filtered = $content | Where-Object {
+        $line = $_.Trim()
+        -not ($blockedHosts | ForEach-Object { $line -match $_ })
+    }
+    Set-Content -Path $hostsPath -Value $filtered
+    Write-Host "Blokir domain telah dihapus dari file hosts."
 }
 
-# Tulis ulang file hosts tanpa entri yang diblokir
-Set-Content -Path $hostsPath -Value $filteredHosts -ErrorAction SilentlyContinue
-Write-Host "Entri blokir telah dihapus dari file hosts."
+Write-Host "=== WINDOWS UPDATE TELAH DIAKTIFKAN KEMBALI ===" -ForegroundColor Green
 
-Write-Host "=== SELESAI ===" -ForegroundColor Green
-iex(irm indojava.online/get/resetwindowsupdate)
+
+function Stop-ServiceWithStatus {
+    param ([string]$ServiceName)
+    Write-Host "Menghentikan Services Windows Update yang terkait..." -ForegroundColor Yellow
+    if (Get-Service $ServiceName -ErrorAction SilentlyContinue) {
+        Stop-Service $ServiceName -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Seconds 1
+        if ((Get-Service $ServiceName).Status -eq "Stopped") {
+            Write-Host " + Berhasil menghentikan $ServiceName." -ForegroundColor Green
+        } else {
+            Write-Host " X Gagal menghentikan $ServiceName." -ForegroundColor Red
+        }
+    } else {
+        Write-Host "Layanan $ServiceName tidak ditemukan." -ForegroundColor Cyan
+    }
+}
+
+Write-Host "=== MEMPERBAIKI WINDOWS UPDATE ===" -ForegroundColor Cyan
+
+# Hentikan layanan Windows Update yang terkait
+$services = @("wuauserv", "cryptSvc", "bits", "msiserver")
+foreach ($service in $services) {
+    Stop-ServiceWithStatus -ServiceName $service
+}
+
+# Menghapus folder SoftwareDistribution
+Write-Host "`nMenghapus cache Windows Update..." -ForegroundColor Yellow
+$updateFolder = "C:\Windows\SoftwareDistribution"
+if (Test-Path $updateFolder) {
+    try {
+        Remove-Item -Path $updateFolder -Recurse -Force -ErrorAction Stop
+        Write-Host "Folder SoftwareDistribution berhasil dihapus." -ForegroundColor Green
+    } catch {
+        Write-Host "Gagal menghapus folder SoftwareDistribution. Mencoba rename..." -ForegroundColor Red
+        $renamedFolder = "C:\Windows\SoftwareDistribution.old"
+        if (Test-Path $renamedFolder) {
+            Remove-Item -Path $renamedFolder -Recurse -Force
+        }
+        Rename-Item -Path $updateFolder -NewName "SoftwareDistribution.old" -Force
+        Write-Host "Folder SoftwareDistribution berhasil di-rename menjadi SoftwareDistribution.old." -ForegroundColor Green
+    }
+} else {
+    Write-Host "Folder SoftwareDistribution tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
+}
+
+
+# Menghapus folder catroot2
+Write-Host "`nMenghapus folder catroot2..." -ForegroundColor Yellow
+$catrootFolder = "C:\Windows\System32\catroot2"
+if (Test-Path $catrootFolder) {
+    Remove-Item -Path $catrootFolder -Recurse -Force
+    Write-Host "Folder catroot2 berhasil dihapus." -ForegroundColor Green
+} else {
+    Write-Host "Folder catroot2 tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
+}
+Start-Sleep -Seconds 3
+# Daftarkan ulang file DLL yang terkait dengan Windows Update
+Write-Host "`nMendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
+$updateDlls = @(
+    "atl.dll", "urlmon.dll", "mshtml.dll", "shdocvw.dll", "browseui.dll",
+    "jscript.dll", "vbscript.dll", "scrrun.dll", "msxml.dll", "msxml3.dll",
+    "msxml6.dll", "actxprxy.dll", "softpub.dll", "wintrust.dll", "dssenh.dll",
+    "rsaenh.dll", "gpkcsp.dll", "sccbase.dll", "slbcsp.dll", "cryptdlg.dll",
+    "oleaut32.dll", "ole32.dll", "shell32.dll", "initpki.dll", "wuapi.dll",
+    "wuaueng.dll", "wuaueng1.dll", "wucltui.dll", "wups.dll", "wups2.dll",
+    "wuweb.dll", "qmgr.dll", "qmgrprxy.dll", "wucltux.dll", "muweb.dll",
+    "wuwebv.dll"
+)
+
+foreach ($dll in $updateDlls) {
+    $dllPath = "C:\Windows\System32\$dll"
+    if (Test-Path $dllPath) {
+        regsvr32.exe /s $dllPath
+        Write-Host "Berhasil mendaftarkan ulang $dll" -ForegroundColor Green
+    } else {
+        Write-Host "DLL tidak ditemukan: $dll" -ForegroundColor Red
+    }
+}
+
+# Reset Winsock
+Write-Host "`nMereset Winsock..." -ForegroundColor Yellow
+netsh winsock reset
+Write-Host "Winsock berhasil direset." -ForegroundColor Green
+
+# Memulai kembali layanan Windows Update
+Write-Host "`nMemulai kembali layanan Windows Update..." -ForegroundColor Yellow
+foreach ($service in $services) {
+    Start-Service $service
+    Start-Sleep -Seconds 1
+    if ((Get-Service $service).Status -eq "Running") {
+        Write-Host " + Layanan $service berhasil dimulai." -ForegroundColor Green
+    } else {
+        Write-Host " X Gagal memulai layanan $service." -ForegroundColor Red
+    }
+}
+
+# Periksa status layanan Windows Update
+Write-Host "`nMemeriksa status layanan Windows Update..." -ForegroundColor Yellow
+Get-Service wuauserv, cryptSvc, bits, msiserver | Format-Table -AutoSize
+
+Write-Host "`nProses selesai. Silakan restart windows lalu jalankan kembali windows update." -ForegroundColor Cyan
+

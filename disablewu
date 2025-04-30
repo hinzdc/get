@@ -1,27 +1,33 @@
 # Jalankan sebagai Administrator
-Write-Host "=== MENONAKTIFKAN WINDOWS UPDATE ===" -ForegroundColor Cyan
+Write-Host "=== MENONAKTIFKAN WINDOWS UPDATE TOTAL ===" -ForegroundColor Cyan
 
-# 1. Hentikan layanan
-$services = @("wuauserv", "bits", "dosvc")
+# 1. Disable dan stop layanan
+$services = @("wuauserv", "bits", "dosvc", "UsoSvc", "WaaSMedicSvc", "wuaueng")
 foreach ($svc in $services) {
-    Write-Host "Menghentikan layanan: $svc..."
-    Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
+    try {
+        Write-Host "Menghentikan layanan: $svc..."
+        Stop-Service -Name $svc -Force -ErrorAction SilentlyContinue
+
+        Write-Host "Mengatur layanan $svc ke 'Disabled'..."
+        Set-Service -Name $svc -StartupType Disabled -ErrorAction SilentlyContinue
+    } catch {
+        Write-Host "Layanan $svc tidak ditemukan." -ForegroundColor Yellow
+    }
 }
 
-# 2. Set layanan ke Disabled
-foreach ($svc in $services) {
-    Write-Host "Mengatur layanan $svc ke 'Disabled'..."
-    Set-Service -Name $svc -StartupType Disabled -ErrorAction SilentlyContinue
-}
-
-# 3. Nonaktifkan tugas terjadwal Windows Update
-Write-Host "Menonaktifkan tugas terjadwal Windows Update..."
+# 2. Nonaktifkan semua tugas terjadwal terkait update
 $tasks = @(
     "\Microsoft\Windows\WindowsUpdate\Scheduled Start",
-    "\Microsoft\Windows\WindowsUpdate\sih",
-    "\Microsoft\Windows\WindowsUpdate\sihboot"
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Scan",
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Scan Static Task",
+    "\Microsoft\Windows\UpdateOrchestrator\Schedule Work",
+    "\Microsoft\Windows\UpdateOrchestrator\Report policies",
+    "\Microsoft\Windows\UpdateOrchestrator\UpdateModelTask",
+    "\Microsoft\Windows\UpdateOrchestrator\USO_UxBroker",
+    "\Microsoft\Windows\WaaSMedic\PerformRemediation"
 )
 
+Write-Host "Menonaktifkan tugas terjadwal..."
 foreach ($task in $tasks) {
     try {
         $taskPath = $task.Substring(0, $task.LastIndexOf('\') + 1)
@@ -29,11 +35,21 @@ foreach ($task in $tasks) {
         Disable-ScheduledTask -TaskPath $taskPath -TaskName $taskName -ErrorAction Stop
         Write-Host "Tugas $task dinonaktifkan."
     } catch {
-        Write-Host "Gagal menonaktifkan tugas $task (mungkin tidak ada)." -ForegroundColor Yellow
+        Write-Host "Tugas $task tidak ditemukan." -ForegroundColor Yellow
     }
 }
 
-# 4. Tambahkan entri blokir ke file hosts
+# 3. Edit registry untuk WaaSMedicSvc dan disable update
+Write-Host "Mengedit registry WaaSMedicSvc dan kebijakan Windows Update..."
+
+# Set Start = 4 (disabled)
+Set-ItemProperty -Path "HKLM:\SYSTEM\CurrentControlSet\Services\WaaSMedicSvc" -Name "Start" -Value 4
+
+# Set kebijakan NoAutoUpdate = 1
+New-Item -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Force | Out-Null
+Set-ItemProperty -Path "HKLM:\Software\Policies\Microsoft\Windows\WindowsUpdate\AU" -Name "NoAutoUpdate" -Value 1 -Type DWord
+
+# 4. Blokir host Windows Update
 Write-Host "Memblokir domain Windows Update di file hosts..."
 $hostsPath = "$env:SystemRoot\System32\drivers\etc\hosts"
 $blockedHosts = @(
@@ -47,24 +63,20 @@ $blockedHosts = @(
     "stats.update.microsoft.com"
 )
 
-# Backup file hosts
-$backupPath = "$hostsPath.bak"
-if (-Not (Test-Path $backupPath)) {
-    Copy-Item -Path $hostsPath -Destination $backupPath -Force
-    Write-Host "Backup file hosts disimpan di $backupPath"
+# Backup jika belum ada
+if (-not (Test-Path "$hostsPath.bak")) {
+    Copy-Item $hostsPath "$hostsPath.bak"
+    Write-Host "Backup file hosts dibuat."
 }
 
-# Tambahkan entri blok jika belum ada
-$existingHosts = Get-Content $hostsPath -ErrorAction SilentlyContinue
-$blockEntries = $blockedHosts | ForEach-Object { "127.0.0.1 `t$_" }
-
-foreach ($entry in $blockEntries) {
-    if ($existingHosts -notcontains $entry) {
+# Tambah entri jika belum ada
+$existing = Get-Content $hostsPath -ErrorAction SilentlyContinue
+$entries = $blockedHosts | ForEach-Object { "127.0.0.1 `t$_" }
+foreach ($entry in $entries) {
+    if ($existing -notcontains $entry) {
         Add-Content -Path $hostsPath -Value $entry
-        Write-Host "Ditambahkan: $entry"
-    } else {
-        Write-Host "Sudah ada: $entry"
+        Write-Host "Blokir ditambahkan: $entry"
     }
 }
 
-Write-Host "=== SELESAI ===" -ForegroundColor Green
+Write-Host "=== SELESAI. WINDOWS UPDATE TELAH DINONAKTIFKAN SECARA TOTAL ===" -ForegroundColor Green
