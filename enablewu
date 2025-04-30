@@ -78,25 +78,6 @@ if (Test-Path $hostsPath) {
 
 Write-Host "=== WINDOWS UPDATE TELAH DIAKTIFKAN KEMBALI ===" -ForegroundColor Green
 
-
-function Stop-ServiceWithStatus {
-    param ([string]$ServiceName)
-    Write-Host "Menghentikan Services Windows Update yang terkait..." -ForegroundColor Yellow
-    if (Get-Service $ServiceName -ErrorAction SilentlyContinue) {
-        Stop-Service $ServiceName -Force -ErrorAction SilentlyContinue
-        Start-Sleep -Seconds 1
-        if ((Get-Service $ServiceName).Status -eq "Stopped") {
-            Write-Host " + Berhasil menghentikan $ServiceName." -ForegroundColor Green
-        } else {
-            Write-Host " X Gagal menghentikan $ServiceName." -ForegroundColor Red
-        }
-    } else {
-        Write-Host "Layanan $ServiceName tidak ditemukan." -ForegroundColor Cyan
-    }
-}
-
-Write-Host "=== MEMPERBAIKI WINDOWS UPDATE ===" -ForegroundColor Cyan
-
 # Hentikan layanan Windows Update yang terkait
 $services = @("wuauserv", "cryptSvc", "bits", "msiserver")
 foreach ($service in $services) {
