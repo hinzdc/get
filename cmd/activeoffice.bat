@@ -129,7 +129,8 @@ $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJ
 $StartDTM = (Get-Date)
 Write-Host " START $startdate " -BackgroundColor White -ForegroundColor Black
 # URL dari halaman yang akan diambil
-$url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
+# $url = "https://vbr.nathanchung.dev/badge?page_id=hinzdc-activeauto"
+$url = "https://visitor-badge.imlete.cn/?id=activeauto"
 
 # Mengambil konten halaman web
 $response = Invoke-WebRequest -Uri $url -UseBasicParsing

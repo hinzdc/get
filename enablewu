@@ -6,7 +6,7 @@ $services = @("wuauserv", "bits", "dosvc", "UsoSvc", "WaaSMedicSvc", "wuaueng")
 foreach ($svc in $services) {
     try {
         Write-Host "Mengatur layanan $svc ke 'Manual'..."
-        Set-Service -Name $svc -StartupType Manual -ErrorAction SilentlyContinue
+        Set-Service -Name $svc -StartupType Automatic -ErrorAction SilentlyContinue
 
         Write-Host "Menjalankan layanan $svc..."
         Start-Service -Name $svc -ErrorAction SilentlyContinue
