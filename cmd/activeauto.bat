@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=40
+mode con cols=90 lines=38
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -111,7 +111,42 @@ function UnQuickEdit
 }
 UnQuickEdit
 #-----------------------------------------------------------------------------------------
-$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 40)
+# Ambil handle jendela aktif (foreground window)
+Add-Type -Name Win32 -Namespace Win32Functions -MemberDefinition @"
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll")]
+    public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
+
+    [DllImport("user32.dll")]
+    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
+
+    public struct RECT {
+        public int Left;
+        public int Top;
+        public int Right;
+        public int Bottom;
+    }
+"@
+
+$hwnd = [Win32Functions.Win32]::GetForegroundWindow()
+
+if ($hwnd -eq [IntPtr]::Zero) {
+    return
+}
+
+# Ambil ukuran jendela
+$rect = New-Object Win32Functions.Win32+RECT
+[Win32Functions.Win32]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
+$w = $rect.Right - $rect.Left
+$h = $rect.Bottom - $rect.Top
+
+# Pindahkan jendela ke posisi baru tanpa mengubah ukuran
+[Win32Functions.Win32]::MoveWindow($hwnd, 50, 50, $w, $h, $true)
+
+#-----------------------------------------------------------------------------------------
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 38)
 $Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
 Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
@@ -767,7 +802,6 @@ Write-Host
 Write-Host " > > MENGIRIM INFORMASI KE SERVER . ." -ForegroundColor blue
 ntfy
 webhooks
-Write-Host "----------------------------"
 $EndDTM = (Get-Date)
 Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
