@@ -1,46 +1,148 @@
 function PauseWindowsUpdate {
-    Write-Host "`n[+] Menerapkan pengaturan Pause Update..." -ForegroundColor Yellow
+    Write-Host " + Menerapkan pengaturan Windows Pause Update..." -ForegroundColor Yellow
 
-    $basePaths = @(
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate\AU",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet002\WindowsUpdate",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet002\WindowsUpdate\AU",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\RebootDowntime",
-        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings",
-        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate",
-        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
-    )
+    # CacheSet001
+    $base1 = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate"
+    $au1 = "$base1\AU"
+    New-Item -Path $base1 -Force | Out-Null
+    New-Item -Path $au1 -Force | Out-Null
 
-    foreach ($path in $basePaths) {
-        if (-not (Test-Path $path)) {
-            New-Item -Path $path -Force | Out-Null
-        }
-    }
+    Set-ItemProperty -Path $base1 -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "AllowAutoWindowsUpdateDownloadOverMeteredNetwork" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "ManagePreviewBuildsPolicyValue" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "AUPowerManagement" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "ElevateNonAdmins" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "SetAllowOptionalContent" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "SetAutoRestartNotificationDisable" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "AllowOptionalContent" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "DisableWUfBSafeguards" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "SetUpdateNotificationLevel" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "UpdateNotificationLevel" -Value 2 -Type DWord
+    Set-ItemProperty -Path $base1 -Name "SetRestartWarningSchd" -Value 0 -Type DWord
 
-    # Set registry values (dipadatkan untuk kejelasan, sebagian contoh)
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState" -Name "BranchReadinessLevel" -Value "CB" -Type String
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState" -Name "ExcludeWUDrivers" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "NoAUAsDefaultShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "NoAUShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "AlwaysAutoRebootAtScheduledTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "AutoInstallMinorUpdates" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "NoAutoUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "AUOptions" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "AutomaticMaintenanceEnabled" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "ScheduledInstallDay" -Value 7 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "ScheduledInstallTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "ScheduledInstallFourthWeek" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au1 -Name "AllowMUUpdateService" -Value 0 -Type DWord
 
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseFeatureUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseFeatureUpdatesEndTime" -Value "3000-12-30T23:59:59Z"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseQualityUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseQualityUpdatesEndTime" -Value "3000-12-30T23:59:59Z"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
-    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseUpdatesExpiryTime" -Value "3000-12-30T23:59:59Z"
+    # CacheSet002
+    $base2 = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet002\WindowsUpdate"
+    $au2 = "$base2\AU"
+    New-Item -Path $base2 -Force | Out-Null
+    New-Item -Path $au2 -Force | Out-Null
 
-    # (Kamu bisa lanjut tambahkan semua key seperti dari .reg di bagian ini)
+    Set-ItemProperty -Path $base2 -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "AllowAutoWindowsUpdateDownloadOverMeteredNetwork" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "ManagePreviewBuildsPolicyValue" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "AUPowerManagement" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "ElevateNonAdmins" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "SetAllowOptionalContent" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "SetAutoRestartNotificationDisable" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "AllowOptionalContent" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "DisableWUfBSafeguards" -Value 0 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "SetUpdateNotificationLevel" -Value 1 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "UpdateNotificationLevel" -Value 2 -Type DWord
+    Set-ItemProperty -Path $base2 -Name "TargetReleaseVersion" -Value 0 -Type DWord
 
-    gpupdate.exe /force | Out-Null
+    Set-ItemProperty -Path $au2 -Name "NoAUAsDefaultShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "NoAUShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "AlwaysAutoRebootAtScheduledTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "AutoInstallMinorUpdates" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "NoAutoUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "AUOptions" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "AutomaticMaintenanceEnabled" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "ScheduledInstallDay" -Value 7 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "ScheduledInstallTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "ScheduledInstallFourthWeek" -Value 1 -Type DWord
+    Set-ItemProperty -Path $au2 -Name "AllowMUUpdateService" -Value 0 -Type DWord
 
-    Write-Host "[+] Windows Update telah dipause." -ForegroundColor Green
+    # PolicyState
+    $policyState = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState"
+    New-Item -Path $policyState -Force | Out-Null
+    Set-ItemProperty -Path $policyState -Name "BranchReadinessLevel" -Value "CB" -Type String
+    Set-ItemProperty -Path $policyState -Name "ExcludeWUDrivers" -Value 1 -Type DWord
+
+    # UX\RebootDowntime
+    $rebootDT = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\RebootDowntime"
+    New-Item -Path $rebootDT -Force | Out-Null
+    Set-ItemProperty -Path $rebootDT -Name "FirstLogonAfterUpdateFlag" -Value 0 -Type DWord
+
+    # UX\Settings
+    $uxSettings = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+    New-Item -Path $uxSettings -Force | Out-Null
+    Set-ItemProperty -Path $uxSettings -Name "PauseFeatureUpdatesStartTime" -Value "2000-01-01T00:00:00Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "PauseFeatureUpdatesEndTime" -Value "3000-12-30T23:59:59Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "PauseQualityUpdatesStartTime" -Value "2000-01-01T00:00:00Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "PauseQualityUpdatesEndTime" -Value "3000-12-30T23:59:59Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "PauseUpdatesStartTime" -Value "2000-01-01T00:00:00Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "PauseUpdatesExpiryTime" -Value "3000-12-30T23:59:59Z" -Type String
+    Set-ItemProperty -Path $uxSettings -Name "ActiveHoursStart" -Value 7 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "ActiveHoursEnd" -Value 20 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "AllowAutoWindowsUpdateDownloadOverMeteredNetwork" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "ExcludeWUDriversInQualityUpdate" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "SmartActiveHoursState" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "SmartActiveHoursSuggestionState" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "UserChoiceActiveHoursStart" -Value 7 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "UserChoiceActiveHoursEnd" -Value 20 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "FlightSettingsMaxPauseDays" -Value 17504 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "RestartNotificationsAllowed" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "RestartNotificationsAllowed2" -Value 0 -Type DWord
+    Set-ItemProperty -Path $uxSettings -Name "IsContinuousInnovationOptedIn" -Value 0 -Type DWord
+
+    # Policies\WindowsUpdate
+    $polWU = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+    $polAU = "$polWU\AU"
+    New-Item -Path $polWU -Force | Out-Null
+    New-Item -Path $polAU -Force | Out-Null
+
+    Set-ItemProperty -Path $polWU -Name "ExcludeWUDriversInQualityUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "AllowAutoWindowsUpdateDownloadOverMeteredNetwork" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "ManagePreviewBuildsPolicyValue" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "AUPowerManagement" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "ElevateNonAdmins" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "SetAllowOptionalContent" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "SetAutoRestartNotificationDisable" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "SetUpdateNotificationLevel" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "UpdateNotificationLevel" -Value 2 -Type DWord
+    Set-ItemProperty -Path $polWU -Name "AllowOptionalContent" -Value 3 -Type DWord
+
+    Set-ItemProperty -Path $polAU -Name "NoAUAsDefaultShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "NoAUShutdownOption" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "AlwaysAutoRebootAtScheduledTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "AutoInstallMinorUpdates" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "NoAutoRebootWithLoggedOnUsers" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "NoAutoUpdate" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "AUOptions" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "AutomaticMaintenanceEnabled" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "ScheduledInstallDay" -Value 7 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "ScheduledInstallTime" -Value 0 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "ScheduledInstallFourthWeek" -Value 1 -Type DWord
+    Set-ItemProperty -Path $polAU -Name "AllowMUUpdateService" -Value 0 -Type DWord
+    gpupdate.exe /force
+    Write-Host " + Windows Update berhasil dipause sampai 31 Desember 3000..." -ForegroundColor Green
 }
 
-function UnpauseWindowsUpdate {
-    Write-Host "`n[-] Menghapus pengaturan Pause Update..." -ForegroundColor Yellow
 
-    $updateSettings = "HKLM:\SOFTWARE\Microsoft\Windows\UpdatePolicy\Settings"
+function UnpauseWindowsUpdate {
+    Write-Host " + Menghapus pengaturan Windows Pause Update..." -ForegroundColor Yellow
+
+    # UpdatePolicy\PolicyState
+    $policyState = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState"
+    if (Test-Path $policyState) {
+        Set-ItemProperty -Path $policyState -Name "TargetReleaseVersion" -Value 0 -Type DWord
+    }
+
+    # UpdatePolicy\Settings
+    $updateSettings = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\Settings"
     if (Test-Path $updateSettings) {
         Set-ItemProperty -Path $updateSettings -Name "PausedFeatureStatus" -Value 0 -Type DWord
         Set-ItemProperty -Path $updateSettings -Name "PausedQualityStatus" -Value 0 -Type DWord
@@ -48,37 +150,26 @@ function UnpauseWindowsUpdate {
         Remove-ItemProperty -Path $updateSettings -Name "PausedFeatureDate" -ErrorAction SilentlyContinue
     }
 
+    # UX\Settings
     $uxSettings = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
     if (Test-Path $uxSettings) {
-        $keysToRemove = @(
-            "PauseFeatureUpdatesStartTime",
-            "PauseFeatureUpdatesEndTime",
-            "PauseQualityUpdatesStartTime",
-            "PauseQualityUpdatesEndTime",
-            "PauseUpdatesStartTime",
-            "PauseUpdatesExpiryTime"
-        )
-        foreach ($key in $keysToRemove) {
-            Remove-ItemProperty -Path $uxSettings -Name $key -ErrorAction SilentlyContinue
-        }
+        Remove-ItemProperty -Path $uxSettings -Name "PauseFeatureUpdatesStartTime" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $uxSettings -Name "PauseFeatureUpdatesEndTime" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $uxSettings -Name "PauseQualityUpdatesStartTime" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $uxSettings -Name "PauseQualityUpdatesEndTime" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $uxSettings -Name "PauseUpdatesStartTime" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $uxSettings -Name "PauseUpdatesExpiryTime" -ErrorAction SilentlyContinue
     }
 
+    # Policies\WindowsUpdate
     $policyWU = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
     if (Test-Path $policyWU) {
         Set-ItemProperty -Path $policyWU -Name "TargetReleaseVersion" -Value 0 -Type DWord
     }
-
-    $policyState = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState"
-    if (Test-Path $policyState) {
-        Set-ItemProperty -Path $policyState -Name "TargetReleaseVersion" -Value 0 -Type DWord
-    }
-
-    gpupdate.exe /force | Out-Null
-
-    Write-Host "[+] Windows Update telah diaktifkan kembali." -ForegroundColor Green
+    gpupdate.exe /force
+    Write-Host " +  Windows Pause Update berhasil dinonaktifkan." -ForegroundColor Green
 }
 
-# Jalankan PowerShell sebagai Administrator sebelum menjalankan skrip ini
 
 function Stop-ServiceWithStatus {
     param ([string]$ServiceName)
@@ -206,18 +297,18 @@ function Show-Menu {
     Write-Host $text -ForegroundColor Cyan
 
     Write-Host
-    Write-Host "------------------------------------------------------------------------------------------"
-    Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
+    Write-Host "------------------------------------------------------------------------------------------" 
+    Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -ForegroundColor Red
     Write-Host "------------------------------------------------------------------------------------------"
     Write-Host
-    Write-Host "1. Pause Update"
-    Write-Host "2. Unpause Update"
+    Write-Host "1. Pause Windows Update"
+    Write-Host "2. UnPause Windows Update"
     Write-Host "3. Reset Windows Update"
     Write-Host "0. Exit"
     Write-Host  
     Write-Host "------------------------------------------------------------------------------------------"
 
-    $choice = Read-Host "Pilih opsi [1/2/0]"
+    $choice = Read-Host "Pilih opsi [1/2/3/0]"
     switch ($choice) {
         '1' { PauseWindowsUpdate }
         '2' { UnpauseWindowsUpdate }
