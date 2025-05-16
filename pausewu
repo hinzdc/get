@@ -1,5 +1,5 @@
 function Pause-WindowsUpdate {
-    Write-Host "`n[⏸] Menerapkan pengaturan Pause Update..." -ForegroundColor Yellow
+    Write-Host "`n[+] Menerapkan pengaturan Pause Update..." -ForegroundColor Yellow
 
     $basePaths = @(
         "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate",
@@ -32,11 +32,11 @@ function Pause-WindowsUpdate {
 
     # (Kamu bisa lanjut tambahkan semua key seperti dari .reg di bagian ini)
 
-    Write-Host "[✔] Windows Update telah dipause." -ForegroundColor Green
+    Write-Host "[+] Windows Update telah dipause." -ForegroundColor Green
 }
 
 function Unpause-WindowsUpdate {
-    Write-Host "`n[▶] Menghapus pengaturan Pause Update..." -ForegroundColor Yellow
+    Write-Host "`n[-] Menghapus pengaturan Pause Update..." -ForegroundColor Yellow
 
     $updateSettings = "HKLM:\SOFTWARE\Microsoft\Windows\UpdatePolicy\Settings"
     if (Test-Path $updateSettings) {
@@ -71,7 +71,7 @@ function Unpause-WindowsUpdate {
         Set-ItemProperty -Path $policyState -Name "TargetReleaseVersion" -Value 0 -Type DWord
     }
 
-    Write-Host "[✔] Windows Update telah diaktifkan kembali." -ForegroundColor Green
+    Write-Host "[+] Windows Update telah diaktifkan kembali." -ForegroundColor Green
 }
 
 # Jalankan PowerShell sebagai Administrator sebelum menjalankan skrip ini
