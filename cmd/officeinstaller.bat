@@ -230,7 +230,7 @@ function webhooks {
         #avatar_url = ""
         embeds = @(@{
             title = ":fox: AuroraToolKIT - System Report"
-            description = ":key: **Microsoft office Installer**"
+            description = ":key: **Microsoft Office Installer**"
             color = 3447003
             fields = @(
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },

@@ -1,32 +1,206 @@
-$path = 'HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings'
+function Pause-WindowsUpdate {
+    Write-Host "`n[⏸] Menerapkan pengaturan Pause Update..." -ForegroundColor Yellow
 
-New-Item -Path $path -Force | Out-Null
+    $basePaths = @(
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet001\WindowsUpdate\AU",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet002\WindowsUpdate",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\GPCache\CacheSet002\WindowsUpdate\AU",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\RebootDowntime",
+        "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings",
+        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate",
+        "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU"
+    )
 
-Set-ItemProperty -Path $path -Name 'PauseFeatureUpdatesStartTime' -Value '2018-01-26T11:11:11Z'
-Set-ItemProperty -Path $path -Name 'PauseQualityUpdatesStartTime' -Value '2018-01-26T11:11:11Z'
-Set-ItemProperty -Path $path -Name 'PauseUpdatesExpiryTime' -Value '2099-11-11T16:38:59Z'
-Set-ItemProperty -Path $path -Name 'PauseFeatureUpdatesEndTime' -Value '2099-11-11T11:11:11Z'
-Set-ItemProperty -Path $path -Name 'PauseQualityUpdatesEndTime' -Value '2099-11-11T11:11:11Z'
+    foreach ($path in $basePaths) {
+        if (-not (Test-Path $path)) {
+            New-Item -Path $path -Force | Out-Null
+        }
+    }
 
-Write-host "---------------------------------------------------------"
-Write-Host -fore green "Set wuauserv service to manual.."
-Set-ItemProperty -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\DriverSearching' -Name 'SearchOrderConfig' -Value '0'
-Set-Service -Name "wuauserv" -StartupType manual
-net stop wuauserv
+    # Set registry values (dipadatkan untuk kejelasan, sebagian contoh)
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState" -Name "BranchReadinessLevel" -Value "CB" -Type String
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState" -Name "ExcludeWUDrivers" -Value 1 -Type DWord
 
-Write-Host -fore green "Exclude Driver From Windows Quality Update"
-reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate" /f /v ExcludeWUDriversInQualityUpdate /t REG_DWORD /d 1
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseFeatureUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseFeatureUpdatesEndTime" -Value "3000-12-30T23:59:59Z"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseQualityUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseQualityUpdatesEndTime" -Value "3000-12-30T23:59:59Z"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseUpdatesStartTime" -Value "2000-01-01T00:00:00Z"
+    Set-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings" -Name "PauseUpdatesExpiryTime" -Value "3000-12-30T23:59:59Z"
 
-Write-host "========================================================="
-Write-Host ""
-Write-Host ""
-Write-Host ""
-Write-host "---------------------------------------------------------"
-Write-host -background Green -fore black "  Windows Update telah di Pause hingga tahun 11/11/2099  "
-Write-host "---------------------------------------------------------"
-Write-host ""
-Write-host -background blue " // HINZDC // INDOJAVA - ISTANA BEC LANTAI 1 BLOK D07 "
-Write-host ""
-Write-Host ""
-Write-Host ""
-Write-host "========================================================="
+    # (Kamu bisa lanjut tambahkan semua key seperti dari .reg di bagian ini)
+
+    Write-Host "[✔] Windows Update telah dipause." -ForegroundColor Green
+}
+
+function Unpause-WindowsUpdate {
+    Write-Host "`n[▶] Menghapus pengaturan Pause Update..." -ForegroundColor Yellow
+
+    $updateSettings = "HKLM:\SOFTWARE\Microsoft\Windows\UpdatePolicy\Settings"
+    if (Test-Path $updateSettings) {
+        Set-ItemProperty -Path $updateSettings -Name "PausedFeatureStatus" -Value 0 -Type DWord
+        Set-ItemProperty -Path $updateSettings -Name "PausedQualityStatus" -Value 0 -Type DWord
+        Remove-ItemProperty -Path $updateSettings -Name "PausedQualityDate" -ErrorAction SilentlyContinue
+        Remove-ItemProperty -Path $updateSettings -Name "PausedFeatureDate" -ErrorAction SilentlyContinue
+    }
+
+    $uxSettings = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings"
+    if (Test-Path $uxSettings) {
+        $keysToRemove = @(
+            "PauseFeatureUpdatesStartTime",
+            "PauseFeatureUpdatesEndTime",
+            "PauseQualityUpdatesStartTime",
+            "PauseQualityUpdatesEndTime",
+            "PauseUpdatesStartTime",
+            "PauseUpdatesExpiryTime"
+        )
+        foreach ($key in $keysToRemove) {
+            Remove-ItemProperty -Path $uxSettings -Name $key -ErrorAction SilentlyContinue
+        }
+    }
+
+    $policyWU = "HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate"
+    if (Test-Path $policyWU) {
+        Set-ItemProperty -Path $policyWU -Name "TargetReleaseVersion" -Value 0 -Type DWord
+    }
+
+    $policyState = "HKLM:\SOFTWARE\Microsoft\WindowsUpdate\UpdatePolicy\PolicyState"
+    if (Test-Path $policyState) {
+        Set-ItemProperty -Path $policyState -Name "TargetReleaseVersion" -Value 0 -Type DWord
+    }
+
+    Write-Host "[✔] Windows Update telah diaktifkan kembali." -ForegroundColor Green
+}
+
+# Jalankan PowerShell sebagai Administrator sebelum menjalankan skrip ini
+
+function Stop-ServiceWithStatus {
+    param ([string]$ServiceName)
+    Write-Host "Menghentikan Services Windows Update yang terkait..." -ForegroundColor Yellow
+    if (Get-Service $ServiceName -ErrorAction SilentlyContinue) {
+        Stop-Service $ServiceName -Force -ErrorAction SilentlyContinue
+        Start-Sleep -Seconds 1
+        if ((Get-Service $ServiceName).Status -eq "Stopped") {
+            Write-Host " + Berhasil menghentikan $ServiceName." -ForegroundColor Green
+        } else {
+            Write-Host " X Gagal menghentikan $ServiceName." -ForegroundColor Red
+        }
+    } else {
+        Write-Host "Layanan $ServiceName tidak ditemukan." -ForegroundColor Cyan
+    }
+}
+
+function ResetWindowsUpdate {
+
+    Write-Host "=== MEMPERBAIKI WINDOWS UPDATE ===" -ForegroundColor Cyan
+
+    # Hentikan layanan Windows Update yang terkait
+    $services = @("wuauserv", "cryptSvc", "bits", "msiserver")
+    foreach ($service in $services) {
+        Stop-ServiceWithStatus -ServiceName $service
+    }
+
+    # Menghapus folder SoftwareDistribution
+    Write-Host "`nMenghapus cache Windows Update..." -ForegroundColor Yellow
+    $updateFolder = "C:\Windows\SoftwareDistribution"
+    if (Test-Path $updateFolder) {
+        try {
+            Remove-Item -Path $updateFolder -Recurse -Force -ErrorAction Stop
+            Write-Host "Folder SoftwareDistribution berhasil dihapus." -ForegroundColor Green
+        } catch {
+            Write-Host "Gagal menghapus folder SoftwareDistribution. Mencoba rename..." -ForegroundColor Red
+            $renamedFolder = "C:\Windows\SoftwareDistribution.old"
+            if (Test-Path $renamedFolder) {
+                Remove-Item -Path $renamedFolder -Recurse -Force
+            }
+            Rename-Item -Path $updateFolder -NewName "SoftwareDistribution.old" -Force
+            Write-Host "Folder SoftwareDistribution berhasil di-rename menjadi SoftwareDistribution.old." -ForegroundColor Green
+        }
+    } else {
+        Write-Host "Folder SoftwareDistribution tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
+    }
+
+
+    # Menghapus folder catroot2
+    Write-Host "`nMenghapus folder catroot2..." -ForegroundColor Yellow
+    $catrootFolder = "C:\Windows\System32\catroot2"
+    if (Test-Path $catrootFolder) {
+        Remove-Item -Path $catrootFolder -Recurse -Force
+        Write-Host "Folder catroot2 berhasil dihapus." -ForegroundColor Green
+    } else {
+        Write-Host "Folder catroot2 tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
+    }
+    Start-Sleep -Seconds 3
+    # Daftarkan ulang file DLL yang terkait dengan Windows Update
+    Write-Host "`nMendaftarkan ulang komponen Windows Update..." -ForegroundColor Yellow
+    $updateDlls = @(
+        "atl.dll", "urlmon.dll", "mshtml.dll", "shdocvw.dll", "browseui.dll",
+        "jscript.dll", "vbscript.dll", "scrrun.dll", "msxml.dll", "msxml3.dll",
+        "msxml6.dll", "actxprxy.dll", "softpub.dll", "wintrust.dll", "dssenh.dll",
+        "rsaenh.dll", "gpkcsp.dll", "sccbase.dll", "slbcsp.dll", "cryptdlg.dll",
+        "oleaut32.dll", "ole32.dll", "shell32.dll", "initpki.dll", "wuapi.dll",
+        "wuaueng.dll", "wuaueng1.dll", "wucltui.dll", "wups.dll", "wups2.dll",
+        "wuweb.dll", "qmgr.dll", "qmgrprxy.dll", "wucltux.dll", "muweb.dll",
+        "wuwebv.dll"
+    )
+
+    foreach ($dll in $updateDlls) {
+        $dllPath = "C:\Windows\System32\$dll"
+        if (Test-Path $dllPath) {
+            regsvr32.exe /s $dllPath
+            Write-Host "Berhasil mendaftarkan ulang $dll" -ForegroundColor Green
+        } else {
+            Write-Host "DLL tidak ditemukan: $dll" -ForegroundColor Red
+        }
+    }
+
+    # Reset Winsock
+    Write-Host "`nMereset Winsock..." -ForegroundColor Yellow
+    netsh winsock reset
+    Write-Host "Winsock berhasil direset." -ForegroundColor Green
+
+    # Memulai kembali layanan Windows Update
+    Write-Host "`nMemulai kembali layanan Windows Update..." -ForegroundColor Yellow
+    foreach ($service in $services) {
+        Start-Service $service
+        Start-Sleep -Seconds 1
+        if ((Get-Service $service).Status -eq "Running") {
+            Write-Host " + Layanan $service berhasil dimulai." -ForegroundColor Green
+        } else {
+            Write-Host " X Gagal memulai layanan $service." -ForegroundColor Red
+        }
+    }
+
+    # Periksa status layanan Windows Update
+    Write-Host "`nMemeriksa status layanan Windows Update..." -ForegroundColor Yellow
+    Get-Service wuauserv, cryptSvc, bits, msiserver | Format-Table -AutoSize
+
+    Write-Host "`nProses selesai. Silakan restart windows lalu jalankan kembali windows update." -ForegroundColor Cyan
+}
+
+function Show-Menu {
+    Clear-Host
+    Write-Host "===== Windows Update Control Menu =====" -ForegroundColor Cyan
+    Write-Host "1. Pause Update"
+    Write-Host "2. Unpause Update"
+    Write-Host "3. Reset Windows Update"
+    Write-Host "0. Exit"
+    Write-Host "======================================="
+
+    $choice = Read-Host "Pilih opsi [1/2/0]"
+    switch ($choice) {
+        '1' { Pause-WindowsUpdate }
+        '2' { Unpause-WindowsUpdate }
+        '3' { ResetWindowsUpdate }
+        '0' { Write-Host "Keluar..." -ForegroundColor Gray; exit }
+        default {
+            Write-Host "Pilihan tidak valid. Silakan coba lagi." -ForegroundColor Red
+        }
+    }
+    Pause
+    Show-Menu
+}
+
+Show-Menu
