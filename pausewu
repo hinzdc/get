@@ -32,6 +32,8 @@ function Pause-WindowsUpdate {
 
     # (Kamu bisa lanjut tambahkan semua key seperti dari .reg di bagian ini)
 
+    gpupdate.exe /force | Out-Null
+
     Write-Host "[+] Windows Update telah dipause." -ForegroundColor Green
 }
 
@@ -70,6 +72,8 @@ function Unpause-WindowsUpdate {
     if (Test-Path $policyState) {
         Set-ItemProperty -Path $policyState -Name "TargetReleaseVersion" -Value 0 -Type DWord
     }
+
+    gpupdate.exe /force | Out-Null
 
     Write-Host "[+] Windows Update telah diaktifkan kembali." -ForegroundColor Green
 }
