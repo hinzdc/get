@@ -301,14 +301,14 @@ function Show-Menu {
     Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -ForegroundColor Red
     Write-Host "------------------------------------------------------------------------------------------"
     Write-Host
-    Write-Host "1. Pause Windows Update"
-    Write-Host "2. UnPause Windows Update"
-    Write-Host "3. Reset Windows Update"
-    Write-Host "0. Exit"
+    Write-Host " 1. Pause Windows Update"
+    Write-Host " 2. UnPause Windows Update"
+    Write-Host " 3. Reset Windows Update"
+    Write-Host " 0. Exit"
     Write-Host  
     Write-Host "------------------------------------------------------------------------------------------"
 
-    $choice = Read-Host "Pilih opsi [1/2/3/0]"
+    $choice = Read-Host "Pilih opsi [1/2/3/0] lalu ENTER"
     switch ($choice) {
         '1' { PauseWindowsUpdate }
         '2' { UnpauseWindowsUpdate }
