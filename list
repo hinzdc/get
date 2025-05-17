@@ -22,20 +22,13 @@ irm hinzdc.xyz/get/activeofficehook | iex
 # Activator Windows sampai tahun 2038 - KMS38
 irm hinzdc.xyz/get/activewindowskms38 | iex
 
-# Activator IDM
-irm hinzdc.xyz/get/activeidm | iex
 ------------------------------------------------------------------
 # Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus
 irm hinzdc.xyz/get/ForceRemove | iex
 
-# Remove Appx not Used / Remove Aplikasi Bawaan Tidak Berguna
-irm hinzdc.xyz/get/removeappx | iex
-
-# Install Aplikasi Standard Otomatis
-irm hinzdc.xyz/get/appx | iex
-
 # Remove or Disable Windows Defender (Disable dulu defender sebelum memasukan perintah ini)
-irm hinzdc.xyz/get/removedefender | iex
+irm hinzdc.xyz/get/def | iex
+irm hinzdc.xyz/get/def2 | iex
 
 # Fix corrupted file system & restore health
 irm hinzdc.xyz/get/fixos | iex
@@ -44,6 +37,13 @@ irm hinzdc.xyz/get/fixos | iex
 irm hinzdc.xyz/get/officescrub | iex
 irm hinzdc.xyz/get/officescrubber | iex
 
-# Pause Windows Update Sampai Tahun 2099
+# Pause Windows Update Sampai Tahun 3000
 irm hinzdc.xyz/get/pausewu | iex
 
+iex(irm hinzdc.xyz/get/resetwindowupdate)
+iex(irm hinzdc.xyz/get/viruswindows)
+iex(irm hinzdc.xyz/get/installoffice)
+iex(irm hinzdc.xyz/get/infectorcheck)
+iex(irm hinzdc.xyz/get/amdsupport)
+iex(irm hinzdc.xyz/get/gpeditenable)
+iex(irm hinzdc.xyz/get/blockhost)

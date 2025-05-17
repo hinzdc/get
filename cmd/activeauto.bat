@@ -169,7 +169,7 @@ $text = @"
 Write-Host $text -ForegroundColor Cyan
 Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" -ForegroundColor Red
 Write-Host "------------------------------------------------------------------------------------------"
-Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
+Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -foregroundColor White
 Write-Host "------------------------------------------------------------------------------------------"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Start-Sleep -s 3
@@ -739,7 +739,7 @@ Write-Host " + ACTIVATING.." -ForegroundColor white
 
 try {
     # Menjalankan perintah aktivasi
-    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID /Ohook | Out-Null
+    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /Ohook /HWID | Out-Null
     start-sleep -Seconds 3
     Write-Host " >> PROSES AKTIVASI SELESAI.. " -ForegroundColor Green
     Start-Sleep -Seconds 2
