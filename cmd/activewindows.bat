@@ -716,7 +716,7 @@ function webhooks {
         #avatar_url = ""
         embeds = @(@{
             title = ":fox: AuroraToolKIT - System Report"
-            description = ":key: **Activation Office Permanent**"
+            description = ":key: **Activation Windows Permanent Digital License**"
             color = 3447003
             fields = @(
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },

@@ -716,7 +716,7 @@ function webhooks {
         #avatar_url = ""
         embeds = @(@{
             title = ":fox: AuroraToolKIT - System Report"
-            description = ":key: **Activation Office Permanent**"
+            description = ":key: **Activation Office KMS**"
             color = 3447003
             fields = @(
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },
@@ -746,7 +746,7 @@ Write-Host " + ACTIVATING.." -ForegroundColor white
 
 try {
     # Menjalankan perintah aktivasi
-    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /Ohook | Out-Null
+    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /K-Office | Out-Null
     start-sleep -Seconds 3
     Write-Host " >> PROSES AKTIVASI SELESAI.. " -ForegroundColor Green
     Start-Sleep -Seconds 2
