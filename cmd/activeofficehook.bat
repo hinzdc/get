@@ -807,7 +807,7 @@ catch {
 
 Write-Host
 Write-Host " > > MENGIRIM INFORMASI KE SERVER . ." -ForegroundColor blue
-ntfy
+#ntfy
 webhooks
 $EndDTM = (Get-Date)
 Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
