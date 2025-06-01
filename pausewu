@@ -192,26 +192,31 @@ function ResetWindowsUpdate {
     Write-Host "=== MEMPERBAIKI WINDOWS UPDATE ===" -ForegroundColor Cyan
 
     # Hentikan layanan Windows Update yang terkait
-    $services = @("wuauserv", "cryptSvc", "bits", "msiserver")
+    $services = @("wuauserv", "cryptSvc", "bits", "msiserver", "TrustedInstaller")
     foreach ($service in $services) {
         Stop-ServiceWithStatus -ServiceName $service
     }
 
-    # Menghapus folder SoftwareDistribution
-    Write-Host "`nMenghapus cache Windows Update..." -ForegroundColor Yellow
+    # Path folder SoftwareDistribution
     $updateFolder = "C:\Windows\SoftwareDistribution"
+    $renamedFolder = "C:\Windows\SoftwareDistribution.old"
+
     if (Test-Path $updateFolder) {
         try {
+            Write-Host "Mengambil kepemilikan folder..." -ForegroundColor Yellow
+            takeown /F $updateFolder /R /D Y | Out-Null
+            icacls $updateFolder /grant Administrators:F /T | Out-Null
+
+            Write-Host "Menghapus folder SoftwareDistribution..." -ForegroundColor Yellow
             Remove-Item -Path $updateFolder -Recurse -Force -ErrorAction Stop
             Write-Host "Folder SoftwareDistribution berhasil dihapus." -ForegroundColor Green
         } catch {
-            Write-Host "Gagal menghapus folder SoftwareDistribution. Mencoba rename..." -ForegroundColor Red
-            $renamedFolder = "C:\Windows\SoftwareDistribution.old"
+            Write-Host "Gagal menghapus folder. Mencoba rename..." -ForegroundColor Red
             if (Test-Path $renamedFolder) {
-                Remove-Item -Path $renamedFolder -Recurse -Force
+                Remove-Item -Path $renamedFolder -Recurse -Force -ErrorAction SilentlyContinue
             }
             Rename-Item -Path $updateFolder -NewName "SoftwareDistribution.old" -Force
-            Write-Host "Folder SoftwareDistribution berhasil di-rename menjadi SoftwareDistribution.old." -ForegroundColor Green
+            Write-Host "Folder berhasil di-rename menjadi SoftwareDistribution.old." -ForegroundColor Green
         }
     } else {
         Write-Host "Folder SoftwareDistribution tidak ditemukan atau sudah dihapus." -ForegroundColor Cyan
@@ -270,7 +275,7 @@ function ResetWindowsUpdate {
 
     # Periksa status layanan Windows Update
     Write-Host "`nMemeriksa status layanan Windows Update..." -ForegroundColor Yellow
-    Get-Service wuauserv, cryptSvc, bits, msiserver | Format-Table -AutoSize
+    Get-Service wuauserv, cryptSvc, bits, msiserver, TrustedInstaller  | Format-Table -AutoSize
 
     Write-Host "`nProses selesai. Silakan restart windows lalu jalankan kembali windows update." -ForegroundColor Cyan
 }
