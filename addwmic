@@ -6,14 +6,14 @@ if ($wmicExists) {
 } else {
     Write-Host "WMIC belum terpasang. Menambahkan fitur..." -ForegroundColor Yellow
 
-    # Jalankan perintah DISM
-    $dismResult = dism /online /add-capability /capabilityname:WMIC~~~~
+    # Jalankan DISM dari cmd.exe agar outputnya tampil lengkap dan realtime
+    cmd.exe /c "dism /online /add-capability /capabilityname:WMIC~~~~"
 
-    if ($LASTEXITCODE -eq 0) {
+    # Cek lagi setelah instalasi
+    $wmicExistsAfter = Get-Command wmic -ErrorAction SilentlyContinue
+    if ($wmicExistsAfter) {
         Write-Host "WMIC berhasil ditambahkan!" -ForegroundColor Green
     } else {
         Write-Host "Gagal menambahkan WMIC." -ForegroundColor Red
-        Write-Host "Pesan DISM:" 
-        Write-Output $dismResult
     }
 }
