@@ -280,6 +280,14 @@ $kataMutiara = @(
     "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
     "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
     "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
+    "Kebodohan adalah penyakit yang paling mematikan, karena penderitanya tidak sadar sedang sakit. -Sokrates"
+    "Semakin panjang penjelasan, semakin besar kebohongan yang disembunyikan. - George Orwell"
+    "Hindari berdebat dengan orang dungu, mereka akan menarikmu ke level mereka kemudian menghancurkanmu dengan pengalaman mereka. - Mark Twain"
+    "Sibodoh berdoa untuk jalan yang mudah, si bijak berdoa diberikan kaki yang kuat. - Pepatah Tiongkok"
+    "aku belajar bahwa setiap manusia akan merasakan kematian, tapi hanya sedikit yang benar-benar merasakan hidup. - Paulo Celho"
+    "Dia yang bertanya akan kelihatann bodoh selama 5 menit, tapi dia yang tidak berani bertanya akan bodoh selamanya. - Pepatah Cina"
+    "Ketika seseorang sedang tenggelam, itu bukanlah waktu yang tepat untuk mengajarinya cara berenang. - Pepatah Cina"
+    
 )
 
 # Mengambil satu kata mutiara secara acak
