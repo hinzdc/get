@@ -49,6 +49,7 @@ $host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90
 $Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 30)
 
 #-----------------------------------------------------------------------------------------
+$ProgressPreference = 'SilentlyContinue'
 Add-Type @"
 using System;
 using System.Runtime.InteropServices;
