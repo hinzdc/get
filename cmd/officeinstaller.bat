@@ -289,6 +289,81 @@ $hwnd = $WinAPI::GetConsoleWindow()
 
 # Sembunyikan jendela
 $WinAPI::ShowWindow($hwnd, 0) | Out-Null
+# Fungsi untuk mendapatkan tema sistem
+function Get-SystemTheme {
+    $theme = Get-ItemPropertyValue -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -ErrorAction SilentlyContinue
+    if ($theme -eq 1) {
+        return "Light"
+    } else {
+        return "Dark"
+    }
+}
+
+# Fungsi untuk menerapkan tema ke semua elemen UI
+function Apply-Theme($Form, $currentTheme) {
+# Pastikan form memiliki Resources
+if ($Form.Resources -eq $null) {
+    $Form.Resources = New-Object System.Windows.ResourceDictionary
+}
+
+# Fungsi untuk memperbarui warna pada SolidColorBrush di Resources
+function Set-BrushColor($key, $hexColor) {
+    # Ambil brush yang ada di Resources
+    $brush = $Form.Resources[$key]
+    
+    if ($brush -is [System.Windows.Media.SolidColorBrush]) {
+        # Konversi HEX ke Color
+        $color = [System.Windows.Media.ColorConverter]::ConvertFromString($hexColor)
+        
+        # Ubah warna brush yang sudah ada
+        $brush.Color = $color
+    } else {
+        Write-Host "Resource dengan key '$key' tidak ditemukan atau bukan SolidColorBrush."
+    }
+}
+
+# Terapkan tema berdasarkan kondisi
+if ($currentTheme -eq "Dark") {
+    Set-BrushColor "BackgroundColor" "#000000"
+    Set-BrushColor "TextColor" "#FFFFFF"        # Putih
+    Set-BrushColor "ButtonBackground" "#444444" # Abu-abu gelap
+    Set-BrushColor "BorderBackgroud" "#383838"  # Abu-abu tua
+    Set-BrushColor "ShadowColor" "#222222"      # Bayangan gelap
+    Set-BrushColor "CanvasColor" "#1e1e1e"      
+} else {
+    Set-BrushColor "BackgroundColor" "#dde4e6"
+    Set-BrushColor "TextColor" "#000000"        # Hitam
+    Set-BrushColor "ButtonBackground" "#D3D3D3" # Light Gray
+    Set-BrushColor "BorderBackgroud" "#FFFFFF"  # Putih
+    Set-BrushColor "ShadowColor" "#D3D3D3"      # Light Gray
+    Set-BrushColor "CanvasColor" "white"      
+}
+
+# Pastikan perubahan warna langsung terlihat
+$Form.InvalidateVisual()
+
+}
+
+Write-Host
+Start-Sleep -Seconds 2
+Write-Host " Launch Microsoft Office Installer Tool" -NoNewline
+for ($i = 0; $i -lt 10; $i++) {
+    Write-Host -NoNewline "."; Start-Sleep -Milliseconds 300
+}
+Write-Host
+
+$WinAPI = Add-Type -MemberDefinition @"
+[DllImport("user32.dll")]
+public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
+
+[DllImport("kernel32.dll")]
+public static extern IntPtr GetConsoleWindow();
+"@ -Name "WinAPI" -Namespace "API" -PassThru
+
+$hwnd = $WinAPI::GetConsoleWindow()
+
+# Sembunyikan jendela
+$WinAPI::ShowWindow($hwnd, 0) | Out-Null
 
 
 $xamlinput = @'
@@ -299,13 +374,25 @@ $xamlinput = @'
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:OfficeInstaller"
         mc:Ignorable="d"
-        MaxWidth="1150"
-        MaxHeight="550"
-        MinWidth="1150"
-        MinHeight="515"
-        Title="Microsoft Installation Tool // INDOJAVA ONLINE - HINZDC X SARGA // ISTANA BEC BANDUNG" Height="515" Width="1150" WindowStartupLocation="CenterScreen" Icon="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/Microsoft.png">
+        MaxWidth="1160"
+        MaxHeight="570"
+        MinWidth="1160"
+        MinHeight="518"
+        Height="520" Width="1160"
+        WindowStartupLocation="CenterScreen"
+        Title="Microsoft Installation Tool // INDOJAVA ONLINE - HINZDC X SARGA // ISTANA BEC BANDUNG"
+        Icon="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/Microsoft.png">
 
     <Window.Resources>
+        <!-- Warna sebagai resource -->
+        <SolidColorBrush x:Key="BackgroundColor" Color="#eef4f9"/>
+        <SolidColorBrush x:Key="TextColor" Color="Black"/>
+        <SolidColorBrush x:Key="ButtonBackground" Color="LightGray"/>
+        <SolidColorBrush x:Key="BorderBackgroud" Color="white"/>
+        <SolidColorBrush x:Key="ShadowColor" Color="LightGray"/>
+        <SolidColorBrush x:Key="CanvasColor" Color="White"/>
+
+
         <!-- Style dasar -->
         <Style x:Key="BaseRoundedButtonStyle" TargetType="Button">
             <Setter Property="Template">
@@ -347,7 +434,7 @@ $xamlinput = @'
         <Style x:Key="RedButtonStyle" BasedOn="{StaticResource BaseRoundedButtonStyle}" TargetType="Button">
             <Setter Property="Background" Value="#FFE23B15"/>
         </Style>
-        
+
         <!-- Style Grey -->
         <Style x:Key="GreyButtonStyle" BasedOn="{StaticResource BaseRoundedButtonStyle}" TargetType="Button">
             <Setter Property="Background" Value="#808080"/>
@@ -363,7 +450,7 @@ $xamlinput = @'
             <Setter Property="BorderThickness" Value="1"/>
             <Setter Property="Effect">
                 <Setter.Value>
-                    <DropShadowEffect BlurRadius="10" Color="Black" ShadowDepth="2"/>
+                    <DropShadowEffect BlurRadius="10" Color="Black" ShadowDepth="3"/>
                 </Setter.Value>
             </Setter>
         </Style>
@@ -392,107 +479,324 @@ $xamlinput = @'
                 Storyboard.TargetProperty="(UIElement.RenderTransform).(RotateTransform.Angle)"
                 From="0" To="360" Duration="0:0:5" RepeatBehavior="Forever" />
         </Storyboard>
+
+        <!-- Style RadioButton -->
+        <Style x:Key="CustomRadioButtonStyle" TargetType="RadioButton">
+            <Setter Property="FontFamily" Value="Consolas"/>
+            <Setter Property="FontSize" Value="11"/>
+            <Setter Property="Foreground" Value="{DynamicResource TextColor}"/>
+            <Setter Property="Margin" Value="5"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RadioButton">
+                        <StackPanel Orientation="Horizontal">
+                            <Border Width="12" Height="12"
+                                BorderBrush="{TemplateBinding Foreground}"
+                                BorderThickness="1"
+                                CornerRadius="8"
+                                Background="#8f8e94">
+                                <Ellipse Width="7" Height="7" 
+                                    Fill="#0c7af5" 
+                                    Visibility="Collapsed"
+                                    x:Name="checkMark"/>
+                            </Border>
+                            <TextBlock Text="{TemplateBinding Content}" 
+                                   VerticalAlignment="Center"
+                                   Margin="5,0,0,0"
+                                   Foreground="{TemplateBinding Foreground}"/>
+                        </StackPanel>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsChecked" Value="True">
+                                <Setter TargetName="checkMark" Property="Visibility" Value="Visible"/>
+                            </Trigger>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter Property="Opacity" Value="0.8"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <!-- Label dengan shadow pada background saja (teks tetap tajam) -->
+        <Style x:Key="LabelWithBgShadow" TargetType="Label">
+            <!-- Ketajaman teks -->
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
+            <Setter Property="TextOptions.TextRenderingMode" Value="ClearType"/>
+            <Setter Property="UseLayoutRounding" Value="True"/>
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Label">
+                        <Grid>
+                            <!-- BACKGROUND + SHADOW (hanya latar, bukan teks) -->
+                            <Border x:Name="Bg"
+                  Background="{TemplateBinding Background}"
+                  CornerRadius="3"
+                  SnapsToDevicePixels="True">
+                                <Border.Effect>
+                                    <DropShadowEffect Color="Black"
+                                BlurRadius="10"
+                                ShadowDepth="3"
+                                Opacity="0.6"
+                                RenderingBias="Performance"/>
+                                </Border.Effect>
+                            </Border>
+
+                            <!-- TEKS (lapisan terpisah; tidak kena effect) -->
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                            HorizontalAlignment="Center"
+                            VerticalAlignment="Center"
+                            RecognizesAccessKey="True"
+                            TextElement.FontFamily="{TemplateBinding FontFamily}"
+                            TextElement.FontSize="{TemplateBinding FontSize}"
+                            TextElement.Foreground="{TemplateBinding Foreground}"/>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
 
-    <Grid HorizontalAlignment="Left" VerticalAlignment="Top">
-        <GroupBox x:Name="groupBoxMicrosoftOffice" Header="Select version to install:" BorderBrush="#FF164A69" Margin="125,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="458" Width="1000" FontFamily="Consolas" FontSize="11">
+    <Grid HorizontalAlignment="Left" Background="{DynamicResource BackgroundColor}" Width="1154" Margin="0,0,0,0">
+        <!-- Memulai animasi saat Window dimuat -->
+        <!-- <Grid.Triggers>
+            <EventTrigger RoutedEvent="Window.Loaded">
+                <BeginStoryboard Storyboard="{StaticResource RotateStoryboard}" />
+            </EventTrigger>
+        </Grid.Triggers> -->
+        <GroupBox x:Name="groupBoxMicrosoftOffice" Header="." Foreground="Transparent" BorderThickness="0" BorderBrush="Transparent" Background="{DynamicResource CanvasColor}" Margin="135,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="458" Width="1000" FontFamily="Consolas" FontSize="11">
             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Rectangle Height="81" Stroke="#FF164A69" Width="135" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="11" Canvas.Top="20" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <Label x:Name="Label365" Content="Microsoft 365" FontWeight="Bold" Canvas.Left="19" Background="#FFDA2323" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Top="8" Foreground="White" Padding="8,4,8,4"/>
-                <RadioButton x:Name="radioButton365Home" Content="Home" Canvas.Left="19" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="0,5,0,0"/>
-                <RadioButton x:Name="radioButton365Business" Content="Business" Canvas.Left="19" Canvas.Top="54" HorizontalAlignment="Left" VerticalAlignment="Center" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0,5,0,0"/>
-                <RadioButton x:Name="radioButton365Enterprise" Content="Enterprise" Canvas.Left="19" Canvas.Top="73" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="0,5,0,0"/>
-                <Rectangle Height="306" Stroke="#FF164A69" Width="150" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="162" Canvas.Top="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Pro" Content="Professional Plus" VerticalContentAlignment="Center" Canvas.Left="179" Canvas.Top="40" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Std" Content="Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="55" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024ProjectPro" Content="Project Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="74" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024ProjectStd" Content="Project Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024VisioPro" Content="Visio Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="112" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024VisioStd" Content="Visio Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="132" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Word" Content="Word" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="152" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Excel" Content="Excel" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="172" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024PowerPoint" Content="PowerPoint" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="192" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Outlook" Content="Outlook" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="212" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Access" Content="Access" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="232" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024Publisher" Content="Publisher" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024HomeStudent" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="272" Content="HomeStudent" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2024HomeBusiness" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="179" Canvas.Top="295" Content="HomeBusiness" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="Label2024" Content="Office 2024" FontWeight="Bold" Canvas.Left="170" Canvas.Top="8" Foreground="White" UseLayoutRounding="True" Padding="8,4,8,4" ScrollViewer.CanContentScroll="True" Background="#CC6000" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle Height="306" Stroke="#FF164A69" Width="150" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="326" Canvas.Top="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="Label2021" Content="Office 2021" FontWeight="Bold" Canvas.Left="334" Canvas.Top="8" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" UseLayoutRounding="True" Padding="8,4,8,4" ScrollViewer.CanContentScroll="True" Background="#FF3C10DE"/>
-                <RadioButton x:Name="radioButton2021Pro" Content="Professional Plus" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="342" Canvas.Top="40"/>
-                <RadioButton x:Name="radioButton2021Std" Content="Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="55" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021ProjectPro" Content="Project Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="74" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021ProjectStd" Content="Project Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="92" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021VisioPro" Content="Visio Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="112" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021VisioStd" Content="Visio Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="132" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021Word" Content="Word" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="152" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021Excel" Content="Excel" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="172" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021PowerPoint" Content="PowerPoint" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="192" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021Outlook" Content="Outlook" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="212" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021Access" Content="Access" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="232" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021Publisher" Content="Publisher" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="252" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021HomeStudent" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="272" Content="HomeStudent" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2021HomeBusiness" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="342" Canvas.Top="295" Content="HomeBusiness" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle Height="306" Stroke="#FF164A69" Width="150" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="493" Canvas.Top="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="Label2019" Content="Office 2019" FontWeight="Bold" Canvas.Left="503" Background="#FF0F8E40" Canvas.Top="8" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Padding="8,4,8,4"/>
-                <RadioButton x:Name="radioButton2019Pro" Content="Professional Plus" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="35" VerticalContentAlignment="Center" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton x:Name="radioButton2019Std" Content="Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="55" VerticalAlignment="Center" HorizontalAlignment="Left"/>
-                <RadioButton x:Name="radioButton2019ProjectPro" Content="Project Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="75" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019ProjectStd" Content="Project Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="95" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019VisioPro" Content="Visio Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="115" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019VisioStd" Content="Visio Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="135" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019Word" Content="Word" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="155" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019Excel" Content="Excel" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="175" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019PowerPoint" Content="PowerPoint" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="195" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019Outlook" Content="Outlook" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="213" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019Access" Content="Access" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="235" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019Publisher" Content="Publisher" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="255" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019HomeStudent" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="275" Content="HomeStudent" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2019HomeBusiness" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Left="504" Canvas.Top="295" Content="HomeBusiness" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle Height="306" Stroke="#FF164A69" Width="150" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="659" Canvas.Top="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="Label2016" Content="Office 2016" FontWeight="Bold" Canvas.Left="669" Background="#FFA28210" Canvas.Top="8" HorizontalAlignment="Left" VerticalAlignment="Center" Padding="8,4,8,4" Foreground="White"/>
-                <RadioButton x:Name="radioButton2016Pro" Content="Professional Plus" IsChecked="False" Padding="5,5,5,5" VerticalContentAlignment="Center" Canvas.Left="672" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Std" Content="Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="55" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016ProjectPro" Content="Project Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="75" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016ProjectStd" Content="Project Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="95" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016VisioPro" Content="Visio Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="115" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016VisioStd" Content="Visio Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="135" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Word" Content="Word" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="155" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Excel" Content="Excel" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="175" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016PowerPoint" Content="PowerPoint" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="195" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Outlook" Content="Outlook" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="212" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Access" Content="Access" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="235" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016Publisher" Content="Publisher" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="255" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2016OneNote" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Content="OneNote" Canvas.Top="275" Canvas.Left="672" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Rectangle Height="306" Stroke="#FF164A69" Width="150" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Canvas.Left="825" Canvas.Top="20" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="Label2013" Content="Office 2013" FontWeight="Bold" Canvas.Left="836" Background="#FF1B0F0F" Canvas.Top="8" HorizontalAlignment="Left" VerticalAlignment="Center" Foreground="White" Padding="8,4,8,4"/>
-                <RadioButton x:Name="radioButton2013Pro" Content="Professional" IsChecked="False" Padding="5,5,5,5" VerticalContentAlignment="Center" Canvas.Left="836" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Std" Content="Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="55" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013ProjectPro" Content="Project Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="75" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013ProjectStd" Content="Project Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="95" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013VisioPro" Content="Visio Pro" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="115" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013VisioStd" Content="Visio Standard" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="135" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Word" Content="Word" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="155" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Excel" Content="Excel" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="175" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013PowerPoint" Content="PowerPoint" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="195" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Outlook" Content="Outlook" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="215" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Access3" Content="Access" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="235" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <RadioButton x:Name="radioButton2013Publisher" Content="Publisher" VerticalContentAlignment="Center" IsChecked="False" Padding="5,5,5,5" Canvas.Top="255" Canvas.Left="836" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                <Label x:Name="label1" Content=" + By default, this script installs the 64-bit version in English." Canvas.Top="347" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
-                <Label x:Name="label2" Content=" + Default mode is Install. If you want to download only, select Download mode." Canvas.Top="367" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
-                <Label x:Name="label3" Content=" + The downloaded files would be saved on the current user's desktop." Canvas.Top="386" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
-                <Label x:Name="label4" Content=" + The script can download/ install both Retail and Volume versions." Canvas.Top="404" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
-                <Label x:Name="label5" Content=" + ReCreate by: SARGA X HINZDC AKA OLIH | Website: " Canvas.Top="423" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.Left="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0,0,0,2"/>
-                <Rectangle x:Name="RemoveAll" Stroke="#FFDC281F" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Height="141" Width="136" Canvas.Top="143" Canvas.Left="10" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <RadioButton x:Name="radioButtonRemoveAllApp" Content="I Agree (Caution!)" FontFamily="Consolas" FontSize="10" VerticalContentAlignment="Center" IsChecked="False" Canvas.Left="19" Canvas.Top="155" HorizontalAlignment="Center" VerticalAlignment="Top"/>
-                <TextBlock x:Name="textBoxRemoveAll" TextWrapping="Wrap" Text="*This option removes all installed Office apps." FontSize="10" Canvas.Left="10" Canvas.Top="289" Foreground="#FFED551B" HorizontalAlignment="Center" VerticalAlignment="Top" FontWeight="Bold" Height="30" Width="134"/>
-                <Label x:Name="LabelRemoveAll" Content="Remove All Apps:" FontWeight="Bold" Canvas.Left="24" Canvas.Top="130" HorizontalAlignment="Center" VerticalAlignment="Top" Background="White"/>
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="135" Height="81" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Center"
+            Canvas.Left="9" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label365" Style="{StaticResource LabelWithBgShadow}" Content="Microsoft 365" FontWeight="Bold"
+           HorizontalAlignment="Left" VerticalAlignment="Center"
+           Foreground="White" Padding="8,4,8,4"
+           Background="#FFDA2323" Canvas.Left="23" Canvas.Top="8"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="23" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <RadioButton x:Name="radioButton365Home" Content="Home" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton365Business" Content="Business" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton365Enterprise" Content="Enterprise" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Center"
+            Canvas.Left="154" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label2024" Style="{StaticResource LabelWithBgShadow}" Content="Office 2024" FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Foreground="White" Padding="8,4,8,4"
+                    Background="OrangeRed" Canvas.Left="168" Canvas.Top="8"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="40" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <RadioButton x:Name="radioButton2024Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2024HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
+                CornerRadius="5"
+                HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="322" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label2021" Style="{StaticResource LabelWithBgShadow}" Content="Office 2021" FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Foreground="White" Padding="8,4,8,4"
+                    Background="#FF3C10DE" Canvas.Left="336" Canvas.Top="11"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="336" Canvas.Top="42" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    <RadioButton x:Name="radioButton2021Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2021HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
+                    CornerRadius="5"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Canvas.Left="490" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label2019" Style="{StaticResource LabelWithBgShadow}" Content="Office 2019" FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Top"
+                    Foreground="White" Padding="8,4,8,4"
+                    Background="#FF0F8E40"
+                    Margin="503,8,0,0"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="503" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <RadioButton x:Name="radioButton2019Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2019HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
+                    CornerRadius="5"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Canvas.Left="658" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label2016" Style="{StaticResource LabelWithBgShadow}" Content="Office 2016" FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Foreground="White" Padding="8,4,8,4"
+                    Background="#FFA28210" Canvas.Left="672" Canvas.Top="8"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <RadioButton x:Name="radioButton2016Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2016OneNote" Content="OneNote" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
+                    CornerRadius="5"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Canvas.Left="826" Canvas.Top="20">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label -->
+                <Label x:Name="Label2013" Style="{StaticResource LabelWithBgShadow}" Content="Office 2013" FontWeight="Bold"
+                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    Foreground="White" Padding="8,4,8,4"
+                    Background="#7b24d3" Canvas.Left="840" Canvas.Top="8"/>
+
+                <!-- StackPanel untuk RadioButtons -->
+                <StackPanel Orientation="Vertical" Canvas.Left="840" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <RadioButton x:Name="radioButton2013Pro" Content="Professional" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton x:Name="radioButton2013Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                </StackPanel>
+
+                <Label x:Name="label1" Foreground="{DynamicResource TextColor}" Content=" + By default, this script installs the 64-bit version in English." Canvas.Top="347" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
+                <Label x:Name="label2" Foreground="{DynamicResource TextColor}" Content=" + Default mode is Install. If you want to download only, select Download mode." Canvas.Top="367" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
+                <Label x:Name="label3" Foreground="{DynamicResource TextColor}" Content=" + The downloaded files would be saved on the current user's desktop." Canvas.Top="386" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
+                <Label x:Name="label4" Foreground="{DynamicResource TextColor}" Content=" + The script can download/install both Retail and Volume versions." Canvas.Top="404" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
+                <Label x:Name="label5" Foreground="{DynamicResource TextColor}" Content=" + ReCreate by: SARGA X HINZDC AKA OLIH | Website: " Canvas.Top="423" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" Canvas.Left="-3" HorizontalAlignment="Center" VerticalAlignment="Top" Padding="0,0,0,2"/>
+
+                <!-- Border sebagai background dengan shadow -->
+                <Border Width="136" Height="141" Background="{DynamicResource BorderBackgroud}"
+                    CornerRadius="5"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
+                    Canvas.Left="8" Canvas.Top="154">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+                <!-- Label sebagai Header -->
+                <Label x:Name="LabelRemoveAll" Style="{StaticResource LabelWithBgShadow}" Content="Remove All Apps" FontWeight="Bold"
+           Foreground="White" Background="Red"
+           Padding="8,4,8,4"
+           HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="19" Canvas.Top="144"/>
+
+                <!-- RadioButton -->
+                <RadioButton x:Name="radioButtonRemoveAllApp" Content="I Agree (Caution!)" 
+                 FontFamily="Consolas" FontSize="10" Foreground="{DynamicResource TextColor}"
+                 VerticalContentAlignment="Center" 
+                 IsChecked="False" Canvas.Left="20" Canvas.Top="174" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+
+                <!-- TextBlock sebagai informasi -->
+                <TextBlock x:Name="textBoxRemoveAll" TextWrapping="Wrap"
+               Text="*This option removes all installed Office apps." 
+               FontSize="10" Foreground="#FFED551B"
+               FontWeight="Bold"
+               HorizontalAlignment="Center" VerticalAlignment="Top" Width="134" Canvas.Left="10" Canvas.Top="304"/>
+
                 <Button x:Name="buttonRemoveAll" Content="Remove All"
-                    Width="107" Height="27" BorderBrush="{x:Null}"
-                    FontSize="10" HorizontalAlignment="Center"
-                    Canvas.Left="24" Canvas.Top="180" VerticalAlignment="Top"
+                    Width="108" Height="27" BorderBrush="{x:Null}"
+                    FontSize="10" HorizontalAlignment="Left"
+                    Canvas.Left="22" Canvas.Top="194" VerticalAlignment="Center"
                     Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                     ToolTipService.ShowDuration="5000" 
                     ToolTipService.InitialShowDelay="500">
@@ -500,75 +804,127 @@ $xamlinput = @'
                         <ToolTip Content="Klik untuk mengapus semua aplikasi Office yang terinstall." />
                     </Button.ToolTip>
                 </Button>
-                <Image x:Name="image" Height="80" Width="80" Canvas.Left="870" Canvas.Top="345" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/office.ico" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden">
-                <Image.RenderTransform>
-                        <RotateTransform CenterX="40" CenterY="40"/>
-                    </Image.RenderTransform>
-                </Image>
-                <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="501" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
-                <Rectangle x:Name="submitbox" Stroke="#FF164A69" UseLayoutRounding="True" RadiusX="5" RadiusY="5" Height="91" Width="382" Canvas.Top="340" Canvas.Left="593" HorizontalAlignment="Left" VerticalAlignment="Center"/>
                 <Button x:Name="buttonSARA" Content="SaRa"
-                    IsEnabled="False"
-                    Width="107" Height="27" BorderBrush="{x:Null}"
+                    Width="108" Height="27" BorderBrush="{x:Null}"
                     FontSize="10"
-                    Canvas.Left="24" Canvas.Top="244"
-                    Style="{StaticResource GreyButtonStyle}" Cursor="Hand"
+                    Canvas.Left="22" Canvas.Top="258"
+                    Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                     ToolTipService.ShowDuration="5000" 
-                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button.ToolTip>
                         <ToolTip Content="Klik untuk mengapus semua aplikasi Office yang terinstall." />
                     </Button.ToolTip>
                 </Button>
                 <Button x:Name="buttonScrub" Content="Scrub All"
-                    Width="107" Height="26" BorderBrush="{x:Null}"
-                    IsEnabled="False"
+                    Width="108" Height="26" BorderBrush="{x:Null}"
                     FontSize="10"
-                    Canvas.Left="24" Canvas.Top="213"
-                    Style="{StaticResource GreyButtonStyle}" Cursor="Hand"
+                    Canvas.Left="22" Canvas.Top="227"
+                    Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                     ToolTipService.ShowDuration="5000" 
-                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Left" VerticalAlignment="Center">
                     <Button.ToolTip>
-                        <ToolTip Content="Klik untuk mengapus tingkat lanjut semua aplikasi Office yang terinstall." />
+                        <ToolTip Content="Klik untuk mengapus semua aplikasi Office yang terinstall." />
                     </Button.ToolTip>
                 </Button>
+
+                <Image x:Name="image" Panel.ZIndex="1" Height="80" Width="80" Canvas.Left="870" Canvas.Top="345" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/office.ico" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Hidden" RenderTransformOrigin="0.5,0.5">
+                    <Image.RenderTransform>
+                        <RotateTransform Angle="0"/>
+                    </Image.RenderTransform>
+                </Image>
+                <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="511" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
+                <Border x:Name="submitBox" Width="382" Height="91" Background="{DynamicResource BorderBackgroud}"
+        CornerRadius="5" BorderThickness="1" BorderBrush="#0c66e4"
+        HorizontalAlignment="Left" VerticalAlignment="Center"
+        Canvas.Left="602" Canvas.Top="340">
+                    <Border.Effect>
+                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                    </Border.Effect>
+                </Border>
+
+
             </Canvas>
         </GroupBox>
-        <GroupBox x:Name="groupBoxArch" Header="Arch:" Margin="10,10,0,0" BorderBrush="#FF0D4261" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Consolas" FontSize="11" Width="104">
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                <RadioButton x:Name="radioButtonArch64" Content="x64" Width="37" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0" VerticalContentAlignment="Center" IsChecked="True"/>
-                <RadioButton x:Name="radioButtonArch32" Content="x32" Width="37" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,5" VerticalContentAlignment="Center"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox x:Name="groupBoxLicenseType" Header="LicenseType:" Margin="10,87,0,0" BorderBrush="#FF0D4261" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Consolas" FontSize="11" Width="104" Height="65">
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                <RadioButton x:Name="radioButtonRetail" Content="Retail" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" IsChecked="True" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonVolume" Content="Volume" HorizontalAlignment="Left" VerticalAlignment="Top" VerticalContentAlignment="Center" Margin="5,6,0,0"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox x:Name="groupBoxMode" Header="Mode:" Margin="10,161,0,0" BorderBrush="#FF0D4261" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Consolas" FontSize="11" Width="104" Height="67" ToolTip="When selecting the Activate mode...">
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                <RadioButton x:Name="radioButtonInstall" Content="Install" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0" VerticalContentAlignment="Center" IsChecked="True"/>
-                <RadioButton x:Name="radioButtonDownload" Content="Download" VerticalContentAlignment="Center" Margin="5,6,0,0"/>
-            </StackPanel>
-        </GroupBox>
-        <GroupBox x:Name="groupBoxLanguage" Header="Language:" Margin="10,239,0,0" BorderBrush="#FF0D4261" HorizontalAlignment="Left" VerticalAlignment="Top" FontFamily="Consolas" FontSize="11" Width="104" Height="229">
-            <StackPanel HorizontalAlignment="Left" VerticalAlignment="Top">
-                <RadioButton x:Name="radioButtonEnglish" Content="English" VerticalContentAlignment="Center" IsChecked="True" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,8,0,0"/>
-                <RadioButton x:Name="radioButtonIndonesian" Content="Indonesian" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonKorean" Content="Korean" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonChinese" Content="Chinese" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonFrench" Content="French" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonSpanish" Content="Spanish" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonHindi" Content="Hindi" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonGerman" Content="German" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonJapanese" Content="Japanese" VerticalContentAlignment="Center" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="5,6,0,0"/>
-                <RadioButton x:Name="radioButtonVietnamese" Content="Vietnamese" VerticalContentAlignment="Center" Margin="5,6,0,0"/>
-            </StackPanel>
-        </GroupBox>
+        <!-- Border sebagai background dengan shadow -->
+        <Border Width="115" Height="60" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Canvas.Left="10" Canvas.Top="10" Margin="10,17,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+            </Border.Effect>
+        </Border>
+
+        <!-- Label -->
+        <Label x:Name="LabelArch"  Content="Architecture" FontWeight="Bold"
+           HorizontalAlignment="Left" VerticalAlignment="Top"
+           Foreground="White" Padding="10,1,8,2"
+           Background="#3283d6"
+           Margin="-1,8,0,0" Width="90"/>
+
+        <!-- StackPanel untuk RadioButtons -->
+        <StackPanel Orientation="Vertical" Margin="20,28,1035,403">
+            <RadioButton x:Name="radioButtonArch64" Content="x64" Foreground="{DynamicResource TextColor}" FontFamily="Consolas" Margin="0,5,0,0" IsChecked="True"/>
+            <RadioButton x:Name="radioButtonArch32" Content="x32" Foreground="{DynamicResource TextColor}" FontFamily="Consolas" Margin="0,5,0,0"/>
+        </StackPanel>
+
+        <!-- Border sebagai background dengan shadow -->
+        <Border Width="115" Height="60" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Canvas.Left="10" Canvas.Top="87" Margin="10,91,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+            </Border.Effect>
+        </Border>
+
+        <!-- Label -->
+        <Label x:Name="LabelLicenseType" Content="License Type" FontWeight="Bold"
+           HorizontalAlignment="Left" VerticalAlignment="Top"
+           Foreground="White" Padding="10,1,8,2"
+           Background="#3283d6"
+           Margin="0,82,0,0" RenderTransformOrigin="0.387,0.53"/>
+
+        <!-- StackPanel untuk RadioButtons -->
+        <StackPanel Orientation="Vertical" Margin="20,104,1035,332">
+            <RadioButton x:Name="radioButtonRetail" Content="Retail" Foreground="{DynamicResource TextColor}" FontFamily="Consolas" Margin="0,5,0,0" IsChecked="True"/>
+            <RadioButton x:Name="radioButtonVolume" Content="Volume" Foreground="{DynamicResource TextColor}" FontFamily="Consolas" Margin="0,5,0,0"/>
+        </StackPanel>
+
+
+        <!-- Border sebagai background dengan shadow -->
+        <Border Width="115" Height="220" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Canvas.Left="10" Canvas.Top="239" Margin="10,247,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+            </Border.Effect>
+        </Border>
+
+        <!-- Label -->
+        <Label x:Name="LabelLanguage" Content="Language" FontWeight="Bold"
+           HorizontalAlignment="Left" VerticalAlignment="Top"
+           Foreground="White" Padding="10,1,8,2"
+           Background="#3283d6" Margin="0,238,0,0" Width="89"/>
+
+        <!-- StackPanel untuk RadioButtons -->
+        <StackPanel Orientation="Vertical" Margin="20,261,1035,18">
+            <RadioButton x:Name="radioButtonEnglish" Content="English" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0" IsChecked="True"/>
+            <RadioButton x:Name="radioButtonIndonesian" Content="Indonesian" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonKorean" Content="Korean" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonChinese" Content="Chinese" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonFrench" Content="French" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonSpanish" Content="Spanish" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonGerman" Content="German" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonJapanese" Content="Japanese" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonVietnamese" Content="Vietnamese" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+            <RadioButton x:Name="radioButtonHindi" Content="Hindi" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+        </StackPanel>
         <Button x:Name="buttonSubmit" Content="SUBMIT" 
             Width="118" Height="59" 
-            FontSize="13" FontWeight="Bold" HorizontalAlignment="Left" 
-            Margin="974,381,0,0" VerticalAlignment="Top"
+            FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" 
+            Margin="989,381,0,0" VerticalAlignment="Top"
             Style="{StaticResource GreenButtonStyle}" Cursor="Hand"
             ToolTipService.ShowDuration="5000" 
             ToolTipService.InitialShowDelay="500">
@@ -577,12 +933,38 @@ $xamlinput = @'
             </Button.ToolTip>
         </Button>
 
-        <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="740,384,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
-        <TextBox x:Name="textbox" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik SUBMIT." Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="740,406,0,0" FontFamily="Consolas" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
-        <TextBox x:Name="textboxlog" TextWrapping="Wrap" Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="740,425,0,0" FontFamily="Consolas" FontSize="9" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
-        <Label x:Name="Link1" HorizontalAlignment="Left" Margin="398,443,0,0" VerticalAlignment="Top" Width="172" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
+        <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,384,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
+        <TextBox x:Name="textbox"  Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik SUBMIT." Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,406,0,0" FontFamily="Consolas" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
+        <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
             <Hyperlink NavigateUri="https://hinzdc.xyz">www.indojava.online</Hyperlink>
         </Label>
+        <Border Width="115" Height="65" Background="{DynamicResource BorderBackgroud}"
+            CornerRadius="5"
+            HorizontalAlignment="Left" VerticalAlignment="Top"
+            Margin="10,167,0,0">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+            </Border.Effect>
+        </Border>
+        <Label x:Name="LabelMode" Content="Mode" FontWeight="Bold"
+           HorizontalAlignment="Left" VerticalAlignment="Top"
+           Foreground="White" Padding="10,1,8,2"
+           Background="#3283d6"
+           Margin="0,157,0,0" Width="89"/>
+        <StackPanel Orientation="Vertical" Margin="20,180,1035,250">
+            <RadioButton x:Name="radioButtonInstall" Content="Install" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0" IsChecked="True"/>
+            <RadioButton x:Name="radioButtonDownload" Content="Download" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+        </StackPanel>
+        <Button x:Name="buttonActivate" Content="Activation"
+                Width="108" Height="27" 
+                Canvas.Left="870" Canvas.Top="410"
+                Style="{StaticResource RedButtonStyle}" Cursor="Hand"
+                ToolTipService.ShowDuration="5000"
+                ToolTipService.InitialShowDelay="500" Margin="1027,484,19,18">
+            <Button.ToolTip>
+                <ToolTip Content="Klik untuk mengaktivasi Office secara permanen." />
+            </Button.ToolTip>
+        </Button>
 
     </Grid>
 </Window>
@@ -599,7 +981,17 @@ $Form = [Windows.Markup.XamlReader]::Load( $xmlReader )
         Set-Variable -Name ($_.Name) -Value $Form.FindName($_.Name)
     }
 
+#DEBUG
+if ($null -eq $Form) {
+    Write-Host " XAML gagal di-load. Periksa struktur XAML!"
+} else {
+    Write-Host " XAML berhasil di-load!"
+}
+# Periksa elemen dalam $Form untuk debugging
+#$Form.Resources.Keys | ForEach-Object { Write-Host " Resource Found: $_" }
+
 $Link1.Add_PreviewMouseDown({[system.Diagnostics.Process]::start('https://hinzdc.xyz')})
+
 
 # Get the Storyboard resource
 $storyboard = $Form.FindResource("RotateStoryboard")
@@ -610,20 +1002,39 @@ $storyboard = $Form.FindResource("RotateStoryboard")
 # Start the animation
 $storyboard.Begin()
 
-# Download links
+# Deteksi tema sistem
+# Terapkan tema awal
+$global:currentTheme = Get-SystemTheme
+Apply-Theme $Form $global:currentTheme
+
+# Gunakan Timer untuk cek tema setiap detik (Auto Update)
+$timer = New-Object System.Windows.Threading.DispatcherTimer
+$timer.Interval = [TimeSpan]::FromSeconds(1)
+$timer.Add_Tick({
+        $newTheme = Get-SystemTheme
+        if ($newTheme -ne $global:currentTheme) {
+            Write-Host "Tema berubah! Memperbarui UI $newTheme ..."
+            $global:currentTheme = $newTheme
+            Apply-Theme $Form $global:currentTheme
+        }
+    })
+    $timer.Start()
+    
+    
+    # Download links
     $uri = "https://github.com/hinzdc/get/raw/main/office/bin/setup.exe"
     $uri2013 = "https://github.com/hinzdc/get/raw/main/office/bin/bin2013.exe"
     # $uninstall = './scripts/office/uninstall.bat'
     # $readme = './scripts/office/Readme.txt'
-
-# Prepiaration for download and install
+    
+    # Prepiaration for download and install
     function PreparingOffice {
         if ($radioButtonDownload.IsChecked) {
             $workingDir = New-Item -Path $env:userprofile\Desktop\$productId -ItemType Directory -Force
             Set-Location $workingDir
             Invoke-Item $workingDir
         }
-
+        
         if ($radioButtonInstall.IsChecked) {
             $workingDir = New-Item -Path $env:temp\ClickToRun\$productId -ItemType Directory -Force
             Set-Location $workingDir
@@ -641,19 +1052,19 @@ $storyboard.Begin()
         Add-Content $configurationFile -Value '<Updates Enabled="TRUE" />'
         Add-Content $configurationFile -Value '<Display Level="Full" AcceptEULA="TRUE" />'
         Add-Content $configurationFile -Value '</Configuration>'
-
+        
         $batchFile = "Install-x$arch.bat"
         New-Item $batchFile -ItemType File -Force | Out-Null
         Add-content $batchFile -Value "ClickToRun.exe /configure $configurationFile"
-
+        
         (New-Object Net.WebClient).DownloadFile($uri, "$workingDir\ClickToRun.exe")
         # (New-Object Net.WebClient).DownloadFile($readme, "$workingDir\01.Readme.txt")
-
+        
         $sync.configurationFile = $configurationFile
         $sync.workingDir = $workingDir
     }
     
-# Creating script block for download and install
+    # Creating script block for download and install
     $DownloadInstallOffice = {
         function Write-HostDebug {
             #Helper function to write back to the host debug output
@@ -664,7 +1075,7 @@ $storyboard.Begin()
                 $sync.host.UI.WriteDebugLine($debugMessage)
             }
         }
-
+        
         function Write-VerboseDebug {
             param([Parameter(Mandatory)]
             [string]
@@ -673,11 +1084,11 @@ $storyboard.Begin()
                 $sync.host.UI.WriteVerboseLine($verboseMessage)
             }
         }
-
+        
         Write-VerboseDebug "Downloading the $($sync.productName)"
         Write-VerboseDebug "Mode: $($sync.mode)"
         Write-VerboseDebug "Configuration file: $($sync.configurationFile)"
-
+        
         # To referece our elements we use the $sync variable from hashtable.
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Visibility = "Hidden" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.textbox.Text = "$($sync.UIstatus) $($sync.productName) $($sync.arch)-bit ($($sync.language))" })
@@ -688,7 +1099,7 @@ $storyboard.Begin()
         Set-Location -Path $($sync.workingDir)
         Write-VerboseDebug "Working (download) path: $pwd"
         Write-VerboseDebug "Command to run: .\ClickToRun.exe $($sync.mode) .\$($sync.configurationFile)"
-
+        
         Start-Process -FilePath .\ClickToRun.exe -ArgumentList "$($sync.mode) .\$($sync.configurationFile)" -NoNewWindow -Wait
                 
         # Bring back our Button, set the Label and ProgressBar, we're done..
@@ -703,7 +1114,7 @@ $storyboard.Begin()
         Write-Host " Done. You can close this window now."
     }
 
-# Share info between runspaces
+    # Share info between runspaces
     $sync = [hashtable]::Synchronized(@{})
     $sync.runspace = $runspace
     $sync.host = $host
@@ -716,19 +1127,21 @@ $storyboard.Begin()
     $sync.DebugPreference = $DebugPreference
     $sync.VerbosePreference = $VerbosePreference
 
-# Build a runspace
+    # Build a runspace
     $runspace = [runspacefactory]::CreateRunspace()
     $runspace.ApartmentState = 'STA'
     $runspace.ThreadOptions = 'ReuseThread'
     $runspace.Open()
-
-# Add shared data to the runspace
+    
+    # Add shared data to the runspace
     $runspace.SessionStateProxy.SetVariable("sync", $sync)
-
-# Create a Powershell instance
+    
+    # Create a Powershell instance
     $PSIinstance = [powershell]::Create().AddScript($scriptBlock)
     $PSIinstance.Runspace = $runspace
     
+    $VerbosePreference = "Continue"
+    $DebugPreference = "Continue"
 # Event handler untuk perubahan pilihan RadioButton
 $radioButtonDownload.Add_Checked({
     UpdateButtonState
@@ -755,7 +1168,7 @@ function UpdateButtonState {
         $sync.buttonSubmit.Content = $buttonText 
     })
 }
-
+    
 # INSTALL/DOWNLOAD/ACTIVATE Microsoft Office with a runspace
 
     $buttonSubmit.Add_Click( {
@@ -881,6 +1294,80 @@ function UpdateButtonState {
                 $sync.Form.Dispatcher.Invoke([action] { $sync.textbox.Text = "Please select an Office version." })
                 Write-Host "Please select an Office version." -ForegroundColor Red
             }
+    })
+
+    # Aksi yang akan dijalankan di runspace (agar UI tidak nge-freeze)
+    $ActivateAction = {
+        param($sync, $url, $expectedSha256, $params)
+
+        $sync.Form.Dispatcher.Invoke([action]{
+            $sync.textbox.Text = "Activating Office..."
+            $sync.ProgressBar.IsIndeterminate = $true
+            $sync.image.Visibility = "Visible"
+            $sync.buttonSubmit.Visibility = "Hidden"
+            Write-Host "Activating Office..."
+        })
+
+        try {
+            # Pastikan TLS modern
+            [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+
+            # 1) Ambil teks skrip dari URL
+            $scriptText = Invoke-RestMethod -Uri $url -Method Get -ErrorAction Stop
+
+            # 2) verifikasi SHA-256 isi skrip
+            <#if ($expectedSha256) {
+                $sha = [System.Security.Cryptography.SHA256]::Create()
+                $bytes = [Text.Encoding]::UTF8.GetBytes($scriptText)
+                $actualSha256 = ([BitConverter]::ToString($sha.ComputeHash($bytes))).Replace("-", "")
+                if ($actualSha256 -ne $expectedSha256) {
+                    throw "Hash skrip tidak cocok — kemungkinan berubah/manipulasi."
+                }
+            }#>
+
+            # 3) Buat ScriptBlock dari teks, lalu jalankan dengan argumen
+            $sb = [ScriptBlock]::Create($scriptText)
+
+            # "/Ohook /HWID", kirim sebagai array string:
+            & $sb @params | Out-Null
+
+            $sync.Form.Dispatcher.Invoke([action]{
+                $sync.textbox.Text = "Aktivasi Office Selesai."
+                $sync.textbox.Foreground = "#03842cff"
+                Write-Host "Aktivasi Office Selesai."
+            })
+        }
+        catch {
+            $sync.Form.Dispatcher.Invoke([action]{
+                $sync.textbox.Text = "Aktivasi Office Gagal: $($_.Exception.Message)"
+                $sync.textbox.Foreground = "Red"
+                Write-Host "Aktivasi Office Gagal: $($_.Exception.Message)" -ForegroundColor Red
+            })
+        }
+        finally {
+            $sync.Form.Dispatcher.Invoke([action]{
+                $sync.ProgressBar.IsIndeterminate = $false
+                $sync.image.Visibility = "Hidden"
+                $sync.buttonSubmit.Visibility = "Visible"
+            })
+        }
+    }
+
+    # Wire tombol ke runspace yang sudah kamu buat sebelumnya ($runspace)
+    $buttonActivate.Add_Click({
+        $url = 'https://get.activated.win'
+        #$expectedSha256 = '' # (opsional) isi hash SHA-256 skrip untuk verifikasi integritas
+        $params = @('/Ohook')
+
+        $psAct = [powershell]::Create().
+            AddScript($ActivateAction).
+            AddArgument($sync).
+            AddArgument($url).
+            AddArgument($expectedSha256).
+            AddArgument($params)
+
+        $psAct.Runspace = $runspace
+        $psAct.BeginInvoke() | Out-Null
     })
 
 # Uninstall all installed Microsoft Office apps.
