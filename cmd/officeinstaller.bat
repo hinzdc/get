@@ -1140,8 +1140,8 @@ $timer.Add_Tick({
     $PSIinstance = [powershell]::Create().AddScript($scriptBlock)
     $PSIinstance.Runspace = $runspace
     
-    $VerbosePreference = "Continue"
-    $DebugPreference = "Continue"
+    #$VerbosePreference = "Continue"
+    #$DebugPreference = "Continue"
 # Event handler untuk perubahan pilihan RadioButton
 $radioButtonDownload.Add_Checked({
     UpdateButtonState
