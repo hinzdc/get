@@ -1,7 +1,7 @@
 <# ::
 @echo off
 title // MICROSOFT OFFICE INSTALLER - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=30
+mode con cols=90 lines=35
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -45,8 +45,8 @@ goto :eof
 Add-Type -AssemblyName PresentationFramework, System.Drawing, PresentationFramework, System.Windows.Forms, WindowsFormsIntegration, PresentationCore
 [System.Windows.Forms.Application]::EnableVisualStyles()
 $Host.UI.RawUI.WindowTitle = '// Aurora ToolKIT Consol Log // - INDOJAVA ONLINE - HINZDC X SARGA'
-$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 30)
-$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 30)
+$host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 35)
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 35)
 
 #-----------------------------------------------------------------------------------------
 $ProgressPreference = 'SilentlyContinue'
@@ -243,26 +243,31 @@ function webhooks {
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 Clear-Host
 # ASCII Art dalam Unicode [char]
+$colors = @("Blue", "Cyan", "Magenta", "Red")
+$randomColor = Get-Random -InputObject $colors
+$randomColor2 = Get-Random -InputObject $colors
 $text = @"
 
                                                   $([char]0x2554)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2557)
-         $([char]0x2554)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2563) ISTANA BEC LANTAI 1 BLOK D7 $([char]0x2551)
-         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2563)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)                                $([char]0x2588)$([char]0x2588)                               $([char]0x2551)
-         $([char]0x2551)   $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2584)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)      $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)      $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2580)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2580)$([char]0x2584) $([char]0x2592)$([char]0x2592)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)    $([char]0x2580)$([char]0x2588)$([char]0x2580)    $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2554)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2563)  OLIH X SARGA A.K.A HINZDC  $([char]0x2551)
+         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2563)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591)  $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591)  $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)            $([char]0x2551)
          $([char]0x2551)                                                                      $([char]0x2551)
-         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
-                          ----- MICROSOFT OFFICE INSTALLER -----
+         $([char]0x2551)        $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x255A)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2566)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x255D) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)         $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2591)$([char]0x2591)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2584) $([char]0x2588)$([char]0x2588)$([char]0x2566)$([char]0x2588)$([char]0x2588) $([char]0x2584) $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2569)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591) $([char]0x2591)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)  $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)                    $([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x255D) $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)                                         $([char]0x2551)
+         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
 "@
-
-Write-Host $text -ForegroundColor Cyan
-
-Write-Host
+Write-Host $text -ForegroundColor $randomColor
+Write-Host "                          ----- MICROSOFT OFFICE INSTALLER -----" -ForegroundColor $randomColor2
 Write-Host "------------------------------------------------------------------------------------------"
-Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   "
+Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -ForegroundColor red
 Write-Host "------------------------------------------------------------------------------------------"
 Write-Host
 Write-Host "  > AURORA TOOLKIT" -ForegroundColor Yellow
@@ -324,8 +329,8 @@ function Set-BrushColor($key, $hexColor) {
 
 # Terapkan tema berdasarkan kondisi
 if ($currentTheme -eq "Dark") {
-    Set-BrushColor "BackgroundColor" "#000000"
-    Set-BrushColor "TextColor" "#FFFFFF"        # Putih
+    Set-BrushColor "BackgroundColor" "#121212"
+    Set-BrushColor "TextColor" "#E0E0E0"        # Putih
     Set-BrushColor "ButtonBackground" "#444444" # Abu-abu gelap
     Set-BrushColor "BorderBackgroud" "#383838"  # Abu-abu tua
     Set-BrushColor "ShadowColor" "#222222"      # Bayangan gelap
@@ -380,7 +385,7 @@ $xamlinput = @'
         MinHeight="518"
         Height="520" Width="1160"
         WindowStartupLocation="CenterScreen"
-        Title="Microsoft Installation Tool // INDOJAVA ONLINE - HINZDC X SARGA // ISTANA BEC BANDUNG"
+        Title="Microsoft Installation Tool // HINZDC X SARGA // ISTANA BEC BANDUNG - WhatsApp 085157919957"
         Icon="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/Microsoft.png">
 
     <Window.Resources>
@@ -421,8 +426,47 @@ $xamlinput = @'
         </Style>
 
         <!-- Style Hijau -->
-        <Style x:Key="GreenButtonStyle" BasedOn="{StaticResource BaseRoundedButtonStyle}" TargetType="Button">
+        <Style x:Key="GreenButtonStyle"
+       TargetType="Button"
+       BasedOn="{StaticResource BaseRoundedButtonStyle}">
+            <!-- warna -->
             <Setter Property="Background" Value="#FF168E12"/>
+            <Setter Property="BorderBrush" Value="#0F6E0D"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Foreground" Value="White"/>
+            <Setter Property="Padding" Value="12,8"/>
+
+            <!-- sudut bulat lewat template -->
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd"
+                        Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="10">
+                            <!-- ⬅️ ini yang bikin rounded -->
+                            <ContentPresenter Margin="{TemplateBinding Padding}"
+                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
+                                      RecognizesAccessKey="True"/>
+                        </Border>
+
+                        <!-- efek interaksi optional -->
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FF1DAA18"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FF0F7D0C"/>
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="bd" Property="Opacity" Value="0.6"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
 
         <!-- Style Oranye -->
@@ -570,11 +614,11 @@ $xamlinput = @'
             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top">
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="135" Height="81" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Center"
             Canvas.Left="9" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -582,7 +626,7 @@ $xamlinput = @'
                 <Label x:Name="Label365" Style="{StaticResource LabelWithBgShadow}" Content="Microsoft 365" FontWeight="Bold"
            HorizontalAlignment="Left" VerticalAlignment="Center"
            Foreground="White" Padding="8,4,8,4"
-           Background="#FFDA2323" Canvas.Left="23" Canvas.Top="8"/>
+           Background="#E53935" Canvas.Left="23" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="23" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -593,11 +637,11 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Center"
             Canvas.Left="154" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -605,7 +649,7 @@ $xamlinput = @'
                 <Label x:Name="Label2024" Style="{StaticResource LabelWithBgShadow}" Content="Office 2024" FontWeight="Bold"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="OrangeRed" Canvas.Left="168" Canvas.Top="8"/>
+                    Background="#FB8C00" Canvas.Left="168" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="40" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -627,10 +671,10 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
-                CornerRadius="5"
+                CornerRadius="10"
                 HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="322" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -660,11 +704,11 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
-                    CornerRadius="5"
+                    CornerRadius="10"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Canvas.Left="490" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -695,11 +739,11 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
-                    CornerRadius="5"
+                    CornerRadius="10"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Canvas.Left="658" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -707,7 +751,7 @@ $xamlinput = @'
                 <Label x:Name="Label2016" Style="{StaticResource LabelWithBgShadow}" Content="Office 2016" FontWeight="Bold"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="#FFA28210" Canvas.Left="672" Canvas.Top="8"/>
+                    Background="DarkSlateBlue" Canvas.Left="672" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -728,11 +772,11 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="158" Height="305" Background="{DynamicResource BorderBackgroud}"
-                    CornerRadius="5"
+                    CornerRadius="10"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Canvas.Left="826" Canvas.Top="20">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -766,17 +810,17 @@ $xamlinput = @'
 
                 <!-- Border sebagai background dengan shadow -->
                 <Border Width="136" Height="141" Background="{DynamicResource BorderBackgroud}"
-                    CornerRadius="5"
+                    CornerRadius="10"
                     HorizontalAlignment="Center" VerticalAlignment="Top"
                     Canvas.Left="8" Canvas.Top="154">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
                 <!-- Label sebagai Header -->
                 <Label x:Name="LabelRemoveAll" Style="{StaticResource LabelWithBgShadow}" Content="Remove All Apps" FontWeight="Bold"
-           Foreground="White" Background="Red"
+           Foreground="White" Background="#D32F2F"
            Padding="8,4,8,4"
            HorizontalAlignment="Left" VerticalAlignment="Center" Canvas.Left="19" Canvas.Top="144"/>
 
@@ -834,11 +878,11 @@ $xamlinput = @'
                 </Image>
                 <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="511" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
                 <Border x:Name="submitBox" Width="382" Height="91" Background="{DynamicResource BorderBackgroud}"
-        CornerRadius="5" BorderThickness="1" BorderBrush="#0c66e4"
+        CornerRadius="10" BorderThickness="1" BorderBrush="#0c66e4"
         HorizontalAlignment="Left" VerticalAlignment="Center"
         Canvas.Left="602" Canvas.Top="340">
                     <Border.Effect>
-                        <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="4"/>
+                        <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
                 </Border>
 
@@ -847,11 +891,11 @@ $xamlinput = @'
         </GroupBox>
         <!-- Border sebagai background dengan shadow -->
         <Border Width="115" Height="60" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Top"
             Canvas.Left="10" Canvas.Top="10" Margin="10,17,0,0">
             <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+                <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="3"/>
             </Border.Effect>
         </Border>
 
@@ -870,11 +914,11 @@ $xamlinput = @'
 
         <!-- Border sebagai background dengan shadow -->
         <Border Width="115" Height="60" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Top"
             Canvas.Left="10" Canvas.Top="87" Margin="10,91,0,0">
             <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+                <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="3"/>
             </Border.Effect>
         </Border>
 
@@ -894,11 +938,11 @@ $xamlinput = @'
 
         <!-- Border sebagai background dengan shadow -->
         <Border Width="115" Height="220" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Top"
             Canvas.Left="10" Canvas.Top="239" Margin="10,247,0,0">
             <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+                <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="3"/>
             </Border.Effect>
         </Border>
 
@@ -936,14 +980,14 @@ $xamlinput = @'
         <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,384,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
         <TextBox x:Name="textbox"  Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik SUBMIT." Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,406,0,0" FontFamily="Consolas" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
         <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
-            <Hyperlink NavigateUri="https://hinzdc.xyz">www.indojava.online</Hyperlink>
+            <Hyperlink NavigateUri="https://hinzdc.xyz">hinzdc.xyz</Hyperlink>
         </Label>
         <Border Width="115" Height="65" Background="{DynamicResource BorderBackgroud}"
-            CornerRadius="5"
+            CornerRadius="10"
             HorizontalAlignment="Left" VerticalAlignment="Top"
             Margin="10,167,0,0">
             <Border.Effect>
-                <DropShadowEffect Color="Black" Opacity="0.5" BlurRadius="10" ShadowDepth="3"/>
+                <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="3"/>
             </Border.Effect>
         </Border>
         <Label x:Name="LabelMode" Content="Mode" FontWeight="Bold"
@@ -960,7 +1004,7 @@ $xamlinput = @'
                 Canvas.Left="870" Canvas.Top="410"
                 Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                 ToolTipService.ShowDuration="5000"
-                ToolTipService.InitialShowDelay="500" Margin="1027,484,19,18">
+                ToolTipService.InitialShowDelay="500" Margin="1027,485,19,-8">
             <Button.ToolTip>
                 <ToolTip Content="Klik untuk mengaktivasi Office secara permanen." />
             </Button.ToolTip>

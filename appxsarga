@@ -28,7 +28,7 @@ foreach ($app in $appxApps) {
     Write-Host "Menginstall Aplikasi: $app"
     winget install -e --id $app -h --force --accept-package-agreements --accept-source-agreements --source winget
 }
-winget install --id=Microsoft.VisualStudioCode -e --scope "machine"
+winget install --id=Microsoft.VisualStudioCode -e --scope "machine" --force --override "/verysilent /suppressmsgboxes /mergetasks='!runcode,addcontextmenufiles,addcontextmenufolders,associatewithfiles,addtopath'"
 $appxms = @(
   "9NT1R1C2HH7J",
   "9NBLGGH4NNS1"

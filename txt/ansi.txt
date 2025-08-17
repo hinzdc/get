@@ -64,6 +64,29 @@ $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([ch
 "@
 
 Write-Host $text -ForegroundColor Cyan
+
+AuroraTOOLKIT
+cls
+$text = @"
+                                          ╔═════════════════════════════╗
+ ╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣  OLIH X SARGA A.K.A HINZDC  ║
+ ║                                        ╚═══════════════════╤╤╤╤╤╤╤╤╤╤╣
+ ║           ███████ ██   ██ ███████ ███████ ███████ ███████            ║
+ ║           ██   ██ ██   ██ ██   ██ ██   ██ ██   ██ ██   ██            ║
+ ║           ███████ ██   ██ █████░  ██   ██ █████░  ███████            ║
+ ║           ██   ██ ███████ ██   ██ █████▒▒ ██   ██ ██   ██            ║
+ ║                                                                      ║
+ ║        ████████ ╚╧╧╧╧╧╧╦╧╧╧╧╧╧╝ ██       ██   ██ ██ ████████         ║
+ ║           ██    ███████ ███████ ██       ██ ██   ░░    ██            ║
+ ║           ██    ██ ▄ ██╦██ ▄ ██ ██       ███     ██    ██            ║
+ ║           ██    ██   ██╩██   ██ ██       ██ ██   ██    ██            ║
+ ║           ██    ██████░ ░██████ ███████  ██   ██ ██    ██            ║
+ ║                 ══════╝ ╚══════                                      ║
+ ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝
+                   ACTIVATOR WINDOWS & OFFICE PERMANENT
+"@
+
+Write-Host $text -ForegroundColor Blue
 <# 
 ASCII Art dalam Unicode [char]
 ██ $([char]0x2588)$([char]0x2588)
@@ -83,6 +106,65 @@ ASCII Art dalam Unicode [char]
 ╤ $([char]0x2564)
 ║ $([char]0x2551)
 ══ $([char]0x2550)
+▓ Sudut (Corners)
+
+┌ (U+250C) → Sudut kiri atas tipis
+
+┐ (U+2510) → Sudut kanan atas tipis
+
+└ (U+2514) → Sudut kiri bawah tipis
+
+┘ (U+2518) → Sudut kanan bawah tipis
+
+╔ (U+2554) → Sudut kiri atas ganda
+
+╗ (U+2557) → Sudut kanan atas ganda
+
+╚ (U+255A) → Sudut kiri bawah ganda
+
+╝ (U+255D) → Sudut kanan bawah ganda
+
+▓ T-Junction & Cross
+
+┬ (U+252C) → T sambungan atas
+
+┴ (U+2534) → T sambungan bawah
+
+├ (U+251C) → T sambungan kiri
+
+┤ (U+2524) → T sambungan kanan
+
+┼ (U+253C) → Persimpangan
+
+╦ (U+2566) → T sambungan atas ganda
+
+╩ (U+2569) → T sambungan bawah ganda
+
+╠ (U+2560) → T sambungan kiri ganda
+
+╣ (U+2563) → T sambungan kanan ganda
+
+╬ (U+256C) → Persimpangan ganda
+
+▓ Variasi (Campuran tipis/tebal)
+
+╒ (U+2552), ╓ (U+2553) → Kiri atas kombinasi
+
+╕ (U+2555), ╖ (U+2556) → Kanan atas kombinasi
+
+╘ (U+2558), ╙ (U+2559) → Kiri bawah kombinasi
+
+╛ (U+255B), ╜ (U+255C) → Kanan bawah kombinasi
+
+╞ (U+255E), ╟ (U+255F) → T kiri campuran
+
+╡ (U+2561), ╢ (U+2562) → T kanan campuran
+
+╤ (U+2564), ╥ (U+2565) → T atas campuran
+
+╧ (U+2567), ╨ (U+2568) → T bawah campuran
+
+╪ (U+256A), ╫ (U+256B) → Persimpangan campuran
 
                                          ╔═════════════════════════════╗ 
 ╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣ ISTANA BEC LANTAI 1 BLOK D7 ║
@@ -96,3 +178,15 @@ ASCII Art dalam Unicode [char]
 ╚╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤══════════════════════════════════════╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╝
 #>
 
+╔════════════════════════════════════════════════════════════╗
+║          ╔══════════════════════════════╗                  ║
+║          ║   AuroraTOOLKIT v1.0         ║                  ║
+║          ╚══════════════════════════════╝                  ║
+║                                                            ║
+║    ████   ████   ██████   ██████   ██████   ██████         ║
+║    ██ ██  ██ ██  ██       ██       ██   ██  ██   ██        ║
+║    ██ ██  ██ ██  ██████   ██████   ██████   ██████         ║
+║    ██ ██  ██ ██       ██  ██       ██   ██  ██   ██        ║
+║    ████   ████   ██████   ██████   ██   ██  ██   ██        ║
+║                                                            ║
+╚════════════════════════════════════════════════════════════╝
