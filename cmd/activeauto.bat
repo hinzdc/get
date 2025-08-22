@@ -147,7 +147,7 @@ Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 Clear-Host
 # ASCII Art dalam Unicode [char]
-$colors = @("Cyan", "Blue", "Magenta", "Red", "White")
+$colors = @("Cyan", "Blue", "Red", "White", "DarkRed", "DarkCyan")
 $randomColor = Get-Random -InputObject $colors
 $randomColor2 = Get-Random -InputObject $colors
 $text = @"
@@ -200,7 +200,7 @@ if ($response.StatusCode -eq 200) {
         # Mencetak nilai ke terminal
         $label = Write-Host " DIAKSES " -BackgroundColor Blue -ForegroundColor White -NoNewline
         $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White -NoNewline
-        $times = Write-Host " KALI " -BackgroundColor Magenta -ForegroundColor White
+        $times = Write-Host " KALI " -BackgroundColor DarkBlue -ForegroundColor White
     } else {
         Write-Host " Please Connect to Internet.." -BackgroundColor Red -ForegroundColor White
     }
