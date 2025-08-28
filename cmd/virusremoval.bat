@@ -272,6 +272,7 @@ function DownloadAndRun {
     Write-Host "Harap matikan Real-time Protection pada Windows Defender sebelum melakukan scan.`nAgar tidak bentrok dan mengganggu proses scan.`n" -ForegroundColor Red
     Write-Host " TIPS: " -BackgroundColor Green -ForegroundColor White
     Write-Host "$tip" -ForegroundColor Blue
+    webhooks
     Write-Host "------------------------------------------------------------------------------------------"
 
     Write-Host "`n + Download antivirus..."
