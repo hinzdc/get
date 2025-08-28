@@ -224,7 +224,7 @@ function webhooks {
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },
                 @{ name = ":computer: **SYSTEM**"; value = "**System:** $osVersion`n**Windows Version:** $winversion`n**Username:** $username`n**CompName:** $compName`n**Language:** $language`n**Antivirus:** $antivirus `n`n"; inline = $false },
                 @{ name = ":desktop: **HARDWARE**"; value = "**Manufacture:** $Manufacturer`n**Model:** $Type ($Model)`n**CPU:** $($Name) ($($Cores) Core, $($LogicalProcessors) Treads)`n**GPU:** $gpu`n**RAM:** $TotalSizeInGB GB // $Modules`n**Power:** $batteryStatus`n**Screen:** $resolution`n**Disk:**`n$diskall`n"; inline = $false },
-                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**n$LanStatus`n**Internet Status:** $InsternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
+                @{ name = ":globe_with_meridians: **NETWORK**"; value = "**SSID:** $WifiName`n**LAN:**`n$LanStatus`n**Internet Status:** $InternetStatus`n**Location:** $($ip.country),  $($ip.city), $($ip.regionName) ($($ip.zip))`n**Gateway IP:** $gatewayIP`n**Internal IP:** $localIP`n**External IP:** $($ip.query)"; inline = $false },
                 @{ name = ""; value = "-----------------------------------------------"; inline = $false },
                 @{ name = "**:green_circle: ACTIVATION STATUS**"; value = " `n`n$(CheckOhook)`n"; inline = $false }
                 
@@ -630,9 +630,9 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="23" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <RadioButton x:Name="radioButton365Home" Content="Home" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton365Business" Content="Business" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton365Enterprise" Content="Enterprise" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Home" Content="Home" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Business" Content="Business" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Enterprise" Content="Enterprise" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -653,20 +653,20 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="40" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <RadioButton x:Name="radioButton2024Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2024HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -686,20 +686,20 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="336" Canvas.Top="42" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <RadioButton x:Name="radioButton2021Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2021HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -721,20 +721,20 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="503" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <RadioButton x:Name="radioButton2019Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2019HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019HomeStudent" Content="HomeStudent" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019HomeBusiness" Content="HomeBusiness" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -755,19 +755,19 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <RadioButton x:Name="radioButton2016Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2016OneNote" Content="OneNote" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016OneNote" Content="OneNote" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -788,18 +788,18 @@ $xamlinput = @'
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="840" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
-                    <RadioButton x:Name="radioButton2013Pro" Content="Professional" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton x:Name="radioButton2013Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Pro" Content="Professional" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013VisioStd" Content="Visio Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Word" Content="Word" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Excel" Content="Excel" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013PowerPoint" Content="PowerPoint" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <Label x:Name="label1" Foreground="{DynamicResource TextColor}" Content=" + By default, this script installs the 64-bit version in English." Canvas.Top="347" FontSize="10.5" BorderBrush="{x:Null}" Background="{x:Null}" HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="-3" Padding="0,0,0,2"/>
