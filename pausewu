@@ -1,5 +1,7 @@
 # ================================
 # AuroraToolKIT - Windows Update Control
+$Host.UI.RawUI.BackgroundColor = "Black"
+Clear-Host
 
 # ----------------
 # 0) UTILITIES
@@ -875,10 +877,10 @@ function Show-Menu {
     do {
         Clear-Host
         # ASCII Art dalam Unicode [char]  gunakan @" ... "@ (double-quoted here-string)
-$colors = @("Cyan", "Blue", "Red", "White", "DarkRed", "DarkCyan")
-$randomColor = Get-Random -InputObject $colors
-$randomColor2 = Get-Random -InputObject $colors
-$text = @"
+        $colors = @("Cyan", "Blue", "Red", "White", "DarkRed", "DarkCyan")
+        $randomColor = Get-Random -InputObject $colors
+        $randomColor2 = Get-Random -InputObject $colors
+        $text = @"
 
                                                   $([char]0x2554)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2557)
          $([char]0x2554)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2563)  OLIH X SARGA A.K.A HINZDC  $([char]0x2551)
@@ -896,8 +898,8 @@ $text = @"
          $([char]0x2551)                    $([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x255D) $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)                                         $([char]0x2551)
          $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
 "@
-Write-Host $text -ForegroundColor $randomColor
-Write-Host "                         ----- Windows Update  Control Menu -----" -ForegroundColor $randomColor2
+        Write-Host $text -ForegroundColor $randomColor
+        Write-Host "                         ----- Windows Update  Control Menu -----" -ForegroundColor $randomColor2
         Write-Host
         Write-Host "------------------------------------------------------------------------------------------"
         Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -ForegroundColor Red
@@ -920,11 +922,22 @@ Write-Host "                         ----- Windows Update  Control Menu -----" -
             '3' { ResetWindowsUpdate -DeepClean }
             '4' { Disable-WindowsUpdatePermanent -Aggressive -Verbose }
             '5' { Enable-WindowsUpdateRestore -Verbose }
-            '0' { Write-Host "EXITING..." -ForegroundColor Gray }
+            '0' { 
+                Write-Host "EXITING..." -ForegroundColor Gray
+                Start-Sleep -Seconds 1
+                exit
+            }
             default { Write-Host "Pilihan tidak valid. Silakan coba lagi." -ForegroundColor Red }
         }
 
-        if ($choice -ne '0') { Write-Host; Write-Host " PRESS " -NoNewLine; Write-Host " ENTER " -NoNewLine -BackgroundColor red -ForegroundColor white; Write-Host " TO BACK:" -NoNewLine; Read-Host }
+        if ($choice -ne '0') {
+            Write-Host
+            Write-Host " PRESS " -NoNewLine
+            Write-Host " ENTER " -NoNewLine -BackgroundColor red -ForegroundColor white
+            Write-Host " TO BACK:" -NoNewLine
+            Read-Host
+        }
+
     } while ($choice -ne '0')
 }
 
