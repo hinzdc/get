@@ -1,0 +1,5 @@
+{
+    "editor.guides.bracketpairs": true,
+    "editor.cursorBlinking": "smooth",
+    "editor.cursorSmoothCaretAnimation": "on"
+}
