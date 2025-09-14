@@ -11,47 +11,56 @@ OFFICE_2024="https://github.com/alsyundawy/Microsoft-Office-For-MacOS/raw/refs/h
 install_pkg() {
     local url=$1
     local filename="/tmp/$(basename "$url")"
-
-    echo "Mengunduh dari: $url ..."
+    echo
+    echo "Downloading $filename"
     curl -L --progress-bar "$url" -o "$filename"
 
 
-    if [[ -f "$filename" ]]; then
-        echo "Download selesai: $filename"
-        echo "Menjalankan installer (memerlukan password admin)..."
-        echo "Ingin jalankan installer dengan GUI (g) atau Silent (s)? [default s]: "
+        if [[ -f "$filename" ]]; then
+        echo "✅ Download selesai: $filename"
+        echo
+        echo "Pilih cara menjalankan installer:"
+        echo "1) Mode GUI (jendela biasa, ada Next-Next)"
+        echo "2) Mode Silent (otomatis di background, tanpa jendela)"
+        echo -n "Masukkan pilihan [1-2] (default 2): "
         read mode
-        mode=${mode:-s}
+        mode=${mode:-1}
 
-        if [[ "$mode" == "g" ]]; then
-            echo "Menjalankan installer dalam mode GUI..."
-            open "$filename"
+        if [[ "$mode" == "1" ]]; then
+            echo "🚀 Menjalankan installer dalam mode GUI..."
+            open -W "$filename"
         else
-            echo "Menjalankan installer dalam mode silent (terminal)..."
+            echo "⚙️  Menjalankan installer dalam mode Silent..."
             sudo installer -pkg "$filename" -target /
         fi
-
     else
-        echo "Gagal mengunduh file!"
+        echo "❌ Gagal mengunduh file!"
     fi
+    # Hapus file installer setelah selesai
+    echo "✅ Instalasi selesai!"
+    echo
 }
 
 # Sub-menu Aktivasi Office
 submenu_office() {
     while true; do
         clear
-        echo "=============================="
-        echo "     Aktivasi Office Menu     "
-        echo "=============================="
-        echo "1. Office 2016"
-        echo "2. Office 2019"
-        echo "3. Office 2021"
-        echo "4. Office 2024"
-        echo "5. Office Reset"
-        echo "6. Kembali ke Menu Utama"
-        echo "------------------------------"
-        echo -n "Pilih versi [1-5] (default 5): "
-        read subpilih
+        echo " ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗"
+        echo " ║                                                       ║"
+        echo " ║                  ACTIVATION OFFICE                    ║"
+        echo " ║                                                       ║"
+        echo " ╠╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╝"
+        echo " ║                                                       "
+        echo " ║ [1] Office 2016 "
+        echo " ║ [2] Office 2019 "
+        echo " ║ [3] Office 2020 "
+        echo " ║ [4] Office 2021 "
+        echo " ║ [5] Office Reset"
+        echo " ║ [6] Back to menu"
+        echo " ║"
+        echo " ╚══╣ Pilih versi [1-6] (default 5):"
+        echo -n "    ║ "
+        read -n 1 subpilih
         subpilih=${subpilih:-5}
 
         case $subpilih in
@@ -65,7 +74,7 @@ submenu_office() {
         esac
 
         echo
-        read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke Sub-Menu Office..."
+        read -n 1 -s -r -p "Tekan ENTER untuk kembali..."
     done
 }
 
@@ -78,12 +87,12 @@ submenu_tools() {
         echo "1. Mist"
         echo "2. Bombardier"
         echo "3. Sentinel"
-        echo "4. Office 2024"
+        echo "4. PearCleaner"
         echo "5. Office Reset"
         echo "6. Kembali ke Menu Utama"
         echo "------------------------------"
         echo -n "Pilih versi [1-5] (default 5): "
-        read subpilih
+        read -n 1 subpilih
         subpilih=${subpilih:-5}
 
         case $subpilih in
@@ -105,15 +114,28 @@ submenu_tools() {
 # Menu utama
 while true; do
     clear
-    echo "=============================="
-    echo "      AURORATOOLKIT MENU      "
-    echo "=============================="
-    echo "1. Aktivasi Office"
-    echo "2. Tools"
-    echo "3. Keluar"
-    echo "------------------------------"
-    echo -n "Pilih opsi [1-3] (default 1): "
-    read pilihan
+    echo
+    echo " ╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╗"
+    echo " ║                                                       ║"
+    echo " ║    ██                                   ██            ║"
+    echo " ║    ██▒▒█████ ██ ██████▒▒ ███████  ████▒▒██ ▒▒█████    ║"
+    echo " ║    ██     ██          ██    ▒▒██  ██    ██ ██         ║"
+    echo " ║    ██     ██ ██ ██    ██ ▒▒██     ██    ██ ██         ║"
+    echo " ║    ██     ██ ██ ██    ██ ███████  ████████ ▒▒█████    ║"
+    echo " ║                                                       ║"
+    echo " ╚═══════════════════════════════════════════════════════╝"
+    echo " ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗"
+    echo " ║                                                       ║"
+    echo " ║                  AURORATOOLKIT MENU                   ║"
+    echo " ║                                                       ║"
+    echo " ╠╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣"
+    echo " ║ [1] Aktivasi Microsoft Office                         ║"
+    echo " ║ [2] Tools                                             ║"
+    echo " ║ [0] Keluar                                            ║"
+    echo " ╚═══════════════════════════════════════════════════════╝"
+    echo
+    echo -n ">>Pilih opsi [1-3] (default 1): "
+    read -n 1 pilihan
     pilihan=${pilihan:-1}
 
     case $pilihan in
@@ -124,5 +146,5 @@ while true; do
     esac
 
     echo
-    read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke menu..."
+    #read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke menu..."
 done
