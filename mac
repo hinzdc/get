@@ -1,0 +1,202 @@
+#!/bin/bash
+
+# URL installer untuk masing-masing versi Office
+ACT_OFFICE_LICENSE_REMOVAL_TOOL="https://go.microsoft.com/fwlink/?linkid=849815"
+ACT_OFFICE_RESET="https://office-reset.com/download/Microsoft_Office_Reset_2.0.0.pkg"
+ACT_OFFICE_2016="https://github.com/alsyundawy/Microsoft-Office-For-MacOS/raw/refs/heads/master/DATA/Microsoft_Office_2016_VL_Serializer_2.0.pkg"
+ACT_OFFICE_2019="https://github.com/alsyundawy/Microsoft-Office-For-MacOS/raw/refs/heads/master/DATA/Microsoft_Office_2019_VL_Serializer_Universal.pkg"
+ACT_OFFICE_2021="https://github.com/alsyundawy/Microsoft-Office-For-MacOS/raw/refs/heads/master/DATA/Microsoft_Office_LTSC_2021_VL_Serializer.pkg"
+ACT_OFFICE_2024="https://github.com/alsyundawy/Microsoft-Office-For-MacOS/raw/refs/heads/master/DATA/Microsoft_Office_LTSC_2024_VL_Serializer.pkg"
+INSTALL_OFFICE_2016_YOSEMITE="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Office_16.16.20101200_Installer.pkg" #Yosemite
+INSTALL_OFFICE_2019_SIERRA="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Office_16.43.20110804_Installer.pkg" #Sierra
+INSTALL_OFFICE_2019_HIGHSIERRA="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Office_16.43.20110804_Installer.pkg" # High Sierra
+INSTALL_OFFICE_2019_MOJAVE="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Office_16.54.21101001_Installer.pkg" #Mojave
+INSTALL_OFFICE_2019_2021_CATALINA="https://officecdnmac.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_Office_16.66.22101101_Installer.pkg" #Catalina
+INSTALL_OFFICE_2019_2021_BIGSURE="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_365_and_Office_16.77.23091003_Installer.pkg" # Big Sur
+INSTALL_OFFICE_2019_2021_MONTEREY="https://officecdn.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_365_and_Office_16.78.23102801_Installer.pkg" # Monterey dan Big Sur
+INSTALL_OFFICE_2021_2024_VENTURA="https://officecdnmac.microsoft.com/pr/C1297A47-86C4-4C1F-97FA-950631F94777/MacAutoupdate/Microsoft_365_and_Office_16.101.25091314_Installer.pkg" # Ventura dan lebih baru
+MIST="https://github.com/ninxsoft/Mist/releases/download/v0.30/Mist.0.30.pkg"
+BOMBARDIER="https://github.com/ninxsoft/Bombardier/releases/download/v3.0/Bombardier.3.0.pkg"
+SETINEL_INTEL="https://github.com/alienator88/Sentinel/releases/download/3.1.3/Sentinel-intel.zip"
+SETINEL_ARM="https://github.com/alienator88/Sentinel/releases/download/3.1.3/Sentinel-arm.zip"
+PEARCLEANER="https://github.com/alienator88/Pearcleaner/releases/download/5.2.1/Pearcleaner.zip"
+# Fungsi untuk download & install
+install_pkg() {
+    local url=$1
+    local filename="/tmp/$(basename "$url")"
+    echo
+    echo " >> Downloading $filename"
+    curl -L --progress-bar "$url" -o "$filename"
+
+        if [[ -f "$filename" ]]; then
+        echo "✅ Download selesai: $filename"
+        echo
+        echo "Pilih cara menjalankan installer:"
+        echo "1) Mode GUI"
+        echo "2) Mode Silent"
+        echo -n "Masukkan pilihan [1-2] (default 1): "
+        read mode
+        mode=${mode:-1}
+
+        if [[ "$mode" == "1" ]]; then
+            echo "🚀 Menjalankan installer dalam mode GUI..."
+            open -W "$filename"
+        else
+            echo "⚙️  Menjalankan installer dalam mode Silent..."
+            sudo installer -pkg "$filename" -target /
+        fi
+    else
+        echo "❌ Gagal mengunduh file!"
+    fi
+    # Hapus file installer setelah selesai
+    echo "✅ Instalasi selesai!"
+    echo
+}
+
+download_pkg() {
+    local url=$1
+    local filename="/Downloads/$(basename "$url")"
+    echo
+    echo " >> Downloading $filename"
+    curl -L --progress-bar "$url" -o "$filename"
+
+        if [[ -f "$filename" ]]; then
+        echo "✅ Download selesai: $filename"
+        echo
+        echo "Pilih cara menjalankan installer:"
+        echo "1) Mode GUI"
+        echo "2) Mode Silent"
+        echo -n "Masukkan pilihan [1-2] (default 1): "
+        read mode
+        mode=${mode:-1}
+
+        if [[ "$mode" == "1" ]]; then
+            echo "🚀 Menjalankan installer dalam mode GUI..."
+            open -W "$filename"
+        else
+            echo "⚙️  Menjalankan installer dalam mode Silent..."
+            sudo installer -pkg "$filename" -target /
+        fi
+    else
+        echo "❌ Gagal mengunduh file!"
+    fi
+    # Hapus file installer setelah selesai
+    echo "✅ Instalasi selesai!"
+    echo
+}
+
+# Sub-menu Aktivasi Office
+submenu_activeoffice() {
+    while true; do
+        clear
+        echo " ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗"
+        echo " ║                                                       ║"
+        echo " ║                  ACTIVATION OFFICE                    ║"
+        echo " ║                                                       ║"
+        echo " ╠╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╝"
+        echo " ║                                                       "
+        echo " ║ [1] Office 2016 "
+        echo " ║ [2] Office 2019 "
+        echo " ║ [3] Office 2021 "
+        echo " ║ [4] Office 2024 "
+        echo " ║ [5] Office 2011"
+        echo " ║ [6] Office Reset"
+        echo " ║ [7] License Removal Tool"
+        echo " ║ [0] Back to menu"
+        echo " ║"
+        echo " ╚══╣ Input Option [1-6] (default 5):"
+        echo -n "    ║ "
+        read -n 1 subpilih
+        subpilih=${subpilih:-5}
+
+        case $subpilih in
+            1) install_pkg "$ACT_OFFICE_2016" ;;
+            2) install_pkg "$ACT_OFFICE_2019" ;;
+            3) install_pkg "$ACT_OFFICE_2021" ;;
+            4) install_pkg "$ACT_OFFICE_2024" ;;
+            5) echo "\n2WBVT-PTKRB-2RH2B-X2DYY-QBXP4\n" ; echo "V22QX-RC6F3-CMWP7-WV6DH-K29P7\n" ; echo "KCDHJ-KGTKV-788PG-WVBQT-GRWX8\n" ; echo "4FVWX-W7Q37-GKYMW-JDWWR-89763\n" ; echo "6JTF2-PM3PD-62WQY-TBC3V-H7KKC\n" ; echo "4D484-GT8D2-CMR2M-WBJ49-GWFTD\n" ; echo "KB3V9-3T4X4-32YR6-MX62Q-CVMK4\n" ; echo "YPWTM-X3QR3-QHV8Q-9QH9H-RMHX3\n" ; echo "C7TTK-M29H8-9H7JR-P82WG-2DCDW\n" ;;
+            6) install_pkg "$ACT_OFFICE_RESET" ;;
+            7) install_pkg "$ACT_OFFICE_LICENSE_REMOVAL_TOOL" ;;
+            0) return ;;
+            *) echo "Pilihan tidak valid!" ;;
+        esac
+
+        echo
+        read -n 1 -s -r -p "Tekan ENTER untuk kembali..."
+    done
+}
+
+submenu_tools() {
+    while true; do
+        clear
+        echo "=============================="
+        echo "          Tools Menu     "
+        echo "=============================="
+        echo "1. Mist"
+        echo "2. Bombardier"
+        echo "3. Sentinel"
+        echo "4. PearCleaner"
+        echo "5. Office Reset"
+        echo "6. Kembali ke Menu Utama"
+        echo "------------------------------"
+        echo -n "Pilih versi [1-5] (default 5): "
+        read -n 1 subpilih
+        subpilih=${subpilih:-5}
+
+        case $subpilih in
+            1) install_pkg "$OFFICE_2016" ;;
+            2) install_pkg "$OFFICE_2019" ;;
+            3) install_pkg "$OFFICE_2021" ;;
+            4) install_pkg "$OFFICE_2024" ;;
+            5) install_pkg "$OFFICE_RESET" ;;
+            6) return ;; # balik ke menu utama
+            *) echo "Pilihan tidak valid!" ;;
+        esac
+
+        echo
+        read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke Sub-Menu Office..."
+    done
+}
+
+
+# Menu utama
+while true; do
+    clear
+    echo
+    echo " ╔╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╗"
+    echo " ║                                                       ║"
+    echo " ║    ██                                   ██            ║"
+    echo " ║    ██▒▒█████ ██ ██████▒▒ ███████  ████▒▒██ ▒▒█████    ║"
+    echo " ║    ██     ██          ██    ▒▒██  ██    ██ ██         ║"
+    echo " ║    ██     ██ ██ ██    ██ ▒▒██     ██    ██ ██         ║"
+    echo " ║    ██     ██ ██ ██    ██ ███████  ████████ ▒▒█████    ║"
+    echo " ║                                                       ║"
+    echo " ╚═══════════════════════════════════════════════════════╝"
+    echo " ╔╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╤╗"
+    echo " ║                                                       ║"
+    echo " ║                  AURORATOOLKIT MENU                   ║"
+    echo " ║                                                       ║"
+    echo " ╠╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╧╣"
+    echo " ║ [1] Aktivasi Microsoft Office                         ║"
+    echo " ║ [2] Tools                                             ║"
+    echo " ║ [3] Install Office                                    ║"
+    echo " ║ [4] Install Aplikasi                                  ║"
+    echo " ║ [0] Keluar                                            ║"
+    echo " ╚═══════════════════════════════════════════════════════╝"
+    echo
+    echo -n ">>Pilih opsi [1-4] (default 1): "
+    read -n 1 pilihan
+    pilihan=${pilihan:-1}
+
+    case $pilihan in
+      1) submenu_activeoffice ;;
+      2) submenu_tools ;;
+      3) echo "Fitur Install Office belum tersedia." ; echo "Silakan gunakan metode manual untuk menginstal Office." ; read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke menu..." ;;
+      4) submenu_installapps ;;
+      0) echo "Bye 👋"; exit 0 ;;
+      *) echo "Pilihan tidak valid!" ;;
+    esac
+
+    echo
+    #read -n 1 -s -r -p "Tekan sembarang tombol untuk kembali ke menu..."
+done
