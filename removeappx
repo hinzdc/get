@@ -50,12 +50,11 @@ Microsoft.XboxApp                              # Old Xbox Console Companion App,
 MicrosoftCorporationII.MicrosoftFamily         # Family Safety App for managing family accounts and settings
 MicrosoftCorporationII.QuickAssist             # Remote assistance tool
 MicrosoftTeams                                 # Old MS Teams personal (MS Store version)
-Microsoft.YourPhone                           # Phone link (Connects Android/iOS phone to PC)
-Microsoft.People                              # Required for & included with Mail & Calendar (Contacts management)
-Microsoft.GetHelp                             # Required for some Windows 11 Troubleshooters and support interactions
-Microsoft.BingSearch                          # Web Search from Microsoft Bing (Integrates into Windows Search)
-Microsoft.OutlookForWindows                   # New mail app: Outlook for Windows
-Microsoft.Messaging
+Microsoft.YourPhone                            # Phone link (Connects Android/iOS phone to PC)
+Microsoft.People                               # Required for & included with Mail & Calendar (Contacts management)
+Microsoft.GetHelp                              # Required for some Windows 11 Troubleshooters and support interactions
+Microsoft.BingSearch                           # Web Search from Microsoft Bing (Integrates into Windows Search)
+Microsoft.OutlookForWindows                    # New mail app: Outlook for Windows
 Microsoft.Wallet
 MSTeams                                        # New MS Teams app (Work/School or Personal)
 ACGMediaPlayer                                 # Media player app
@@ -111,7 +110,6 @@ XING                                           # Professional networking platfor
 #   want to UNINSTALL by default.                                                                               #
 # ------------------------------------------------------------------------------------------------------------- #
 #Microsoft.ZuneVideo                            # Movies & TV app for renting/buying/playing video content (Rebranded as "Films & TV")
-#Microsoft.Copilot                             # New Microsoft Copilot app (AI assistant)
 #Microsoft.Edge                                # Edge browser (Can only be uninstalled in European Economic Area)
 #Microsoft.GamingApp                           # Modern Xbox Gaming App, required for installing some PC games
 #Microsoft.MSPaint                             # Paint 3D (Modern paint application with 3D features)
