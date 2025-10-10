@@ -2,8 +2,6 @@
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Clear-DnsClientCache
-REG ADD "HKCU\Console" /v "WindowAlpha" /t REG_DWORD /d "247" /f>nul
-REG QUERY "HKCU\Console" /v "VirtualTerminalLevel" >nul 2>&1
 $DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/activeauto.bat'
 
 $FilePath = "$env:TEMP\activeauto.bat"
