@@ -35,6 +35,8 @@ reg add "HKCU\Console\%SystemRoot%_system32_conhost.exe" /v QuickEdit /t REG_DWO
 cls && color 08
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (set "DEL=%%a")
 <nul set /p=""
+call :PainText 00 "A"
+cls
 echo.
 call :PainText 0D "                              A"
 call :PainText 0D " U"
