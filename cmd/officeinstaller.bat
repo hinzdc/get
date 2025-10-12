@@ -25,7 +25,7 @@ echo:
     CD /D "%~dp0"
 cls
 
-powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
+powershell -c "Invoke-Expression ((Get-Content '%~f0') -join [Environment]::Newline); Invoke-Expression 'main %*'"
 goto :eof
 
 #>
@@ -445,7 +445,7 @@ $xamlinput = @'
                         BorderBrush="{TemplateBinding BorderBrush}"
                         BorderThickness="{TemplateBinding BorderThickness}"
                         CornerRadius="10">
-                            <!-- ⬅️ ini yang bikin rounded -->
+                            <!-- ini yang bikin rounded -->
                             <ContentPresenter Margin="{TemplateBinding Padding}"
                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                       VerticalAlignment="{TemplateBinding VerticalContentAlignment}"

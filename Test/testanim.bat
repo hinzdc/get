@@ -31,7 +31,7 @@ reg add "HKCU\Console\%SystemRoot%_SysWOW64_cmd.exe" /v QuickEdit /t REG_DWORD /
 reg add "HKCU\Console\%SystemRoot%_Sysnative_cmd.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_system32_conhost.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
-call :main
+goto :main
 exit /b
 
 cls && color 08
@@ -136,7 +136,6 @@ echo.
 echo    ^> powershell -c iex ((Get-Content '% ~f0') -join [Environment]::Newline); iex 'main %*'
 timeout /t 2 >nul
 echo.
-goto :end
 
 :end
 endlocal

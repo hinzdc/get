@@ -300,7 +300,7 @@ $url = "https://visitor-badge.imlete.cn/?id=activeauto"
 # Mengambil konten halaman web
 $response = Invoke-WebRequest -Uri $url -UseBasicParsing
 
-# Memeriksa respon
+# Memeriksa apakah respons berhasil
 if ($response.StatusCode -eq 200) {
     # Mengambil konten HTML dari respons
     $htmlContent = $response.Content
@@ -324,86 +324,88 @@ $null = $label, $number, $times
 #-----------------------------------------------------------------------------------------
 # Array berisi kata-kata mutiara
 $kataMutiara = @(
-    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
-    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
-    "Hindari berdebat dengan orang dungu, mereka akan menarikmu ke level mereka kemudian menghancurkanmu dengan pengalaman mereka. - Mark Twain"
-    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
-    "Jangan menjelaskan tentang dirimu kepada siapapun, karena yang menyukaimu tidak butuh itu. Dan yang membencimu tidak percaya itu."
-    "Dia yang bertanya akan kelihatann bodoh selama 5 menit, tapi dia yang tidak berani bertanya akan bodoh selamanya. - Pepatah Cina"
-    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
-    "aku belajar bahwa setiap manusia akan merasakan kematian, tapi hanya sedikit yang benar-benar merasakan hidup. - Paulo Celho"
     "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
-    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
-    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
-    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
-    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. - Seneca"
-    "Ketika seseorang sedang tenggelam, itu bukanlah waktu yang tepat untuk mengajarinya cara berenang. - Pepatah Cina"
-    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
-    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
-    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
-    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
-    "Kebodohan adalah penyakit yang paling mematikan, karena penderitanya tidak sadar sedang sakit. - Sokrates"
-    " Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
-    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
-    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
-    "Sibodoh berdoa untuk jalan yang mudah, si bijak berdoa diberikan kaki yang kuat. - Pepatah Tiongkok"
-    "Hiduplah seakan-akan kamu akan mati besok. Belajarlah seakan-akan kamu akan hidup untuk selamanya."
-    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
-    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
-    "Dalam hidup, kamu akan mendapatkan teman, tetapi hanya satu yang sejati di saat-saat terburukmu."
-    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
-    "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya."
-    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
-    "Semakin panjang penjelasan, semakin besar kebohongan yang disembunyikan. - George Orwell"
-    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
-    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
-    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
-    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
     "Jangan gunakan ketajaman kata-katamu pada ibumu yang mengajarimu cara berbicara."
-    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
-    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
-    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
+    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
     "Kesalahan terburuk kita adalah ketertarikan kita pada kesalahan orang lain."
-    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
+    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
+    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
+    "Jangan menjelaskan tentang dirimu kepada siapapun, karena yang menyukaimu tidak butuh itu. Dan yang membencimu tidak percaya itu."
+    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
+    "Hiduplah seakan-akan kamu akan mati besok. Belajarlah seakan-akan kamu akan hidup untuk selamanya."
     "Cara untuk memulai adalah dengan berhenti berbicara dan mulai melakukan."
+    "Dalam hidup, kamu akan mendapatkan teman, tetapi hanya satu yang sejati di saat-saat terburukmu."
+    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
+    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
+    "Perubahan dimulai dari langkah kecil."
+    "Bahagia itu sederhana, bersyukur saja."
+    "Keajaiban terjadi saat kamu percaya."
+    "Jadilah versi terbaik dirimu."
+    "Kebahagiaan datang dari hati yang tenang."
+    "Fokus pada solusi, bukan masalah."
+    "Mulai dari sekarang, jangan menunda."
+    "Hidup itu naik turun, nikmati perjalanannya."
+    "Kunci kebahagiaan adalah bersyukur."
+    "Jangan bandingkan dirimu dengan orang lain."
+    "Jadilah cahaya dalam kegelapan."
+    "Percayalah pada prosesnya."
+    "Hidup hanya sekali, jadikan berarti."
+    "Cintai dirimu sebelum mencintai orang lain."
+    "Jangan berhenti mencoba, jangan pernah menyerah."
+    "Keberhasilan datang dari keyakinan pada diri sendiri."
+    "Kebahagiaan sejati datang dari dalam."
+    "Tidak ada jalan pintas menuju puncak."
+    "Jangan hanya berlari, melesatlah."
+    "Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
+    "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya."
     "Hidupmu dibentuk oleh pikiranmu. Apa yang kamu pikirkan, itulah dirimu."
-    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
-    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
     "Tidak peduli seberapa lambat kamu berjalan selama kamu tidak berhenti."
     "Jangan pernah menunda untuk besok apa yang bisa kamu lakukan hari ini."
     "Kualitas hidupmu ditentukan oleh kualitas pertanyaan yang kamu ajukan."
-    "Ilmu itu seperti air, ia hanya mengalir ke tempat yang rendah hati."
-    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
     "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
-    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
-    "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
-    "Saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
-    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
+    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
+    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
+    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
+    "Ilmu itu seperti air, ia hanya mengalir ke tempat yang rendah hati."
+    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
+    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
+    "Jika kamu menemukan kekurangan pada temanmu, tutupilah dengan nasihat, bukan cacian."
+    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
+    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
     "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
-    "Kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
-    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
-    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
-    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
-    "Keberhasilan datang dari keyakinan pada diri sendiri."
-    "Jangan berhenti mencoba, jangan pernah menyerah."
-    "Hidup itu naik turun, nikmati perjalanannya."
-    "Jangan bandingkan dirimu dengan orang lain."
-    "Cintai dirimu sebelum mencintai orang lain."
-    "Kebahagiaan datang dari hati yang tenang."
+    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
+    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
+    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
+    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
+    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
+    "saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
+    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
+    "kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
+    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
+    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
+    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
+    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
+    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
+    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. Seneca"
+    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
+    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
+    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
+    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
     "Kamu lebih kuat dari yang kamu pikirkan."
-    "Bahagia itu sederhana, bersyukur saja."
-    "Perubahan dimulai dari langkah kecil."
-    "Kebahagiaan sejati datang dari dalam."
-    "Tidak ada jalan pintas menuju puncak."
-    "Keajaiban terjadi saat kamu percaya."
-    "Hidup hanya sekali, jadikan berarti."
-    "Mulai dari sekarang, jangan menunda."
-    "Kunci kebahagiaan adalah bersyukur."
-    "Fokus pada solusi, bukan masalah."
-    "Jangan hanya berlari, melesatlah."
-    "Jadilah cahaya dalam kegelapan."
-    "Jadilah versi terbaik dirimu."
-    "Percayalah pada prosesnya."
+    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
+    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
+    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
+    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
+    "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
+    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
+    "Kebodohan adalah penyakit yang paling mematikan, karena penderitanya tidak sadar sedang sakit. -Sokrates"
+    "Semakin panjang penjelasan, semakin besar kebohongan yang disembunyikan. - George Orwell"
+    "Hindari berdebat dengan orang dungu, mereka akan menarikmu ke level mereka kemudian menghancurkanmu dengan pengalaman mereka. - Mark Twain"
+    "Sibodoh berdoa untuk jalan yang mudah, si bijak berdoa diberikan kaki yang kuat. - Pepatah Tiongkok"
+    "aku belajar bahwa setiap manusia akan merasakan kematian, tapi hanya sedikit yang benar-benar merasakan hidup. - Paulo Celho"
+    "Dia yang bertanya akan kelihatann bodoh selama 5 menit, tapi dia yang tidak berani bertanya akan bodoh selamanya. - Pepatah Cina"
+    "Ketika seseorang sedang tenggelam, itu bukanlah waktu yang tepat untuk mengajarinya cara berenang. - Pepatah Cina"
+    
 )
 
 # Mengambil satu kata mutiara secara acak
@@ -654,6 +656,79 @@ function Get-IPInfo {
     return Invoke-RestMethod -Uri "http://ip-api.com/json/"
 }
 
+function ntfy {
+    $ntfyUrl = "https://ntfy.sh/eu9QDaPa1mExQPwp"
+    $computerSystem = Get-ComputerSystemInfo
+    $osInfo = Get-OSInfo
+    $processorInfo = Get-ProcessorInfo
+    $ramInfo = Get-RAMInfo
+    $diskInfo = Get-DiskInfo
+    $networkInfo = Get-NetworkInfo
+    $activationStatus = Get-ActivationStatus
+    $officeActivationStatus = Get-OfficeActivationStatus
+    $ipInfo = Get-IPInfo
+
+    $message = @"
+    /// iex(irm indojava.online/get/activeauto) ///
+    ---[ SPESIFIKASI ]-------------------
+    Merek: $($computerSystem.Manufacturer)
+    Model: $($computerSystem.Type) ($($computerSystem.Model))
+    Prosesor: $($processorInfo.Name) ($($processorInfo.Cores) Core) ($($processorInfo.LogicalProcessors) Logical)
+    RAM: $($ramInfo.TotalSizeInGB) GB // $($ramInfo.Modules)
+    Disk Drive:
+    $diskInfo
+    ---[ SISTEM ]-------------------
+    Nama OS: $($osInfo.OSName)
+    Versi OS: $($osInfo.OSVersion)
+    Windows Version: $($osInfo.WindowsVersion)
+    Arsitektur: $($osInfo.Architecture)
+    UserName: $($osInfo.User)
+
+    ---[ NETWORK ]-------------------
+    Wi-Fi Terhubung: $($networkInfo.WifiName)
+    $($networkInfo.LanStatus)
+    $($networkInfo.InternetStatus)
+
+    $($ipInfo.country),  $($ipInfo.city), $($ipInfo.regionName) ($($ipInfo.zip))
+    $($ipInfo.lat)  $($ipInfo.lon) - $($ipInfo.isp)
+
+    ---[ WINDOWS LICENSE ]-------------------
+    $($activationStatus.SlmgrDli)
+    $($activationStatus.SlmgrXpr)
+
+    ---[ MICROSOFT OFFICE ]-------------------
+    $(CheckOhook)
+
+"@
+
+    foreach ($entry in $officeActivationStatus) {
+        $message += @"
+    ---------------------------------------------------------------
+    $($entry.ProductID)
+    $($entry.SkuID)
+    $($entry.LicenseName)
+    $($entry.LicenseDescription)
+    $($entry.LicenseStatus)
+    $($entry.ErrorCode)
+    $($entry.ErrorDescription)
+    $($entry.RemainingGrace)
+    $($entry.ProductKey)
+    
+"@
+    }
+
+    $response = Invoke-RestMethod -Uri $ntfyUrl -Method POST -Body $message -Headers @{
+        "Title" = "Aktivasi Windows dan Office"
+        "Priority" = "default"
+        "Tags" = "computer"
+    }
+
+    if ($response) {
+        Write-host -NoNewLine
+    } else {
+        Write-Host " failed sending log.." -ForegroundColor Red
+    }
+}
 #-----------------------------------------------------------------------------------------
 function webhooks {
     $date = (Get-Date)
@@ -849,7 +924,7 @@ catch {
 
 Write-Host
 Write-TypeWord " > > MENGIRIM INFORMASI KE SERVER . ." "Blue" 20
-
+#ntfy
 webhooks
 write-host
 $EndDTM = (Get-Date)
@@ -875,7 +950,7 @@ $shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// --
 Read-Host
 #-----------------------------------------------------------------------------------------
 Start-Process powershell -ArgumentList "-NoExit", "-Command & {
-    mode con cols=70 lines=26
+    mode con cols=70 lines=30
     Clear-Host
     Write-Output @'
  ....................................................................
@@ -904,6 +979,8 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command & {
  ....................................................................
 
 '@ | Out-Host
+write-host
+write-host
     start-sleep -seconds 10
     exit
 }"
