@@ -2,7 +2,7 @@
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Clear-DnsClientCache
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/testanim.bat'
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/Test/testanim.bat'
 
 $FilePath = "$env:TEMP\testanim.bat"
 
