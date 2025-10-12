@@ -1,0 +1,39 @@
+[2025-10-12 21:39:40Z] Script started. PID=5684 Host=Visual Studio Code Host PSVersion=5.1.26100.6584
+[2025-10-12 21:39:40Z] Running in STA thread.
+[2025-10-12 21:39:40Z] WPF assemblies loaded.
+[2025-10-12 21:39:40Z] Found existing WPF Application (host provides one).
+[2025-10-12 21:39:40Z] Calling Show() + Activate() and setting Topmost trick to front.
+[2025-10-12 21:39:40Z] Show() done. Window should be visible now.
+[2025-10-12 21:39:40Z] Window closed, script finishing.
+[2025-10-12 21:39:40Z] Script finished.
+[2025-10-12 21:40:04Z] Script started. PID=8908 Host=ConsoleHost PSVersion=5.1.26100.6584
+[2025-10-12 21:40:04Z] Running in STA thread.
+[2025-10-12 21:40:04Z] WPF assemblies loaded.
+[2025-10-12 21:40:06Z] Created new WPF Application.
+[2025-10-12 21:40:06Z] Calling app.Run(mainWindow)...
+[2025-10-12 21:40:11Z] Gagal menampilkan window: Exception calling "Run" with "1" argument(s): "You cannot call a method on a null-valued expression."
+Inner: You cannot call a method on a null-valued expression.
+[2025-10-12 21:42:16Z] Script started. PID=8908 Host=ConsoleHost PSVersion=5.1.26100.6584
+[2025-10-12 21:42:16Z] Running in STA thread.
+[2025-10-12 21:42:16Z] WPF assemblies loaded.
+[2025-10-12 21:42:16Z] Found existing WPF Application (host provides one).
+[2025-10-12 21:42:16Z] Calling Show() + Activate() and setting Topmost trick to front.
+[2025-10-12 21:42:16Z] Show() done. Window should be visible now.
+[2025-10-12 21:42:27Z] Window closed, script finishing.
+[2025-10-12 21:42:27Z] Script finished.
+[2025-10-12 21:42:41Z] Script started. PID=8908 Host=ConsoleHost PSVersion=5.1.26100.6584
+[2025-10-12 21:42:41Z] Running in STA thread.
+[2025-10-12 21:42:41Z] WPF assemblies loaded.
+[2025-10-12 21:42:41Z] Found existing WPF Application (host provides one).
+[2025-10-12 21:42:41Z] Calling Show() + Activate() and setting Topmost trick to front.
+[2025-10-12 21:42:41Z] Show() done. Window should be visible now.
+[2025-10-12 21:42:41Z] Window closed, script finishing.
+[2025-10-12 21:42:41Z] Script finished.
+[2025-10-12 21:42:47Z] Script started. PID=8908 Host=ConsoleHost PSVersion=5.1.26100.6584
+[2025-10-12 21:42:47Z] Running in STA thread.
+[2025-10-12 21:42:47Z] WPF assemblies loaded.
+[2025-10-12 21:42:47Z] Found existing WPF Application (host provides one).
+[2025-10-12 21:42:47Z] Calling Show() + Activate() and setting Topmost trick to front.
+[2025-10-12 21:42:47Z] Show() done. Window should be visible now.
+[2025-10-12 21:42:47Z] Window closed, script finishing.
+[2025-10-12 21:42:47Z] Script finished.
