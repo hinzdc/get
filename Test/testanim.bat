@@ -24,15 +24,24 @@ echo:
     pushd "%CD%"
     CD /D "%~dp0"
 cls
-
+setlocal
 reg add "HKCU\Console" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_system32_cmd.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_SysWOW64_cmd.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_Sysnative_cmd.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_System32_WindowsPowerShell_v1.0_powershell.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
 reg add "HKCU\Console\%SystemRoot%_system32_conhost.exe" /v QuickEdit /t REG_DWORD /d 0 /f >nul 2>&1
+call :main
+exit /b
 
 cls && color 08
+:PainText
+<nul set /p "=%DEL%" > "%~2"
+findstr /v /a:%1 /R "+" "%~2" nul
+del "%~2" > nul
+goto :eof
+
+:main
 for /F "tokens=1,2 delims=#" %%a in ('"prompt #$H#$E# & echo on & for %%b in (1) do rem"') do (set "DEL=%%a")
 <nul set /p=""
 echo.
@@ -128,12 +137,9 @@ echo    ^> powershell -c iex ((Get-Content '% ~f0') -join [Environment]::Newline
 timeout /t 2 >nul
 echo.
 goto :end
-:PainText
-<nul set /p "=%DEL%" > "%~2"
-findstr /v /a:%1 /R "+" "%~2" nul
-del "%~2" > nul
-goto :eof
+
 :end
+endlocal
 
 powershell -c "iex ((Get-Content '%~f0') -join [Environment]::Newline); iex 'main %*'"
 goto :eof
@@ -141,107 +147,6 @@ goto :eof
 #>
 
 #-----------------------------------------------------------------------------------------
-$ProgressPreference = 'SilentlyContinue'
-Add-Type @"
-using System;
-using System.Runtime.InteropServices;
-
-public class ConsoleControl {
-    [DllImport("kernel32.dll")]
-    public static extern IntPtr GetConsoleWindow();
-
-    [DllImport("user32.dll")]
-    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
-
-    [DllImport("user32.dll")]
-    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
-
-    [DllImport("user32.dll")]
-    public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
-
-    [DllImport("user32.dll")]
-    public static extern int GetSystemMenu(IntPtr hWnd, bool bRevert);
-
-    [DllImport("user32.dll")]
-    public static extern bool RemoveMenu(int hMenu, int uPosition, int uFlags);
-}
-"@
-
-# Mendapatkan handle jendela konsol saat ini
-$consoleHandle = [ConsoleControl]::GetConsoleWindow()
-
-# Mengatur constant untuk mengubah properti jendela konsol
-$GWL_STYLE = -16
-$WS_MAXIMIZEBOX = 0x10000
-$WS_SIZEBOX = 0x40000
-
-# Mengambil style jendela saat ini
-$currentStyle = [ConsoleControl]::GetWindowLong($consoleHandle, $GWL_STYLE)
-
-# Menghapus kemampuan untuk diubah ukurannya, dimaksimalkan dan menutup jendela
-$newStyle = $currentStyle -band -bnot $WS_SIZEBOX -band -bnot $WS_MAXIMIZEBOX
-
-# Menerapkan style baru ke jendela
-[ConsoleControl]::SetWindowLong($consoleHandle, $GWL_STYLE, $newStyle) > $null
-
-# Menyembunyikan jendela jika sudah dimodifikasi (untuk memastikan tidak ada kesalahan)
-[ConsoleControl]::ShowWindow($consoleHandle, 5) > $null  # 5 = SW_SHOW
-
-# Menghapus menu sistem (termasuk tombol Close/X)
-$hMenu = [ConsoleControl]::GetSystemMenu($consoleHandle, $false)
-[ConsoleControl]::RemoveMenu($hMenu, 0xF060, 0x0) > $null  # 0xF060 = SC_CLOSE (tombol Close)
-
-function UnQuickEdit
-{
-	$t=[AppDomain]::CurrentDomain.DefineDynamicAssembly((Get-Random), 1).DefineDynamicModule((Get-Random), $False).DefineType((Get-Random))
-	$t.DefinePInvokeMethod('GetStdHandle', 'kernel32.dll', 22, 1, [IntPtr], @([Int32]), 1, 3).SetImplementationFlags(128)
-	$t.DefinePInvokeMethod('SetConsoleMode', 'kernel32.dll', 22, 1, [Boolean], @([IntPtr], [Int32]), 1, 3).SetImplementationFlags(128)
-	$t.DefinePInvokeMethod('GetConsoleWindow', 'kernel32.dll', 22, 1, [IntPtr], @(), 1, 3).SetImplementationFlags(128)
-	$t.DefinePInvokeMethod('SendMessageW', 'user32.dll', 22, 1, [IntPtr], @([IntPtr], [UInt32], [IntPtr], [IntPtr]), 1, 3).SetImplementationFlags(128)
-	$k=$t.CreateType()
-	if ($winbuild -GE 17763) {
-		if ($k::SendMessageW($k::GetConsoleWindow(), 127, 0, 0) -EQ [IntPtr]::Zero) {
-			return
-		}
-	}
-	$v=(0x0080, 0x00A0)[!($winbuild -GE 10586)]
-	$b=$k::SetConsoleMode($k::GetStdHandle(-10), $v)
-}
-UnQuickEdit
-#-----------------------------------------------------------------------------------------
-# Ambil handle jendela aktif (foreground window)
-Add-Type -Name Win32 -Namespace Win32Functions -MemberDefinition @"
-    [DllImport("user32.dll")]
-    public static extern IntPtr GetForegroundWindow();
-
-    [DllImport("user32.dll")]
-    public static extern bool GetWindowRect(IntPtr hWnd, out RECT lpRect);
-
-    [DllImport("user32.dll")]
-    public static extern bool MoveWindow(IntPtr hWnd, int X, int Y, int nWidth, int nHeight, bool bRepaint);
-
-    public struct RECT {
-        public int Left;
-        public int Top;
-        public int Right;
-        public int Bottom;
-    }
-"@
-
-$hwnd = [Win32Functions.Win32]::GetForegroundWindow()
-
-if ($hwnd -eq [IntPtr]::Zero) {
-    return
-}
-
-# Ambil ukuran jendela
-$rect = New-Object Win32Functions.Win32+RECT
-[Win32Functions.Win32]::GetWindowRect($hwnd, [ref]$rect) | Out-Null
-$w = $rect.Right - $rect.Left
-$h = $rect.Bottom - $rect.Top
-
-# Pindahkan jendela ke posisi baru tanpa mengubah ukuran
-[Win32Functions.Win32]::MoveWindow($hwnd, 50, 10, $w, $h, $true)
 
 #-----------------------------------------------------------------------------------------
 $Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 30)
