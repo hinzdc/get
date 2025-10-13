@@ -36,17 +36,26 @@ try {
 # --- Predefined Data ---
 # Each object has one Label and a list of one or more Texts.
 $Commands = @(
-    [pscustomobject]@{ Label = 'Activator Windows & Office Manual'; Texts = @('irm hinzdc.xyz/get/active | iex') },
-    [pscustomobject]@{ Label = 'Activator Windows & Office Otomatis Active Permanent'; Texts = @('irm hinzdc.xyz/get/activeauto | iex') },
-    [pscustomobject]@{ Label = 'Activator Windows Permanent Digital License'; Texts = @('irm hinzdc.xyz/get/activewindows | iex') },
-    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'; Texts = @('irm hinzdc.xyz/get/activeofficekms | iex') },
-    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - ohook Permanent'; Texts = @('irm hinzdc.xyz/get/activeofficehook | iex') },
-    [pscustomobject]@{ Label = 'Activator Windows sampai tahun 2038 - KMS38'; Texts = @('irm hinzdc.xyz/get/activewindowskms38 | iex') },
-    [pscustomobject]@{ Label = 'Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus'; Texts = @('irm hinzdc.xyz/get/ForceRemove | iex') },
-    [pscustomobject]@{ Label = 'Remove or Disable Windows Defender (Disable dulu defender sebelum memasukan perintah ini)'; Texts = @('irm hinzdc.xyz/get/def | iex', 'irm hinzdc.xyz/get/def2 | iex') },
-    [pscustomobject]@{ Label = 'Fix corrupted file system & restore health'; Texts = @('irm hinzdc.xyz/get/fixos | iex') },
-    [pscustomobject]@{ Label = 'Office Scrub / Uninstal dan Force Remove'; Texts = @('irm hinzdc.xyz/get/officescrub | iex', 'irm hinzdc.xyz/get/officescrubber | iex') },
-    [pscustomobject]@{ Label = 'Pause Windows Update Sampai Tahun 3000'; Texts = @('irm hinzdc.xyz/get/pausewu | iex') }
+    [pscustomobject]@{ Label = 'Menampilkan semua list ini'; Texts = @('iex(irm indojava.online/get/command)') },
+    [pscustomobject]@{ Label = 'Activator Windows & Office Otomatis Active Permanent'; Texts = @('iex(irm indojava.online/get/activeauto)') },
+    [pscustomobject]@{ Label = 'Activator Office 2013, 2016, 2019, 2021 - Permanent'; Texts = @('iex(irm indojava.online/get/activeoffice)') },
+    [pscustomobject]@{ Label = 'Activator Windows Permanent Digital License'; Texts = @('iex(irm indojava.online/get/activewindows)') },
+    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'; Texts = @('iex(irm indojava.online/get/activeofficekms)') },
+    [pscustomobject]@{ Label = 'Activator Windows sampai tahun 2038 - KMS38'; Texts = @('iex(irm indojava.online/get/activewindowskms38)') },
+    [pscustomobject]@{ Label = 'Install Office 2013, 2016, 2019, 2021, 2024, 365'; Texts = @('iex(irm indojava.online/get/installoffice)') },
+    [pscustomobject]@{ Label = 'Office Scrub / Uninstal dan Force Remove'; Texts = @('iex(irm indojava.online/get/officescrub)', 'iex(irm indojava.online/get/officesrubber)') },
+    [pscustomobject]@{ Label = 'Windows Update Contol - Disable/Enable, Pause And Reset Windows Update'; Texts = @('iex(irm indojava.online/get/windowsupdate)') },
+    [pscustomobject]@{ Label = 'Remove or Disable Windows Defender (Disable dulu defender sebelum memasukan perintah ini)'; Texts = @('iex(irm indojava.online/get/def)', 'iex(irm indojava.online/get/def2)') },
+    [pscustomobject]@{ Label = 'Fix corrupted file system & restore health'; Texts = @('iex(irm indojava.online/get/fixos)') },
+    [pscustomobject]@{ Label = 'Virus Removal Tool'; Texts = @('iex(irm indojava.online/get/virusremoval)') },
+    [pscustomobject]@{ Label = 'Tweaks Registry'; Texts = @('iex(irm indojava.online/get/tweaks)') },
+    [pscustomobject]@{ Label = 'Debloater - Remove Default App'; Texts = @('iex(irm indojava.online/get/removeappx)') },
+    [pscustomobject]@{ Label = 'AMD Support - Driver AMD Installer'; Texts = @('iex(irm indojava.online/get/amdsupport)') },
+    [pscustomobject]@{ Label = 'Block Host - Disable Internet From Activation Detection adobe, autocad, corel etc.'; Texts = @('iex(irm indojava.online/get/blockhost)') },
+    [pscustomobject]@{ Label = 'Reset Network - Reset seluruh konfigurasi untuk internet, LAN atau wifi bermasalah'; Texts = @('iex(irm indojava.online/get/resetnetwork)') },
+    [pscustomobject]@{ Label = 'Infector Check - cek kerusakan system kana antivirus'; Texts = @('iex(irm indojava.online/get/infectorcheck)') },
+    [pscustomobject]@{ Label = 'Winget - Force Install Winget'; Texts = @('iex(irm indojava.online/get/fixos)') },
+    [pscustomobject]@{ Label = 'Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus'; Texts = @('iex(irm indojava.online/get/ForeceRemove)') }
 )
 
 # --- GUI Construction ---
@@ -73,7 +82,7 @@ foreach ($command in $Commands) {
     $label.Text = $command.Label
     $label.Font = [System.Drawing.Font]::new($label.Font, 'Bold')
     $label.AutoSize = $true
-    $label.Margin = [System.Windows.Forms.Padding]::new(0, 12, 0, 0)
+    $label.Margin = [System.Windows.Forms.Padding]::new(0, 2, 0, 0)
     $mainPanel.Controls.Add($label)
 
     # Loop through each text command for the current label.
