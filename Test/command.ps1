@@ -75,6 +75,19 @@ $mainPanel.Dock = 'Fill'
 $mainPanel.AutoScroll = $true
 $form.Controls.Add($mainPanel)
 
+# Create a single timer for copy feedback
+$feedbackTimer = New-Object System.Windows.Forms.Timer
+$feedbackTimer.Interval = 1200
+$feedbackTimer.Add_Tick({
+    param($sender, $e)
+    $timer = $sender
+    if ($timer.Tag -is [System.Windows.Forms.Button]) {
+        $timer.Tag.Text = 'Copy'
+        $timer.Tag = $null
+    }
+    $timer.Stop()
+})
+
 # Create rows of controls from the predefined data
 foreach ($command in $Commands) {
     # Add the main label for the group.
@@ -95,40 +108,68 @@ foreach ($command in $Commands) {
         $entryPanel.Margin = [System.Windows.Forms.Padding]::new(0, 2, 0, 5)
         $mainPanel.Controls.Add($entryPanel)
 
-        $buttonWidth = 80
+        $copyButtonWidth = 80
+        $executeButtonWidth = 80
+        $buttonSpacing = 5
 
-        $button = New-Object System.Windows.Forms.Button
-        $button.Text = 'Copy'
-        $button.Size = [System.Drawing.Size]::new($buttonWidth, 25)
-        $button.Location = [System.Drawing.Point]::new($entryPanel.Width - $buttonWidth, 0)
-        $button.Anchor = 'Top', 'Right'
-        $entryPanel.Controls.Add($button)
+        $executeButton = New-Object System.Windows.Forms.Button
+        $executeButton.Text = 'Execute'
+        $executeButton.Size = [System.Drawing.Size]::new($executeButtonWidth, 25)
+        $executeButton.Location = [System.Drawing.Point]::new($entryPanel.Width - $executeButtonWidth, 0)
+        $executeButton.Anchor = 'Top', 'Right'
+        $entryPanel.Controls.Add($executeButton)
+
+        $copyButton = New-Object System.Windows.Forms.Button
+        $copyButton.Text = 'Copy'
+        $copyButton.Size = [System.Drawing.Size]::new($copyButtonWidth, 25)
+        $copyButton.Location = [System.Drawing.Point]::new($entryPanel.Width - $executeButtonWidth - $buttonSpacing - $copyButtonWidth, 0)
+        $copyButton.Anchor = 'Top', 'Right'
+        $entryPanel.Controls.Add($copyButton)
 
         $textbox = New-Object System.Windows.Forms.TextBox
         $textbox.Text = $text
         $textbox.ReadOnly = $true
         $textbox.Font = [System.Drawing.Font]::new("Consolas", 10)
-        $textbox.Size = [System.Drawing.Size]::new($entryPanel.Width - $buttonWidth - 5, 25)
+        $textbox.Size = [System.Drawing.Size]::new($entryPanel.Width - $executeButtonWidth - $copyButtonWidth - ($buttonSpacing * 2), 25)
         $textbox.Location = [System.Drawing.Point]::new(0, 0)
         $textbox.Anchor = 'Top', 'Left', 'Right'
         $textbox.BorderStyle = 'FixedSingle'
         $entryPanel.Controls.Add($textbox)
 
         # --- Event Handlers ---
-        $feedbackTimer = New-Object System.Windows.Forms.Timer
-        $feedbackTimer.Interval = 1200
-        $feedbackTimer.Add_Tick({
-            $button.Text = 'Copy'
-            $feedbackTimer.Stop()
-        })
-
-        $button.Add_Click({
+        $executeButton.Add_Click({
             param($sender, $e)
             try {
-                if ($textbox.Text) {
-                    [System.Windows.Forms.Clipboard]::SetText($textbox.Text)
-                    Log "Copied: $($textbox.Text)"
-                    $sender.Text = '✓ Copied'
+                $clickedButton = $sender
+                $parentPanel = $clickedButton.Parent
+                $siblingTextbox = $parentPanel.Controls | Where-Object { $_ -is [System.Windows.Forms.TextBox] } | Select-Object -First 1
+
+                if ($siblingTextbox -and $siblingTextbox.Text) {
+                    $commandToRun = $siblingTextbox.Text
+                    Log "Executing with admin: $commandToRun"
+                    Start-Process powershell -Verb RunAs -ArgumentList "-NoExit", "-Command", "& { $commandToRun }"
+                }
+            } catch {
+                Log "Failed to start process: $($_.Exception.Message)"
+                [System.Windows.Forms.MessageBox]::Show("Gagal mengeksekusi: $($_.Exception.Message)", "Error", "OK", "Error") | Out-Null
+            }
+        })
+
+        $copyButton.Add_Click({
+            param($sender, $e)
+            try {
+                $clickedButton = $sender
+                $parentPanel = $clickedButton.Parent
+                $siblingTextbox = $parentPanel.Controls | Where-Object { $_ -is [System.Windows.Forms.TextBox] } | Select-Object -First 1
+
+                if ($siblingTextbox -and $siblingTextbox.Text) {
+                    [System.Windows.Forms.Clipboard]::SetText($siblingTextbox.Text)
+                    Log "Copied: $($siblingTextbox.Text)"
+                    $clickedButton.Text = '✓ Copied'
+                    
+                    # Use the single timer and pass the button reference via the Tag property
+                    $feedbackTimer.Stop()
+                    $feedbackTimer.Tag = $clickedButton
                     $feedbackTimer.Start()
                 }
             } catch {
