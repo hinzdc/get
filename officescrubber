@@ -1,19 +1,16 @@
-# Enable TLSv1.2 for compatibility with older clients
-[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
+$url = "https://github.com/abbodi1406/WHD/raw/refs/heads/master/scripts/OfficeScrubber_14_AIO.zip"
+$outputZip = "C:\Windows\Temp\OfficeScrubber_14_AIO.zip"
+$outputFolder = "C:\Windows\Temp\OfficeScrubber"
 
-$DownloadURL = 'https://raw.githubusercontent.com/hinzdc/main/get/officescrubber.bat'
+Invoke-WebRequest -Uri $url -OutFile $outputZip
 
-$FilePath = "$env:TEMP\OfficeScruber.bat"
+Expand-Archive -Path $outputZip -DestinationPath $outputFolder
 
-try {
-    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
-} catch {
-    Write-Error $_
-	Return
-}
+$batFile = Join-Path -Path $outputFolder -ChildPath "OfficeScrubberAIO.cmd"
 
-if (Test-Path $FilePath) {
-    Start-Process $FilePath -Wait
-    $item = Get-Item -LiteralPath $FilePath
-    $item.Delete()
+if (Test-Path $batFile) {
+    # Jalankan file OfficeScrubberAIO.cmd
+    Start-Process -FilePath $batFile
+} else {
+    Write-Host "File OfficeScrubberAIO.cmd tidak ditemukan."
 }

@@ -1,21 +1,19 @@
+# Enable TLSv1.2 for compatibility with older clients
+[System.Net.ServicePointManager]::SecurityProtocol = [System.Net.ServicePointManager]::SecurityProtocol -bor [System.Net.SecurityProtocolType]::Tls12
+[Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
+Clear-DnsClientCache
+$DownloadURL = 'https://github.com/ionuttbara/windows-defender-remover/releases/download/release_def_12_8_4/DefenderRemover.exe'
 
-$version = "release_def_12_5_7"
-Add-MpPreference -ExclusionPath $outputZip
-Add-MpPreference -ExclusionPath "C:\Windows\Temp\DefenderRemover\windows-defender-remover-$version"
-Add-MpPreference -ExclusionPath "C:\Windows\Temp\main.zip"
-$url = "https://github.com/ionuttbara/windows-defender-remover/archive/refs/tags/$version.zip"
-$outputZip = "C:\Windows\Temp\main.zip"
-$outputFolder = "C:\Windows\Temp\DefenderRemover"
+$FilePath = "$env:TEMP\DefenderRemover.exe"
 
-Invoke-WebRequest -Uri $url -OutFile $outputZip
+try {
+    Invoke-WebRequest -Uri $DownloadURL -UseBasicParsing -OutFile $FilePath
+} catch {
+    Write-Error $_
+	Return
+}
 
-Expand-Archive -Path $outputZip -DestinationPath $outputFolder
-
-$batFile = Join-Path -Path $outputFolder -ChildPath "windows-defender-remover-$version\Script_Run.bat"
-
-if (Test-Path $batFile) {
-    # Jalankan file Script_Run.bat
-    Start-Process -FilePath $batFile
-} else {
-    Write-Host "File Script_Run.bat tidak ditemukan."
+if (Test-Path $FilePath) {
+    Start-Process $FilePath
+    exit
 }

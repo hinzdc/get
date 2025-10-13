@@ -1,5 +1,0 @@
-Get-AppxPackage Microsoft.SecHealthUI -AllUsers | Reset-AppxPackage
-
-Set-ExecutionPolicy Unrestricted
-
-Get-AppXPackage -AllUsers | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register "$($_.InstallLocation)\AppXManifest.xml"}

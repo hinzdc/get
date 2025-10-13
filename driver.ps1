@@ -9,7 +9,7 @@ Invoke-WebRequest -Uri $url -OutFile $outputZip
 
 Expand-Archive -Path $outputZip -DestinationPath $outputFolder
 
-$batFile = $outputFolder "driver\driver.bat"
+$batFile = Join-Path $outputFolder "driver\driver.bat"
 
 if (Test-Path $batFile) {
     # Jalankan file Script_Run.bat
