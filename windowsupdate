@@ -574,6 +574,7 @@ function PauseWindowsUpdate {
     gpupdate.exe /force | Out-Null
 
     Write-Host " + Windows Update berhasil dipause sampai 31 Desember 3000..." -ForegroundColor Green
+    Start-Process "ms-settings:windowsupdate"
 }
 
 # ==============================
@@ -633,6 +634,7 @@ function UnpauseWindowsUpdate {
     gpupdate.exe /force | Out-Null
 
     Write-Host " + Windows Pause Update berhasil dinonaktifkan." -ForegroundColor Green
+    Start-Process "ms-settings:windowsupdate"
 }
 
 function ResetWindowsUpdate {
@@ -806,6 +808,7 @@ function Disable-WindowsUpdatePermanent {
     Write-Host "=> Windows Update dinonaktifkan (permanent-ish). Rekomendasi: restart." -ForegroundColor Green
     Write-Host "    Catatan: WaaSMedic/Orchestrator bisa aktif lagi setelah feature update besar." -ForegroundColor DarkYellow
     Write-Host "             Microsoft Store Mungkin tidak berfungsi degan baik." -ForegroundColor DarkYellow
+    Start-Process "ms-settings:windowsupdate"
 }
 
 # --- Mengembalikan ke kondisi normal ---
