@@ -377,6 +377,7 @@ $kataMutiara = @(
     "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
     "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
     "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
+    "Perkataan itu dapat menembus apa yang tidak dapat ditembus jarum."
     "Saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
     "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
     "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
