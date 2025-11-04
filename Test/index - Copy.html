@@ -1,3 +1,4 @@
+<!doctype html>
 <html lang="id">
 <head>
   <meta charset="utf-8" />
@@ -412,19 +413,19 @@
 
   <script>
     // ====== KONFIGURASI CEPAT (GANTI NOMOR WA & PESAN) ======
-    const WA_NUMBER = '+6285157919957'; // ganti ke nomor WhatsApp Anda
-    const WA_NAMA_TOKO = 'INDOJAVA COMPUTER';
+    const WA_NUMBER = '+6281234567890'; // ganti ke nomor WhatsApp Anda
+    const WA_NAMA_TOKO = 'ISTANA BEC JUARA';
 
     // ====== UTIL ======
     const rp = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
-    const waLink = (text) => https://wa.me/${WA_NUMBER.replace(/\D/g,'')}?text=${encodeURIComponent(text)};
+    const waLink = (text) => `https://wa.me/${WA_NUMBER.replace(/\D/g,'')}?text=${encodeURIComponent(text)}`;
 
     // ====== INIT ======
     document.getElementById('year').textContent = new Date().getFullYear();
 
     // Set nomor WA clickable
     const waA = document.getElementById('wa-number');
-    if (waA) waA.href = waLink(Halo ${WA_NAMA_TOKO}, saya ingin tanya layanan & harga.);
+    if (waA) waA.href = waLink(`Halo ${WA_NAMA_TOKO}, saya ingin tanya layanan & harga.`);
 
     // Format harga produk
     document.querySelectorAll('[data-price]').forEach(el=>{
@@ -441,7 +442,7 @@
     setCta('cta-wa-harga', 'Halo, saya ingin tanya estimasi biaya servis.');
     setCta('cta-wa-katalog', 'Halo, minta rekomendasi laptop baru sesuai budget & kebutuhan.');
     setCta('cta-wa-kontak', 'Halo, saya ingin konsultasi & buat janji.');
-    setCta('cta-wa-float', 'Halo, Min saya perlu bantuan sekarang.');
+    setCta('cta-wa-float', 'Halo, saya perlu bantuan sekarang.');
 
     // Tombol WA per produk
     document.querySelectorAll('.add-wa').forEach(btn=>{
@@ -450,7 +451,7 @@
         const card = btn.closest('.product');
         const name = card?.dataset.name || 'Laptop';
         const price = Number(card?.dataset.price||0);
-        const text = Halo ${WA_NAMA_TOKO}, saya minat ${name} (${rp(price)}). Apakah stok tersedia?;
+        const text = `Halo ${WA_NAMA_TOKO}, saya minat ${name} (${rp(price)}). Apakah stok tersedia?`;
         window.open(waLink(text),'_blank');
       });
     });
