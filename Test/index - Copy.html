@@ -1,0 +1,489 @@
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Service & Jual Laptop Baru | ISTANA BEC JUARA</title>
+  <meta name="description" content="Service laptop cepat & bergaransi + jual laptop baru resmi. Gratis cek & konsultasi. Pickup–antar area Bandung & sekitarnya." />
+  <meta name="theme-color" content="#0ea5e9" />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230ea5e9'/%3E%3Cpath d='M20 60h60v10H20zM25 30h50l8 20H17z' fill='white'/%3E%3C/svg%3E">
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Service & Jual Laptop Baru | ISTANA BEC JUARA" />
+  <meta property="og:description" content="Service laptop cepat & jual laptop baru. Garansi resmi, harga jelas, pelayanan jujur." />
+  <meta property="og:type" content="website" />
+  <meta property="og:image" content="https://dummyimage.com/1200x630/0ea5e9/ffffff&text=Service+%26+Jual+Laptop" />
+
+  <style>
+    :root {
+      --bg: #0b1220;        /* gelap elegan */
+      --surface: #0f172a;   /* card */
+      --muted: #94a3b8;     /* teks sekunder */
+      --brand: #0ea5e9;     /* biru */
+      --accent: #22c55e;    /* hijau */
+      --ring: rgba(14,165,233,.35);
+      --radius: 16px;
+    }
+    * { box-sizing: border-box }
+    html { scroll-behavior: smooth }
+    body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; color: #e5e7eb; background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.12), transparent 60%), linear-gradient(180deg, #0b1220 0%, #0b1220 60%, #0a0f1c 100%) fixed; }
+    a { color: inherit; text-decoration: none }
+    .container { width: min(1200px, 92vw); margin-inline: auto }
+
+    /* Buttons */
+    .btn { display:inline-flex; align-items:center; gap:.6rem; padding:.85rem 1.15rem; border-radius: calc(var(--radius) - 6px); font-weight:600; border:1px solid #1f2937; background:#111827; color:#e5e7eb; box-shadow:0 0 0 0 var(--ring); transition:.2s ease; cursor:pointer }
+    .btn:hover { transform: translateY(-1px); box-shadow:0 0 0 6px var(--ring) }
+    .btn.brand { background: linear-gradient(135deg, var(--brand), #60a5fa); border-color: transparent; color:#00131b }
+    .btn.ghost { background: transparent; border-color:#334155; color:#cbd5e1 }
+    .btn.small { padding:.6rem .8rem; font-size:.95rem }
+
+    .badge { display:inline-block; padding:.35rem .6rem; border:1px solid #334155; border-radius:999px; font-size:.85rem; color:#cbd5e1 }
+    .pill { padding:.5rem .8rem; background:#0b1220; border:1px solid #334155; border-radius:999px; cursor:pointer; user-select:none }
+    .pill.active { border-color: var(--brand); box-shadow: inset 0 0 0 1px var(--brand) }
+
+    /* Nav */
+    .nav { position:sticky; top:0; backdrop-filter: blur(8px); background: rgba(11,18,32,.6); border-bottom:1px solid rgba(148,163,184,.12); z-index:50 }
+    .nav-inner { display:flex; align-items:center; justify-content:space-between; padding: .7rem 0 }
+    .menu { display:flex; gap:1rem; align-items:center; flex-wrap:wrap }
+    .menu a { opacity:.88 }
+    .menu a:hover { opacity:1 }
+
+    /* Layout */
+    .grid { display:grid; gap:1.2rem }
+
+    /* Hero */
+    .hero { padding: clamp(3rem, 6vw, 5.5rem) 0 2rem; position:relative }
+    .hero h1 { font-size:clamp(2rem, 4vw, 3.2rem); line-height:1.1; margin: .6rem 0 1rem }
+    .hero p { color: var(--muted); max-width: 65ch }
+    .hero-cta { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1.2rem }
+    .hero-art { position:absolute; inset:auto -10vw -6rem auto; width:min(680px, 60vw); opacity:.18; filter: drop-shadow(0 40px 60px rgba(14,165,233,.15)) }
+
+    /* Sections */
+    .section { padding: 3.2rem 0 }
+    .section h2 { font-size: clamp(1.4rem, 2.3vw, 2rem); margin:0 0 .6rem }
+    .section p.lead { color: var(--muted); margin:0 0 1.2rem }
+
+    /* Cards */
+    .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem }
+    .card { background: linear-gradient(180deg, #0f172a, #0b1220); border:1px solid rgba(148,163,184,.15); border-radius: var(--radius); padding:1.2rem; box-shadow: 0 10px 30px rgba(2,6,23,.5) }
+    .card h3 { margin:.2rem 0 .5rem; font-size:1.12rem }
+    .card p { color: var(--muted) }
+
+    /* Pricing table */
+    table { width:100%; border-collapse: collapse; font-size: .98rem }
+    th, td { text-align:left; padding:.7rem .6rem; border-bottom:1px dashed rgba(148,163,184,.18) }
+    th { color:#cbd5e1; font-weight:700 }
+    td.price { text-align:right; white-space:nowrap; color:#e5e7eb }
+
+    /* Catalog */
+    .catalog-toolbar { display:flex; gap:.8rem; flex-wrap:wrap; margin:0 0 1rem }
+    .input { background:#0b1220; border:1px solid #334155; color:#e5e7eb; padding:.8rem 1rem; border-radius:12px; min-width: 220px }
+
+    .catalog { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem }
+    .product { display:flex; flex-direction:column; gap:.7rem; background: linear-gradient(180deg, #0f172a, #0b1220); border:1px solid rgba(148,163,184,.15); border-radius: var(--radius); padding:1rem }
+    .thumb { aspect-ratio: 16/10; border-radius:12px; background:linear-gradient(135deg,#0b1220,#0f172a); border:1px solid #243042; display:flex; align-items:center; justify-content:center; font-weight:700; color:#93c5fd }
+    .product h3 { margin:.2rem 0 0; font-size:1.02rem }
+    .meta { display:flex; gap:.5rem; flex-wrap:wrap; color:#a3b2c8; font-size:.92rem }
+    .price-tag { font-weight:800; font-size:1.05rem }
+
+    /* Contact */
+    .contact { display:grid; grid-template-columns:1.1fr .9fr; gap:1rem }
+    iframe.map { width:100%; min-height: 320px; border:0; border-radius: var(--radius); filter: saturate(1.1) contrast(1.05) }
+
+    /* Footer */
+    footer { border-top:1px solid rgba(148,163,184,.12); color:#a8b3c7; padding:1.4rem 0; font-size:.95rem }
+
+    /* Floating WhatsApp */
+    .wa-float { position:fixed; right:18px; bottom:18px; z-index:60 }
+
+    /* Small */
+    @media (max-width: 820px) {
+      .contact { grid-template-columns:1fr; }
+      .hero-art { display:none }
+    }
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav class="nav">
+    <div class="container nav-inner">
+      <div style="display:flex;align-items:center;gap:.6rem">
+        <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#60a5fa)"></div>
+        <strong>ISTANA BEC JUARA</strong>
+        <span class="badge">Service & Jual Laptop</span>
+      </div>
+      <div class="menu">
+        <a href="#layanan">Layanan</a>
+        <a href="#harga">Harga</a>
+        <a href="#katalog">Katalog</a>
+        <a href="#ulasan">Ulasan</a>
+        <a href="#faq">FAQ</a>
+        <a href="#kontak" class="btn small brand">Hubungi</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero">
+    <div class="container">
+      <span class="badge">Gratis Cek & Konsultasi • Pickup–Antar Area Bandung*</span>
+      <h1>Service Laptop Cepat & Bergaransi + <span style="background:linear-gradient(135deg,#93c5fd,#22c55e);-webkit-background-clip:text;background-clip:text;color:transparent">Jual Laptop Baru Resmi</span></h1>
+      <p>Kendala lemot, patah engsel, ganti keyboard, pasang SSD–RAM, install ulang, hingga perbaikan board. Untuk pembelian laptop baru: garansi resmi, bisa request spek, setting awal sampai tuntas.</p>
+      <div class="hero-cta">
+        <a id="cta-wa-top" class="btn brand" href="#">Chat WhatsApp</a>
+        <a href="#katalog" class="btn ghost">Lihat Katalog</a>
+        <a href="#harga" class="btn ghost">Daftar Harga</a>
+      </div>
+    </div>
+    <svg class="hero-art" viewBox="0 0 600 300" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+      <defs>
+        <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#0ea5e9"/>
+          <stop offset="1" stop-color="#60a5fa"/>
+        </linearGradient>
+      </defs>
+      <g fill="url(#g)">
+        <circle cx="70" cy="140" r="40" opacity=".4"/>
+        <rect x="120" y="80" width="180" height="110" rx="12" opacity=".35"/>
+        <rect x="330" y="100" width="220" height="90" rx="18" opacity=".2"/>
+        <circle cx="400" cy="220" r="55" opacity=".18"/>
+      </g>
+    </svg>
+  </header>
+
+  <!-- LAYANAN -->
+  <section id="layanan" class="section">
+    <div class="container">
+      <h2>Layanan Utama</h2>
+      <p class="lead">Kami mengutamakan diagnosa yang jujur dan pengerjaan rapi. Sparepart jelas sumbernya, garansi tertulis.</p>
+      <div class="cards">
+        <div class="card">
+          <h3>Install Ulang & Optimasi</h3>
+          <p>Windows 10/11 original, driver lengkap, aktivasi legal, aplikasi standar kerja & pelajar, backup data aman.</p>
+        </div>
+        <div class="card">
+          <h3>Upgrade SSD & RAM</h3>
+          <p>Naik performa hingga 5×. Termasuk migrasi data, setting ulang, dan thermal paste bila diperlukan.</p>
+        </div>
+        <div class="card">
+          <h3>Perbaikan Hardware</h3>
+          <p>Ganti keyboard, engsel, layar, baterai, kipas, port, hingga board-level (tergantung model & ketersediaan).</p>
+        </div>
+        <div class="card">
+          <h3>Cleaning & Thermal</h3>
+          <p>Pembongkaran rapi, pembersihan debu, penggantian thermal paste/pad, pengujian suhu & beban.</p>
+        </div>
+        <div class="card">
+          <h3>Jual Laptop Baru</h3>
+          <p>Unit resmi bergaransi. Siap pakai: update, aktivasi, anti-virus, Microsoft 365/Office opsional.</p>
+        </div>
+        <div class="card">
+          <h3>Pickup–Antar</h3>
+          <p>Khusus area Bandung kota. Jadwalkan via WhatsApp untuk penjemputan cepat.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HARGA -->
+  <section id="harga" class="section" aria-label="Daftar Harga">
+    <div class="container">
+      <h2>Daftar Harga Service (Ringkasan)</h2>
+      <p class="lead">Harga bisa berbeda tergantung tipe & kondisi. Gratis cek & estimasi sebelum dikerjakan.</p>
+      <div class="card">
+        <div style="overflow:auto">
+          <table>
+            <thead>
+              <tr>
+                <th>Layanan</th>
+                <th>Keterangan</th>
+                <th class="price">Perkiraan</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>Install Ulang + Driver</td><td>Termasuk aplikasi standar</td><td class="price">Rp100.000–250.000</td></tr>
+              <tr><td>Ganti Thermal Paste</td><td>+ pembersihan kipas</td><td class="price">Rp80.000–180.000</td></tr>
+              <tr><td>Upgrade SSD</td><td>Termasuk migrasi data</td><td class="price">Mulai Rp350.000 (NVMe/SATA)</td></tr>
+              <tr><td>Ganti Keyboard</td><td>Ori/aftermarket sesuai tipe</td><td class="price">Rp250.000–650.000+</td></tr>
+              <tr><td>Ganti Layar</td><td>Resolusi & refresh rate menyesuaikan</td><td class="price">Rp650.000–2.500.000+</td></tr>
+              <tr><td>Service Board</td><td>Analisa kerusakan komponen</td><td class="price">By case (estimasi via cek)</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div style="display:flex;gap:.6rem;flex-wrap:wrap;margin-top:1rem">
+          <a class="btn brand" id="cta-wa-harga" href="#">Tanya Harga via WA</a>
+          <a class="btn ghost" href="#katalog">Cek Katalog Laptop Baru</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATALOG -->
+  <section id="katalog" class="section" aria-label="Katalog Laptop Baru">
+    <div class="container">
+      <h2>Katalog Laptop Baru</h2>
+      <p class="lead">Semua unit bergaransi resmi. Bisa request spek / upgrade RAM–SSD saat pembelian.</p>
+
+      <div class="catalog-toolbar">
+        <input id="search" class="input" placeholder="Cari merk / seri / spek…" />
+        <span class="pill" data-filter="all">Semua</span>
+        <span class="pill" data-filter="acer">Acer</span>
+        <span class="pill" data-filter="asus">ASUS</span>
+        <span class="pill" data-filter="lenovo">Lenovo</span>
+        <span class="pill" data-filter="hp">HP</span>
+        <span class="pill" data-filter="budget">Budget</span>
+        <span class="pill" data-filter="gaming">Gaming</span>
+        <span class="pill" data-filter="work">Work</span>
+      </div>
+
+      <div class="catalog" id="catalog">
+        <!-- Contoh produk; duplikasi & ubah sesuai stok nyata -->
+        <article class="product" data-tags="asus work" data-brand="asus" data-name="ASUS Vivobook 15 A1502" data-price="8999000">
+          <div class="thumb">ASUS 15"</div>
+          <h3>ASUS Vivobook 15 A1502</h3>
+          <div class="meta">
+            <span>i3-1215U • 8GB • 512GB</span>
+            <span class="price-tag" data-price="8999000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+
+        <article class="product" data-tags="lenovo work" data-brand="lenovo" data-name="Lenovo IdeaPad Slim 3 14" data-price="7999000">
+          <div class="thumb">Lenovo 14"</div>
+          <h3>Lenovo IdeaPad Slim 3 14</h3>
+          <div class="meta">
+            <span>Ryzen 5 5500U • 8GB • 512GB</span>
+            <span class="price-tag" data-price="7999000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+
+        <article class="product" data-tags="acer budget work" data-brand="acer" data-name="Acer Aspire 3 A315" data-price="6599000">
+          <div class="thumb">Acer 15"</div>
+          <h3>Acer Aspire 3 A315</h3>
+          <div class="meta">
+            <span>Ryzen 3 7320U • 8GB • 256GB</span>
+            <span class="price-tag" data-price="6599000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+
+        <article class="product" data-tags="hp work" data-brand="hp" data-name="HP 14s" data-price="7199000">
+          <div class="thumb">HP 14"</div>
+          <h3>HP 14s</h3>
+          <div class="meta">
+            <span>i3-N305 • 8GB • 512GB</span>
+            <span class="price-tag" data-price="7199000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+
+        <article class="product" data-tags="asus gaming" data-brand="asus" data-name="ASUS TUF Gaming F15" data-price="12999000">
+          <div class="thumb">TUF 15"</div>
+          <h3>ASUS TUF Gaming F15</h3>
+          <div class="meta">
+            <span>i5-12450H • RTX 2050 • 8/512</span>
+            <span class="price-tag" data-price="12999000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+
+        <article class="product" data-tags="lenovo gaming" data-brand="lenovo" data-name="Lenovo LOQ 15" data-price="13999000">
+          <div class="thumb">LOQ 15"</div>
+          <h3>Lenovo LOQ 15</h3>
+          <div class="meta">
+            <span>Ryzen 5 7535HS • RTX 2050 • 8/512</span>
+            <span class="price-tag" data-price="13999000"></span>
+          </div>
+          <div style="display:flex;gap:.5rem;flex-wrap:wrap">
+            <a class="btn small brand add-wa" href="#">Beli via WA</a>
+            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+          </div>
+        </article>
+      </div>
+
+      <div style="margin-top:1rem;display:flex;gap:.6rem;flex-wrap:wrap">
+        <a class="btn brand" id="cta-wa-katalog" href="#">Minta Rekomendasi</a>
+        <a class="btn ghost" href="#kontak">Lokasi & Jam Buka</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- ULASAN -->
+  <section id="ulasan" class="section">
+    <div class="container">
+      <h2>Ulasan Pelanggan</h2>
+      <p class="lead">Cuplikan testimoni — Anda bisa minta screenshot asli via WhatsApp.</p>
+      <div class="cards">
+        <div class="card"><p>“Install ulang rapi, laptop jadi ngebut. Dikasih edukasi perawatan juga. Mantap!”</p><small>— R., Dago</small></div>
+        <div class="card"><p>“Upgrade SSD + RAM sekalian bersih-bersih. Hasilnya signifikan, garansi jelas.”</p><small>— N., Antapani</small></div>
+        <div class="card"><p>“Beli laptop baru sekalian set up Office & printer. Siap kerja, hassle-free.”</p><small>— A., Cimahi</small></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="section">
+    <div class="container">
+      <h2>Pertanyaan Umum</h2>
+      <div class="cards">
+        <details class="card"><summary><strong>Berapa lama pengerjaan rata-rata?</strong></summary><p>Install ulang/upgrade ringan biasanya 2–4 jam. Pekerjaan hardware/board bisa 1–3 hari tergantung sparepart & antrian.</p></details>
+        <details class="card"><summary><strong>Apakah ada garansi?</strong></summary><p>Ada. Garansi purna servis/part bervariasi 1–3 bulan. Unit baru mengikuti garansi resmi pabrikan.</p></details>
+        <details class="card"><summary><strong>Pickup–antar bagaimana?</strong></summary><p>Khusus area Bandung. Jadwalkan via WA, kami aturkan kurir/teknisi. Biaya tergantung jarak.</p></details>
+      </div>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak" class="section">
+    <div class="container contact">
+      <div>
+        <h2>Kontak, Lokasi & Jam Buka</h2>
+        <p class="lead">Silakan chat WhatsApp untuk cek harga, stok, atau buat janji pickup–antar.</p>
+        <div class="cards" style="grid-template-columns:1fr">
+          <div class="card">
+            <p><strong>ISTANA BEC JUARA</strong><br>
+            Jl. Contoh No. 123, Bandung 40111<br>
+            (Ganti alamat asli Anda)</p>
+            <p><strong>Telp/WA:</strong> <a id="wa-number" href="#">0812-3456-7890</a><br>
+            <strong>Jam Buka:</strong> Sen–Sab 10.00–20.00, Min 11.00–18.00</p>
+            <div style="display:flex;gap:.6rem;flex-wrap:wrap">
+              <a id="cta-wa-kontak" class="btn brand" href="#">Chat WhatsApp</a>
+              <a class="btn ghost" href="tel:+6281234567890">Telepon</a>
+              <a class="btn ghost" href="#katalog">Minta Rekomendasi</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div>
+        <!-- Ganti src embed peta sesuai lokasi toko Anda -->
+        <iframe class="map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31636.560000!2d107.603!3d-6.914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64!2sBandung!5e0!3m2!1sid!2sid!4v1700000000000">
+        </iframe>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap">
+      <div>© <span id="year"></span> ISTANA BEC JUARA • Service & Jual Laptop</div>
+      <div>
+        <a href="#layanan">Layanan</a> ·
+        <a href="#harga">Harga</a> ·
+        <a href="#katalog">Katalog</a> ·
+        <a href="#kontak">Kontak</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- WA FLOAT -->
+  <div class="wa-float">
+    <a id="cta-wa-float" class="btn brand" href="#">WhatsApp Sekarang</a>
+  </div>
+
+  <!-- Structured Data -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "LocalBusiness",
+    "name": "ISTANA BEC JUARA",
+    "image": "https://dummyimage.com/800x450/0ea5e9/ffffff&text=ISTANA+BEC+JUARA",
+    "description": "Service laptop & penjualan laptop baru bergaransi di Bandung.",
+    "address": {"@type":"PostalAddress","streetAddress":"Jl. Contoh No.123","addressLocality":"Bandung","postalCode":"40111","addressCountry":"ID"},
+    "telephone": "+6281234567890",
+    "openingHours": ["Mo-Sa 10:00-20:00","Su 11:00-18:00"],
+    "url": "https://example.com"
+  }
+  </script>
+
+  <script>
+    // ====== KONFIGURASI CEPAT (GANTI NOMOR WA & PESAN) ======
+    const WA_NUMBER = '+6285157919957'; // ganti ke nomor WhatsApp Anda
+    const WA_NAMA_TOKO = 'INDOJAVA COMPUTER';
+
+    // ====== UTIL ======
+    const rp = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
+    const waLink = (text) => https://wa.me/${WA_NUMBER.replace(/\D/g,'')}?text=${encodeURIComponent(text)};
+
+    // ====== INIT ======
+    document.getElementById('year').textContent = new Date().getFullYear();
+
+    // Set nomor WA clickable
+    const waA = document.getElementById('wa-number');
+    if (waA) waA.href = waLink(Halo ${WA_NAMA_TOKO}, saya ingin tanya layanan & harga.);
+
+    // Format harga produk
+    document.querySelectorAll('[data-price]').forEach(el=>{
+      const val = Number(el.getAttribute('data-price'))||0;
+      el.textContent = rp(val);
+    });
+
+    // CTA Umum
+    const setCta = (id, msg) => {
+      const el = document.getElementById(id);
+      if (el) el.href = waLink(msg);
+    };
+    setCta('cta-wa-top', 'Halo, saya mau servis/beli laptop. Bisa bantu?');
+    setCta('cta-wa-harga', 'Halo, saya ingin tanya estimasi biaya servis.');
+    setCta('cta-wa-katalog', 'Halo, minta rekomendasi laptop baru sesuai budget & kebutuhan.');
+    setCta('cta-wa-kontak', 'Halo, saya ingin konsultasi & buat janji.');
+    setCta('cta-wa-float', 'Halo, Min saya perlu bantuan sekarang.');
+
+    // Tombol WA per produk
+    document.querySelectorAll('.add-wa').forEach(btn=>{
+      btn.addEventListener('click', e=>{
+        e.preventDefault();
+        const card = btn.closest('.product');
+        const name = card?.dataset.name || 'Laptop';
+        const price = Number(card?.dataset.price||0);
+        const text = Halo ${WA_NAMA_TOKO}, saya minat ${name} (${rp(price)}). Apakah stok tersedia?;
+        window.open(waLink(text),'_blank');
+      });
+    });
+
+    // Filter katalog
+    const pills = document.querySelectorAll('.pill');
+    const catalog = document.getElementById('catalog');
+    const search = document.getElementById('search');
+
+    const applyFilter = () => {
+      const active = document.querySelector('.pill.active')?.dataset.filter || 'all';
+      const q = (search.value||'').toLowerCase();
+      catalog.querySelectorAll('.product').forEach(p=>{
+        const tags = p.dataset.tags||'';
+        const name = (p.dataset.name||'').toLowerCase();
+        const brand = (p.dataset.brand||'').toLowerCase();
+        const text = (p.textContent||'').toLowerCase();
+        const tagPass = (active==='all') || tags.includes(active) || brand===active;
+        const qPass = !q || name.includes(q) || brand.includes(q) || text.includes(q);
+        p.style.display = (tagPass && qPass) ? '' : 'none';
+      });
+    };
+
+    pills.forEach(p=>p.addEventListener('click', ()=>{
+      pills.forEach(x=>x.classList.remove('active'));
+      p.classList.add('active');
+      applyFilter();
+    }));
+    if (pills[0]) pills[0].classList.add('active');
+    search.addEventListener('input', applyFilter);
+
+    // Lazy simple: apply once at start
+    applyFilter();
+  </script>
+</body>
+</html>
