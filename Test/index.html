@@ -25,6 +25,39 @@
       --ring: rgba(14,165,233,.35);
       --radius: 16px;
     }
+    body.light {
+  color: #1e293b;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.06), transparent 60%), linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) fixed;
+}
+
+body.light .card,
+body.light .product,
+body.light .modal-content {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: rgba(148,163,184,.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+body.light .btn {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+body.light .btn.brand {
+  background: linear-gradient(135deg, var(--brand), #60a5fa);
+  color: #fff;
+}
+body.light .btn.ghost {
+  background: transparent;
+  color: #1e293b;
+}
+
+body.light .nav {
+  background: rgba(255,255,255,.8);
+  border-bottom: 1px solid rgba(148,163,184,.2);
+  backdrop-filter: blur(8px);
+}
     * { box-sizing: border-box }
     html { scroll-behavior: smooth }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; color: #e5e7eb; background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.12), transparent 60%), linear-gradient(180deg, #0b1220 0%, #0b1220 60%, #0a0f1c 100%) fixed; }
@@ -258,6 +291,32 @@
       .modal-thumb {
         aspect-ratio: 16/10;
       }
+    /* Animasi dasar */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  will-change: transform, opacity;
+}
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* Variasi arah */
+.reveal.up { transform: translateY(30px); }
+.reveal.down { transform: translateY(-30px); }
+.reveal.left { transform: translateX(-30px); }
+.reveal.right { transform: translateX(30px); }
+
+/* Saat terlihat, semua kembali normal */
+.reveal.show.up,
+.reveal.show.down,
+.reveal.show.left,
+.reveal.show.right {
+  transform: none;
+  opacity: 1;
+}
     }
   </style>
 </head>
@@ -281,7 +340,7 @@
   </nav>
 
   <!-- HERO -->
-  <header class="hero">
+  <header class="hero reveal left">
     <div class="container">
       <span class="badge">Gratis Cek & Konsultasi • Pickup–Antar Area Bandung*</span>
       <h1>Service Laptop Cepat & Bergaransi + <span style="background:linear-gradient(135deg,#93c5fd,#22c55e);-webkit-background-clip:text;background-clip:text;color:transparent">Jual Laptop Baru Resmi</span></h1>
@@ -309,8 +368,8 @@
   </header>
 
   <!-- LAYANAN -->
-  <section id="layanan" class="section">
-    <div class="container">
+  <section id="layanan" class="section reveal up">
+    <div class="container reveal left">
       <h2>Layanan Utama</h2>
       <p class="lead">Kami mengutamakan diagnosa yang jujur dan pengerjaan rapi. Sparepart jelas sumbernya, garansi tertulis.</p>
       <div class="cards">
@@ -343,7 +402,7 @@
   </section>
 
   <!-- HARGA -->
-  <section id="harga" class="section" aria-label="Daftar Harga">
+  <section id="harga" class="section reveal" aria-label="Daftar Harga">
     <div class="container">
       <h2>Daftar Harga Service (Ringkasan)</h2>
       <p class="lead">Harga bisa berbeda tergantung tipe & kondisi. Gratis cek & estimasi sebelum dikerjakan.</p>
@@ -379,7 +438,7 @@
   </section>
 
   <!-- KATALOG -->
-  <section id="katalog" class="section" aria-label="Katalog Laptop Baru">
+  <section id="katalog" class="section reveal" aria-label="Katalog Laptop Baru">
     <div class="container">
       <h2>Katalog Laptop Baru</h2>
       <p class="lead">Semua unit bergaransi resmi. Bisa request spek / upgrade RAM–SSD saat pembelian.<br>*Harga dapat berubah sewaktu-waktu harap tanyakan terlebih dahulu.</p>
@@ -519,7 +578,7 @@
   </section>
 
   <!-- ULASAN -->
-  <section id="ulasan" class="section">
+  <section id="ulasan" class="section reaveal">
     <div class="container">
       <h2>Ulasan Pelanggan</h2>
       <p class="lead">Testimoni asli dari pelanggan yang sudah merasakan layanan kami.</p>
@@ -546,7 +605,7 @@
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="section">
+  <section id="faq" class="section reveal">
     <div class="container">
       <h2>Pertanyaan Umum</h2>
       <div class="cards">
@@ -558,7 +617,7 @@
   </section>
 
   <!-- KONTAK -->
-  <section id="kontak" class="section">
+  <section id="kontak" class="section reveal left">
     <div class="container contact">
       <div>
         <h2>Kontak, Lokasi & Jam Buka</h2>
@@ -595,7 +654,7 @@
         <div id="modal-thumb" class="modal-thumb">
           <img id="modal-img" src="" alt="Product Image">
         </div>
-        <div class="modal-details">
+        <div class="modal-details reveal right">
           <h3 id="modal-title">Nama Produk</h3>
           <p><strong>Spesifikasi Lengkap:</strong></p>
           <p id="modal-specs">Detail spesifikasi akan muncul di sini.</p>
@@ -861,6 +920,30 @@
     
         initThumbnails();
         applyFilter();
+        // ====== DARK/LIGHT MODE ======
+const themeToggle = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'dark';
+if (currentTheme === 'light') document.body.classList.add('light');
+
+themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
+
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+});
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(r => observer.observe(r));
+
       </script>
 </body>
 </html>
