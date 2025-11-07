@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="dark">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>INDOJAVA COMPUTER | Service & Jual Laptop</title>
+  <meta name="description" content="Service laptop cepat & bergaransi + jual laptop baru resmi. Gratis cek & konsultasi. Pickup–antar area Bandung & sekitarnya." />
+
+  <!-- Favicon -->
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='18' fill='%230ea5e9'/%3E%3Cpath d='M20 60h60v10H20zM25 30h50l8 20H17z' fill='white'/%3E%3C/svg%3E">
+
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-0r8dDSh8O0N6mnGxT9dXW9v2RQy4vlgmK1Q0GgP7Dx+Hh0sULSssV1lYfwNfXJ3v0+NsX+7glQZfGZtL8+zjw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- AOS (Animate On Scroll) -->
+  <link href="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.css" rel="stylesheet">
+
+  <style>
+    :root {
+      --brand: #0ea5e9;
+      --accent: #22c55e;
+      --radius: 16px;
+      --transition: 0.3s ease;
+    }
+
+    [data-theme="dark"] {
+      --bg: #0b1220;
+      --surface: #0f172a;
+      --text: #e5e7eb;
+      --muted: #94a3b8;
+    }
+
+    [data-theme="light"] {
+      --bg: #f8fafc;
+      --surface: #ffffff;
+      --text: #1e293b;
+      --muted: #475569;
+    }
+
+    body {
+      font-family: "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      margin: 0;
+      transition: background var(--transition), color var(--transition);
+    }
+
+    a { color: var(--brand); text-decoration: none; }
+
+    /* NAV */
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      backdrop-filter: blur(8px);
+      background: rgba(15, 23, 42, 0.7);
+      border-bottom: 1px solid rgba(148,163,184,0.15);
+      transition: background var(--transition);
+    }
+    .nav-inner {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      max-width: 1200px;
+      margin: auto;
+      padding: 0.8rem 1rem;
+    }
+    .nav-logo {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      font-weight: 700;
+    }
+    .nav-logo i {
+      color: var(--brand);
+      font-size: 1.4rem;
+    }
+    .menu {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      flex-wrap: wrap;
+    }
+    .menu a {
+      color: var(--text);
+      opacity: 0.8;
+      transition: opacity var(--transition);
+    }
+    .menu a:hover { opacity: 1; }
+    .theme-toggle {
+      cursor: pointer;
+      font-size: 1.3rem;
+      color: var(--brand);
+    }
+
+    /* HERO */
+    header.hero {
+      padding: 5rem 1rem 3rem;
+      text-align: center;
+      background: linear-gradient(180deg, rgba(14,165,233,0.1), transparent);
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4vw, 3rem);
+      margin-bottom: 1rem;
+    }
+    .hero p {
+      max-width: 600px;
+      margin: auto;
+      color: var(--muted);
+    }
+    .hero .btn {
+      margin-top: 1.2rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.9rem 1.2rem;
+      border-radius: var(--radius);
+      border: none;
+      background: var(--brand);
+      color: white;
+      font-weight: 600;
+      cursor: pointer;
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .hero .btn:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 0 10px var(--brand);
+    }
+
+    /* SECTIONS */
+    section {
+      padding: 3rem 1rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+    h2 {
+      text-align: center;
+      font-size: 1.8rem;
+      margin-bottom: 1rem;
+    }
+    p.lead {
+      text-align: center;
+      color: var(--muted);
+      margin-bottom: 2rem;
+    }
+
+    /* CARDS */
+    .cards {
+      display: grid;
+      gap: 1.5rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+    .card {
+      background: var(--surface);
+      padding: 1.5rem;
+      border-radius: var(--radius);
+      box-shadow: 0 0 20px rgba(0,0,0,0.1);
+      transition: transform var(--transition), box-shadow var(--transition);
+    }
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(14,165,233,0.15);
+    }
+
+    /* FOOTER */
+    footer {
+      border-top: 1px solid rgba(148,163,184,0.2);
+      text-align: center;
+      padding: 1.5rem 0;
+      font-size: 0.95rem;
+      color: var(--muted);
+    }
+    .social-icons {
+      margin-top: 1rem;
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+    }
+    .social-icons a {
+      color: var(--text);
+      font-size: 1.3rem;
+      transition: color var(--transition), transform var(--transition);
+    }
+    .social-icons a:hover {
+      color: var(--brand);
+      transform: scale(1.1);
+    }
+
+    /* AOS fix */
+    [data-aos] {
+      opacity: 0;
+      transition-property: transform, opacity;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="nav-inner">
+      <div class="nav-logo"><i class="fa-solid fa-laptop"></i> INDOJAVA COMPUTER</div>
+      <div class="menu">
+        <a href="#layanan"><i class="fa-solid fa-screwdriver-wrench"></i> Layanan</a>
+        <a href="#harga"><i class="fa-solid fa-tags"></i> Harga</a>
+        <a href="#katalog"><i class="fa-solid fa-laptop-code"></i> Katalog</a>
+        <a href="#ulasan"><i class="fa-solid fa-star"></i> Ulasan</a>
+        <a href="#faq"><i class="fa-solid fa-circle-question"></i> FAQ</a>
+        <span class="theme-toggle" id="themeToggle" title="Ganti Mode"><i class="fa-solid fa-moon"></i></span>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <header class="hero" data-aos="fade-up">
+    <h1>Service Laptop Cepat & Bergaransi</h1>
+    <p>Juga jual laptop baru resmi dengan garansi pabrikan. Gratis cek & konsultasi area Bandung!</p>
+    <button class="btn"><i class="fa-brands fa-whatsapp"></i> Chat via WhatsApp</button>
+  </header>
+
+  <!-- LAYANAN -->
+  <section id="layanan" data-aos="fade-up">
+    <h2>Layanan Kami</h2>
+    <p class="lead">Profesional, cepat, dan bergaransi resmi.</p>
+    <div class="cards">
+      <div class="card" data-aos="zoom-in"><h3>Install Ulang</h3><p>Windows & macOS original + aplikasi lengkap.</p></div>
+      <div class="card" data-aos="zoom-in"><h3>Upgrade SSD & RAM</h3><p>Tingkatkan performa hingga 5× lebih cepat.</p></div>
+      <div class="card" data-aos="zoom-in"><h3>Cleaning & Thermal</h3><p>Pembersihan debu & penggantian thermal paste.</p></div>
+    </div>
+  </section>
+
+  <!-- HARGA -->
+  <section id="harga" data-aos="fade-up">
+    <h2>Harga Service</h2>
+    <p class="lead">Harga transparan & bisa disesuaikan kebutuhan.</p>
+    <div class="cards">
+      <div class="card" data-aos="fade-up">
+        <h3>Install Ulang Windows</h3>
+        <p>Rp100.000 – Rp250.000</p>
+      </div>
+      <div class="card" data-aos="fade-up">
+        <h3>Ganti Keyboard</h3>
+        <p>Rp250.000 – Rp650.000+</p>
+      </div>
+      <div class="card" data-aos="fade-up">
+        <h3>Upgrade SSD</h3>
+        <p>Mulai Rp350.000</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- KATALOG -->
+  <section id="katalog" data-aos="fade-up">
+    <h2>Katalog Laptop Baru</h2>
+    <p class="lead">Semua unit bergaransi resmi, siap pakai.</p>
+    <div class="cards">
+      <div class="card" data-aos="fade-up"><h3>ASUS Vivobook 15</h3><p>Intel i3 • 8GB • 512GB SSD</p></div>
+      <div class="card" data-aos="fade-up"><h3>Lenovo IdeaPad Slim 3</h3><p>Ryzen 5 • 8GB • 512GB SSD</p></div>
+      <div class="card" data-aos="fade-up"><h3>HP 14s</h3><p>Intel i3 • 8GB • 512GB SSD</p></div>
+    </div>
+  </section>
+
+  <!-- ULASAN -->
+  <section id="ulasan" data-aos="fade-up">
+    <h2>Ulasan Pelanggan</h2>
+    <p class="lead">Apa kata pelanggan kami.</p>
+    <div class="cards">
+      <div class="card" data-aos="zoom-in"><p>“Servis cepat, hasil memuaskan. Laptop saya jadi ngebut lagi!”</p></div>
+      <div class="card" data-aos="zoom-in"><p>“Pelayanan ramah, harga jelas, dan bergaransi.”</p></div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" data-aos="fade-up">
+    <h2>Pertanyaan Umum</h2>
+    <div class="cards">
+      <div class="card" data-aos="fade-up"><h3>Berapa lama pengerjaan?</h3><p>Biasanya 2–4 jam untuk software ringan.</p></div>
+      <div class="card" data-aos="fade-up"><h3>Apakah ada garansi?</h3><p>Ya, garansi servis 1–3 bulan tergantung kasus.</p></div>
+    </div>
+  </section>
+
+  <!-- KONTAK -->
+  <section id="kontak" data-aos="fade-up">
+    <h2>Hubungi Kami</h2>
+    <p class="lead">Jl. Purnawarman No.13, Bandung • Telp/WA: <a href="https://wa.me/6285157919957" target="_blank">0851-5791-9957</a></p>
+    <div class="social-icons">
+      <a href="https://instagram.com/indojavacom" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+      <a href="#"><i class="fa-brands fa-tiktok"></i></a>
+      <a href="https://facebook.com/laptopbekasbdg" target="_blank"><i class="fa-brands fa-facebook"></i></a>
+      <a href="https://wa.me/6285157919957" target="_blank"><i class="fa-brands fa-whatsapp"></i></a>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    © <span id="year"></span> INDOJAVA COMPUTER • All Rights Reserved
+  </footer>
+
+  <!-- JS -->
+  <script src="https://cdn.jsdelivr.net/npm/aos@2.3.4/dist/aos.js"></script>
+  <script>
+    // AOS init
+    AOS.init({ duration: 800, once: true });
+
+    // Year
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // Theme toggle
+    const html = document.documentElement;
+    const themeToggle = document.getElementById("themeToggle");
+    const currentTheme = localStorage.getItem("theme") || "dark";
+    html.setAttribute("data-theme", currentTheme);
+    themeToggle.innerHTML = currentTheme === "dark" ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+
+    themeToggle.addEventListener("click", () => {
+      const newTheme = html.getAttribute("data-theme") === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", newTheme);
+      localStorage.setItem("theme", newTheme);
+      themeToggle.innerHTML = newTheme === "dark" ? '<i class="fa-solid fa-sun"></i>' : '<i class="fa-solid fa-moon"></i>';
+    });
+  </script>
+</body>
+                             </html>
