@@ -14,6 +14,7 @@
   <meta property="og:image" content="https://dummyimage.com/1200x630/0ea5e9/ffffff&text=Service+%26+Jual+Laptop" />
 
   <style>
+    
     :root {
       --bg: #0b1220;        /* gelap elegan */
       --surface: #0f172a;   /* card */
@@ -23,6 +24,39 @@
       --ring: rgba(14,165,233,.35);
       --radius: 16px;
     }
+    body.light {
+  color: #1e293b;
+  background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.06), transparent 60%), linear-gradient(180deg, #ffffff 0%, #f8fafc 100%) fixed;
+}
+
+body.light .card,
+body.light .product,
+body.light .modal-content {
+  background: #ffffff;
+  color: #1e293b;
+  border-color: rgba(148,163,184,.25);
+  box-shadow: 0 4px 12px rgba(0,0,0,.05);
+}
+
+body.light .btn {
+  background: #f1f5f9;
+  color: #1e293b;
+  border-color: #cbd5e1;
+}
+body.light .btn.brand {
+  background: linear-gradient(135deg, var(--brand), #60a5fa);
+  color: #fff;
+}
+body.light .btn.ghost {
+  background: transparent;
+  color: #1e293b;
+}
+
+body.light .nav {
+  background: rgba(255,255,255,.8);
+  border-bottom: 1px solid rgba(148,163,184,.2);
+  backdrop-filter: blur(8px);
+}
     * { box-sizing: border-box }
     html { scroll-behavior: smooth }
     body { margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, "Helvetica Neue", Arial, "Noto Sans", "Apple Color Emoji", "Segoe UI Emoji"; color: #e5e7eb; background: radial-gradient(1200px 600px at 10% -10%, rgba(14,165,233,.12), transparent 60%), linear-gradient(180deg, #0b1220 0%, #0b1220 60%, #0a0f1c 100%) fixed; }
@@ -51,7 +85,7 @@
     .grid { display:grid; gap:1.2rem }
 
     /* Hero */
-    .hero { padding: clamp(3rem, 6vw, 5.5rem) 0 2rem; position:relative }
+    .hero { padding: clamp(3rem, 3vw, 5.5rem) 0 2rem; position:relative }
     .hero h1 { font-size:clamp(2rem, 4vw, 3.2rem); line-height:1.1; margin: .6rem 0 1rem }
     .hero p { color: var(--muted); max-width: 65ch }
     .hero-cta { display:flex; gap:.8rem; flex-wrap:wrap; margin-top:1.2rem }
@@ -79,7 +113,8 @@
     .input { background:#0b1220; border:1px solid #334155; color:#e5e7eb; padding:.8rem 1rem; border-radius:12px; min-width: 220px }
 
     .catalog { display:grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap:1rem }
-    .product { display:flex; flex-direction:column; gap:.7rem; background: linear-gradient(180deg, #0f172a, #0b1220); border:1px solid rgba(148,163,184,.15); border-radius: var(--radius); padding:1rem }
+    .product { display:flex; flex-direction:column; gap:.7rem; background: linear-gradient(180deg, #0f172a, #0b1220); border:1px solid rgba(148,163,184,.15); border-radius: var(--radius); padding:1rem; transition: transform 0.3s ease-in-out; }
+    .product:hover { transform: scale(1.03); z-index: 1; }
     .thumb { aspect-ratio: 16/10; border-radius:12px; background:linear-gradient(135deg,#0b1220,#0f172a); border:1px solid #243042; display:flex; align-items:center; justify-content:center; font-weight:700; color:#93c5fd }
     .product h3 { margin:.2rem 0 0; font-size:1.02rem }
     .meta { display:flex; gap:.5rem; flex-wrap:wrap; color:#a3b2c8; font-size:.92rem }
@@ -87,18 +122,200 @@
 
     /* Contact */
     .contact { display:grid; grid-template-columns:1.1fr .9fr; gap:1rem }
-    iframe.map { width:100%; min-height: 320px; border:0; border-radius: var(--radius); filter: saturate(1.1) contrast(1.05) }
+    iframe.map { width:100%; min-height: 360px; border:0; border-radius: var(--radius); filter: saturate(1.1) contrast(1.05) }
 
     /* Footer */
     footer { border-top:1px solid rgba(148,163,184,.12); color:#a8b3c7; padding:1.4rem 0; font-size:.95rem }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+    .social-links img {
+      height: 24px;
+      opacity: 0.7;
+      transition: opacity 0.2s ease;
+    }
+    .social-links a:hover img {
+      opacity: 1;
+    }
 
     /* Floating WhatsApp */
     .wa-float { position:fixed; right:18px; bottom:18px; z-index:60 }
+
+    /* Review Slider */
+    .slider-container {
+      position: relative;
+      overflow: hidden;
+    }
+    .slider-wrapper {
+      overflow: hidden;
+    }
+    .slider-track {
+      display: flex;
+      gap: 1rem;
+      transition: transform 0.5s ease-in-out;
+    }
+    .slider-track > .card {
+      flex: 0 0 calc(33.333% - 1rem);
+      min-width: 280px;
+    }
+    .slider-btn {
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%);
+      background-color: rgba(15, 23, 42, 0.7);
+      border: 1px solid #334155;
+      color: #e5e7eb;
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      z-index: 10;
+    }
+    .slider-btn.prev {
+      left: 10px;
+    }
+    .slider-btn.next {
+      right: 10px;
+    }
+    @media (max-width: 768px) {
+      .slider-track > .card {
+        flex-basis: calc(50% - 1rem);
+      }
+      .slider-btn.prev { left: 5px; }
+      .slider-btn.next { right: 5px; }
+    }
+    @media (max-width: 480px) {
+      .slider-track > .card {
+        flex-basis: 85%;
+        min-width: 0;
+      }
+    }
 
     /* Small */
     @media (max-width: 820px) {
       .contact { grid-template-columns:1fr; }
       .hero-art { display:none }
+    }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(11, 18, 32, 0.8);
+      backdrop-filter: blur(8px);
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity .3s ease, visibility .3s ease;
+    }
+    .modal-overlay.show {
+      opacity: 1;
+      visibility: visible;
+    }
+    .modal-content {
+      background: linear-gradient(180deg, #0f172a, #0b1220);
+      border: 1px solid rgba(148, 163, 184, .15);
+      border-radius: var(--radius);
+      padding: 1.5rem;
+      box-shadow: 0 10px 40px rgba(2, 6, 23, .7);
+      width: min(600px, 90vw);
+      position: relative;
+      transform: scale(.95);
+      transition: transform .3s ease;
+    }
+    .modal-overlay.show .modal-content {
+      transform: scale(1);
+    }
+    .modal-close {
+      position: absolute;
+      top: .8rem;
+      right: .8rem;
+      background: #1f2937;
+      border: 1px solid #334155;
+      color: #94a3b8;
+      width: 32px;
+      height: 32px;
+      border-radius: 99px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      line-height: 1;
+      cursor: pointer;
+    }
+    .modal-body {
+      display: grid;
+      grid-template-columns: .6fr 1fr;
+      gap: 1.2rem;
+    }
+    .modal-thumb {
+      aspect-ratio: 1/1;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #0b1220, #0f172a);
+      border: 1px solid #243042;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 700;
+      color: #93c5fd;
+      font-size: 1.5rem;
+    }
+    .modal-details #modal-specs {
+      color: var(--muted);
+      font-size: .95rem;
+      white-space: pre-wrap; /* To respect line breaks */
+    }
+
+    .modal-thumb img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .modal-body {
+        grid-template-columns: 1fr;
+      }
+      .modal-thumb {
+        aspect-ratio: 16/10;
+      }
+    /* Animasi dasar */
+.reveal {
+  opacity: 0;
+  transform: translateY(30px);
+  transition: transform 0.8s ease, opacity 0.8s ease;
+  will-change: transform, opacity;
+}
+.reveal.show {
+  opacity: 1;
+  transform: none;
+}
+
+/* Variasi arah */
+.reveal.up { transform: translateY(30px); }
+.reveal.down { transform: translateY(-30px); }
+.reveal.left { transform: translateX(-30px); }
+.reveal.right { transform: translateX(30px); }
+
+/* Saat terlihat, semua kembali normal */
+.reveal.show.up,
+.reveal.show.down,
+.reveal.show.left,
+.reveal.show.right {
+  transform: none;
+  opacity: 1;
+}
     }
   </style>
 </head>
@@ -109,25 +326,25 @@
       <div style="display:flex;align-items:center;gap:.6rem">
         <div style="width:34px;height:34px;border-radius:10px;background:linear-gradient(135deg,var(--brand),#60a5fa)"></div>
         <strong>INDOJAVA COMPUTER</strong>
-        <span class="badge">Service & Jual Laptop</span>
+        <!-- <span class="badge">Service & Jual Laptop</span> -->
       </div>
       <div class="menu">
-        <a href="#layanan">Layanan</a>
-        <a href="#harga">Harga</a>
-        <a href="#katalog">Katalog</a>
-        <a href="#ulasan">Ulasan</a>
-        <a href="#faq">FAQ</a>
-        <a href="#kontak" class="btn small brand">Hubungi</a>
-      </div>
+  <a href="#layanan">Layanan</a>
+  <a href="#harga">Harga</a>
+  <a href="#katalog">Katalog</a>
+  <a href="#ulasan">Ulasan</a>
+  <a href="#faq">FAQ</a>
+  <button id="theme-toggle" class="btn small ghost" style="margin-left:0.6rem;">🌙</button>
+</div>
     </div>
   </nav>
 
   <!-- HERO -->
-  <header class="hero">
+  <header class="hero reveal left">
     <div class="container">
       <span class="badge">Gratis Cek & Konsultasi • Pickup–Antar Area Bandung*</span>
       <h1>Service Laptop Cepat & Bergaransi + <span style="background:linear-gradient(135deg,#93c5fd,#22c55e);-webkit-background-clip:text;background-clip:text;color:transparent">Jual Laptop Baru Resmi</span></h1>
-      <p>Kendala lemot, patah engsel, ganti keyboard, pasang SSD–RAM, install ulang, hingga perbaikan board. Untuk pembelian laptop baru: garansi resmi, bisa request spek, setting awal sampai tuntas.</p>
+      <p>Kendala lemot, patah engsel, ganti keyboard, pasang SSD–RAM, install ulang, no display hingga mati total. Untuk pembelian laptop baru: garansi resmi, bisa request spek, setting awal sampai tuntas.</p>
       <div class="hero-cta">
         <a id="cta-wa-top" class="btn brand" href="#">Chat WhatsApp</a>
         <a href="#katalog" class="btn ghost">Lihat Katalog</a>
@@ -151,8 +368,8 @@
   </header>
 
   <!-- LAYANAN -->
-  <section id="layanan" class="section">
-    <div class="container">
+  <section id="layanan" class="section reveal up">
+    <div class="container reveal left">
       <h2>Layanan Utama</h2>
       <p class="lead">Kami mengutamakan diagnosa yang jujur dan pengerjaan rapi. Sparepart jelas sumbernya, garansi tertulis.</p>
       <div class="cards">
@@ -178,14 +395,14 @@
         </div>
         <div class="card">
           <h3>Ganti Sparepart</h3>
-          <p>Sedia keyboard, battery, adaptor, LCD, kipas, RAM, SSD dan sebagainya.</p>
+          <p>Sedia keyboard, battery, adaptor, LCD, kipas, RAM, SSD, HDD, Speaker dan sebagainya.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- HARGA -->
-  <section id="harga" class="section" aria-label="Daftar Harga">
+  <section id="harga" class="section reveal" aria-label="Daftar Harga">
     <div class="container">
       <h2>Daftar Harga Service (Ringkasan)</h2>
       <p class="lead">Harga bisa berbeda tergantung tipe & kondisi. Gratis cek & estimasi sebelum dikerjakan.</p>
@@ -200,12 +417,15 @@
               </tr>
             </thead>
             <tbody>
-              <tr><td>Install Ulang + Driver</td><td>Termasuk aplikasi standar</td><td class="price">Rp100.000–250.000</td></tr>
-              <tr><td>Ganti Thermal Paste</td><td>+ pembersihan kipas</td><td class="price">Rp80.000–180.000</td></tr>
+              <tr><td>Install Ulang Windows + Driver</td><td>Termasuk aplikasi standar</td><td class="price">Rp100.000–250.000</td></tr>
+              <tr><td>Install Ulang macOS</td><td>Termasuk aplikasi standar</td><td class="price">Rp250.000–350.000</td></tr>
+              <tr><td>Install Aplikasi</td><td>Sesuai Permintaan konsumen</td><td class="price">Rp50.000–150.000</td></tr>
+              <tr><td>Maintenance + pembersihan kipas</td><td>Termasuk Ganti Thermal Paste</td><td class="price">Rp150.000–350.000</td></tr>
               <tr><td>Upgrade SSD</td><td>Termasuk migrasi data</td><td class="price">Mulai Rp350.000 (NVMe/SATA)</td></tr>
               <tr><td>Ganti Keyboard</td><td>Ori/aftermarket sesuai tipe</td><td class="price">Rp250.000–650.000+</td></tr>
               <tr><td>Ganti Layar</td><td>Resolusi & refresh rate menyesuaikan</td><td class="price">Rp650.000–2.500.000+</td></tr>
-              <tr><td>Service Board</td><td>Analisa kerusakan komponen</td><td class="price">By case (estimasi via cek)</td></tr>
+              <tr><td>Service Mesin</td><td>Analisa kerusakan komponen</td><td class="price">By case (estimasi via cek)</td></tr>
+              <tr><td>Service Engsel</td><td>Cor dudukan baud + ganti engsel tergantungtingkat kerusakan</td><td class="price">Rp100.000-550.000</td></tr>
             </tbody>
           </table>
         </div>
@@ -218,26 +438,35 @@
   </section>
 
   <!-- KATALOG -->
-  <section id="katalog" class="section" aria-label="Katalog Laptop Baru">
+  <section id="katalog" class="section reveal" aria-label="Katalog Laptop Baru">
     <div class="container">
       <h2>Katalog Laptop Baru</h2>
-      <p class="lead">Semua unit bergaransi resmi. Bisa request spek / upgrade RAM–SSD saat pembelian.</p>
+      <p class="lead">Semua unit bergaransi resmi. Bisa request spek / upgrade RAM–SSD saat pembelian.<br>*Harga dapat berubah sewaktu-waktu harap tanyakan terlebih dahulu.</p>
 
       <div class="catalog-toolbar">
         <input id="search" class="input" placeholder="Cari merk / seri / spek…" />
         <span class="pill" data-filter="all">Semua</span>
-        <span class="pill" data-filter="acer">Acer</span>
         <span class="pill" data-filter="asus">ASUS</span>
         <span class="pill" data-filter="lenovo">Lenovo</span>
         <span class="pill" data-filter="hp">HP</span>
-        <span class="pill" data-filter="budget">Budget</span>
+        <span class="pill" data-filter="acer">Acer</span>
+        <span class="pill" data-filter="axioo">Axioo</span>
+        <span class="pill" data-filter="advan">Advan</span>
+        <span class="pill" data-filter="school">School</span>
         <span class="pill" data-filter="gaming">Gaming</span>
         <span class="pill" data-filter="work">Work</span>
       </div>
 
       <div class="catalog" id="catalog">
         <!-- Contoh produk; duplikasi & ubah sesuai stok nyata -->
-        <article class="product" data-tags="asus work" data-brand="asus" data-name="ASUS Vivobook 15 A1502" data-price="8999000">
+        <article class="product" 
+            data-tags="asus work" 
+            data-brand="asus" 
+            data-name="ASUS Vivobook 15 A1502" 
+            data-price="8999000"
+            data-specs="CPU: Intel Core i3-1215U|RAM: 8GB DDR4|Storage: 512GB NVMe SSD|GPU: Intel UHD Graphics|Display: 15.6 inch FHD (1920x1080)|OS: Windows 11 Home"
+            data-img-folder="Vivobook 15 (M1502)"
+            data-images="Vivobook 15 (M1502).1.png,Vivobook 15 (M1502).2.png,Vivobook 15 (M1502).3.png,Vivobook 15 (M1502).4.png,Vivobook 15 (M1502).5.png,Vivobook 15 (M1502).6.png,Vivobook 15 (M1502).7.png">
           <div class="thumb">ASUS 15"</div>
           <h3>ASUS Vivobook 15 A1502</h3>
           <div class="meta">
@@ -245,12 +474,17 @@
             <span class="price-tag" data-price="8999000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
 
-        <article class="product" data-tags="lenovo work" data-brand="lenovo" data-name="Lenovo IdeaPad Slim 3 14" data-price="7999000">
+        <article class="product" 
+            data-tags="lenovo work" 
+            data-brand="lenovo" 
+            data-name="Lenovo IdeaPad Slim 3 14" 
+            data-price="7999000"
+            data-specs="CPU: AMD Ryzen 5 5500U|RAM: 8GB DDR4 Upgradable|Storage: 512GB NVMe SSD|GPU: AMD Radeon Graphics|Display: 14 inch FHD (1920x1080) IPS|OS: Windows 11 Home + OHS 2021">
           <div class="thumb">Lenovo 14"</div>
           <h3>Lenovo IdeaPad Slim 3 14</h3>
           <div class="meta">
@@ -258,12 +492,17 @@
             <span class="price-tag" data-price="7999000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
 
-        <article class="product" data-tags="acer budget work" data-brand="acer" data-name="Acer Aspire 3 A315" data-price="6599000">
+        <article class="product" 
+            data-tags="acer budget work" 
+            data-brand="acer" 
+            data-name="Acer Aspire 3 A315" 
+            data-price="6599000"
+            data-specs="CPU: AMD Ryzen 3 7320U|RAM: 8GB LPDDR5|Storage: 256GB NVMe SSD|GPU: AMD Radeon Graphics|Display: 15.6 inch FHD (1920x1080)|OS: Windows 11 Home + OHS 2021">
           <div class="thumb">Acer 15"</div>
           <h3>Acer Aspire 3 A315</h3>
           <div class="meta">
@@ -271,12 +510,17 @@
             <span class="price-tag" data-price="6599000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
 
-        <article class="product" data-tags="hp work" data-brand="hp" data-name="HP 14s" data-price="7199000">
+        <article class="product" 
+            data-tags="hp work" 
+            data-brand="hp" 
+            data-name="HP 14s" 
+            data-price="7199000"
+            data-specs="CPU: Intel Core i3-N305|RAM: 8GB DDR4|Storage: 512GB NVMe SSD|GPU: Intel UHD Graphics|Display: 14 inch FHD (1920x1080)|OS: Windows 11 Home + OHS 2021">
           <div class="thumb">HP 14"</div>
           <h3>HP 14s</h3>
           <div class="meta">
@@ -284,12 +528,17 @@
             <span class="price-tag" data-price="7199000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
 
-        <article class="product" data-tags="asus gaming" data-brand="asus" data-name="ASUS TUF Gaming F15" data-price="12999000">
+        <article class="product" 
+            data-tags="asus gaming" 
+            data-brand="asus" 
+            data-name="ASUS TUF Gaming F15" 
+            data-price="12999000"
+            data-specs="CPU: Intel Core i5-12450H|RAM: 8GB DDR5 Upgradable|Storage: 512GB NVMe SSD|GPU: NVIDIA GeForce RTX 2050 4GB|Display: 15.6 inch FHD (1920x1080) IPS 144Hz|OS: Windows 11 Home">
           <div class="thumb">TUF 15"</div>
           <h3>ASUS TUF Gaming F15</h3>
           <div class="meta">
@@ -297,12 +546,17 @@
             <span class="price-tag" data-price="12999000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
 
-        <article class="product" data-tags="lenovo gaming" data-brand="lenovo" data-name="Lenovo LOQ 15" data-price="13999000">
+        <article class="product" 
+            data-tags="lenovo gaming" 
+            data-brand="lenovo" 
+            data-name="Lenovo LOQ 15" 
+            data-price="13999000"
+            data-specs="CPU: AMD Ryzen 5 7535HS|RAM: 8GB DDR5 Upgradable|Storage: 512GB NVMe Gen4 SSD|GPU: NVIDIA GeForce RTX 2050 4GB|Display: 15.6 inch FHD (1920x1080) IPS 144Hz|OS: Windows 11 Home + OHS 2021">
           <div class="thumb">LOQ 15"</div>
           <h3>Lenovo LOQ 15</h3>
           <div class="meta">
@@ -310,8 +564,8 @@
             <span class="price-tag" data-price="13999000"></span>
           </div>
           <div style="display:flex;gap:.5rem;flex-wrap:wrap">
-            <a class="btn small brand add-wa" href="#">Beli via WA</a>
-            <a class="btn small ghost" href="#kontak">Tanya Stok</a>
+            <a class="btn small brand add-wa" href="#">Tanya Stock via WA</a>
+            <a href="#" class="btn small ghost detail-btn">Detail</a>
           </div>
         </article>
       </div>
@@ -324,20 +578,34 @@
   </section>
 
   <!-- ULASAN -->
-  <section id="ulasan" class="section">
+  <section id="ulasan" class="section reaveal">
     <div class="container">
       <h2>Ulasan Pelanggan</h2>
-      <p class="lead">Cuplikan testimoni — Anda bisa minta screenshot asli via WhatsApp.</p>
-      <div class="cards">
-        <div class="card"><p>“Install ulang rapi, laptop jadi ngebut. Dikasih edukasi perawatan juga. Mantap!”</p><small>— R., Dago</small></div>
-        <div class="card"><p>“Upgrade SSD + RAM sekalian bersih-bersih. Hasilnya signifikan, garansi jelas.”</p><small>— N., Antapani</small></div>
-        <div class="card"><p>“Beli laptop baru sekalian set up Office & printer. Siap kerja, hassle-free.”</p><small>— A., Cimahi</small></div>
+      <p class="lead">Testimoni asli dari pelanggan yang sudah merasakan layanan kami.</p>
+      
+      <div class="slider-container">
+        <div class="slider-wrapper">
+          <div class="slider-track">
+            <div class="card"><p>“Servisnya cepat dan hasilnya memuaskan. Laptop saya yang tadinya lemot sekarang jadi ngebut lagi. Recommended!”</p><small>— Budi, Kopo</small></div>
+            <div class="card"><p>“Ganti keyboard di sini pengerjaannya rapi banget. Dikasih garansi pula. Harganya juga transparan dari awal.”</p><small>— Sari, Cibiru</small></div>
+            <div class="card"><p>“Beli laptop gaming dapat rekomendasi yang pas sesuai budget. Dapet bonus install aplikasi juga. Mantap pelayanannya!”</p><small>— Eka, Setiabudi</small></div>
+            <div class="card"><p>“Laptop kena air langsung ditangani dengan baik. Datanya berhasil diselamatkan semua. Terima kasih banyak!”</p><small>— Dedi, Antapani</small></div>
+            <div class="card"><p>“Upgrade SSD dan RAM bikin kerjaan jadi lancar jaya. Prosesnya cuma beberapa jam. Profesional banget.”</p><small>— Fitri, Cimahi</small></div>
+            <div class="card"><p>“Engsel laptop patah, diperbaiki di sini jadi kuat lagi kayak baru. Biayanya jauh lebih murah daripada ganti casing.”</p><small>— Agus, Ujungberung</small></div>
+            <div class="card"><p>“Konsultasi dulu via WhatsApp, responsnya cepat dan ramah. Pas dateng ke toko langsung dikerjain. Top!”</p><small>— Rina, Dago</small></div>
+            <div class="card"><p>“Cleaning daleman laptop plus ganti thermal paste. Suhu laptop jadi adem, performa stabil. Pengerjaan detail.”</p><small>— Gilang, Buahbatu</small></div>
+            <div class="card"><p>“Anak saya butuh laptop buat sekolah, dicarikan yang speknya pas dan harganya masuk akal. Puas banget.”</p><small>— Heni, Pasteur</small></div>
+            <div class="card"><p>“Sudah langganan di sini. Mau servis ringan atau berat, hasilnya selalu oke. Jujur dan bisa dipercaya.”</p><small>— Wawan, Gedebage</small></div>
+          </div>
+        </div>
+        <button class="slider-btn prev" aria-label="Previous Slide">&lt;</button>
+        <button class="slider-btn next" aria-label="Next Slide">&gt;</button>
       </div>
     </div>
   </section>
 
   <!-- FAQ -->
-  <section id="faq" class="section">
+  <section id="faq" class="section reveal">
     <div class="container">
       <h2>Pertanyaan Umum</h2>
       <div class="cards">
@@ -349,7 +617,7 @@
   </section>
 
   <!-- KONTAK -->
-  <section id="kontak" class="section">
+  <section id="kontak" class="section reveal left">
     <div class="container contact">
       <div>
         <h2>Kontak, Lokasi & Jam Buka</h2>
@@ -357,13 +625,13 @@
         <div class="cards" style="grid-template-columns:1fr">
           <div class="card">
             <p><strong>INDOJAVA COMPUTER</strong><br>
-            Jl. Contoh No. 123, Bandung 40111<br>
-            (Ganti alamat asli Anda)</p>
-            <p><strong>Telp/WA:</strong> <a id="wa-number" href="#">0812-3456-7890</a><br>
-            <strong>Jam Buka:</strong> Sen–Sab 10.00–20.00, Min 11.00–18.00</p>
+            Jl. Purnawarman No.13, Babakan Ciamis, Kec. Sumur Bandung, Kota Bandung, Jawa Barat 40117<br>
+            Istana Bandung Electronik Centre Lantai 1 Blok D 07, </p>
+            <p><strong>Telp/WA:</strong> <a id="wa-number" href="#">085157919957</a><br>
+            <strong>Jam Buka:</strong> Senin–Minggu 11.00–19.00 WIB</p>
             <div style="display:flex;gap:.6rem;flex-wrap:wrap">
               <a id="cta-wa-kontak" class="btn brand" href="#">Chat WhatsApp</a>
-              <a class="btn ghost" href="tel:+6281234567890">Telepon</a>
+              <a class="btn ghost" href="tel:+6285157919957">Telepon</a>
               <a class="btn ghost" href="#katalog">Minta Rekomendasi</a>
             </div>
           </div>
@@ -372,28 +640,46 @@
       <div>
         <!-- Ganti src embed peta sesuai lokasi toko Anda -->
         <iframe class="map" loading="lazy" allowfullscreen referrerpolicy="no-referrer-when-downgrade"
-          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d31636.560000!2d107.603!3d-6.914!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e64!2sBandung!5e0!3m2!1sid!2sid!4v1700000000000">
+          src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3960.8560094410127!2d107.60637407454078!3d-6.907815667604243!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e68e63809042ff5%3A0xd0b77c1a717fefb9!2sIndojava%20Computer%20%7C%7C%20ATMCOM!5e0!3m2!1sid!2sid!4v1762209367574!5m2!1sid!2sid">
         </iframe>
       </div>
     </div>
   </section>
 
+  <!-- Product Detail Modal -->
+  <div id="product-modal" class="modal-overlay">
+    <div class="modal-content">
+      <button id="modal-close-btn" class="modal-close">&times;</button>
+      <div class="modal-body">
+        <div id="modal-thumb" class="modal-thumb">
+          <img id="modal-img" src="" alt="Product Image">
+        </div>
+        <div class="modal-details reveal right">
+          <h3 id="modal-title">Nama Produk</h3>
+          <p><strong>Spesifikasi Lengkap:</strong></p>
+          <p id="modal-specs">Detail spesifikasi akan muncul di sini.</p>
+          <div id="modal-price" class="price-tag" style="font-size: 1.2rem; margin-top: 1rem;"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <footer>
     <div class="container" style="display:flex;justify-content:space-between;gap:1rem;flex-wrap:wrap">
       <div>© <span id="year"></span> INDOJAVA COMPUTER • Service & Jual Laptop</div>
-      <div>
-        <a href="#layanan">Layanan</a> ·
-        <a href="#harga">Harga</a> ·
-        <a href="#katalog">Katalog</a> ·
-        <a href="#kontak">Kontak</a>
+      <div class="social-links">
+        <a href="https://instagram.com/indojavacom" target="_blank" rel="noopener"><img src="img/assets/instagram.png" alt="Instagram"></a>
+        <a href="" target="_blank" rel="noopener"><img src="img/assets/tik-tok.png" alt="TikTok"></a>
+        <a href="https://www.facebook.com/laptopbekasbdg" target="_blank" rel="noopener"><img src="img/assets/facebook.png" alt="Facebook"></a>
+        <a href="https://wa.me/6285157919957" target="_blank" rel="noopener"><img src="img/assets/whatsapp.png" alt="WhatsApp"></a>
       </div>
     </div>
   </footer>
 
-  <!-- WA FLOAT -->
+  <!-- WA FLOAT 
   <div class="wa-float">
     <a id="cta-wa-float" class="btn brand" href="#">WhatsApp Sekarang</a>
-  </div>
+  </div> -->
 
   <!-- Structured Data -->
   <script type="application/ld+json">
@@ -401,7 +687,7 @@
     "@context": "https://schema.org",
     "@type": "LocalBusiness",
     "name": "INDOJAVA COMPUTER",
-    "image": "https://dummyimage.com/800x450/0ea5e9/ffffff&text=ISTANA+BEC+JUARA",
+    "image": "https://dummyimage.com/800x450/0ea5e9/ffffff&text=INDOJAVA+COMPUTER",
     "description": "Service laptop & penjualan laptop baru bergaransi di Bandung.",
     "address": {"@type":"PostalAddress","streetAddress":"Jl. Contoh No.123","addressLocality":"Bandung","postalCode":"40111","addressCountry":"ID"},
     "telephone": "+6285157919957",
@@ -411,79 +697,253 @@
   </script>
 
   <script>
-    // ====== KONFIGURASI CEPAT (GANTI NOMOR WA & PESAN) ======
-    const WA_NUMBER = '+6285157919957'; // ganti ke nomor WhatsApp Anda
-    const WA_NAMA_TOKO = 'INDOJAVA COMPUTER';
+        // ====== KONFIGURASI CEPAT (GANTI NOMOR WA & PESAN) ======
+        const WA_NUMBER = '+6285157919957'; // ganti ke nomor WhatsApp Anda
+        const WA_NAMA_TOKO = 'INDOJAVA COMPUTER';
+    
+        // ====== UTIL ======
+        const rp = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
+        const waLink = (text) => `https://wa.me/${WA_NUMBER.replace(/\D/g,'')}?text=${encodeURIComponent(text)}`;
+    
+        // ====== INIT ======
+        document.getElementById('year').textContent = new Date().getFullYear();
+    
+        // Set nomor WA clickable
+        const waA = document.getElementById('wa-number');
+        if (waA) waA.href = waLink(`Halo ${WA_NAMA_TOKO}, saya ingin tanya layanan & harga.`);
+    
+        // Format harga produk
+        document.querySelectorAll('.price-tag[data-price]').forEach(el=>{
+          const val = Number(el.getAttribute('data-price'))||0;
+          el.textContent = rp(val);
+        });
+    
+        // CTA Umum
+        const setCta = (id, msg) => {
+          const el = document.getElementById(id);
+          if (el) el.href = waLink(msg);
+        };
+        setCta('cta-wa-top', 'Halo, saya mau servis/beli laptop. Bisa bantu?');
+        setCta('cta-wa-harga', 'Halo, saya ingin tanya estimasi biaya servis.');
+        setCta('cta-wa-katalog', 'Halo, minta rekomendasi laptop baru sesuai budget & kebutuhan.');
+        setCta('cta-wa-kontak', 'Halo, saya ingin konsultasi & buat janji.');
+        setCta('cta-wa-float', 'Halo, Min saya perlu bantuan sekarang.');
+    
+        // Tombol WA per produk
+        document.querySelectorAll('.add-wa').forEach(btn=>{
+          btn.addEventListener('click', e=>{
+            e.preventDefault();
+            const card = btn.closest('.product');
+            const name = card?.dataset.name || 'Laptop';
+            const price = Number(card?.dataset.price||0);
+            const text = `Halo ${WA_NAMA_TOKO}, saya minat ${name} (${rp(price)}). Apakah stok tersedia?`;
+            window.open(waLink(text),'_blank');
+          });
+        });
+    
+        // Filter katalog
+        const pills = document.querySelectorAll('.pill');
+        const catalog = document.getElementById('catalog');
+        const search = document.getElementById('search');
+    
+        const applyFilter = () => {
+          const active = document.querySelector('.pill.active')?.dataset.filter || 'all';
+          const q = (search.value||'').toLowerCase();
+          catalog.querySelectorAll('.product').forEach(p=>{
+            const tags = p.dataset.tags||'';
+            const name = (p.dataset.name||'').toLowerCase();
+            const brand = (p.dataset.brand||'').toLowerCase();
+            const text = (p.textContent||'').toLowerCase();
+            const tagPass = (active==='all') || tags.includes(active) || brand===active;
+            const qPass = !q || name.includes(q) || brand.includes(q) || text.includes(q);
+            p.style.display = (tagPass && qPass) ? '' : 'none';
+          });
+        };
+    
+        pills.forEach(p=>p.addEventListener('click', ()=>{
+          pills.forEach(x=>x.classList.remove('active'));
+          p.classList.add('active');
+          applyFilter();
+        }));
+        if (pills[0]) pills[0].classList.add('active');
+        search.addEventListener('input', applyFilter);
+    
+        // ====== MODAL LOGIC ======
+        let slideshowInterval = null;
+        const modal = document.getElementById('product-modal');
+        const modalCloseBtn = document.getElementById('modal-close-btn');
+        const modalThumb = document.getElementById('modal-thumb');
+        const modalImg = document.getElementById('modal-img');
+        const modalTitle = document.getElementById('modal-title');
+        const modalSpecs = document.getElementById('modal-specs');
+        const modalPrice = document.getElementById('modal-price');
+    
+        const openModal = (card) => {
+          const name = card.dataset.name || 'Nama Produk';
+          const price = Number(card.dataset.price || 0);
+          const specsData = card.dataset.specs || 'Spesifikasi tidak tersedia.';
+          const formattedSpecs = specsData.split('|').map(spec => `• ${spec.trim()}`).join('\n');
+          
+          modalTitle.textContent = name;
+          modalSpecs.innerText = formattedSpecs;
+          modalPrice.textContent = rp(price);
+    
+          const brand = card.dataset.brand;
+          const imgFolder = card.dataset.imgFolder;
+          const images = (card.dataset.images || '').split(',').filter(img => img.trim() !== '');
+    
+          clearInterval(slideshowInterval);
+    
+          if (images.length > 0 && brand && imgFolder) {
+            const basePath = `img/brand/${brand}/${imgFolder}/`;
+            let currentImageIndex = 0;
+    
+            modalImg.src = basePath + images[currentImageIndex];
+            modalImg.style.display = 'block';
+            modalThumb.style.background = '#0b1220';
+    
+            if (images.length > 1) {
+              slideshowInterval = setInterval(() => {
+                currentImageIndex = (currentImageIndex + 1) % images.length;
+                modalImg.src = basePath + images[currentImageIndex];
+              }, 3000);
+            }
+          } else {
+            modalImg.style.display = 'none';
+            modalThumb.style.background = 'linear-gradient(135deg,#0b1220,#0f172a)';
+            modalThumb.textContent = card.querySelector('.thumb')?.textContent || 'IMG';
+          }
+    
+          modal.classList.add('show');
+        };
+    
+        const closeModal = () => {
+          modal.classList.remove('show');
+          clearInterval(slideshowInterval);
+        };
+    
+        document.querySelectorAll('.detail-btn').forEach(btn => {
+          btn.addEventListener('click', (e) => {
+            e.preventDefault();
+            const card = btn.closest('.product');
+            if (card) openModal(card);
+          });
+        });
+    
+        if(modalCloseBtn) modalCloseBtn.addEventListener('click', closeModal);
+        if(modal) modal.addEventListener('click', (e) => {
+          if (e.target === modal) closeModal();
+        });
+    
+        // ====== Review Slider Logic ======
+        const sliderContainer = document.querySelector('.slider-container');
+        if (sliderContainer) {
+          const track = sliderContainer.querySelector('.slider-track');
+          const prevBtn = sliderContainer.querySelector('.slider-btn.prev');
+          const nextBtn = sliderContainer.querySelector('.slider-btn.next');
+          let autoSlideInterval;
+    
+          const initSlider = () => {
+            const cards = Array.from(track.children);
+            if (cards.length === 0) return;
+    
+            let currentIndex = 0;
+            let cardWidth = cards[0].offsetWidth;
+            let gap = parseFloat(getComputedStyle(track).gap) || 0;
+            let totalCardWidth = cardWidth + gap;
+            let visibleCards = Math.floor(sliderContainer.offsetWidth / totalCardWidth);
+    
+            const updateSlider = () => {
+              track.style.transform = `translateX(-${currentIndex * totalCardWidth}px)`;
+              prevBtn.style.display = currentIndex === 0 ? 'none' : 'flex';
+              nextBtn.style.display = currentIndex >= cards.length - visibleCards ? 'none' : 'flex';
+            };
+    
+            const moveToNext = () => {
+              if (currentIndex < cards.length - visibleCards) {
+                currentIndex++;
+              } else {
+                currentIndex = 0; // Loop back to start
+              }
+              updateSlider();
+            };
+    
+            const moveToPrev = () => {
+              if (currentIndex > 0) {
+                currentIndex--;
+                updateSlider();
+              }
+            };
+    
+            const startAutoSlide = () => {
+              stopAutoSlide();
+              autoSlideInterval = setInterval(moveToNext, 5000);
+            };
+    
+            const stopAutoSlide = () => clearInterval(autoSlideInterval);
+    
+            nextBtn.addEventListener('click', moveToNext);
+            prevBtn.addEventListener('click', moveToPrev);
+            sliderContainer.addEventListener('mouseenter', stopAutoSlide);
+            sliderContainer.addEventListener('mouseleave', startAutoSlide);
+            window.addEventListener('resize', () => { // Recalculate on resize
+                cardWidth = cards[0].offsetWidth;
+                gap = parseFloat(getComputedStyle(track).gap) || 0;
+                totalCardWidth = cardWidth + gap;
+                visibleCards = Math.floor(sliderContainer.offsetWidth / totalCardWidth);
+                updateSlider();
+            });
+    
+            updateSlider();
+            startAutoSlide();
+          };
+    
+          // Use a small timeout to ensure layout is calculated
+          setTimeout(initSlider, 150);
+        }
+    
+        // ====== General Page Load Inits ======
+        const initThumbnails = () => {
+          document.querySelectorAll('.product[data-images]').forEach(card => {
+            const brand = card.dataset.brand;
+            const imgFolder = card.dataset.imgFolder;
+            const images = (card.dataset.images || '').split(',').filter(img => img.trim() !== '');
+            const thumbDiv = card.querySelector('.thumb');
+    
+            if (thumbDiv && images.length > 0 && brand && imgFolder) {
+              const basePath = `img/brand/${brand}/${imgFolder}/`;
+              const firstImage = images[0];
+              thumbDiv.innerHTML = `<img src="${basePath + firstImage}" alt="${card.dataset.name || 'Product'}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 12px;">`;
+            }
+          });
+        };
+    
+        initThumbnails();
+        applyFilter();
+        // ====== DARK/LIGHT MODE ======
+const themeToggle = document.getElementById('theme-toggle');
+const currentTheme = localStorage.getItem('theme') || 'dark';
+if (currentTheme === 'light') document.body.classList.add('light');
 
-    // ====== UTIL ======
-    const rp = n => new Intl.NumberFormat('id-ID',{style:'currency',currency:'IDR',maximumFractionDigits:0}).format(n);
-    const waLink = (text) => https://wa.me/${WA_NUMBER.replace(/\D/g,'')}?text=${encodeURIComponent(text)};
+themeToggle.textContent = document.body.classList.contains('light') ? '☀️' : '🌙';
 
-    // ====== INIT ======
-    document.getElementById('year').textContent = new Date().getFullYear();
+themeToggle.addEventListener('click', () => {
+  document.body.classList.toggle('light');
+  const isLight = document.body.classList.contains('light');
+  localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  themeToggle.textContent = isLight ? '☀️' : '🌙';
+});
+const reveals = document.querySelectorAll('.reveal');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('show');
+      observer.unobserve(entry.target);
+    }
+  });
+}, { threshold: 0.15 });
+reveals.forEach(r => observer.observe(r));
 
-    // Set nomor WA clickable
-    const waA = document.getElementById('wa-number');
-    if (waA) waA.href = waLink(Halo ${WA_NAMA_TOKO}, saya ingin tanya layanan & harga.);
-
-    // Format harga produk
-    document.querySelectorAll('[data-price]').forEach(el=>{
-      const val = Number(el.getAttribute('data-price'))||0;
-      el.textContent = rp(val);
-    });
-
-    // CTA Umum
-    const setCta = (id, msg) => {
-      const el = document.getElementById(id);
-      if (el) el.href = waLink(msg);
-    };
-    setCta('cta-wa-top', 'Halo, saya mau servis/beli laptop. Bisa bantu?');
-    setCta('cta-wa-harga', 'Halo, saya ingin tanya estimasi biaya servis.');
-    setCta('cta-wa-katalog', 'Halo, minta rekomendasi laptop baru sesuai budget & kebutuhan.');
-    setCta('cta-wa-kontak', 'Halo, saya ingin konsultasi & buat janji.');
-    setCta('cta-wa-float', 'Halo, Min saya perlu bantuan sekarang.');
-
-    // Tombol WA per produk
-    document.querySelectorAll('.add-wa').forEach(btn=>{
-      btn.addEventListener('click', e=>{
-        e.preventDefault();
-        const card = btn.closest('.product');
-        const name = card?.dataset.name || 'Laptop';
-        const price = Number(card?.dataset.price||0);
-        const text = Halo ${WA_NAMA_TOKO}, saya minat ${name} (${rp(price)}). Apakah stok tersedia?;
-        window.open(waLink(text),'_blank');
-      });
-    });
-
-    // Filter katalog
-    const pills = document.querySelectorAll('.pill');
-    const catalog = document.getElementById('catalog');
-    const search = document.getElementById('search');
-
-    const applyFilter = () => {
-      const active = document.querySelector('.pill.active')?.dataset.filter || 'all';
-      const q = (search.value||'').toLowerCase();
-      catalog.querySelectorAll('.product').forEach(p=>{
-        const tags = p.dataset.tags||'';
-        const name = (p.dataset.name||'').toLowerCase();
-        const brand = (p.dataset.brand||'').toLowerCase();
-        const text = (p.textContent||'').toLowerCase();
-        const tagPass = (active==='all') || tags.includes(active) || brand===active;
-        const qPass = !q || name.includes(q) || brand.includes(q) || text.includes(q);
-        p.style.display = (tagPass && qPass) ? '' : 'none';
-      });
-    };
-
-    pills.forEach(p=>p.addEventListener('click', ()=>{
-      pills.forEach(x=>x.classList.remove('active'));
-      p.classList.add('active');
-      applyFilter();
-    }));
-    if (pills[0]) pills[0].classList.add('active');
-    search.addEventListener('input', applyFilter);
-
-    // Lazy simple: apply once at start
-    applyFilter();
-  </script>
+      </script>
 </body>
 </html>
