@@ -20,6 +20,14 @@ $appxApps = @(
   "Microsoft.PowerToys",
   "Microsoft.VisualStudio.2022.Community",
   "Notepad++.Notepad++",
+  "TeamViewer.TeamViewer",
+  "voidtools.Everything",
+  "REALiX.HWiNFO",
+  "Brave.Brave",
+  "Brio.FolderSize",
+  "Git.Git",
+  "Microsoft.Office",
+  "Python.Python.3.11",
   "GitHub.GitHubDesktop"
 
 )
