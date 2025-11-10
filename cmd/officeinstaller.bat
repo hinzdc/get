@@ -965,7 +965,7 @@ $xamlinput = @'
             <RadioButton x:Name="radioButtonVietnamese" Content="Vietnamese" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
             <RadioButton x:Name="radioButtonHindi" Content="Hindi" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
         </StackPanel>
-        <Button x:Name="buttonSubmit" Content="SUBMIT" 
+        <Button x:Name="buttonSubmit" Content="INSTALL" 
             Width="118" Height="59" 
             FontSize="15" FontWeight="Bold" HorizontalAlignment="Left" 
             Margin="989,381,0,0" VerticalAlignment="Top"
@@ -978,7 +978,7 @@ $xamlinput = @'
         </Button>
 
         <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,384,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
-        <TextBox x:Name="textbox"  Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik SUBMIT." Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,406,0,0" FontFamily="Consolas" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
+        <TextBox x:Name="textbox"  Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="218" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,406,0,0" FontFamily="Consolas" FontSize="11" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Background="{x:Null}" BorderBrush="{x:Null}" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
         <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
             <Hyperlink NavigateUri="https://hinzdc.xyz">hinzdc.xyz</Hyperlink>
         </Label>
@@ -1129,6 +1129,27 @@ $timer.Add_Tick({
             }
         }
         
+        function Create-Shortcuts {
+            $desk=[Environment]::GetFolderPath('Desktop')
+            $shell=New-Object -ComObject WScript.Shell
+            $apps=@(
+                @{p="C:\Program Files\Microsoft Office\root\Office16\WINWORD.EXE";n="Word"},
+                @{p="C:\Program Files\Microsoft Office\root\Office16\EXCEL.EXE";n="Excel"},
+                @{p="C:\Program Files\Microsoft Office\root\Office16\POWERPNT.EXE";n="PowerPoint"}
+                )
+            foreach($a in $apps){
+                if(Test-Path $a.p){
+                    $s=$shell.CreateShortcut("$desk\$($a.n).lnk")
+                    $s.TargetPath=$a.p
+                    $s.WorkingDirectory=(Split-Path $a.p)
+                    $s.Description=$a.n
+                    $s.Save()
+                    Write-Host "> Shortcut Created on Desktop: $($a.n)" -ForegroundColor Green
+                }
+            }
+            Start-Sleep 3
+        }
+        
         Write-VerboseDebug "Downloading the $($sync.productName)"
         Write-VerboseDebug "Mode: $($sync.mode)"
         Write-VerboseDebug "Configuration file: $($sync.configurationFile)"
@@ -1149,10 +1170,13 @@ $timer.Add_Tick({
         # Bring back our Button, set the Label and ProgressBar, we're done..
         $sync.Form.Dispatcher.Invoke([action] { $sync.image.Visibility = "Hidden" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Visibility = 'Visible' })
-        $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Content = 'SUBMIT' })
+        $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Content = 'INSTALL' })
+        Create-Shortcuts
+        $sync.Form.Dispatcher.Invoke([action] { $sync.textbox.Text = "$($sync.UIstatus) Created Shortcuts to Desktop" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.textbox.Text = "$($sync.UIstatus) Completed" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.IsIndeterminate = $false })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.Value = '100' })
+
 
         Write-VerboseDebug "Done. You can close this window now."
         Write-Host " Done. You can close this window now."
@@ -1717,7 +1741,7 @@ function UpdateButtonState {
 
         $sync.Form.Dispatcher.Invoke([action] { $sync.image.Visibility = "Hidden" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Visibility = 'Visible' })
-        $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Content = 'SUBMIT' })
+        $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Content = 'INSTALL' })
         $sync.Form.Dispatcher.Invoke([action] { $sync.textbox.Text = "Uninstall Completed" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.textboxlog.Text = "" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.IsIndeterminate = $false })
