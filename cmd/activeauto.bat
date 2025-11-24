@@ -133,8 +133,6 @@ function Show-AuroraIntro {
 
 Show-AuroraIntro
 clear-host
-$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 42)
-$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 42)
 
 $ProgressPreference = 'SilentlyContinue'
 Add-Type @"
@@ -254,6 +252,9 @@ function Write-TypeWord {
     Write-Host -NoNewline " "
     $Host.UI.RawUI.ForegroundColor = $orig
 }
+mode con cols=90 lines=42
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 42)
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 42)
 
 Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
@@ -795,7 +796,7 @@ try {
     # Jalankan perintah slmgr.vbs untuk mendapatkan status aktivasi
     $SlmgrXpr = cscript /Nologo "C:\Windows\System32\slmgr.vbs" /xpr 2>&1
 
-    Write-TypeWord "   // Windows Activation Status //`n" "white" 20
+    Write-TypeWord "    // Windows Activation Status //`n" "white" 20
     Start-Sleep -seconds 2
 
     # Ubah hasil output menjadi string
@@ -822,14 +823,14 @@ try {
     
     # Cek status aktivasi dan tampilkan pesan yang sesuai
     if ($hookActivationStatus -match "Ohook Office aktivasi tidak ditemukan") {
-        Write-TypeWord "   // Office Activation Status //`n" "White" 20
+        Write-TypeWord "    // Office Activation Status //`n" "White" 20
         Start-Sleep -seconds 2
         Write-TypeWord "   Ohook Office aktivasi tidak ditemukan. Silakan lakukan proses aktivasi lagi.`n" "Red" 15
         Write-TypeWord "   Pastikan Microsoft Office sudah terinstall. Dan tidak ada aktivator jenis lain.`n" "Red" 15
         Write-Host "Jika masih gagal disable sementara antivirus selain Windows Defender. Dan silakan jalankan lagi scriptnya." -BackgroundColor Red -ForegroundColor White
     }
     elseif ($hookActivationStatus -match "Ohook for permanent Office activation is installed") {
-        Write-TypeWord "   // Office Activation Status //`n" "white" 20
+        Write-TypeWord "    // Office Activation Status //`n" "white" 20
         Start-Sleep -seconds 2
         Write-TypeWord "   Ohook for permanent Office activation is installed`n" "Green" 5
         Start-Sleep -seconds 2
@@ -872,7 +873,7 @@ Write-Host " TO EXIT:" -NoNewLine
 $shell = New-Object -ComObject WScript.Shell
 # Menampilkan pesan popup
 $shell.Popup("AKTIVASI WINDOWS DAN OFFICE PERMANEN SUDAH SELESAI..", 15, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
-$shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
+#$shell.Popup("JANGAN LUPA BAHAGIA, DAN TERSENYUM.. :)", 10, "OLIH X SARGA ~// -- INDOJAVA ONLINE") | Out-Null
 Read-Host
 #-----------------------------------------------------------------------------------------
 Start-Process powershell -ArgumentList "-NoExit", "-Command & {
