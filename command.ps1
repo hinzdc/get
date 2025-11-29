@@ -35,26 +35,26 @@ try {
 
 # --- Predefined Data ---
 $Commands = @(
-    [pscustomobject]@{ Label = 'Menampilkan semua list ini'; Texts = @('iex(irm indojava.online/get/command)') },
-    [pscustomobject]@{ Label = 'Activator Otomatis Windows & Office 2013, 2016, 2019, 2021, 2024, 365 Permanent'; Texts = @('iex(irm indojava.online/get/activeauto)') },
-    [pscustomobject]@{ Label = 'Activator Office 2013, 2016, 2019, 2021, 2024, 365 - Permanent'; Texts = @('iex(irm indojava.online/get/activeoffice)') },
-    [pscustomobject]@{ Label = 'Activator Windows Permanent Digital License'; Texts = @('iex(irm indojava.online/get/activewindows)') },
-    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'; Texts = @('iex(irm indojava.online/get/activeofficekms)') },
-    [pscustomobject]@{ Label = 'Activator Windows sampai tahun 2038 - KMS38'; Texts = @('iex(irm indojava.online/get/activewindowskms38)') },
-    [pscustomobject]@{ Label = 'Install Office 2013, 2016, 2019, 2021, 2024, 365'; Texts = @('iex(irm indojava.online/get/installoffice)') },
-    [pscustomobject]@{ Label = 'Office Scrub / Uninstal dan Force Remove'; Texts = @('iex(irm indojava.online/get/officescrub)', 'iex(irm indojava.online/get/officesrubber)') },
-    [pscustomobject]@{ Label = 'Windows Update Contol - Disable/Enable, Pause And Reset Windows Update'; Texts = @('iex(irm indojava.online/get/windowsupdate)') },
-    [pscustomobject]@{ Label = 'Remove or Disable Windows Defender (Turn off readltime Protection before execute)'; Texts = @('iex(irm indojava.online/get/def)', 'iex(irm indojava.online/get/def2)') },
-    [pscustomobject]@{ Label = 'Fix corrupted file system & restore health'; Texts = @('iex(irm indojava.online/get/fixos)') },
-    [pscustomobject]@{ Label = 'Virus Removal Tool - Remove viruses, malware, and other threats from your PC'; Texts = @('iex(irm indojava.online/get/virusremoval)') },
-    [pscustomobject]@{ Label = 'Tweaks Registry'; Texts = @('iex(irm indojava.online/get/tweaks)') },
-    [pscustomobject]@{ Label = 'Debloater - Remove Default App'; Texts = @('iex(irm indojava.online/get/removeappx)') },
-    [pscustomobject]@{ Label = 'AMD Support - Driver AMD Installer'; Texts = @('iex(irm indojava.online/get/amdsupport)') },
-    [pscustomobject]@{ Label = 'Block Host - Disable Internet From Activation Detection adobe, autocad, corel etc.'; Texts = @('iex(irm indojava.online/get/blockhost)') },
-    [pscustomobject]@{ Label = 'Reset Network - Reset seluruh konfigurasi untuk internet, LAN atau wifi bermasalah'; Texts = @('iex(irm indojava.online/get/resetnetwork)') },
-    [pscustomobject]@{ Label = 'Infector Check - cek kerusakan system kana antivirus'; Texts = @('iex(irm indojava.online/get/infectorcheck)') },
-    [pscustomobject]@{ Label = 'Winget - Force Install Winget'; Texts = @('iex(irm indojava.online/get/fixos)') },
-    [pscustomobject]@{ Label = 'Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus'; Texts = @('iex(irm indojava.online/get/ForeceRemove)') }
+    [pscustomobject]@{ Label = 'Menampilkan semua list ini'; Texts = @('iex(irm command.indojava.online)') },
+    [pscustomobject]@{ Label = 'Activator Otomatis Windows & Office 2013, 2016, 2019, 2021, 2024, 365 Permanent'; Texts = @('iex(irm activeauto.indojava.online') },
+    [pscustomobject]@{ Label = 'Activator Office 2013, 2016, 2019, 2021, 2024, 365 - Permanent'; Texts = @('iex(irm activeoffice.indojava.online)') },
+    [pscustomobject]@{ Label = 'Activator Windows Permanent Digital License'; Texts = @('iex(irm activewindows.indojava.online)') },
+    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'; Texts = @('iex(irm kms.indojava.online)') },
+    [pscustomobject]@{ Label = 'Activator Windows sampai tahun 2038 - KMS38'; Texts = @('iex(irm kms38.indojava.online)') },
+    [pscustomobject]@{ Label = 'Install Office 2013, 2016, 2019, 2021, 2024, 365'; Texts = @('iex(irm office.indojava.online)') },
+    [pscustomobject]@{ Label = 'Office Scrub / Uninstal dan Force Remove'; Texts = @('iex(irm officescrub.indojava.online)', 'iex(irm officescrubber.indojava.online)') },
+    [pscustomobject]@{ Label = 'Windows Update Contol - Disable/Enable, Pause And Reset Windows Update'; Texts = @('iex(irm windowsupdate.indojava.online)') },
+    [pscustomobject]@{ Label = 'Remove or Disable Windows Defender (Turn off readltime Protection before execute)'; Texts = @('iex(irm defender.indojava.online)', 'iex(irm defender2.indojava.online)') },
+    [pscustomobject]@{ Label = 'Fix corrupted file system & restore health'; Texts = @('iex(irm fixos.indojava.online)') },
+    [pscustomobject]@{ Label = 'Virus Removal Tool - Remove viruses, malware, and other threats from your PC'; Texts = @('iex(irm indojava.online)') },
+    [pscustomobject]@{ Label = 'Tweaks Registry'; Texts = @('iex(irm tweaks.indojava.online)') },
+    [pscustomobject]@{ Label = 'Debloater - Remove Default App'; Texts = @('iex(irm debloat.indojava.online)') },
+    [pscustomobject]@{ Label = 'AMD Support - Driver AMD Installer'; Texts = @('iex(irm amdsupport.indojava.online)') },
+    [pscustomobject]@{ Label = 'Block Host - Disable Internet From Activation Detection adobe, autocad, corel etc.'; Texts = @('iex(irm blockhost.indojava.online)') },
+    [pscustomobject]@{ Label = 'Reset Network - Reset seluruh konfigurasi untuk internet, LAN atau wifi bermasalah'; Texts = @('iex(irm resetnetwork.indojava.online)') },
+    #[pscustomobject]@{ Label = 'Infector Check - cek kerusakan system kana antivirus'; Texts = @('iex(irm indojava.online/get/infectorcheck)') },
+    [pscustomobject]@{ Label = 'Winget - Force Install Winget'; Texts = @('iex(irm winget.indojava.online)') }
+    #[pscustomobject]@{ Label = 'Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus'; Texts = @('iex(irm indojava.online/get/ForeceRemove)') }
 )
 
 # --- GUI Construction ---
