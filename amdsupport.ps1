@@ -33,7 +33,7 @@ $driverFile = "$tempDir\AMDDriver.exe"
 
 # Membuat folder sementara
 if (-Not (Test-Path -Path $tempDir)) {
-    New-Item -ItemType Directory -Path $tempDir
+    New-Item -ItemType Directory -Path $tempDir | Out-Null
 }
 
 # Mendapatkan URL file terbaru dari halaman AMD
@@ -55,28 +55,43 @@ try {
         $driverURL = "https://drivers.amd.com" + $driverURL
     }
 
-    Write-Output " + URL file driver terbaru ditemukan: $driverURL"
+    Write-Host " + URL file driver terbaru ditemukan" -foreground Green
 } catch {
-    Write-Error "Gagal mengakses atau memproses halaman unduhan. Periksa koneksi internet atau URL halaman."
+    Write-Host "Gagal mengakses atau memproses halaman unduhan. Periksa koneksi internet atau URL halaman." -foreground Red
     exit 1
 }
 
+$driverFilename = [System.IO.Path]::GetFileName($driverURL)
+
 # Mendownload file driver
-Write-Output " + Mengunduh driver dari $driverURL..."
+Write-Output " + Mengunduh driver $driverFilename..."
 try {
     # Mengunduh file driver dengan menambahkan header untuk referer
     Invoke-WebRequest -Uri $driverURL -OutFile $driverFile -UseBasicParsing -Headers @{ "Referer" = $pageURL }
     Write-Output " + Driver berhasil diunduh: $driverFile"
 } catch {
-    Write-Error "Gagal mengunduh file driver. Periksa URL atau koneksi internet Anda."
+    Write-Host "Gagal mengunduh file driver. Periksa URL atau koneksi internet Anda." -foreground Red
     exit 1
 }
 
 # Menjalankan instalasi driver
 Write-Output " + Menjalankan instalasi driver..."
 try {
+    sc.exe config wuauserv start= disabled
+    sc.exe config usosvc start= disabled
+    sc.exe config bits start= disabled
+    Stop-Service wuauserv -Force
+    Stop-Service usosvc -Force
+    Stop-Service bits -Force
+    Stop-Process -Name "MoUsoCoreWorker" -Force -ErrorAction SilentlyContinue
+
     Start-Process -FilePath $driverFile -ArgumentList "/silent" -Wait
     Write-Output " + Driver berhasil diinstal."
+
+    sc.exe config wuauserv start= demand
+    sc.exe config usosvc start= demand
+    sc.exe config bits start= demand
+    Start-Service wuauserv
 } catch {
     Write-Error "Gagal menginstal driver."
     exit 1
