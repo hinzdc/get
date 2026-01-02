@@ -236,6 +236,63 @@ $h = $rect.Bottom - $rect.Top
 # Pindahkan jendela ke posisi baru tanpa mengubah ukuran
 [Win32Functions.Win32]::MoveWindow($hwnd, 50, 10, $w, $h, $true)
 
+# HILANGKAN TITLE BAR + SEMUA TOMBOL
+public class WinAPI {
+    [DllImport("user32.dll")]
+    public static extern IntPtr GetForegroundWindow();
+
+    [DllImport("user32.dll", SetLastError=true)]
+    public static extern int GetWindowLong(IntPtr hWnd, int nIndex);
+
+    [DllImport("user32.dll")]
+    public static extern int SetWindowLong(IntPtr hWnd, int nIndex, int dwNewLong);
+
+    [DllImport("user32.dll")]
+    public static extern bool SetWindowPos(
+        IntPtr hWnd,
+        IntPtr hWndInsertAfter,
+        int X, int Y, int cx, int cy,
+        uint uFlags
+    );
+
+    public const int GWL_STYLE = -16;
+
+    public const int WS_CAPTION      = 0x00C00000;
+    public const int WS_SYSMENU      = 0x00080000;
+    public const int WS_MINIMIZEBOX  = 0x00020000;
+    public const int WS_MAXIMIZEBOX  = 0x00010000;
+
+    public const uint SWP_NOMOVE     = 0x0002;
+    public const uint SWP_NOSIZE     = 0x0001;
+    public const uint SWP_FRAMECHANGED = 0x0020;
+}
+"@
+
+Start-Sleep -Milliseconds 300
+
+$hWnd = [WinAPI]::GetForegroundWindow()
+
+$style = [WinAPI]::GetWindowLong($hWnd, [WinAPI]::GWL_STYLE)
+
+# HILANGKAN title bar + semua tombol
+$newStyle = $style `
+    -band (-bnot [WinAPI]::WS_CAPTION) `
+    -band (-bnot [WinAPI]::WS_SYSMENU) `
+    -band (-bnot [WinAPI]::WS_MINIMIZEBOX) `
+    -band (-bnot [WinAPI]::WS_MAXIMIZEBOX)
+
+[WinAPI]::SetWindowLong($hWnd, [WinAPI]::GWL_STYLE, $newStyle)
+
+# Refresh window
+[WinAPI]::SetWindowPos(
+    $hWnd,
+    [IntPtr]::Zero,
+    0,0,0,0,
+    [WinAPI]::SWP_NOMOVE -bor
+    [WinAPI]::SWP_NOSIZE -bor
+    [WinAPI]::SWP_FRAMECHANGED
+)
+
 #-----------------------------------------------------------------------------------------
 function Write-TypeWord {
     param(
