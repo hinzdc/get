@@ -613,9 +613,9 @@ $xamlinput = @'
         <GroupBox x:Name="groupBoxMicrosoftOffice" Header="." Foreground="Transparent" BorderThickness="0" BorderBrush="Transparent" Background="{DynamicResource CanvasColor}" Margin="135,10,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Height="458" Width="1000" FontFamily="Consolas" FontSize="11">
             <Canvas HorizontalAlignment="Left" VerticalAlignment="Top">
                 <!-- Border sebagai background dengan shadow -->
-                <Border Width="135" Height="81" Background="{DynamicResource BorderBackgroud}"
+                <Border Width="135" Height="101" Background="{DynamicResource BorderBackgroud}"
                     CornerRadius="10"
-                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
                     Canvas.Left="9" Canvas.Top="20">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
@@ -629,10 +629,11 @@ $xamlinput = @'
                     Background="#E53935" Canvas.Left="23" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="23" Canvas.Top="35" HorizontalAlignment="Left" VerticalAlignment="Center">
-                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Home" Content="Home" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                <StackPanel Orientation="Vertical" Canvas.Left="23" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Personal" Content="Personal" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Business" Content="Business" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Enterprise" Content="Enterprise" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton365Home" Content="Home Premium" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
 
                 <!-- Border sebagai background dengan shadow -->
@@ -652,9 +653,8 @@ $xamlinput = @'
                     Background="#FB8C00" Canvas.Left="168" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="40" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
-                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024ProjectStd" Content="Project Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024VisioPro" Content="Visio Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
@@ -665,6 +665,7 @@ $xamlinput = @'
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Outlook" Content="Outlook" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Access" Content="Access" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Publisher" Content="Publisher" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
+                    <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024Home" Content="Home" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024HomeStudent" Content="Home &amp; Student" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2024HomeBusiness" Content="Home &amp; Business" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                 </StackPanel>
@@ -680,12 +681,12 @@ $xamlinput = @'
 
                 <!-- Label -->
                 <Label x:Name="Label2021" Style="{StaticResource LabelWithBgShadow}" Content="Office 2021" FontWeight="Bold"
-                    HorizontalAlignment="Left" VerticalAlignment="Center"
+                    HorizontalAlignment="Center" VerticalAlignment="Top"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="#FF3C10DE" Canvas.Left="336" Canvas.Top="11"/>
+                    Background="#FF3C10DE" Canvas.Left="336" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="336" Canvas.Top="42" HorizontalAlignment="Left" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" Canvas.Left="336" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2021ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
@@ -720,7 +721,7 @@ $xamlinput = @'
                     Margin="503,8,0,0"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="503" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Canvas.Left="503" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2019ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
@@ -754,7 +755,7 @@ $xamlinput = @'
                     Background="DarkSlateBlue" Canvas.Left="672" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Pro" Content="Professional Plus" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2016ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
@@ -787,7 +788,7 @@ $xamlinput = @'
                     Background="#7b24d3" Canvas.Left="840" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
-                <StackPanel Orientation="Vertical" Canvas.Left="840" Canvas.Top="38" HorizontalAlignment="Center" VerticalAlignment="Top">
+                <StackPanel Orientation="Vertical" Canvas.Left="840" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Pro" Content="Professional" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013Std" Content="Standard" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
                     <RadioButton GroupName="OfficeSKU" x:Name="radioButton2013ProjectPro" Content="Project Pro" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
@@ -812,7 +813,7 @@ $xamlinput = @'
                 <Border Width="136" Height="120" Background="{DynamicResource BorderBackgroud}"
                     CornerRadius="10"
                     HorizontalAlignment="Center" VerticalAlignment="Top"
-                    Canvas.Left="8" Canvas.Top="135">
+                    Canvas.Left="8" Canvas.Top="149">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
@@ -822,25 +823,25 @@ $xamlinput = @'
                 <Label x:Name="LabelRemoveAll" Style="{StaticResource LabelWithBgShadow}" Content="Remove All Apps" FontWeight="Bold"
                     Foreground="White" Background="#D32F2F"
                     Padding="8,4,8,4"
-                    HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="19" Canvas.Top="125"/>
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Canvas.Left="19" Canvas.Top="139"/>
 
                 <!-- RadioButton -->
                 <RadioButton x:Name="radioButtonRemoveAllApp" Content="I Agree (Caution!)" 
                     FontFamily="Consolas" FontSize="10" Foreground="{DynamicResource TextColor}"
                     VerticalContentAlignment="Center" 
-                    IsChecked="False" Canvas.Left="20" Canvas.Top="155" HorizontalAlignment="Center" VerticalAlignment="Top"/>
+                    IsChecked="False" Canvas.Left="20" Canvas.Top="169" HorizontalAlignment="Center" VerticalAlignment="Top"/>
 
                 <!-- TextBlock sebagai informasi -->
                 <TextBlock x:Name="textBoxRemoveAll" TextWrapping="Wrap"
                     Text="*This option removes all installed Office apps." 
                     FontSize="10" Foreground="#FFED551B"
                     FontWeight="Bold"
-                    HorizontalAlignment="Center" VerticalAlignment="Top" Width="134" Canvas.Left="10" Canvas.Top="273" Visibility="Visible"/>
+                    HorizontalAlignment="Center" VerticalAlignment="Top" Width="134" Canvas.Left="10" Canvas.Top="276" Visibility="Visible"/>
 
                 <Button x:Name="buttonRemoveAll" Content="Remove All"
                     Width="110" Height="27" BorderBrush="{x:Null}"
                     FontSize="10" HorizontalAlignment="Center"
-                    Canvas.Left="20" Canvas.Top="178" VerticalAlignment="Top"
+                    Canvas.Left="20" Canvas.Top="192" VerticalAlignment="Top"
                     Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                     ToolTipService.ShowDuration="5000" 
                     ToolTipService.InitialShowDelay="500">
@@ -851,10 +852,10 @@ $xamlinput = @'
                 <Button x:Name="buttonScrub" Content="Scrub All"
                     Width="110" Height="26" BorderBrush="{x:Null}"
                     FontSize="10"
-                    Canvas.Left="20" Canvas.Top="213"
+                    Canvas.Left="20" Canvas.Top="227"
                     Style="{StaticResource RedButtonStyle}" Cursor="Hand"
                     ToolTipService.ShowDuration="5000" 
-                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Left" VerticalAlignment="Center">
+                    ToolTipService.InitialShowDelay="500" HorizontalAlignment="Center" VerticalAlignment="Top">
                     <Button.ToolTip>
                         <ToolTip Content="Klik untuk mengapus semua aplikasi Office yang terinstall." />
                     </Button.ToolTip>
@@ -976,8 +977,8 @@ $xamlinput = @'
                 <ToolTip Content="Klik untuk mengaktivasi Office secara permanen." />
             </Button.ToolTip>
         </Button>
-        <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,384,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
-        <TextBox Name="textboxLog" Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="218" Height="45" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,406,0,0" FontFamily="Consolas" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="hidden" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
+        <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,381,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
+        <TextBox Name="textboxLog" Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="218" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,401,0,0" FontFamily="Consolas" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="hidden" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
         <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
             <Hyperlink NavigateUri="https://indojava.online">indojava.online</Hyperlink>
         </Label>
@@ -998,7 +999,7 @@ $xamlinput = @'
             <RadioButton x:Name="radioButtonInstall" Content="Install" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0" IsChecked="True"/>
             <RadioButton x:Name="radioButtonDownload" Content="Download" FontFamily="Consolas" Foreground="{DynamicResource TextColor}" Margin="0,5,0,0"/>
         </StackPanel>
-        
+
     </Grid>
 </Window>
 
@@ -1178,41 +1179,42 @@ $timer.Add_Tick({
             if ($radioButtonInstall.IsChecked) {$mode = '/configure'; $UIstatus = 'Installing'}
 
         # For Microsoft 365
-            if ($radioButton365Home.IsChecked -eq $true) {$productId = "O365HomePremRetail"; $productName = 'Microsoft 365 Home'; $i++}
+            if ($radioButton365Home.IsChecked -eq $true) {$productId = "O365HomePremRetail"; $productName = 'Microsoft 365 Home Premium'; $i++}
             if ($radioButton365Business.IsChecked -eq $true) {$productId = "O365BusinessRetail"; $productName = 'Microsoft 365 Apps for Business'; $i++}
             if ($radioButton365Enterprise.IsChecked -eq $true) {$productId = "O365ProPlusRetail"; $productName = 'Microsoft 365 Apps for Enterprise'; $i++}
+            if ($radioButton365Personal.IsChecked -eq $true) {$productId = "O365PersonalRetail"; $productName = 'Microsoft 365 Personal'; $i++}
 
         # For Office 2024
-            if ($radioButton2024Pro.IsChecked -eq $true) {$productId = "ProPlus2024$licType"; $productName = 'Microsoft 365 and Office Professional LTSC 2024'; $i++}
-            if ($radioButton2024Std.IsChecked -eq $true) {$productId = "Standard2024$licType"; $productName = 'Office 2024 Standard LTSC'; $i++}
+            if ($radioButton2024Pro.IsChecked -eq $true) {$productId = "ProPlus2024$licType"; $productName = 'Microsoft 365 and Office Professional 2024'; $i++}
             if ($radioButton2024ProjectPro.IsChecked -eq $true) {$productId = "ProjectPro2024$licType"; $productName = 'Project Pro 2024'; $i++}
             if ($radioButton2024ProjectStd.IsChecked -eq $true) {$productId = "ProjectStd2024$licType"; $productName = 'Project Standard 2024'; $i++}
             if ($radioButton2024VisioPro.IsChecked -eq $true) {$productId = "VisioPro2024$licType"; $productName = 'Visio Pro 2024'; $i++}
             if ($radioButton2024VisioStd.IsChecked -eq $true) {$productId = "VisioStd2024$licType"; $productName = 'Visio Standard 2024'; $i++}
-            if ($radioButton2024Word.IsChecked -eq $true) {$productId = "Word2024$licType"; $productName = 'Microsoft Word LTSC 2024'; $i++}
-            if ($radioButton2024Excel.IsChecked -eq $true) {$productId = "Excel2024$licType"; $productName = 'Microsoft Excel LTSC 2024'; $i++}
-            if ($radioButton2024PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2024$licType"; $productName = 'Microsoft PowerPoint LTSC 2024'; $i++}
-            if ($radioButton2024Outlook.IsChecked -eq $true) {$productId = "Outlook2024$licType"; $productName = 'Microsoft Outlook LTSC 2024'; $i++}
-            if ($radioButton2024Publisher.IsChecked -eq $true) {$productId = "Publisher2024$licType"; $productName = 'Microsoft Publisher LTSC 2024'; $i++}
-            if ($radioButton2024Access.IsChecked -eq $true) {$productId = "Access2024$licType"; $productName = 'Microsoft Access LTSC 2024'; $i++}
+            if ($radioButton2024Word.IsChecked -eq $true) {$productId = "Word2024$licType"; $productName = 'Microsoft Word 2024'; $i++}
+            if ($radioButton2024Excel.IsChecked -eq $true) {$productId = "Excel2024$licType"; $productName = 'Microsoft Excel 2024'; $i++}
+            if ($radioButton2024PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2024$licType"; $productName = 'Microsoft PowerPoint 2024'; $i++}
+            if ($radioButton2024Outlook.IsChecked -eq $true) {$productId = "Outlook2024$licType"; $productName = 'Microsoft Outlook 2024'; $i++}
+            if ($radioButton2024Publisher.IsChecked -eq $true) {$productId = "Publisher2024$licType"; $productName = 'Microsoft Publisher 2024'; $i++}
+            if ($radioButton2024Access.IsChecked -eq $true) {$productId = "Access2024$licType"; $productName = 'Microsoft Access 2024'; $i++}
+            if ($radioButton2024Home.IsChecked -eq $true) {$productId = "Home2024$licType"; $productName = 'Office 2024 Home'; $i++}
             if ($radioButton2024HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2024Retail"; $productName = 'Office HomeBusiness 2024'; $i++}
-            if ($radioButton2024HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2024Retail"; $productName = 'Office HomeStudent LTSC 2024'; $i++}
+            if ($radioButton2024HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2024Retail"; $productName = 'Office HomeStudent 2024'; $i++}
 
         # For Office 2021
-            if ($radioButton2021Pro.IsChecked -eq $true) {$productId = "ProPlus2021$licType"; $productName = 'Microsoft Office Professional LTSC 2021'; $i++}
+            if ($radioButton2021Pro.IsChecked -eq $true) {$productId = "ProPlus2021$licType"; $productName = 'Microsoft Office Professional 2021'; $i++}
             if ($radioButton2021Std.IsChecked -eq $true) {$productId = "Standard2021$licType"; $productName = 'Office 2021 Standard LTSC'; $i++}
             if ($radioButton2021ProjectPro.IsChecked -eq $true) {$productId = "ProjectPro2021$licType"; $productName = 'Project Pro 2021'; $i++}
             if ($radioButton2021ProjectStd.IsChecked -eq $true) {$productId = "ProjectStd2021$licType"; $productName = 'Project Standard 2021'; $i++}
             if ($radioButton2021VisioPro.IsChecked -eq $true) {$productId = "VisioPro2021$licType"; $productName = 'Visio Pro 2021'; $i++}
             if ($radioButton2021VisioStd.IsChecked -eq $true) {$productId = "VisioStd2021$licType"; $productName = 'Visio Standard 2021'; $i++}
-            if ($radioButton2021Word.IsChecked -eq $true) {$productId = "Word2021$licType"; $productName = 'Microsoft Word LTSC 2021'; $i++}
-            if ($radioButton2021Excel.IsChecked -eq $true) {$productId = "Excel2021$licType"; $productName = 'Microsoft Excel LTSC 2021'; $i++}
-            if ($radioButton2021PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2021$licType"; $productName = 'Microsoft PowerPoint LTSC 2021'; $i++}
-            if ($radioButton2021Outlook.IsChecked -eq $true) {$productId = "Outlook2021$licType"; $productName = 'Microsoft Outlook LTSC 2021'; $i++}
-            if ($radioButton2021Publisher.IsChecked -eq $true) {$productId = "Publisher2021$licType"; $productName = 'Microsoft Publisher LTSC 2021'; $i++}
-            if ($radioButton2021Access.IsChecked -eq $true) {$productId = "Access2021$licType"; $productName = 'Microsoft Access LTSC 2021'; $i++}
+            if ($radioButton2021Word.IsChecked -eq $true) {$productId = "Word2021$licType"; $productName = 'Microsoft Word 2021'; $i++}
+            if ($radioButton2021Excel.IsChecked -eq $true) {$productId = "Excel2021$licType"; $productName = 'Microsoft Excel 2021'; $i++}
+            if ($radioButton2021PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2021$licType"; $productName = 'Microsoft PowerPoint 2021'; $i++}
+            if ($radioButton2021Outlook.IsChecked -eq $true) {$productId = "Outlook2021$licType"; $productName = 'Microsoft Outlook 2021'; $i++}
+            if ($radioButton2021Publisher.IsChecked -eq $true) {$productId = "Publisher2021$licType"; $productName = 'Microsoft Publisher 2021'; $i++}
+            if ($radioButton2021Access.IsChecked -eq $true) {$productId = "Access2021$licType"; $productName = 'Microsoft Access 2021'; $i++}
             if ($radioButton2021HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2021Retail"; $productName = 'Office HomeBusiness 2021'; $i++}
-            if ($radioButton2021HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2021Retail"; $productName = 'Office HomeStudent LTSC 2021'; $i++}
+            if ($radioButton2021HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2021Retail"; $productName = 'Office HomeStudent 2021'; $i++}
 
         # For Office 2019
             if ($radioButton2019Pro.IsChecked -eq $true) {$productId = "ProPlus2019$licType"; $productName = 'Microsoft Office 2019 Professional Plus'; $i++}
@@ -1448,9 +1450,19 @@ $timer.Add_Tick({
         $psAct.BeginInvoke() | Out-Null
     })
 
+#-----------------------------------------------------------------------------------------------------------------
+##### Office Scrubber (abbodi1406) 
 
-    # Uninstall all installed Microsoft Office apps.
-    $UninstallOffice = {
+    $OfficeScrubberUrl  = "https://raw.githubusercontent.com/abbodi1406/BatUtil/refs/heads/master/OfficeScrubber/OfficeScrubberAIO.cmd"
+    $OfficeScrubberFile = "OfficeScrubberAIO.cmd"
+
+    $ScrubeOffice = {
+        param(
+            [string]$WorkingDir,
+            [string]$Url,
+            [string]$FileName
+        )
+
         # Helper to append messages to the log textbox
         function Log-ToUI {
             param([string]$Message)
@@ -1461,7 +1473,8 @@ $timer.Add_Tick({
         }
 
         $sync.Form.Dispatcher.Invoke([action] { 
-            $sync.textboxLog.Text = "Starting Office uninstallation..."
+            $sync.textboxLog.Text = "Starting Office Scrubbing..."
+            start-sleep -Seconds 2
             $sync.buttonSubmit.Visibility = "Hidden"
             $sync.buttonActivate.Visibility = "Hidden"
             $sync.buttonRemoveAll.IsEnabled = $false
@@ -1470,53 +1483,98 @@ $timer.Add_Tick({
             $sync.ProgressBar.IsIndeterminate = $true
             $sync.image.Visibility = "Visible"
         })
+        # Pastikan folder kerja
+        New-Item -Path $WorkingDir -ItemType Directory -Force | Out-Null
+        Set-Location -Path $WorkingDir
 
-        # Tentukan lokasi setup.exe untuk versi baru dan lama
-        $SetupNew = "$env:TEMP\ClickToRun\setup.exe"
-        $SetupOld = "$env:TEMP\ClickToRun\setupold.exe"
+        $cmdPath = Join-Path $WorkingDir $FileName
 
-        # URL untuk mengunduh Office Deployment Tool yang sesuai
-        $UrlNew = "https://github.com/hinzdc/get/raw/main/office/bin/setup.exe"
-        $UrlOld = "https://github.com/hinzdc/get/raw/main/office/bin/bin2013.exe"
+        # Download (fallback BITS jika perlu)
+        log-ToUI "Downloading Office Scrubber from"
+        try {
+            Invoke-WebRequest -Uri $Url -OutFile $cmdPath -UseBasicParsing -ErrorAction Stop
+        } catch {
+            Start-BitsTransfer -Source $Url -Destination $cmdPath -ErrorAction Stop
+        }
 
-        # Fungsi untuk mengunduh setup.exe jika belum ada
-        function Download-Setup {
-            param (
-                [string]$Url,
-                [string]$Destination
-            )
-            if (!(Test-Path $Destination)) {
-                Log-ToUI "Downloading uninstall tool..."
-                Log-ToUI "URL: $Url"
-                try {
-                    # Ensure the destination directory exists before downloading
-                    $destDir = Split-Path -Path $Destination -Parent
-                    if (!(Test-Path $destDir)) {
-                        Log-ToUI "Creating destination directory: $destDir"
-                        New-Item -Path $destDir -ItemType Directory -Force | Out-Null
+        try { Unblock-File -Path $cmdPath -ErrorAction SilentlyContinue } catch {}
+
+        if (!(Test-Path $cmdPath)) {
+            log-ToUI "Download gagal: $cmdPath tidak ditemukan."
+            throw "Download gagal: $cmdPath tidak ditemukan."
+        }
+        log-ToUI "Executing Office Scrubber..."
+        log-ToUI "Scrubbing Office apps..."
+        log-ToUI "This may take 10 to 30 minutes.`nPlease wait..."
+        # Jalankan: OfficeScrubberAIO.cmd /C /P
+        Start-Process -FilePath "cmd.exe" `
+            -ArgumentList "/c `"$cmdPath`" /C /P" `
+            -WorkingDirectory $WorkingDir `
+            -Wait `
+            -WindowStyle Hidden
+
+        # Final UI update
+        $sync.Form.Dispatcher.Invoke([action] { 
+            $sync.image.Visibility = "Hidden"
+            $sync.buttonSubmit.Visibility = 'Visible'
+            $sync.buttonRemoveAll.IsEnabled = $true
+            $sync.buttonScrub.IsEnabled = $true
+            $sync.ProgressBar.IsIndeterminate = $false
+            $sync.ProgressBar.Value = 100
+            $sync.textboxLog.AppendText("`nOffice Scrubbing Completed.")
+            $sync.textboxLog.ScrollToEnd()
+        })
+    }
+
+    $buttonScrub.Add_Click({
+
+        if (-not $radioButtonRemoveAllApp.IsChecked) {
+            # ganti dengan snackbar/toast versi kamu
+            [System.Windows.MessageBox]::Show("Pilih dulu opsi 'I Agree'.", "Office Scrubber")
+            return
+        }
+
+        $workingDir = Join-Path $env:TEMP "ClickToRun"
+        New-Item -Path $workingDir -ItemType Directory -Force | Out-Null
+
+        # kalau kamu pakai $sync untuk status UI:
+        $sync.workingDir = $workingDir
+        $sync.scrubUrl   = $OfficeScrubberUrl
+
+        # Jalankan di runspace background (modelmu)
+        $PSIinstance = [powershell]::Create().AddScript($ScrubeOffice).AddArgument($workingDir).AddArgument($OfficeScrubberUrl).AddArgument($OfficeScrubberFile).AddArgument($true)
+        $PSIinstance.Runspace = $runspace
+        $null = $PSIinstance.BeginInvoke()
+    })
+#-----------------------------------------------------------------------------------------------------------------
+# Uninstall all installed Microsoft Office apps.
+    $UninstallOffice = {
+
+        # Helper to append messages to the log textbox
+        function Log-ToUI {
+            param([string]$Message)
+            $sync.Form.Dispatcher.Invoke([action]{
+                $sync.textboxLog.AppendText("`n$Message")
+                $sync.textboxLog.ScrollToEnd()
+            })
+        }
+
+
+        # Hentikan proses Office yang berjalan
+        Function Stop-OfficeProcess {
+            Log-ToUI "Stopping running Office applications..."
+            Stop-Service -Name "Clicktorunsvc" -Force -ErrorAction SilentlyContinue
+            $OfficeProcessesArray = "OfficeClickToRun", "OfficeC2RClient", "officesvcmgr", "lync", "winword", "excel", "msaccess", "mstore", "infopath", "setlang", "msouc", "ois", "onenote", "outlook", "powerpnt", "mspub", "groove", "visio", "winproj", "graph", "teams"
+            foreach ($ProcessName in $OfficeProcessesArray) {
+                if (Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) {
+                    if (Stop-Process -Name $ProcessName -Force -ErrorAction SilentlyContinue) {
+                        Log-ToUI "Process $ProcessName stopped."
                     }
-
-                    # Set security protocol and use Invoke-WebRequest with a longer timeout and standard User-Agent
-                    [Net.ServicePointManager]::SecurityProtocol = [Net.SecurityProtocolType]::Tls12
-                    $userAgent = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/107.0.0.0 Safari/537.36"
-                    Invoke-WebRequest -Uri $Url -OutFile $Destination -TimeoutSec 300 -UserAgent $userAgent -ErrorAction Stop
-                    Log-ToUI "Download successful."
-                } catch {
-                    $errorMessage = $_.Exception.Message
-                    Log-ToUI "ERROR: Download failed.`nError: $errorMessage"
-                    # Stop the process and show error in UI
-                    $sync.Form.Dispatcher.Invoke([action] {
-                        $sync.textboxLog.Foreground = [System.Windows.Media.Brushes]::Red
-                        $sync.textboxLog.Text = "Download failed. Cannot proceed.`nSee log for details."
-                        $sync.ProgressBar.IsIndeterminate = $false
-                        $sync.image.Visibility = "Hidden"
-                        $sync.buttonRemoveAll.IsEnabled = $true
-                        $sync.buttonScrub.IsEnabled = $true
-                    })
-                    return $false # Indicate failure
-                }
+                    else {
+                        Log-ToUI "Warning: Process $ProcessName could not be stopped."
+                    }
+                } 
             }
-            return $true # Indicate success
         }
 
         # Fungsi untuk mendeteksi versi Office yang terinstal
@@ -1544,62 +1602,6 @@ $timer.Add_Tick({
 
             return $DetectedVersions | Select-Object -Unique
         }
-        
-        # Hentikan proses Office yang berjalan
-        Function Stop-OfficeProcess {
-            Log-ToUI "Stopping running Office applications..."
-            Stop-Service -Name "Clicktorunsvc" -Force -ErrorAction SilentlyContinue
-            $OfficeProcessesArray = "OfficeClickToRun", "OfficeC2RClient", "officesvcmgr", "lync", "winword", "excel", "msaccess", "mstore", "infopath", "setlang", "msouc", "ois", "onenote", "outlook", "powerpnt", "mspub", "groove", "visio", "winproj", "graph", "teams"
-            foreach ($ProcessName in $OfficeProcessesArray) {
-                if (Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) {
-                    if (Stop-Process -Name $ProcessName -Force -ErrorAction SilentlyContinue) {
-                        Log-ToUI "Process $ProcessName stopped."
-                    }
-                    else {
-                        Log-ToUI "Warning: Process $ProcessName could not be stopped."
-                    }
-                } 
-            }
-        }
-
-        # Fungsi untuk menjalankan uninstalasi
-        function Uninstall-Office {
-            param (
-                [string]$SetupPath,
-                [string]$ConfigFile,
-                [string]$VersionString
-            )
-            Log-ToUI "Starting uninstallation for Office $VersionString..."
-            if (Test-Path $SetupPath) {
-                # Correctly formatted argument list
-                $Argument = "/configure ""$ConfigFile"""
-                Log-ToUI "Executing: $SetupPath $Argument"
-                
-                # Start the process and capture its exit code
-                $process = Start-Process -FilePath $SetupPath -ArgumentList $Argument -Wait -NoNewWindow -PassThru
-                
-                # Log the result
-                Log-ToUI "Uninstallation process finished with exit code: $($process.ExitCode)."
-                
-                # Check for common error codes from Office setup
-                if ($process.ExitCode -ne 0) {
-                    Log-ToUI "WARNING: Setup.exe exited with a non-zero code. Uninstallation may be incomplete."
-                }
-            } else {
-                Log-ToUI "ERROR: Setup file not found: $SetupPath"
-                # Stop the process and show error in UI
-                $sync.Form.Dispatcher.Invoke([action] {
-                    $sync.textboxLog.Foreground = [System.Windows.Media.Brushes]::Red
-                    $sync.textboxLog.Text = "Uninstall failed: Tool not found."
-                    $sync.ProgressBar.IsIndeterminate = $false
-                    $sync.image.Visibility = "Hidden"
-                    $sync.buttonRemoveAll.IsEnabled = $true
-                    $sync.buttonScrub.IsEnabled = $true
-                })
-                return $false
-            }
-            return $true
-        }
 
         # Hapus folder dan registry
         function Remove-OfficeFoldersAndRegistry {
@@ -1608,10 +1610,10 @@ $timer.Add_Tick({
             Start-Sleep -Seconds 3
 
             try {
-                Log-ToUI "Cleaning up Office folders and registry..."
+                Log-ToUI "Cleaning up Office folders and registry.."
                 $folders = @(
                     "$env:PROGRAMFILES\Microsoft Office 15", "$env:PROGRAMFILES\Common Files\Microsoft Office 15", "$env:PROGRAMFILES\Common Files\Microsoft Office 16",
-                    "$env:PROGRAMFILES\Common Files\microsoft shared\ClickToRun", "$env:PROGRAMFILES(x86)\Microsoft Office 15", "$env:PROGRAMFILES(x86)\Common Files\Microsoft Office 15",
+                    "$env:PROGRAMFILES(x86)\Microsoft Office 15", "$env:PROGRAMFILES(x86)\Common Files\Microsoft Office 15",
                     "$env:PROGRAMFILES(x86)\Common Files\Microsoft Office 16", "$env:PROGRAMFILES(x86)\Microsoft Office\root", "$env:PROGRAMFILES(x86)\Microsoft Office",
                     "$env:PROGRAMFILES\Microsoft Office\root", "$env:PROGRAMFILES\Microsoft Office", "$env:COMMONPROGRAMFILES(x86)\Microsoft Shared\Office*",
                     "$env:COMMONPROGRAMFILES\Microsoft Shared\Office*", "$env:PROGRAMDATA\Microsoft\Office", "$env:PROGRAMDATA\Microsoft\ClickToRun",
@@ -1632,7 +1634,7 @@ $timer.Add_Tick({
                     }
                 }
 
-                Log-ToUI "Removing shortcuts..."
+                Log-ToUI "Removing shortcuts.."
                 $shortcutPaths = @( "$env:PUBLIC\Desktop", "$env:USERPROFILE\Desktop", "$env:ALLUSERSPROFILE\Microsoft\Windows\Start Menu\Programs", "$env:APPDATA\Microsoft\Windows\Start Menu\Programs", "$env:PROGRAMDATA\Microsoft\Windows\Start Menu\Programs" )
                 $shortcuts = @( "Word*.lnk", "Excel*.lnk", "PowerPoint*.lnk", "Outlook*.lnk", "OneNote*.lnk", "Access*.lnk", "Publisher*.lnk", "Visio*.lnk", "Project*.lnk" )
                 foreach ($path in $shortcutPaths) {
@@ -1648,7 +1650,7 @@ $timer.Add_Tick({
                     }
                 }
                 
-                Log-ToUI "Removing registry keys..."
+                Log-ToUI "Removing registry keys.."
                 $registryKeys = @(
                     "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Office", "HKCU:\Software\Microsoft\Office", "HKLM:\SOFTWARE\Microsoft\Office",
                     "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\winword.exe", "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\excel.exe",
@@ -1674,42 +1676,38 @@ $timer.Add_Tick({
             }
         }
 
-        # --- MAIN LOGIC ---
+        $sync.Form.Dispatcher.Invoke([action] { 
+            $sync.textboxLog.Text = "Starting Office uninstallation..."
+            start-sleep -Seconds 2
+            $sync.buttonSubmit.Visibility = "Hidden"
+            $sync.buttonActivate.Visibility = "Hidden"
+            $sync.buttonRemoveAll.IsEnabled = $false
+            $sync.buttonScrub.IsEnabled = $false
+            $sync.ProgressBar.BorderBrush = "#FF707070"
+            $sync.ProgressBar.IsIndeterminate = $true
+            $sync.image.Visibility = "Visible"
+        })
+
         $InstalledVersions = Get-InstalledOfficeVersion
 
         if ($InstalledVersions.Count -eq 0) {
             Log-ToUI "No Microsoft Office installation detected."
             $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "No Office installation found." })
         } else {
-            # Unduh setup jika diperlukan
-            if ("2016-2024" -in $InstalledVersions) {
-                if (-not (Download-Setup -Url $UrlNew -Destination $SetupNew)) { return }
-            }
-            if ("2013" -in $InstalledVersions) {
-                if (-not (Download-Setup -Url $UrlOld -Destination $SetupOld)) { return }
-            }
-
-            # Konfigurasi file XML untuk uninstalasi
-            $ConfigPath = "$env:TEMP\ClickToRun\uninstall_office.xml"
-            $xmlContent = @"
-<Configuration>
-    <Remove All="TRUE" />
-    <RemoveMSI All="TRUE" />
-    <Display Level="None" AcceptEULA="TRUE" />
-</Configuration>
-"@
-            $xmlContent | Out-File -Encoding utf8 -FilePath $ConfigPath
-
-            Stop-OfficeProcess
+            $null = New-Item -Path $env:temp\c2r -ItemType Directory -Force
+            Set-Location $env:temp\c2r
+            $fileName = 'configuration.xml'
+            $null = New-Item $fileName -ItemType File -Force
+            Add-Content $fileName -Value '<Configuration>'
+            Add-Content $fileName -Value '<Remove All="True">'
+            Add-Content $fileName -Value '</Remove>'
+            Add-Content $fileName -Value '</Configuration>'
+            $uri = 'https://github.com/hinzdc/get/raw/main/office/bin/setup.exe'
+            (New-Object Net.WebClient).DownloadFile($uri, "$env:temp\c2r\ClickToRun.exe")
             
-            # Jalankan uninstall berdasarkan versi yang terdeteksi
-            if ("2013" -in $InstalledVersions) {
-                if (-not (Uninstall-Office -SetupPath $SetupOld -ConfigFile $ConfigPath -VersionString "2013")) { return }
-            }
-            if ("2016-2024" -in $InstalledVersions) {
-                if (-not (Uninstall-Office -SetupPath $SetupNew -ConfigFile $ConfigPath -VersionString "2016-2024")) { return }
-            }
-
+            Stop-OfficeProcess
+            Start-Process -FilePath .\ClickToRun.exe -ArgumentList "/configure .\configuration.xml" -NoNewWindow -Wait
+            
             # Hapus folder dan registry setelah uninstalasi
             Remove-OfficeFoldersAndRegistry
             
@@ -1728,63 +1726,26 @@ $timer.Add_Tick({
         })
 
         # Cleanup
-        #Remove-Item "$env:TEMP\ClickToRun" -Recurse -Force -ErrorAction SilentlyContinue
-        #Remove-Item "$env:TEMP\ClickToRun\uninstall_office.xml" -Force -ErrorAction SilentlyContinue
-    }
-
-    $UninstallOfficeScrub = {
-
-        
-    }
-
-    $UninstallOfficeSARA = {
-
-        
+        CleanUpAfterUninstallOffice
+        Set-Location ..
+        Remove-Item ClickToRunU -Recurse -Force
     }
 
     $buttonRemoveAll.Add_Click({
 
-        Write-Host " Uninstalling Microsoft Office.."
         if ($radioButtonRemoveAllApp.IsChecked) {
-            $workingDir = New-Item -Path $env:temp\ClickToRun -ItemType Directory -Force
+            $workingDir = New-Item -Path $env:temp\ClickToRunU -ItemType Directory -Force
             Set-Location $workingDir
             $sync.workingDir = $workingDir
             $sync.uninstall = $uninstall
 
+            
             $PSIinstance = [powershell]::Create().AddScript($UninstallOffice)
             $PSIinstance.Runspace = $runspace
             $PSIinstance.BeginInvoke()
+
         }
     })
-<#
-    $buttonScrub.Add_Click({
-
-        if ($radioButtonRemoveAllApp.IsChecked) {
-            $workingDir = New-Item -Path $env:temp\ClickToRun -ItemType Directory -Force
-            Set-Location $workingDir
-            $sync.workingDir = $workingDir
-            $sync.uninstall = $uninstall
-
-            $PSIinstance = [powershell]::Create().AddScript($UninstallOfficex)
-            $PSIinstance.Runspace = $runspace
-            $PSIinstance.BeginInvoke()
-        }
-    })
-
-    $buttonSARA.Add_Click({
-
-        if ($radioButtonRemoveAllApp.IsChecked) {
-            $workingDir = New-Item -Path $env:temp\ClickToRun -ItemType Directory -Force
-            Set-Location $workingDir
-            $sync.workingDir = $workingDir
-            $sync.uninstall = $uninstall
-
-            $PSIinstance = [powershell]::Create().AddScript($UninstallOfficeSARA)
-            $PSIinstance.Runspace = $runspace
-            $PSIinstance.BeginInvoke()
-        }
-    })
-#>
 $null = $Form.ShowDialog()
 
 function CheckOhook {
@@ -1832,3 +1793,4 @@ Write-Host " TO EXIT:" -NoNewLine
 read-host
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c timeout /t 1 & taskkill /F /IM rundll32.exe /T'
+#http://go.microsoft.com/fwlink/?LinkID=829801

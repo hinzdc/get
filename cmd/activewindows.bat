@@ -103,17 +103,17 @@ function Show-AuroraIntro {
     Write-Host "`n"
 
     # Powered by SARGA X HINZDC
-    Write-ColoredWord "                     P o w e r e d  b y" "yellow" 15
-    Write-ColoredWord "  S A R G A" "Red" 25
+    Write-ColoredWord "                     P o w e r e d  b y" "yellow" 10
+    Write-ColoredWord "  S A R G A" "Red" 20
     Write-ColoredWord "  X" "White" 20
     Write-ColoredWord "  H I N Z D C" "Green" 25
     Start-Sleep -Seconds 1
     Write-Host "`n"
 
     # SALAM SUKSES DAN SEHAT SELALU
-    Write-ColoredWord "                S A L A M  S U K S E S " "Red" 15
-    Write-ColoredWord "  D A N" "Green" 30
-    Write-ColoredWord "  S E H A T  S E L A L U" "Cyan" 30
+    Write-ColoredWord "                S A L A M  S U K S E S " "Red" 10
+    Write-ColoredWord "  D A N" "Green" 20
+    Write-ColoredWord "  S E H A T  S E L A L U" "Cyan" 25
 
     Start-Sleep -Seconds 2
     Write-Host "`n"
@@ -121,10 +121,10 @@ function Show-AuroraIntro {
     Start-Sleep -Milliseconds 800
 
     # Execute message
-    Write-ColoredWord "   EXECUTE" "Blue" 30
-    Write-ColoredWord " CODE" "Red" 30
-    Write-ColoredWord "  >>" "White" 30
-    Write-ColoredWord "  ACTIVEAUTO.BAT  `n`n" "Cyan" 30
+    Write-ColoredWord "   EXECUTE" "Blue" 20
+    Write-ColoredWord " CODE" "Red" 20
+    Write-ColoredWord "  >>" "White" 20
+    Write-ColoredWord "  ACTIVEWINDOWS.BAT  `n`n" "Cyan" 30
     Start-Sleep -seconds 2
     Neon-Pulse "    >> > Processing. . ." "Green" 10 100
     Start-Sleep -Seconds 2
@@ -133,8 +133,6 @@ function Show-AuroraIntro {
 
 Show-AuroraIntro
 clear-host
-$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 42)
-$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 42)
 
 $ProgressPreference = 'SilentlyContinue'
 Add-Type @"
@@ -238,7 +236,11 @@ $h = $rect.Bottom - $rect.Top
 # Pindahkan jendela ke posisi baru tanpa mengubah ukuran
 [Win32Functions.Win32]::MoveWindow($hwnd, 50, 10, $w, $h, $true)
 
+
 # HILANGKAN TITLE BAR + SEMUA TOMBOL
+Add-Type @"
+using System; using System.Runtime.InteropServices;
+
 public class WinAPI {
     [DllImport("user32.dll")]
     public static extern IntPtr GetForegroundWindow();
@@ -312,6 +314,24 @@ function Write-TypeWord {
     $Host.UI.RawUI.ForegroundColor = $orig
 }
 
+function Header {
+  param($Label=" // A U R O R A  T O O L K I T // ", $Center=" ")
+  $w=[Console]::WindowWidth; $Lw=3; $Rw=3
+  $lab=" $Label "; $mid=$w-($Lw+$lab.Length+$Rw); if($mid -lt 1){$mid=1}
+  try{ $curL=[Console]::CursorLeft; $curT=[Console]::CursorTop } catch { $curL=0; $curT=1 }
+  try{ [Console]::SetCursorPosition(0,0) } catch {}
+  Write-Host (" " * $Lw) -NoNewline -ForegroundColor DarkBlue -BackgroundColor white
+  Write-Host $lab -NoNewline -ForegroundColor White -BackgroundColor darkblue
+  Write-Host ($Center.PadRight($mid)) -NoNewline -ForegroundColor Black -BackgroundColor white
+  if($Rw -gt 0){ Write-Host (" " * $Rw) -NoNewline -ForegroundColor White -BackgroundColor darkblue }
+  try{ [Console]::SetCursorPosition($curL,$curT) } catch {}
+}
+
+#-----------------------------------------------------------------------------------------
+mode con cols=90 lines=43
+$Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 43)
+$Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 43)
+
 Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 
@@ -380,91 +400,10 @@ $null = $label, $number, $times
 
 #-----------------------------------------------------------------------------------------
 # Array berisi kata-kata mutiara
-$kataMutiara = @(
-    "Aku talah belajar selama bertahun-tahun bahwa bukan tempat tinggalmu yang penting, melainkan ora-orang yang ada di sekitarmu yang membuatmu merasa di rumah. -J.B. McGee"
-    "Tidak ada yang dapat membunuhmu lebih cepat daripada pikiranmu sendiri. Tetap tenang dan jangan stress atas hal-hal yang berada di luar kendalimu"
-    "Hindari berdebat dengan orang dungu, mereka akan menarikmu ke level mereka kemudian menghancurkanmu dengan pengalaman mereka. - Mark Twain"
-    "Dunia ini hanyalah bayangan, kejar bayangan itu, dan ia akan lari darimu. Tapi berpalinglah dari bayangan itu, maka ia akan mengikutimu."
-    "Jangan menjelaskan tentang dirimu kepada siapapun, karena yang menyukaimu tidak butuh itu. Dan yang membencimu tidak percaya itu."
-    "Dia yang bertanya akan kelihatann bodoh selama 5 menit, tapi dia yang tidak berani bertanya akan bodoh selamanya. - Pepatah Cina"
-    "Apa yang membuatmu begitu takut kehilangan, jika sebenarnya tidak ada satu pun di dunia ini yang benar benar menjadi milikmu?"
-    "aku belajar bahwa setiap manusia akan merasakan kematian, tapi hanya sedikit yang benar-benar merasakan hidup. - Paulo Celho"
-    "Janganlah engkau mengucapkan perkataan yang engkau sendiri tak suka mendengarnya jika orang lain mengucapkannya kepadamu."
-    "Jangan merasa takut dengan rezeki yang tertunda, karena apa yang telah ditetapkan bagimu tidak akan pernah luput darimu."
-    "Jika kmau merasakan sakit, kamu hidup. Jika kamu merasakan sakit orang lain, kamu adalah seorang manusia - Leo Tolstoy."
-    "Ketika hendak melakukan perjalanan, janganlah meminta nasihat dari orang yan tidak pernah meninggalkan rumah. - Rumi"
-    "Apa yang kamu pikirkan tentang dirimu jauh lebih penting daripada apa yang orang lain pikirkan tentangmu. - Seneca"
-    "Ketika seseorang sedang tenggelam, itu bukanlah waktu yang tepat untuk mengajarinya cara berenang. - Pepatah Cina"
-    "Jika segala sesuatu di sekiatar kamu tampak gelap. coba lihat lagi, mungkin kamu yang memancarkan cahaya. - Rumi"
-    "Barangsiapa yang memperbaiki hubungannya dengan Allah, maka Allah akan memperbaiki hubungannya dengan manusia."
-    "Permasalahan dunia adalah orang cerdas penuh keraguan, dan orang bodoh penuh percaya diri. - Bertrand Russell"
-    "Jangan melibatkan hatimu dalam kesedihan atas masa lalu atau kamu tidak akan siap untuk apa yang akan datang."
-    "Kebodohan adalah penyakit yang paling mematikan, karena penderitanya tidak sadar sedang sakit. - Sokrates"
-    " Kemarin aku pintar, jadi aku ingin mengubah dunia. Hari ini aku bijak, jadi aku mengubah diriku sendiri."
-    "Hanya butuh 2 tahun untuk belajar berbicara dan enam puluh tahun untuk belajar diam. - Ernest Hemingway"
-    "Lebih mudah untuk menipu seseorang daripada meyakinkan mereka bahwa mereka telah ditipu. - Mark Twain"
-    "Sibodoh berdoa untuk jalan yang mudah, si bijak berdoa diberikan kaki yang kuat. - Pepatah Tiongkok"
-    "Hiduplah seakan-akan kamu akan mati besok. Belajarlah seakan-akan kamu akan hidup untuk selamanya."
-    "Terkadang, yang terbaik bukanlah mendapatkan semua jawaban, tetapi menikmati proses pencariannya."
-    "Banyak orang menjadi tidak menarik setelah kamu mengetahui cara berpikir mereka. - Damian Marley"
-    "Dalam hidup, kamu akan mendapatkan teman, tetapi hanya satu yang sejati di saat-saat terburukmu."
-    "Tidak ada yang bisa didapatkan tanpa kehilangan. Bahkan Surga menuntut kematian. - The Eagle"
-    "Hiduplah seolah-olah kamu akan mati besok. Belajarlah seolah-olah kamu akan hidup selamanya."
-    "Berbahagialah dengan apa yang Allah takdirkan, karena itu adalah pilihan terbaik untukmu."
-    "Semakin panjang penjelasan, semakin besar kebohongan yang disembunyikan. - George Orwell"
-    "Orang kuat bukan yang pandai bergulat, tetapi yang mampu mengendalikan diri saat marah."
-    "Barangsiapa menyalakan api fitnah, maka dia sendiri yang akan menjadi bahan bakarnya."
-    "Jangan pernah berhenti belajar, karena kehidupan tidak pernah berhenti mengajarkan."
-    "Apa gunanya mengkhawatirkan sesuatu yang sudak tak terhindarkan - Hayao Miyazaki"
-    "Jangan gunakan ketajaman kata-katamu pada ibumu yang mengajarimu cara berbicara."
-    "Hujan turun sebelum pelangi muncul. Begitu juga kesulitan sebelum kebahagiaan."
-    "Waktu adalah pedang; jika kamu tidak memanfaatkannya, maka ia akan memotongmu."
-    "Satu-satunya hal yang lebih buruk daripada gagal adalah tidak pernah mencoba."
-    "Kesalahan terburuk kita adalah ketertarikan kita pada kesalahan orang lain."
-    "Jangan lihat siapa yang berbicara, tetapi lihatlah apa yang dia bicarakan."
-    "Cara untuk memulai adalah dengan berhenti berbicara dan mulai melakukan."
-    "Hidupmu dibentuk oleh pikiranmu. Apa yang kamu pikirkan, itulah dirimu."
-    "Jangan biarkan kegagalan hari ini membuatmu berhenti mencoba esok hari."
-    "Keajaiban terjadi ketika kamu berani melangkah keluar dari zona nyaman."
-    "Tidak peduli seberapa lambat kamu berjalan selama kamu tidak berhenti."
-    "Jangan pernah menunda untuk besok apa yang bisa kamu lakukan hari ini."
-    "Kualitas hidupmu ditentukan oleh kualitas pertanyaan yang kamu ajukan."
-    "Ilmu itu seperti air, ia hanya mengalir ke tempat yang rendah hati."
-    "Hal-hal baik membutuhkan waktu, jadi bersikaplah positif dan sabar."
-    "Sebaik-baik manusia adalah yang paling bermanfaat bagi orang lain."
-    "Kemarahan dimulai dengan kegilaan dan berakhir dengan penyesalan."
-    "Jangan bandingkan awal perjalananmu dengan pencapaian orang lain."
-    "Saya cukup pintar untuk tahu bahwa saya bodoh. - Richard Feynman"
-    "Jika rencanamu gagal, ubah rencanamu. Tapi jangan ubah tujuanmu."
-    "Barang siapa mengenal dirinya, maka ia akan mengenal Tuhannya."
-    "Kenyataan tidak pernah sebaik imajinasimu. - Pepatah Jepang"
-    "Orang sukses tidak lebih pintar, mereka hanya lebih gigih."
-    "Balas dendam terbaik adalah menjadikan dirimu lebih baik."
-    "Berhenti bermimpi, mulailah bekerja dan kejar impianmu."
-    "Keberhasilan datang dari keyakinan pada diri sendiri."
-    "Jangan berhenti mencoba, jangan pernah menyerah."
-    "Hidup itu naik turun, nikmati perjalanannya."
-    "Jangan bandingkan dirimu dengan orang lain."
-    "Cintai dirimu sebelum mencintai orang lain."
-    "Kebahagiaan datang dari hati yang tenang."
-    "Kamu lebih kuat dari yang kamu pikirkan."
-    "Bahagia itu sederhana, bersyukur saja."
-    "Perubahan dimulai dari langkah kecil."
-    "Kebahagiaan sejati datang dari dalam."
-    "Tidak ada jalan pintas menuju puncak."
-    "Keajaiban terjadi saat kamu percaya."
-    "Hidup hanya sekali, jadikan berarti."
-    "Mulai dari sekarang, jangan menunda."
-    "Kunci kebahagiaan adalah bersyukur."
-    "Fokus pada solusi, bukan masalah."
-    "Jangan hanya berlari, melesatlah."
-    "Jadilah cahaya dalam kegelapan."
-    "Jadilah versi terbaik dirimu."
-    "Percayalah pada prosesnya."
-)
+$url = "https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/quotes.txt"
 
-# Mengambil satu kata mutiara secara acak
-$kataAcak = Get-Random -InputObject $kataMutiara
+$quotes = (Invoke-RestMethod $url -UseBasicParsing) -split "`n"
+$kataAcak = $quotes | Get-Random
 
 function WrapTextToFitWidth {
     param (

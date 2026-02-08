@@ -103,17 +103,17 @@ function Show-AuroraIntro {
     Write-Host "`n"
 
     # Powered by SARGA X HINZDC
-    Write-ColoredWord "                     P o w e r e d  b y" "yellow" 15
-    Write-ColoredWord "  S A R G A" "Red" 25
+    Write-ColoredWord "                     P o w e r e d  b y" "yellow" 10
+    Write-ColoredWord "  S A R G A" "Red" 20
     Write-ColoredWord "  X" "White" 20
     Write-ColoredWord "  H I N Z D C" "Green" 25
     Start-Sleep -Seconds 1
     Write-Host "`n"
 
     # SALAM SUKSES DAN SEHAT SELALU
-    Write-ColoredWord "                S A L A M  S U K S E S " "Red" 15
-    Write-ColoredWord "  D A N" "Green" 30
-    Write-ColoredWord "  S E H A T  S E L A L U" "Cyan" 30
+    Write-ColoredWord "                S A L A M  S U K S E S " "Red" 10
+    Write-ColoredWord "  D A N" "Green" 20
+    Write-ColoredWord "  S E H A T  S E L A L U" "Cyan" 25
 
     Start-Sleep -Seconds 2
     Write-Host "`n"
@@ -121,9 +121,9 @@ function Show-AuroraIntro {
     Start-Sleep -Milliseconds 800
 
     # Execute message
-    Write-ColoredWord "   EXECUTE" "Blue" 30
-    Write-ColoredWord " CODE" "Red" 30
-    Write-ColoredWord "  >>" "White" 30
+    Write-ColoredWord "   EXECUTE" "Blue" 20
+    Write-ColoredWord " CODE" "Red" 20
+    Write-ColoredWord "  >>" "White" 20
     Write-ColoredWord "  ACTIVEAUTO.BAT  `n`n" "Cyan" 30
     Start-Sleep -seconds 2
     Neon-Pulse "    >> > Processing. . ." "Green" 10 100
@@ -236,9 +236,9 @@ $h = $rect.Bottom - $rect.Top
 # Pindahkan jendela ke posisi baru tanpa mengubah ukuran
 [Win32Functions.Win32]::MoveWindow($hwnd, 50, 10, $w, $h, $true)
 
+# HILANGKAN TITLE BAR + SEMUA TOMBOL
 Add-Type @"
-using System;
-using System.Runtime.InteropServices;
+using System; using System.Runtime.InteropServices;
 
 public class WinAPI {
     [DllImport("user32.dll")]
@@ -296,7 +296,6 @@ $newStyle = $style `
     [WinAPI]::SWP_FRAMECHANGED
 )
 
-
 #-----------------------------------------------------------------------------------------
 function Write-TypeWord {
     param(
@@ -332,7 +331,6 @@ mode con cols=90 lines=43
 $Host.UI.RawUI.BufferSize = New-Object System.Management.Automation.Host.Size(90, 43)
 $Host.UI.RawUI.WindowSize = New-Object System.Management.Automation.Host.Size(90, 43)
 
-Clear-DnsClientCache
 [Console]::OutputEncoding = [System.Text.Encoding]::utf8
 
 Clear-Host

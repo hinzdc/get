@@ -387,7 +387,7 @@ function Clear-SoftwareDistribution {
             return $LASTEXITCODE -in 0,1,2
         }
 
-        $services = @("UsoSvc","WaaSMedicSvc","wuauserv","bits","cryptSvc","msiserver","TrustedInstaller")
+        $services = @("UsoSvc","WaaSMedicSvc","wuauserv","cryptSvc","msiserver","TrustedInstaller")
         $sdPath = "C:\Windows\SoftwareDistribution"
         $crPath = "C:\Windows\System32\catroot2"
     }
@@ -765,7 +765,7 @@ function Disable-WindowsUpdatePermanent {
     Write-Host "=> DISABLING Windows Update (permanent-ish)..." -ForegroundColor Yellow
 
     # 1) Stop layanan inti
-    $services = @("wuauserv","bits","UsoSvc","WaaSMedicSvc","DoSvc")  # DoSvc = Delivery Optimization
+    $services = @("wuauserv","UsoSvc","WaaSMedicSvc","DoSvc")  # DoSvc = Delivery Optimization
     foreach($s in $services){
         try {
             Write-MyVerbose "Stop service $s"
@@ -774,7 +774,7 @@ function Disable-WindowsUpdatePermanent {
     }
 
     # 2) Set StartupType ke Disabled (yang bisa)
-    foreach($s in @("wuauserv","bits","DoSvc","UsoSvc")){
+    foreach($s in @("wuauserv","DoSvc","UsoSvc")){
         try {
             Write-MyVerbose "Set $s StartupType=Disabled"
             Set-Service -Name $s -StartupType Disabled -ErrorAction SilentlyContinue
