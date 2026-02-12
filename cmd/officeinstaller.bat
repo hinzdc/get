@@ -380,10 +380,10 @@ $xamlinput = @'
         xmlns:local="clr-namespace:OfficeInstaller"
         mc:Ignorable="d"
         MaxWidth="1160"
-        MaxHeight="518"
+        MaxHeight="522"
         MinWidth="1160"
-        MinHeight="518"
-        Height="520" Width="1160"
+        MinHeight="522"
+        Height="522" Width="1160"
         WindowStartupLocation="CenterScreen"
         Title="Microsoft Installation Tool // HINZDC X SARGA // ISTANA BEC BANDUNG - WhatsApp 085157919957"
         Icon="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/Microsoft.png">
@@ -866,11 +866,11 @@ $xamlinput = @'
                         <RotateTransform Angle="0"/>
                     </Image.RenderTransform>
                 </Image>
-                <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="511" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
-                <Border x:Name="submitBox" Width="382" Height="91" Background="{DynamicResource BorderBackgroud}"
+                <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="473" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
+                <Border x:Name="submitBox" Width="420" Height="91" Background="{DynamicResource BorderBackgroud}"
                     CornerRadius="10" BorderThickness="1" BorderBrush="#0c66e4"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
-                    Canvas.Left="602" Canvas.Top="340">
+                    Canvas.Left="564" Canvas.Top="340">
                     <Border.Effect>
                         <DropShadowEffect Color="Black" Opacity="0.3" BlurRadius="12" ShadowDepth="4"/>
                     </Border.Effect>
@@ -977,8 +977,8 @@ $xamlinput = @'
                 <ToolTip Content="Klik untuk mengaktivasi Office secara permanen." />
             </Button.ToolTip>
         </Button>
-        <ProgressBar x:Name="progressbar" HorizontalAlignment="Left" Height="15" Margin="760,381,0,0" VerticalAlignment="Top" Width="218" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
-        <TextBox Name="textboxLog" Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="218" Height="50" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="760,401,0,0" FontFamily="Consolas" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="hidden" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
+        <ProgressBar x:Name="progressbar" HorizontalAlignment="Center" Height="12" Margin="0,476,0,0" VerticalAlignment="Top" Width="1154" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
+        <TextBox Name="textboxLog" Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="254" Height="73" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="724,375,0,0" FontFamily="Consolas" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="hidden" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
         <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
             <Hyperlink NavigateUri="https://indojava.online">indojava.online</Hyperlink>
         </Label>
@@ -1002,6 +1002,8 @@ $xamlinput = @'
 
     </Grid>
 </Window>
+
+
 
 '@
 
@@ -1474,7 +1476,7 @@ $timer.Add_Tick({
 
         $sync.Form.Dispatcher.Invoke([action] { 
             $sync.textboxLog.Text = "Starting Office Scrubbing..."
-            start-sleep -Seconds 2
+            start-sleep -Seconds 3
             $sync.buttonSubmit.Visibility = "Hidden"
             $sync.buttonActivate.Visibility = "Hidden"
             $sync.buttonRemoveAll.IsEnabled = $false
@@ -1490,7 +1492,7 @@ $timer.Add_Tick({
         $cmdPath = Join-Path $WorkingDir $FileName
 
         # Download (fallback BITS jika perlu)
-        log-ToUI "Downloading Office Scrubber from"
+        log-ToUI "Downloading Office Scrubber from server."
         try {
             Invoke-WebRequest -Uri $Url -OutFile $cmdPath -UseBasicParsing -ErrorAction Stop
         } catch {
@@ -1563,8 +1565,8 @@ $timer.Add_Tick({
         # Hentikan proses Office yang berjalan
         Function Stop-OfficeProcess {
             Log-ToUI "Stopping running Office applications..."
-            Stop-Service -Name "Clicktorunsvc" -Force -ErrorAction SilentlyContinue
-            $OfficeProcessesArray = "OfficeClickToRun", "OfficeC2RClient", "officesvcmgr", "lync", "winword", "excel", "msaccess", "mstore", "infopath", "setlang", "msouc", "ois", "onenote", "outlook", "powerpnt", "mspub", "groove", "visio", "winproj", "graph", "teams"
+            #Stop-Service -Name "Clicktorunsvc" -Force -ErrorAction SilentlyContinue
+            $OfficeProcessesArray = "lync", "winword", "excel", "msaccess", "mstore", "infopath", "setlang", "msouc", "ois", "onenote", "outlook", "powerpnt", "mspub", "groove", "visio", "winproj", "graph", "teams"
             foreach ($ProcessName in $OfficeProcessesArray) {
                 if (Get-Process -Name $ProcessName -ErrorAction SilentlyContinue) {
                     if (Stop-Process -Name $ProcessName -Force -ErrorAction SilentlyContinue) {
@@ -1579,33 +1581,42 @@ $timer.Add_Tick({
 
         # Fungsi untuk mendeteksi versi Office yang terinstal
         function Get-InstalledOfficeVersion {
-            Log-ToUI "Detecting installed Office versions..."
-            $OfficeKeys = @(
-                "HKLM:\SOFTWARE\Microsoft\Office",
-                "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Office"
-            )
+            Log-ToUI "Detecting installed Office products C2R..."
 
-            $DetectedVersions = @()
+            $ConfigPath = "HKLM:\SOFTWARE\Microsoft\Office\ClickToRun\Configuration"
+            $DetectedProducts = @()
 
-            foreach ($Key in $OfficeKeys) {
-                if (Test-Path "$Key\16.0") {
-                    $DetectedVersions += "2016-2024"
+            if (Test-Path $ConfigPath) {
+                try {
+                    $config = Get-ItemProperty -Path $ConfigPath -ErrorAction Stop
+
+                    if ($config.ProductReleaseIds) {
+                        $DetectedProducts = $config.ProductReleaseIds -split ","
+                        
+                        Log-ToUI "Installed Products:"
+                        foreach ($product in $DetectedProducts) {
+                            Log-ToUI " - $product"
+                        }
+                    }
+                    else {
+                        Log-ToUI "No ProductReleaseIds found in Click-to-Run configuration."
+                    }
                 }
-                if (Test-Path "$Key\15.0") {
-                    $DetectedVersions += "2013"
+                catch {
+                    Log-ToUI "Failed to read Click-to-Run configuration: $_"
                 }
             }
-            
-            if ($DetectedVersions.Count -gt 0) {
-                Log-ToUI "Found versions: $($DetectedVersions -join ', ')"
+            else {
+                Log-ToUI "Click-to-Run configuration path not found."
             }
 
-            return $DetectedVersions | Select-Object -Unique
+            return $DetectedProducts | Select-Object -Unique
         }
+
 
         # Hapus folder dan registry
         function Remove-OfficeFoldersAndRegistry {
-            Log-ToUI "Stopping explorer.exe to unlock files. Your desktop will disappear temporarily."
+            Log-ToUI "Stopping explorer.exe to unlock files.`nYour desktop will disappear temporarily."
             taskkill /f /im explorer.exe | Out-Null
             Start-Sleep -Seconds 3
 
@@ -1634,7 +1645,7 @@ $timer.Add_Tick({
                     }
                 }
 
-                Log-ToUI "Removing shortcuts.."
+                Log-ToUI ">> Removing shortcuts.."
                 $shortcutPaths = @( "$env:PUBLIC\Desktop", "$env:USERPROFILE\Desktop", "$env:ALLUSERSPROFILE\Microsoft\Windows\Start Menu\Programs", "$env:APPDATA\Microsoft\Windows\Start Menu\Programs", "$env:PROGRAMDATA\Microsoft\Windows\Start Menu\Programs" )
                 $shortcuts = @( "Word*.lnk", "Excel*.lnk", "PowerPoint*.lnk", "Outlook*.lnk", "OneNote*.lnk", "Access*.lnk", "Publisher*.lnk", "Visio*.lnk", "Project*.lnk" )
                 foreach ($path in $shortcutPaths) {
@@ -1642,7 +1653,7 @@ $timer.Add_Tick({
                         Get-ChildItem -Path $path -Filter $shortcut -Recurse -ErrorAction SilentlyContinue | ForEach-Object {
                             try {
                                 Remove-Item -Path $_.FullName -Force -ErrorAction Stop
-                                Log-ToUI "Removed shortcut: $($_.Name)"
+                                Log-ToUI "> Removed shortcut: $($_.Name)"
                             } catch {
                                 Log-ToUI "Warning: Failed to remove shortcut: $($_.Name)"
                             }
@@ -1650,7 +1661,7 @@ $timer.Add_Tick({
                     }
                 }
                 
-                Log-ToUI "Removing registry keys.."
+                Log-ToUI ">> Removing registry keys.."
                 $registryKeys = @(
                     "HKLM:\SOFTWARE\WOW6432Node\Microsoft\Office", "HKCU:\Software\Microsoft\Office", "HKLM:\SOFTWARE\Microsoft\Office",
                     "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\winword.exe", "HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Image File Execution Options\excel.exe",
@@ -1671,7 +1682,7 @@ $timer.Add_Tick({
                     }
                 }
             } finally {
-                Log-ToUI "Restarting explorer.exe..."
+                Log-ToUI "> Restarting explorer.exe..."
                 Start-Process explorer.exe
             }
         }
@@ -1692,6 +1703,7 @@ $timer.Add_Tick({
 
         if ($InstalledVersions.Count -eq 0) {
             Log-ToUI "No Microsoft Office installation detected."
+            start-sleep -Seconds 2
             $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "No Office installation found." })
         } else {
             $null = New-Item -Path $env:temp\c2r -ItemType Directory -Force
@@ -1706,7 +1718,26 @@ $timer.Add_Tick({
             (New-Object Net.WebClient).DownloadFile($uri, "$env:temp\c2r\ClickToRun.exe")
             
             Stop-OfficeProcess
-            Start-Process -FilePath .\ClickToRun.exe -ArgumentList "/configure .\configuration.xml" -NoNewWindow -Wait
+
+            $SystemC2R = "C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe"
+            $LocalC2R  = ".\ClickToRun.exe"
+            $ConfigXML = ".\configuration.xml"
+
+            if (Test-Path $SystemC2R) {
+                Log-ToUI "System ClickToRun ditemukan. `n>> menjalankan uninstall ARP..."
+                Start-Process -FilePath $SystemC2R -ArgumentList "scenario=install scenariosubtype=ARP sourcetype=None productstoremove=AllProducts version.16=16.0 displaylevel=false forceappshutdown=true" -Wait
+                Log-ToUI "Uninstallation process completed."
+                Start-Sleep -Seconds 2
+            }
+            elseif ((Test-Path $LocalC2R) -and (Test-Path $ConfigXML)) {
+                Log-ToUI "System ClickToRun tidak ada, fallback ke ClickToRun lokal..."
+                Start-Process -FilePath $LocalC2R -ArgumentList ("/configure `"{0}`"" -f $ConfigXML) -NoNewWindow -Wait
+                Log-ToUI "Uninstallation process completed."
+                Start-Sleep -Seconds 2
+            }
+            else {
+                Log-ToUI "ClickToRun tidak ditemukan (system maupun lokal). Proses dibatalkan!"
+            }
             
             # Hapus folder dan registry setelah uninstalasi
             Remove-OfficeFoldersAndRegistry
