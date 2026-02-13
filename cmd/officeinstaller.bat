@@ -39,7 +39,8 @@ goto :eof
     Description     : This script is used to install Microsoft Office 365, 2024, 2021, 2019, 2016 and 2013 Office products.
 
     Version History:
-    1.0, 2025-02-28 - Added Office 2025, 2024, 2021, 2019, 2016 and 2013 installation options.
+    1.0, 2025-02-28 - Added Office 365, 2024, 2021, 2019, 2016 and 2013 installation options.
+    1.1, 2026-02-14 - added uninstall & scrub options.
 #>
 
 Add-Type -AssemblyName PresentationFramework, System.Drawing, PresentationFramework, System.Windows.Forms, WindowsFormsIntegration, PresentationCore
@@ -116,7 +117,6 @@ function UnQuickEdit
 	$b=$k::SetConsoleMode($k::GetStdHandle(-10), $v)
 }
 UnQuickEdit
-#-----------------------------------------------------------------------------------------
 #-----------------------------------------------------------------------------------------
 function webhooks {
     $date = (Get-Date)
@@ -281,7 +281,6 @@ for ($i = 0; $i -lt 10; $i++) {
 }
 Write-Host
 
-
 $WinAPI = Add-Type -MemberDefinition @"
 [DllImport("user32.dll")]
 public static extern bool ShowWindow(IntPtr hWnd, int nCmdShow);
@@ -294,6 +293,7 @@ $hwnd = $WinAPI::GetConsoleWindow()
 
 # Sembunyikan jendela
 $WinAPI::ShowWindow($hwnd, 0) | Out-Null
+
 # Fungsi untuk mendapatkan tema sistem
 function Get-SystemTheme {
     $theme = Get-ItemPropertyValue -Path "HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" -Name "AppsUseLightTheme" -ErrorAction SilentlyContinue
@@ -306,9 +306,9 @@ function Get-SystemTheme {
 
 # Fungsi untuk menerapkan tema ke semua elemen UI
 function Apply-Theme($Form, $currentTheme) {
-# Pastikan form memiliki Resources
-if ($Form.Resources -eq $null) {
-    $Form.Resources = New-Object System.Windows.ResourceDictionary
+    # Pastikan form memiliki Resources
+    if ($Form.Resources -eq $null) {
+        $Form.Resources = New-Object System.Windows.ResourceDictionary
 }
 
 # Fungsi untuk memperbarui warna pada SolidColorBrush di Resources
@@ -325,27 +325,27 @@ function Set-BrushColor($key, $hexColor) {
     } else {
         Write-Host "Resource dengan key '$key' tidak ditemukan atau bukan SolidColorBrush."
     }
-}
+    }
 
-# Terapkan tema berdasarkan kondisi
-if ($currentTheme -eq "Dark") {
-    Set-BrushColor "BackgroundColor" "#121212"
-    Set-BrushColor "TextColor" "#E0E0E0"        # Putih
-    Set-BrushColor "ButtonBackground" "#444444" # Abu-abu gelap
-    Set-BrushColor "BorderBackgroud" "#383838"  # Abu-abu tua
-    Set-BrushColor "ShadowColor" "#222222"      # Bayangan gelap
-    Set-BrushColor "CanvasColor" "#1e1e1e"      
-} else {
-    Set-BrushColor "BackgroundColor" "#dde4e6"
-    Set-BrushColor "TextColor" "#000000"        # Hitam
-    Set-BrushColor "ButtonBackground" "#D3D3D3" # Light Gray
-    Set-BrushColor "BorderBackgroud" "#FFFFFF"  # Putih
-    Set-BrushColor "ShadowColor" "#D3D3D3"      # Light Gray
-    Set-BrushColor "CanvasColor" "white"      
-}
+    # Terapkan tema berdasarkan kondisi
+    if ($currentTheme -eq "Dark") {
+        Set-BrushColor "BackgroundColor" "#121212"
+        Set-BrushColor "TextColor" "#E0E0E0"        # Putih
+        Set-BrushColor "ButtonBackground" "#444444" # Abu-abu gelap
+        Set-BrushColor "BorderBackgroud" "#383838"  # Abu-abu tua
+        Set-BrushColor "ShadowColor" "#222222"      # Bayangan gelap
+        Set-BrushColor "CanvasColor" "#1e1e1e"      
+    } else {
+        Set-BrushColor "BackgroundColor" "#dde4e6"
+        Set-BrushColor "TextColor" "#000000"        # Hitam
+        Set-BrushColor "ButtonBackground" "#D3D3D3" # Light Gray
+        Set-BrushColor "BorderBackgroud" "#FFFFFF"  # Putih
+        Set-BrushColor "ShadowColor" "#D3D3D3"      # Light Gray
+        Set-BrushColor "CanvasColor" "white"      
+    }
 
-# Pastikan perubahan warna langsung terlihat
-$Form.InvalidateVisual()
+    # Pastikan perubahan warna langsung terlihat
+    $Form.InvalidateVisual()
 
 }
 
@@ -366,10 +366,8 @@ public static extern IntPtr GetConsoleWindow();
 "@ -Name "WinAPI" -Namespace "API" -PassThru
 
 $hwnd = $WinAPI::GetConsoleWindow()
-
 # Sembunyikan jendela
 # $WinAPI::ShowWindow($hwnd, 0) | Out-Null
-
 
 $xamlinput = @'
 <Window x:Class="OfficeInstaller.MainWindow"
@@ -384,6 +382,7 @@ $xamlinput = @'
         MinWidth="1160"
         MinHeight="522"
         Height="522" Width="1160"
+        ResizeMode="NoResize"
         WindowStartupLocation="CenterScreen"
         Title="Microsoft Installation Tool // HINZDC X SARGA // ISTANA BEC BANDUNG - WhatsApp 085157919957"
         Icon="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/Microsoft.png">
@@ -650,7 +649,7 @@ $xamlinput = @'
                 <Label x:Name="Label2024" Style="{StaticResource LabelWithBgShadow}" Content="Office 2024" FontWeight="Bold"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="#FB8C00" Canvas.Left="168" Canvas.Top="8"/>
+                    Background="#f27146" Canvas.Left="168" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="168" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -752,7 +751,7 @@ $xamlinput = @'
                 <Label x:Name="Label2016" Style="{StaticResource LabelWithBgShadow}" Content="Office 2016" FontWeight="Bold"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="DarkSlateBlue" Canvas.Left="672" Canvas.Top="8"/>
+                    Background="#7b24d3" Canvas.Left="672" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="672" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -785,7 +784,7 @@ $xamlinput = @'
                 <Label x:Name="Label2013" Style="{StaticResource LabelWithBgShadow}" Content="Office 2013" FontWeight="Bold"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
                     Foreground="White" Padding="8,4,8,4"
-                    Background="#7b24d3" Canvas.Left="840" Canvas.Top="8"/>
+                    Background="#848484" Canvas.Left="840" Canvas.Top="8"/>
 
                 <!-- StackPanel untuk RadioButtons -->
                 <StackPanel Orientation="Vertical" Canvas.Left="840" Canvas.Top="37" HorizontalAlignment="Center" VerticalAlignment="Top">
@@ -866,7 +865,7 @@ $xamlinput = @'
                         <RotateTransform Angle="0"/>
                     </Image.RenderTransform>
                 </Image>
-                <Image x:Name="image2" Panel.ZIndex="2" Height="200" Width="129" Canvas.Left="473" Canvas.Top="263" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
+                <Image x:Name="image2" Panel.ZIndex="2" Height="90" Width="100" Canvas.Left="479" Canvas.Top="335" Source="https://raw.githubusercontent.com/hinzdc/get/refs/heads/main/image/tom.png" HorizontalAlignment="Left" VerticalAlignment="Center" Visibility="Visible"/>
                 <Border x:Name="submitBox" Width="420" Height="91" Background="{DynamicResource BorderBackgroud}"
                     CornerRadius="10" BorderThickness="1" BorderBrush="#0c66e4"
                     HorizontalAlignment="Left" VerticalAlignment="Center"
@@ -977,7 +976,7 @@ $xamlinput = @'
                 <ToolTip Content="Klik untuk mengaktivasi Office secara permanen." />
             </Button.ToolTip>
         </Button>
-        <ProgressBar x:Name="progressbar" HorizontalAlignment="Center" Height="12" Margin="0,476,0,0" VerticalAlignment="Top" Width="1154" IsEnabled="False" Background="Gainsboro" BorderBrush="{x:Null}"/>
+        <ProgressBar x:Name="progressbar" HorizontalAlignment="Center" Height="12" Margin="0,476,0,0" VerticalAlignment="Top" Width="1154" IsEnabled="False" Background="#00000000" BorderBrush="{x:Null}"/>
         <TextBox Name="textboxLog" Foreground="{DynamicResource TextColor}" TextWrapping="Wrap" Text="Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL." Width="254" Height="73" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="724,375,0,0" FontFamily="Consolas" FontSize="10" Background="{x:Null}" BorderBrush="{x:Null}" IsReadOnly="True" VerticalScrollBarVisibility="hidden" AllowDrop="False" Focusable="False" IsHitTestVisible="False" IsTabStop="False" IsUndoEnabled="False"/>
         <Label x:Name="Link1" HorizontalAlignment="Left" Margin="426,441,0,0" VerticalAlignment="Top" Width="126" FontSize='10.5' FontFamily="Consolas" Padding="5,5,5,2">
             <Hyperlink NavigateUri="https://indojava.online">indojava.online</Hyperlink>
@@ -1002,9 +1001,6 @@ $xamlinput = @'
 
     </Grid>
 </Window>
-
-
-
 '@
 
 # Memuat XAML
@@ -1013,23 +1009,22 @@ $xmlReader = (New-Object System.Xml.XmlNodeReader $xaml)
 $Form = [Windows.Markup.XamlReader]::Load( $xmlReader )
 
 # Store form objects (variables) in PowerShell
-    $xaml.SelectNodes("//*[@Name]") | ForEach-Object -Process {
-        Set-Variable -Name ($_.Name) -Value $Form.FindName($_.Name)
-    }
+$xaml.SelectNodes("//*[@Name]") | ForEach-Object -Process {
+    Set-Variable -Name ($_.Name) -Value $Form.FindName($_.Name)
+}
 
-#DEBUG
+<#DEBUG
 if ($null -eq $Form) {
     Write-Host " XAML gagal di-load. Periksa struktur XAML!"
 } else {
     Write-Host " XAML berhasil di-load!"
 }
 # Periksa elemen dalam $Form untuk debugging
-#$Form.Resources.Keys | ForEach-Object { Write-Host " Resource Found: $_" }
+$Form.Resources.Keys | ForEach-Object { Write-Host " Resource Found: $_" }
+#>
 
-$Link1.Add_PreviewMouseDown({[system.Diagnostics.Process]::start('https://hinzdc.xyz')})
-
-
-# Get the Storyboard resource
+$Link1.Add_PreviewMouseDown({[system.Diagnostics.Process]::start('https://indojava.online')})
+# Animasi gambar
 $storyboard = $Form.FindResource("RotateStoryboard")
 
 # Set the target for the storyboard animation
@@ -1056,12 +1051,12 @@ $timer.Add_Tick({
     })
     $timer.Start()
     
-    
     # Download links
+    #ODT $uri = 'http://go.microsoft.com/fwlink/?LinkID=829801'
     $uri = "https://github.com/hinzdc/get/raw/main/office/bin/setup.exe"
     $uri2013 = "https://github.com/hinzdc/get/raw/main/office/bin/bin2013.exe"
-    # $uninstall = './scripts/office/uninstall.bat'
-    # $readme = './scripts/office/Readme.txt'
+    $OfficeScrubberUrl  = "https://raw.githubusercontent.com/abbodi1406/BatUtil/refs/heads/master/OfficeScrubber/OfficeScrubberAIO.cmd"
+
     
     # Prepiaration for download and install
     function PreparingOffice {
@@ -1094,7 +1089,6 @@ $timer.Add_Tick({
         Add-content $batchFile -Value "ClickToRun.exe /configure $configurationFile"
         
         (New-Object Net.WebClient).DownloadFile($uri, "$workingDir\ClickToRun.exe")
-        # (New-Object Net.WebClient).DownloadFile($readme, "$workingDir\01.Readme.txt")
         
         $sync.configurationFile = $configurationFile
         $sync.workingDir = $workingDir
@@ -1142,9 +1136,11 @@ $timer.Add_Tick({
     function UpdateButtonState {
         if ($radioButtonDownload.IsChecked) {
             $buttonText = 'DOWNLOAD'
+            $textboxLogOption = "Silakan pilih salah satu versi office yang ingin didownload lalu klik DOWNLOAD."
         }
         elseif ($radioButtonInstall.IsChecked) {
             $buttonText = 'INSTALL'
+            $textboxLogOption = "Silakan pilih salah satu versi office yang ingin diinstall lalu klik INSTALL."
         }
         else {
             return  # Jika tidak ada radio button yang dipilih, keluar dari fungsi
@@ -1153,10 +1149,11 @@ $timer.Add_Tick({
         # Gunakan Dispatcher untuk memperbarui UI di thread utama
         $sync.Form.Dispatcher.Invoke([action] { 
             $sync.buttonSubmit.Content = $buttonText 
+            $sync.textboxLog.Text = $textboxLogOption
         })
     }
     
-# INSTALL/DOWNLOAD/ACTIVATE Microsoft Office with a runspace
+    # INSTALL/DOWNLOAD/ACTIVATE Microsoft Office with a runspace
 
     $buttonSubmit.Add_Click( {
             $i = 0
@@ -1199,12 +1196,12 @@ $timer.Add_Tick({
             if ($radioButton2024Publisher.IsChecked -eq $true) {$productId = "Publisher2024$licType"; $productName = 'Microsoft Publisher 2024'; $i++}
             if ($radioButton2024Access.IsChecked -eq $true) {$productId = "Access2024$licType"; $productName = 'Microsoft Access 2024'; $i++}
             if ($radioButton2024Home.IsChecked -eq $true) {$productId = "Home2024$licType"; $productName = 'Office 2024 Home'; $i++}
-            if ($radioButton2024HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2024Retail"; $productName = 'Office HomeBusiness 2024'; $i++}
-            if ($radioButton2024HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2024Retail"; $productName = 'Office HomeStudent 2024'; $i++}
+            if ($radioButton2024HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2024Retail"; $productName = 'Office Home & Business 2024'; $i++}
+            if ($radioButton2024HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2024Retail"; $productName = 'Office Home & Student 2024'; $i++}
 
         # For Office 2021
             if ($radioButton2021Pro.IsChecked -eq $true) {$productId = "ProPlus2021$licType"; $productName = 'Microsoft Office Professional 2021'; $i++}
-            if ($radioButton2021Std.IsChecked -eq $true) {$productId = "Standard2021$licType"; $productName = 'Office 2021 Standard LTSC'; $i++}
+            if ($radioButton2021Std.IsChecked -eq $true) {$productId = "Standard2021$licType"; $productName = 'Office 2021 Standard'; $i++}
             if ($radioButton2021ProjectPro.IsChecked -eq $true) {$productId = "ProjectPro2021$licType"; $productName = 'Project Pro 2021'; $i++}
             if ($radioButton2021ProjectStd.IsChecked -eq $true) {$productId = "ProjectStd2021$licType"; $productName = 'Project Standard 2021'; $i++}
             if ($radioButton2021VisioPro.IsChecked -eq $true) {$productId = "VisioPro2021$licType"; $productName = 'Visio Pro 2021'; $i++}
@@ -1215,8 +1212,8 @@ $timer.Add_Tick({
             if ($radioButton2021Outlook.IsChecked -eq $true) {$productId = "Outlook2021$licType"; $productName = 'Microsoft Outlook 2021'; $i++}
             if ($radioButton2021Publisher.IsChecked -eq $true) {$productId = "Publisher2021$licType"; $productName = 'Microsoft Publisher 2021'; $i++}
             if ($radioButton2021Access.IsChecked -eq $true) {$productId = "Access2021$licType"; $productName = 'Microsoft Access 2021'; $i++}
-            if ($radioButton2021HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2021Retail"; $productName = 'Office HomeBusiness 2021'; $i++}
-            if ($radioButton2021HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2021Retail"; $productName = 'Office HomeStudent 2021'; $i++}
+            if ($radioButton2021HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2021Retail"; $productName = 'Office Home & Business 2021'; $i++}
+            if ($radioButton2021HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2021Retail"; $productName = 'Office Home & Student 2021'; $i++}
 
         # For Office 2019
             if ($radioButton2019Pro.IsChecked -eq $true) {$productId = "ProPlus2019$licType"; $productName = 'Microsoft Office 2019 Professional Plus'; $i++}
@@ -1227,12 +1224,12 @@ $timer.Add_Tick({
             if ($radioButton2019VisioStd.IsChecked -eq $true) {$productId = "VisioStd2019$licType"; $productName = 'Visio Standard 2019'; $i++}
             if ($radioButton2019Word.IsChecked -eq $true) {$productId = "Word2019$licType"; $productName = 'Microsoft Word 2019'; $i++}
             if ($radioButton2019Excel.IsChecked -eq $true) {$productId = "Excel2019$licType"; $productName = 'Microsoft Excel 2019'; $i++}
-            if ($radioButton2019PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2019$licType"; $productName = 'Microsoft PowerPoint 201p'; $i++}
+            if ($radioButton2019PowerPoint.IsChecked -eq $true) {$productId = "PowerPoint2019$licType"; $productName = 'Microsoft PowerPoint 2019'; $i++}
             if ($radioButton2019Outlook.IsChecked -eq $true) {$productId = "Outlook2019$licType"; $productName = 'Microsoft Outlook 2019'; $i++}
             if ($radioButton2019Publisher.IsChecked -eq $true) {$productId = "Publisher2019$licType"; $productName = 'Microsoft Publisher 2019'; $i++}
             if ($radioButton2019Access.IsChecked -eq $true) {$productId = "Access2019$licType"; $productName = 'Microsoft Access 2019'; $i++}
-            if ($radioButton2019HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2019Retail"; $productName = 'Office HomeBusiness 2019'; $i++}
-            if ($radioButton2019HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2019Retail"; $productName = 'Office HomeStudent 2019'; $i++}
+            if ($radioButton2019HomeBusiness.IsChecked -eq $true) {$productId = "HomeBusiness2019Retail"; $productName = 'Office Home & Business 2019'; $i++}
+            if ($radioButton2019HomeStudent.IsChecked -eq $true) {$productId = "HomeStudent2019Retail"; $productName = 'Office Home & Student 2019'; $i++}
 
         # For Office 2016
             if ($radioButton2016Pro.IsChecked -eq $true) {$productId = "ProfessionalRetail"; $productName = 'Microsoft Office 2016 Professional Plus'; $i++}
@@ -1280,12 +1277,20 @@ $timer.Add_Tick({
                 $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Foreground = "Red" })
                 $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.FontWeight = "Bold" })
                 $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "Please select an Office version." })
-                Write-Host "Please select an Office version." -ForegroundColor Red
             }
     })
 
     # Creating script block for download and install
     $DownloadInstallOffice = {
+        # Helper to append messages to the log textbox
+        function Log-ToUI {
+            param([string]$Message)
+            $sync.Form.Dispatcher.Invoke([action]{
+                $sync.textboxLog.AppendText("`n$Message")
+                $sync.textboxLog.ScrollToEnd()
+            })
+        }
+
         function Write-HostDebug {
             #Helper function to write back to the host debug output
             param([Parameter(Mandatory)]
@@ -1333,15 +1338,19 @@ $timer.Add_Tick({
         # To referece our elements we use the $sync variable from hashtable.
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Visibility = "Hidden" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "$($sync.UIstatus) $($sync.productName) $($sync.arch)-bit ($($sync.language))" })
-        $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.BorderBrush = "#FF707070" })
+        $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.BorderBrush = "#00000000" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.IsIndeterminate = $true })
         $sync.Form.Dispatcher.Invoke([action] { $sync.image.Visibility = "Visible" })
-
+        start-sleep -seconds 3
         Set-Location -Path $($sync.workingDir)
-        Write-VerboseDebug "Working (download) path: $pwd"
-        Write-VerboseDebug "Command to run: .\ClickToRun.exe $($sync.mode) .\$($sync.configurationFile)"
+        Log-ToUI "Working path: $pwd"
+        Log-ToUI ">> execute ClickToRun.exe"
+        Log-ToUI "> Installing $($sync.productName) $($sync.arch)bit"
+        Log-ToUI "This process may times 10 to 20 minutes,`nPlease wait..."
         
         Start-Process -FilePath .\ClickToRun.exe -ArgumentList "$($sync.mode) .\$($sync.configurationFile)" -NoNewWindow -Wait
+        Log-ToUI "Installation process has finished.`nFinalizing setup..."
+        start-sleep -seconds 3
 
         # Loop aman untuk memastikan proses benar-benar mati
         $procName = "OfficeC2RClient"
@@ -1358,18 +1367,16 @@ $timer.Add_Tick({
         Start-Sleep -Seconds 2
 
         # Bring back our Button, set the Label and ProgressBar, we're done..
-        $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = ">> Created Shortcuts to Desktop" })
+        Log-ToUI ">> Created Shortcuts to Desktop"
         Create-Shortcuts
         start-sleep -Seconds 2
+
+        Log-ToUI "`n$($sync.UIstatus) Completed`nSilakan klik tombol ACTIVATE untuk aktivasi Office."
         $sync.Form.Dispatcher.Invoke([action] { $sync.image.Visibility = "Hidden" })
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonSubmit.Visibility = 'Hidden' })
-        $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "$($sync.UIstatus) Completed`nSilakan klik tombol ACTIVATE untuk aktivasi Office." })
         $sync.Form.Dispatcher.Invoke([action] { $sync.buttonActivate.Visibility = 'Visible' })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.IsIndeterminate = $false })
         $sync.Form.Dispatcher.Invoke([action] { $sync.ProgressBar.Value = '100' })
-
-        Write-VerboseDebug "Done. You can close this window now."
-        Write-Host " Done. You can close this window now."
     }
 
     $buttonActivate.Add_Click({
@@ -1452,10 +1459,17 @@ $timer.Add_Tick({
         $psAct.BeginInvoke() | Out-Null
     })
 
-#-----------------------------------------------------------------------------------------------------------------
-##### Office Scrubber (abbodi1406) 
+    #-----------------------------------------------------------------------------------------------------------------
+    ##### Office Scrubber (abbodi1406) 
+    # Helper to append messages to the log textbox
+    function Log-ToUI {
+        param([string]$Message)
+        $sync.Form.Dispatcher.Invoke([action]{
+            $sync.textboxLog.AppendText("`n$Message")
+            $sync.textboxLog.ScrollToEnd()
+        })
+    }
 
-    $OfficeScrubberUrl  = "https://raw.githubusercontent.com/abbodi1406/BatUtil/refs/heads/master/OfficeScrubber/OfficeScrubberAIO.cmd"
     $OfficeScrubberFile = "OfficeScrubberAIO.cmd"
 
     $ScrubeOffice = {
@@ -1465,23 +1479,14 @@ $timer.Add_Tick({
             [string]$FileName
         )
 
-        # Helper to append messages to the log textbox
-        function Log-ToUI {
-            param([string]$Message)
-            $sync.Form.Dispatcher.Invoke([action]{
-                $sync.textboxLog.AppendText("`n$Message")
-                $sync.textboxLog.ScrollToEnd()
-            })
-        }
-
         $sync.Form.Dispatcher.Invoke([action] { 
-            $sync.textboxLog.Text = "Starting Office Scrubbing..."
+            $sync.textboxLog.Text = ">> Starting Office Scrubbing..."
             start-sleep -Seconds 3
             $sync.buttonSubmit.Visibility = "Hidden"
             $sync.buttonActivate.Visibility = "Hidden"
             $sync.buttonRemoveAll.IsEnabled = $false
             $sync.buttonScrub.IsEnabled = $false
-            $sync.ProgressBar.BorderBrush = "#FF707070"
+            $sync.ProgressBar.BorderBrush = "#00000000"
             $sync.ProgressBar.IsIndeterminate = $true
             $sync.image.Visibility = "Visible"
         })
@@ -1492,7 +1497,7 @@ $timer.Add_Tick({
         $cmdPath = Join-Path $WorkingDir $FileName
 
         # Download (fallback BITS jika perlu)
-        log-ToUI "Downloading Office Scrubber from server."
+        log-ToUI "> Downloading Office Scrubber from server."
         try {
             Invoke-WebRequest -Uri $Url -OutFile $cmdPath -UseBasicParsing -ErrorAction Stop
         } catch {
@@ -1505,8 +1510,8 @@ $timer.Add_Tick({
             log-ToUI "Download gagal: $cmdPath tidak ditemukan."
             throw "Download gagal: $cmdPath tidak ditemukan."
         }
-        log-ToUI "Executing Office Scrubber..."
-        log-ToUI "Scrubbing Office apps..."
+        log-ToUI ">> Executing Office Scrubber script."
+        log-ToUI ">> Scrubbing Office Apps"
         log-ToUI "This may take 10 to 30 minutes.`nPlease wait..."
         # Jalankan: OfficeScrubberAIO.cmd /C /P
         Start-Process -FilePath "cmd.exe" `
@@ -1548,10 +1553,9 @@ $timer.Add_Tick({
         $PSIinstance.Runspace = $runspace
         $null = $PSIinstance.BeginInvoke()
     })
-#-----------------------------------------------------------------------------------------------------------------
-# Uninstall all installed Microsoft Office apps.
+    #-----------------------------------------------------------------------------------------------------------------
+    # Uninstall all installed Microsoft Office apps.
     $UninstallOffice = {
-
         # Helper to append messages to the log textbox
         function Log-ToUI {
             param([string]$Message)
@@ -1560,7 +1564,6 @@ $timer.Add_Tick({
                 $sync.textboxLog.ScrollToEnd()
             })
         }
-
 
         # Hentikan proses Office yang berjalan
         Function Stop-OfficeProcess {
@@ -1675,26 +1678,26 @@ $timer.Add_Tick({
                     if (Test-Path $key) {
                         try {
                             Remove-Item -Path $key -Recurse -Force -ErrorAction Stop
-                            Log-ToUI "Removed registry: $key"
+                            Log-ToUI "> Removed registry: $key"
                         } catch {
                             Log-ToUI "Warning: Failed to remove registry: $key"
                         }
                     }
                 }
             } finally {
-                Log-ToUI "> Restarting explorer.exe..."
+                Log-ToUI "> Restarting explorer.exe . . ."
                 Start-Process explorer.exe
             }
         }
 
         $sync.Form.Dispatcher.Invoke([action] { 
-            $sync.textboxLog.Text = "Starting Office uninstallation..."
-            start-sleep -Seconds 2
+            $sync.textboxLog.Text = "> Starting Office uninstallation..."
+            start-sleep -Seconds 3
             $sync.buttonSubmit.Visibility = "Hidden"
             $sync.buttonActivate.Visibility = "Hidden"
             $sync.buttonRemoveAll.IsEnabled = $false
             $sync.buttonScrub.IsEnabled = $false
-            $sync.ProgressBar.BorderBrush = "#FF707070"
+            $sync.ProgressBar.BorderBrush = "#00000000"
             $sync.ProgressBar.IsIndeterminate = $true
             $sync.image.Visibility = "Visible"
         })
@@ -1704,7 +1707,6 @@ $timer.Add_Tick({
         if ($InstalledVersions.Count -eq 0) {
             Log-ToUI "No Microsoft Office installation detected."
             start-sleep -Seconds 2
-            $sync.Form.Dispatcher.Invoke([action] { $sync.textboxLog.Text = "No Office installation found." })
         } else {
             $null = New-Item -Path $env:temp\c2r -ItemType Directory -Force
             Set-Location $env:temp\c2r
@@ -1714,19 +1716,18 @@ $timer.Add_Tick({
             Add-Content $fileName -Value '<Remove All="True">'
             Add-Content $fileName -Value '</Remove>'
             Add-Content $fileName -Value '</Configuration>'
-            $uri = 'https://github.com/hinzdc/get/raw/main/office/bin/setup.exe'
-            (New-Object Net.WebClient).DownloadFile($uri, "$env:temp\c2r\ClickToRun.exe")
-            
-            Stop-OfficeProcess
-
             $SystemC2R = "C:\Program Files\Common Files\Microsoft Shared\ClickToRun\OfficeClickToRun.exe"
             $LocalC2R  = ".\ClickToRun.exe"
             $ConfigXML = ".\configuration.xml"
 
+            Stop-OfficeProcess
+            (New-Object Net.WebClient).DownloadFile($uri, "$env:temp\c2r\ClickToRun.exe")
+
             if (Test-Path $SystemC2R) {
-                Log-ToUI "System ClickToRun ditemukan. `n>> menjalankan uninstall ARP..."
+                Log-ToUI "System ClickToRun Found. `n>> Running uninstall ARP..."
+                Log-ToUI "This may take several minutes. Please wait..."
                 Start-Process -FilePath $SystemC2R -ArgumentList "scenario=install scenariosubtype=ARP sourcetype=None productstoremove=AllProducts version.16=16.0 displaylevel=false forceappshutdown=true" -Wait
-                Log-ToUI "Uninstallation process completed."
+                Log-ToUI "`nUninstallation process completed."
                 Start-Sleep -Seconds 2
             }
             elseif ((Test-Path $LocalC2R) -and (Test-Path $ConfigXML)) {
@@ -1764,21 +1765,25 @@ $timer.Add_Tick({
 
     $buttonRemoveAll.Add_Click({
 
-        if ($radioButtonRemoveAllApp.IsChecked) {
+        if (-not $radioButtonRemoveAllApp.IsChecked) {
+            # ganti dengan snackbar/toast versi kamu
+            [System.Windows.MessageBox]::Show("Pilih dulu opsi 'I Agree'.", "Office Uninstaller")
+            return
+        }
+
             $workingDir = New-Item -Path $env:temp\ClickToRunU -ItemType Directory -Force
             Set-Location $workingDir
             $sync.workingDir = $workingDir
             $sync.uninstall = $uninstall
 
-            
             $PSIinstance = [powershell]::Create().AddScript($UninstallOffice)
             $PSIinstance.Runspace = $runspace
             $PSIinstance.BeginInvoke()
 
-        }
     })
 $null = $Form.ShowDialog()
-
+#-----------------------------------------------------------------------------------------------------------------
+# Cek status Ohook Office Activation
 function CheckOhook {
     $ohook = 0
     $paths = @("${env:ProgramFiles}", "${env:ProgramW6432}", "${env:ProgramFiles(x86)}")
@@ -1824,4 +1829,3 @@ Write-Host " TO EXIT:" -NoNewLine
 read-host
 # Membuka jendela CMD dan mengeksekusi perintah taskkill
 Start-Process cmd.exe -ArgumentList '/c timeout /t 1 & taskkill /F /IM rundll32.exe /T'
-#http://go.microsoft.com/fwlink/?LinkID=829801
