@@ -1,7 +1,4 @@
-﻿
-# --- Setup & Pre-checks ---
-
-# STA Relaunch Check (Crucial for any GUI)
+﻿# STA Relaunch Check (Crucial for any GUI)
 if ([System.Threading.Thread]::CurrentThread.ApartmentState -ne 'STA') {
     $psPath = (Get-Command powershell).Source
     $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-STA', '-File', $MyInvocation.MyCommand.Path) +
