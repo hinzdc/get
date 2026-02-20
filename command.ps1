@@ -1,20 +1,8 @@
-﻿<#
-.SYNOPSIS
-    Displays a GUI built with WPF and XAML with a predefined list of commands.
-#>
-
+﻿
 # --- Setup & Pre-checks ---
 
-# 1. Logging Utility
-$logPath = Join-Path $env:TEMP "CopyTextGui.log"
-function Log($s) {
-    $line = ("[{0:u}] {1}" -f (Get-Date), $s)
-    try { Add-Content -Path $logPath -Value $line -ErrorAction SilentlyContinue } catch {}
-}
-
-# 2. STA Relaunch Check (Crucial for any GUI)
+# STA Relaunch Check (Crucial for any GUI)
 if ([System.Threading.Thread]::CurrentThread.ApartmentState -ne 'STA') {
-    Log "Not in STA. Relaunching..."
     $psPath = (Get-Command powershell).Source
     $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-STA', '-File', $MyInvocation.MyCommand.Path) +
         $PSBoundParameters.GetEnumerator().ForEach({ "-$($_.Key)", "$($_.Value)" })
@@ -22,14 +10,11 @@ if ([System.Threading.Thread]::CurrentThread.ApartmentState -ne 'STA') {
     exit
 }
 
-Log "Script started in STA mode. PID=$pid Host=$($Host.Name)"
 
 # --- Main Script ---
 try {
     Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
-    Log "WPF assemblies loaded."
 } catch {
-    Log "Failed to load WPF assemblies: $($_.Exception.Message)"
     exit 1
 }
 
@@ -126,7 +111,7 @@ $Commands = @(
     [pscustomobject]@{
         Label = 'Tweaks Registry'
         Texts = @(
-            [pscustomobject]@{ Text = 'iex(irm tweaks.indojava.online)'; WindowStyle = 'Normal' }
+            [pscustomobject]@{ Text = 'iex(irm tweaks.indojava.online)'; WindowStyle = 'Minimized' }
         )
     },
 
@@ -319,9 +304,7 @@ $Commands = @(
 $reader = (New-Object System.Xml.XmlNodeReader $xaml)
 try {
     $window = [System.Windows.Markup.XamlReader]::Load($reader)
-    Log "XAML loaded successfully."
 } catch {
-    Log "Error loading XAML: $($_.Exception.Message)"
     if ($_.Exception.InnerException) { Log "Inner Exception: $($_.Exception.InnerException.Message)" }
     exit 1
 }
@@ -329,7 +312,6 @@ try {
 # --- Connect Data and Logic ---
 $commandsItemsControl = $window.FindName("CommandsItemsControl")
 if (-not $commandsItemsControl) {
-    Log "Could not find 'CommandsItemsControl' in XAML."
     exit 1
 }
 
@@ -366,22 +348,18 @@ $handler = [System.Windows.RoutedEventHandler]{
     if ($clickedButton.Tag -eq "Copy") {
         try {
             [System.Windows.Clipboard]::SetText($commandText)
-            Log "Copied: $commandText"
 
             $clickedButton.Content = '✓ Copied'   # encoding-safe
             $feedbackTimer.Stop()
             $feedbackTimer.Tag = $clickedButton
             $feedbackTimer.Start()
         } catch {
-            Log "Clipboard error: $($_.Exception.Message)"
         }
     }
     elseif ($clickedButton.Tag -eq "Execute") {
         try {
-            Log "Executing ($ws) with admin: $commandText"
             Start-Process powershell -Verb RunAs -WindowStyle $ws -ArgumentList "-Command", "& { $commandText }"
         } catch {
-            Log "Failed to start process: $($_.Exception.Message)"
         }
     }
 }
@@ -394,6 +372,4 @@ $window.Add_KeyDown({
 
 # --- Show Window ---
 $commandsItemsControl.ItemsSource = $Commands
-Log "Data bound and showing WPF dialog."
 $window.ShowDialog() | Out-Null
-Log "Dialog closed. Script finished."
