@@ -1,4 +1,4 @@
-<#
+﻿<#
 .SYNOPSIS
     Displays a GUI built with WPF and XAML with a predefined list of commands.
 #>
@@ -16,7 +16,8 @@ function Log($s) {
 if ([System.Threading.Thread]::CurrentThread.ApartmentState -ne 'STA') {
     Log "Not in STA. Relaunching..."
     $psPath = (Get-Command powershell).Source
-    $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-STA', '-File', $MyInvocation.MyCommand.Path) + $PSBoundParameters.GetEnumerator().ForEach({ "-$($_.Key)", "$($_.Value)" })
+    $args = @('-NoProfile', '-ExecutionPolicy', 'Bypass', '-STA', '-File', $MyInvocation.MyCommand.Path) +
+        $PSBoundParameters.GetEnumerator().ForEach({ "-$($_.Key)", "$($_.Value)" })
     Start-Process $psPath -ArgumentList $args -WindowStyle Normal
     exit
 }
@@ -24,7 +25,6 @@ if ([System.Threading.Thread]::CurrentThread.ApartmentState -ne 'STA') {
 Log "Script started in STA mode. PID=$pid Host=$($Host.Name)"
 
 # --- Main Script ---
-
 try {
     Add-Type -AssemblyName PresentationCore, PresentationFramework, WindowsBase
     Log "WPF assemblies loaded."
@@ -34,32 +34,147 @@ try {
 }
 
 # --- Predefined Data ---
+# Texts sekarang berisi object: { Text, WindowStyle }
+# WindowStyle yang didukung di sini: Normal / Minimized / Maximized
 $Commands = @(
-    [pscustomobject]@{ Label = 'Menampilkan semua list ini'; Texts = @('iex(irm command.indojava.online)') },
-    [pscustomobject]@{ Label = 'Activator Otomatis Windows & Office 2013, 2016, 2019, 2021, 2024, 365 Permanent'; Texts = @('iex(irm activeauto.indojava.online') },
-    [pscustomobject]@{ Label = 'Activator Office 2013, 2016, 2019, 2021, 2024, 365 - Permanent'; Texts = @('iex(irm activeoffice.indojava.online)') },
-    [pscustomobject]@{ Label = 'Activator Windows Permanent Digital License'; Texts = @('iex(irm activewindows.indojava.online)') },
-    [pscustomobject]@{ Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'; Texts = @('iex(irm kms.indojava.online)') },
-    [pscustomobject]@{ Label = 'Activator Windows sampai tahun 2038 - KMS38'; Texts = @('iex(irm kms38.indojava.online)') },
-    [pscustomobject]@{ Label = 'Install Office 2013, 2016, 2019, 2021, 2024, 365'; Texts = @('iex(irm office.indojava.online)') },
-    [pscustomobject]@{ Label = 'Office Scrub / Uninstal dan Force Remove'; Texts = @('iex(irm officescrub.indojava.online)', 'iex(irm officescrubber.indojava.online)') },
-    [pscustomobject]@{ Label = 'Windows Update Contol - Disable/Enable, Pause And Reset Windows Update'; Texts = @('iex(irm windowsupdate.indojava.online)') },
-    [pscustomobject]@{ Label = 'Remove or Disable Windows Defender (Turn off readltime Protection before execute)'; Texts = @('iex(irm defender.indojava.online)', 'iex(irm defender2.indojava.online)') },
-    [pscustomobject]@{ Label = 'Fix corrupted file system & restore health'; Texts = @('iex(irm fixos.indojava.online)') },
-    [pscustomobject]@{ Label = 'Virus Removal Tool - Remove viruses, malware, and other threats from your PC'; Texts = @('iex(irm indojava.online)') },
-    [pscustomobject]@{ Label = 'Tweaks Registry'; Texts = @('iex(irm tweaks.indojava.online)') },
-    [pscustomobject]@{ Label = 'Debloater - Remove Default App'; Texts = @('iex(irm debloat.indojava.online)') },
-    [pscustomobject]@{ Label = 'AMD Support - Driver AMD Installer'; Texts = @('iex(irm amdsupport.indojava.online)') },
-    [pscustomobject]@{ Label = 'Block Host - Disable Internet From Activation Detection adobe, autocad, corel etc.'; Texts = @('iex(irm blockhost.indojava.online)') },
-    [pscustomobject]@{ Label = 'Reset Network - Reset seluruh konfigurasi untuk internet, LAN atau wifi bermasalah'; Texts = @('iex(irm resetnetwork.indojava.online)') },
-    #[pscustomobject]@{ Label = 'Infector Check - cek kerusakan system kana antivirus'; Texts = @('iex(irm indojava.online/get/infectorcheck)') },
-    [pscustomobject]@{ Label = 'Winget - Force Install Winget'; Texts = @('iex(irm winget.indojava.online)') }
-    #[pscustomobject]@{ Label = 'Force Remove - Hapus Paksa File Dan Folder Yang Sulit Di Hapus'; Texts = @('iex(irm indojava.online/get/ForeceRemove)') }
+    [pscustomobject]@{
+        Label = 'Menampilkan semua list ini'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm command.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Activator Otomatis Windows & Office 2013, 2016, 2019, 2021, 2024, 365 Permanent'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm activeauto.indojava.online)'; WindowStyle = 'minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Activator Office 2013, 2016, 2019, 2021, 2024, 365 - Permanent'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm activeoffice.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Activator Windows Permanent Digital License'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm activewindows.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Activator Office 2010, 2013, 2016, 2019, 2021 - KMS Online'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm kms.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Activator Windows sampai tahun 2038 - KMS38'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm kms38.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Install Office 2013, 2016, 2019, 2021, 2024, 365'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm office.indojava.online)'; WindowStyle = 'Minimized' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Office Scrub / Uninstal dan Force Remove'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm officescrub.indojava.online)';    WindowStyle = 'Normal' }
+            [pscustomobject]@{ Text = 'iex(irm officescrubber.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Windows Update Contol - Disable/Enable, Pause And Reset Windows Update'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm windowsupdate.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Remove or Disable Windows Defender (Turn off realtime Protection before execute)'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm defender.indojava.online)';  WindowStyle = 'Normal' }
+            [pscustomobject]@{ Text = 'iex(irm defender2.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Fix corrupted file system & restore health'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm fixos.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Virus Removal Tool - Remove viruses, malware, and other threats from your PC'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Tweaks Registry'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm tweaks.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Debloater - Remove Default App'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm debloat.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'AMD Support - Driver AMD Installer'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm amdsupport.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Driver Store Explorer - Restore and Backup Driver'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm driverstore.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Block Host - Disable Internet From Activation Detection adobe, autocad, corel etc.'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm blockhost.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Reset Network - Reset seluruh konfigurasi untuk internet, LAN atau wifi bermasalah'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm resetnetwork.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    },
+
+    [pscustomobject]@{
+        Label = 'Winget - Force Install Winget'
+        Texts = @(
+            [pscustomobject]@{ Text = 'iex(irm winget.indojava.online)'; WindowStyle = 'Normal' }
+        )
+    }
 )
 
 # --- GUI Construction ---
 
-# Define the XAML for the UI, embedded in the script
 [xml]$xaml = @"
 <Window
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -76,6 +191,9 @@ $Commands = @(
             <Setter Property="Padding" Value="12,6"/>
             <Setter Property="Margin" Value="5,0,0,0"/>
             <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="ToolTipService.InitialShowDelay" Value="150"/>
+            <Setter Property="ToolTipService.ShowDuration" Value="5000"/>
+            <Setter Property="ToolTip" Value="{x:Null}"/>
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
@@ -89,8 +207,29 @@ $Commands = @(
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="#FF505055"/>
                 </Trigger>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="Copy">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <ToolTip Placement="Top" Background="#FF232427" Foreground="White" Padding="8" HasDropShadow="True">
+                                <TextBlock Text="Copy command lalu paste di powershell/terminal. Dengan akses admin" TextWrapping="Wrap" Width="260"/>
+                            </ToolTip>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
+
+                <DataTrigger Binding="{Binding RelativeSource={RelativeSource Self}, Path=Tag}" Value="Execute">
+                    <Setter Property="ToolTip">
+                        <Setter.Value>
+                            <ToolTip Placement="Top" Background="#FF232427" Foreground="White" Padding="8" HasDropShadow="True">
+                                <TextBlock Text="Eksekusi langsung command di samping." TextWrapping="Wrap" Width="220"/>
+                            </ToolTip>
+                        </Setter.Value>
+                    </Setter>
+                </DataTrigger>
             </Style.Triggers>
         </Style>
+
         <Style TargetType="TextBox">
             <Setter Property="Background" Value="#FF3E3E42"/>
             <Setter Property="Foreground" Value="White"/>
@@ -103,24 +242,26 @@ $Commands = @(
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
-                        <Border Name="border" 
-                                Background="{TemplateBinding Background}" 
-                                BorderBrush="{TemplateBinding BorderBrush}" 
-                                BorderThickness="{TemplateBinding BorderThickness}" 
+                        <Border Name="border"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
                                 SnapsToDevicePixels="True">
-                            <ScrollViewer Name="PART_ContentHost" 
-                                          Focusable="false" 
-                                          HorizontalScrollBarVisibility="Hidden" 
+                            <ScrollViewer Name="PART_ContentHost"
+                                          Focusable="false"
+                                          HorizontalScrollBarVisibility="Hidden"
                                           VerticalScrollBarVisibility="Hidden"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
         </Style>
+
         <Style TargetType="TextBlock">
             <Setter Property="Foreground" Value="#FFE1E1E1"/>
         </Style>
     </Window.Resources>
+
     <Grid Margin="10">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
@@ -128,15 +269,15 @@ $Commands = @(
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
 
-        <TextBlock Grid.Row="0" Text="PowerShell Command Runner - AuroraTOOLKIT" 
-                   FontSize="24" 
-                   FontWeight="Bold" 
-                   Foreground="White" 
+        <TextBlock Grid.Row="0" Text="PowerShell Command Runner - AuroraTOOLKIT"
+                   FontSize="24"
+                   FontWeight="Bold"
+                   Foreground="White"
                    Margin="0,0,0,5"/>
 
-        <TextBlock Grid.Row="1" Text="Kumpulan PowerShell Script untuk berbagai keperluan administrasi, aktivasi, tweaks dan sebagainya." 
-                   FontSize="14" 
-                   Foreground="#FFCCCCCC" 
+        <TextBlock Grid.Row="1" Text="Kumpulan PowerShell Script untuk berbagai keperluan administrasi, aktivasi, tweaks dan sebagainya."
+                   FontSize="14"
+                   Foreground="#FFCCCCCC"
                    TextWrapping="Wrap"
                    Margin="0,0,0,20"/>
 
@@ -155,9 +296,12 @@ $Commands = @(
                                                 <ColumnDefinition Width="Auto"/>
                                                 <ColumnDefinition Width="Auto"/>
                                             </Grid.ColumnDefinitions>
-                                            <TextBox Grid.Column="0" Text="{Binding Mode=OneWay}" IsReadOnly="True" />
-                                            <Button Grid.Column="1" Name="CopyButton" Content="Copy" />
-                                            <Button Grid.Column="2" Name="ExecuteButton" Content="Execute" />
+
+                                            <!-- Texts item now has .Text -->
+                                            <TextBox Grid.Column="0" Text="{Binding Text, Mode=OneWay}" IsReadOnly="True" />
+
+                                            <Button Grid.Column="1" Tag="Copy" Content="Copy" />
+                                            <Button Grid.Column="2" Tag="Execute" Content="Execute" />
                                         </Grid>
                                     </DataTemplate>
                                 </ItemsControl.ItemTemplate>
@@ -178,23 +322,18 @@ try {
     Log "XAML loaded successfully."
 } catch {
     Log "Error loading XAML: $($_.Exception.Message)"
-    # Provide detailed error info for debugging XAML issues
-    if ($_.Exception.InnerException) {
-        Log "Inner Exception: $($_.Exception.InnerException.Message)"
-    }
+    if ($_.Exception.InnerException) { Log "Inner Exception: $($_.Exception.InnerException.Message)" }
     exit 1
 }
-
+[Console]::OutputEncoding = [System.Text.Encoding]::utf8
 # --- Connect Data and Logic ---
-
-# Get the main ItemsControl from the XAML
 $commandsItemsControl = $window.FindName("CommandsItemsControl")
 if (-not $commandsItemsControl) {
     Log "Could not find 'CommandsItemsControl' in XAML."
     exit 1
 }
 
-# Create a single timer for copy feedback
+# Copy feedback timer
 $feedbackTimer = New-Object System.Windows.Threading.DispatcherTimer
 $feedbackTimer.Interval = [TimeSpan]::FromSeconds(1.2)
 $feedbackTimer.Add_Tick({
@@ -207,39 +346,42 @@ $feedbackTimer.Add_Tick({
     $timer.Stop()
 })
 
-# Add a single routed event handler for all button clicks within the ItemsControl
+# Routed click handler (uses Tag: Copy/Execute)
 $handler = [System.Windows.RoutedEventHandler]{
     param($sender, $e)
-    
-    # Determine which button was clicked
+
     $clickedButton = $e.OriginalSource -as [System.Windows.Controls.Button]
     if (-not $clickedButton) { return }
 
-    # The DataContext of the button is the command text string
-    $commandText = $clickedButton.DataContext
-    if (-not [string]::IsNullOrWhiteSpace($commandText)) {
-        
-        if ($clickedButton.Name -eq "CopyButton") {
-            try {
-                [System.Windows.Clipboard]::SetText($commandText)
-                Log "Copied: $commandText"
-                
-                # Visual feedback
-                $clickedButton.Content = '✓ Copied'
-                $feedbackTimer.Stop()
-                $feedbackTimer.Tag = $clickedButton
-                $feedbackTimer.Start()
-            } catch {
-                Log "Clipboard error: $($_.Exception.Message)"
-            }
+    $cmdObj = $clickedButton.DataContext
+    if (-not $cmdObj) { return }
+
+    $commandText = [string]$cmdObj.Text
+    if ([string]::IsNullOrWhiteSpace($commandText)) { return }
+
+    # Normalize WindowStyle (no Hidden here)
+    $ws = ([string]$cmdObj.WindowStyle).Trim()
+    if ($ws -notin @('Normal','Minimized','Maximized')) { $ws = 'Normal' }
+
+    if ($clickedButton.Tag -eq "Copy") {
+        try {
+            [System.Windows.Clipboard]::SetText($commandText)
+            Log "Copied: $commandText"
+
+            $clickedButton.Content = '✓ Copied'   # encoding-safe
+            $feedbackTimer.Stop()
+            $feedbackTimer.Tag = $clickedButton
+            $feedbackTimer.Start()
+        } catch {
+            Log "Clipboard error: $($_.Exception.Message)"
         }
-        elseif ($clickedButton.Name -eq "ExecuteButton") {
-            try {
-                Log "Executing with admin: $commandText"
-                Start-Process powershell -Verb RunAs -ArgumentList "-NoExit", "-Command", "& { $commandText }"
-            } catch {
-                Log "Failed to start process: $($_.Exception.Message)"
-            }
+    }
+    elseif ($clickedButton.Tag -eq "Execute") {
+        try {
+            Log "Executing ($ws) with admin: $commandText"
+            Start-Process powershell -Verb RunAs -WindowStyle $ws -ArgumentList "-Command", "& { $commandText }"
+        } catch {
+            Log "Failed to start process: $($_.Exception.Message)"
         }
     }
 }
@@ -251,8 +393,6 @@ $window.Add_KeyDown({
 })
 
 # --- Show Window ---
-
-# Bind the data to the ItemsControl
 $commandsItemsControl.ItemsSource = $Commands
 Log "Data bound and showing WPF dialog."
 $window.ShowDialog() | Out-Null
